@@ -10,7 +10,7 @@ else
 fi
 
 #make sure we have all the plugins we need!
-declare -a GITFOLDERS=(~/.vim/bundle/indentline
+declare -a GITFOLDERS=(
  ~/.vim/bundle/tabular
  ~/.vim/bundle/vim-dispatch
  ~/.vim/bundle/vim-airline-themes
@@ -20,7 +20,7 @@ declare -a GITFOLDERS=(~/.vim/bundle/indentline
  ~/.vim/bundle/rainbow_parentheses.vim
  ~/.vim/bundle/undotree);
 
-declare -a GITURLS=(https://github.com/yggdroot/indentline
+declare -a GITURLS=(
  https://github.com/scrooloose/nerdtree
  https://github.com/kien/rainbow_parentheses.vim
  https://github.com/godlygeek/tabular
