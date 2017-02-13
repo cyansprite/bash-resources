@@ -1,7 +1,6 @@
 #make sure they have pathogen...
 PATHOGEN=~/.vim/autoload
 if [ ! -d "$PATHOGEN" ] ; then
-	echo -d $PATHOGEN
 	echo "curling pathogen!"
 	mkdir -p ~/.vim/autoload ~/.vim/bundle 
 	curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
@@ -43,7 +42,7 @@ for FOLDER in ${GITFOLDERS[@]}; do
 	fi
 done
 
-echo "All repos done! Accept with y - enter"
+echo "All repos done!"
 
 #make sure we have our resource files
 declare -a RSFILES=(.vimrc .bashrc);
@@ -61,11 +60,11 @@ for RS in ${BINFILES[@]} ; do
 done
 echo "fin with bin!!"
 
-echo "pulling vcprompt for .bashrc!"
 if [ ! -f ~/bin/vcprompt ]; then
+echo "pulling vcprompt for .bashrc!"
        	curl -sL https://github.com/djl/vcprompt/raw/master/bin/vcprompt > ~/bin/vcprompt
 	chmod 755 ~/bin/vcprompt
+echo "done pulling vcprompt and making it executable!"
 else
 	echo "Vcprompt already exists!"
 fi
-echo "done pulling vcprompt and making it executable!"
