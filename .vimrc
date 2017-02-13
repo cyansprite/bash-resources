@@ -95,9 +95,9 @@ hi Normal ctermfg       = 231 ctermbg  = 235 cterm  = NONE guifg         = #f8f8
 hi Boolean ctermfg      = 141 ctermbg  = NONE cterm = NONE guifg         = #cc3333 guibg = NONE gui    = bold
 hi Character ctermfg    = 141 ctermbg  = NONE cterm = NONE guifg         = #cc0000 guibg = NONE gui    = NONE
 hi Comment ctermfg      = 242 ctermbg  = NONE cterm = NONE guifg         = #833383 guibg = #000000 gui    = NONE
-hi Conditional ctermfg  = 197 ctermbg  = NONE cterm = NONE guifg         = #ff88ff guibg = NONE gui    = NONE
+hi Conditional ctermfg  = 197 ctermbg  = NONE cterm = NONE guifg         = #8888ff guibg = NONE gui    = NONE
 hi Constant ctermfg     = NONE ctermbg = NONE cterm = NONE guifg         = #228822 guibg    = NONE gui    = NONE
-hi Define ctermfg       = 197 ctermbg  = NONE cterm = NONE guifg         = #f92672 guibg = NONE gui    = NONE
+hi Define ctermfg       = 197 ctermbg  = NONE cterm = NONE guifg         = #88ff88 guibg = NONE gui    = NONE
 hi DiffAdd ctermfg      = 231 ctermbg  = 64 cterm   = bold guifg         = #f8f8f2 guibg = #46830c gui = bold
 hi DiffDelete ctermfg   = 88 ctermbg   = NONE cterm = NONE guifg         = #8b0807 guibg = NONE gui    = NONE
 hi DiffChange ctermfg   = NONE ctermbg = NONE cterm = NONE guifg         = #f8f8f2 guibg = #243955 gui = NONE
@@ -112,7 +112,7 @@ hi Keyword ctermfg      = 197 ctermbg  = NONE cterm = NONE guifg         = #cc33
 hi Label ctermfg        = 186 ctermbg  = NONE cterm = NONE guifg         = #e6db74 guibg = NONE gui    = NONE
 hi NonText ctermfg      = 59 ctermbg   = 236 cterm  = NONE guifg         = #49483e guibg = #31322c gui = NONE
 hi Operator ctermfg     = 197 ctermbg  = NONE cterm = NONE guifg         = #aaffff guibg = NONE gui    = bold
-hi PreProc ctermfg      = 197 ctermbg  = NONE cterm = NONE guifg         = #f92672 guibg = NONE gui    = NONE
+hi PreProc ctermfg      = 197 ctermbg  = NONE cterm = NONE guifg         = #aaffaa guibg = NONE gui    = NONE
 hi Special ctermfg      = 231 ctermbg  = NONE cterm = NONE guifg         = #f8f8f2 guibg = NONE gui    = NONE
 hi SpecialKey ctermfg   = 59 ctermbg   = 237 cterm  = NONE guifg         = #49483e guibg = #3c3d37 gui = NONE
 hi Statement ctermfg    = 197 ctermbg  = NONE cterm = NONE guifg         = #33bbbb guibg = NONE gui    = NONE
@@ -122,5 +122,6 @@ hi Tag ctermfg          = 197 ctermbg  = NONE cterm = NONE guifg         = #f926
 hi Title ctermfg        = 231 ctermbg  = NONE cterm = bold guifg         = #f8f8f2 guibg = NONE gui    = bold
 hi Todo ctermfg         = 95 ctermbg   = NONE cterm = inverse,bold guifg = #fcfc6c guibg = NONE gui    = inverse,bold
 hi Type ctermfg         = 197 ctermbg  = NONE cterm = NONE guifg         = #ff4f4f guibg = NONE gui    = NONE
+hi Macro ctermfg   = NONE ctermbg = NONE cterm = NONE guifg    = #aaffaa guibg    = NONE gui    = NONE
 hi Underlined ctermfg   = NONE ctermbg = NONE cterm = underline guifg    = NONE guibg    = NONE gui    = underline
 "end of main
