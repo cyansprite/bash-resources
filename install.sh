@@ -10,17 +10,8 @@ else
 fi
 
 #make sure we have all the plugins we need!
-declare -a GITFOLDERS=(
- ~/.vim/bundle/tabular
- ~/.vim/bundle/vim-dispatch
- ~/.vim/bundle/vim-airline-themes
- ~/.vim/bundle/nerdtree
- ~/.vim/bundle/vim-trailing-whitespace
- ~/.vim/bundle/vim-airline
- ~/.vim/bundle/rainbow_parentheses.vim
- ~/.vim/bundle/undotree);
-
 declare -a GITURLS=(
+ https://github.com/ctrlpvim/ctrlp.vim.git
  https://github.com/scrooloose/nerdtree
  https://github.com/kien/rainbow_parentheses.vim
  https://github.com/godlygeek/tabular
@@ -28,18 +19,16 @@ declare -a GITURLS=(
  https://github.com/vim-airline/vim-airline
  https://github.com/vim-airline/vim-airline-themes.git
  git://github.com/tpope/vim-dispatch.git
- https://github.com/bronson/vim-trailing-whitespace);
+ https://github.com/bronson/vim-trailing-whitespace
+ https://github.com/edkolev/promptline.vim.git 
+ https://github.com/vim-syntastic/syntastic.git
+ https://github.com/valloric/youcompleteme
+ );
 
 INDEX=0
-for FOLDER in ${GITFOLDERS[@]}; do
-	if [ ! -d "$FOLDER" ]; then
-		URL=${GITURLS[INDEX]}
-		git clone "$URL" "$FOLDER"
-		((INDEX++))
-		echo $FOLDER and $URL 
-	else
-		echo $FOLDER is already downloaded!
-	fi
+cd ~/.vim/bundle/
+for URL in ${GITURLS[@]}; do
+	git clone "$URL"
 done
 
 echo "All repos done!"

@@ -1,65 +1,21 @@
-"plugin pathogen stuf
-execute pathogen#infect()
-syntax on
-filetype plugin indent on
+" Vim color file
 
-"Rainbow Para
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-"Airline stuff"
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-"Undo tree toggle! and assuming persistant undo!
-nnoremap <F5> :UndotreeToggle<cr>
-if has("persistent_undo")
-	    set undodir=~/.undodir/
-	        set undofile
-endif
-
-"vim stuff
-set cinoptions+=g0,(0
-set si
-set sts=4
-set sw=4
-set et
-
-set listchars=tab:>-,trail:-
-set list
-"let g:loaded_matchparen=1
-set relativenumber
-set number
-set wildmode=longest,list
-set wrap nowrap
-set hlsearch
-inoremap  
-set cursorline
-set mouse=a
-set laststatus=2
-
-"map enter to insert cr and exit insert below, and shift enter for above
-nmap <S-Enter> O<Esc>
-nmap <CR> o<Esc>
-"map ctrl + D to clipboard
-map <C-D> "+
-inoremap <C-Z> <Esc>ui
-
-"gvim stuff...
-set guioptions-=T
-
+" Set 'background' back to the default.
+hi clear Normal
+set bg&
 hi clear
+
+" Load the syntax highlighting defaults, if it's enabled.
 if exists("syntax_on")
   syntax reset
 endif
 
-set t_Co=256
+let colors_name = "sin"
 
 "Cursor and Visual
 hi Cursor         ctermfg = NONE ctermbg = NONE cterm = inverse
 hi visual         ctermfg = NONE ctermbg = NONE cterm = standout
-hi cursorline     ctermfg = NONE ctermbg = 234  cterm = bold
+hi cursorline     ctermfg = NONE ctermbg = 234  cterm = NONE
 hi cursorcolumn   ctermfg = NONE ctermbg = NONE cterm = NONE
 hi MatchParen     ctermfg = NONE ctermbg = NONE cterm = underline
 
@@ -127,3 +83,4 @@ hi Type           ctermfg = 159  ctermbg = NONE cterm = NONE
 hi Macro          ctermfg = NONE ctermbg = NONE cterm = NONE
 hi Underlined     ctermfg = NONE ctermbg = NONE cterm = underline
 "End of colors
+
