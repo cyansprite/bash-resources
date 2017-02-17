@@ -1,0 +1,22 @@
+[global_config]
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+  title_inactive_bg_color = "#3f3f3f"
+  title_inactive_fg_color = "#716e4f"
+  title_transmit_bg_color = "#65fffa"
+  title_transmit_fg_color = "#000000"
+[keybindings]
+  hide_window = F12
+  split_horiz = <Primary><Alt>b
+  split_vert = <Primary><Alt>v
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    background_image = None
