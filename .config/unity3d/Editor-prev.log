@@ -1,0 +1,58 @@
+mono profile = '/home/joj/bin/Unity/Editor/Data/Mono/lib/mono/2.0'
+Initialize mono
+Mono path[0] = '/home/joj/bin/Unity/Editor/Data/Managed'
+Mono path[1] = '/home/joj/bin/Unity/Editor/Data/Mono/lib/mono/2.0'
+Mono path[2] = '/home/joj/bin/Unity/Editor/Data/UnityScript'
+Mono path[3] = '/home/joj/bin/Unity/Editor/Data/Mono/lib/mono/2.0'
+Mono config path = '/home/joj/bin/Unity/Editor/Data/Mono/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,defer=y,address=0.0.0.0:56763
+Desktop is 1920 x 1080 @ 60 Hz
+npm ERR! invalid: unityeditor-collab-toolbar@0.6.6 /home/joj/.local/share/unity3d/Packages/node_modules/unityeditor-collab-toolbar
+ListPackages failed, output: {
+  "name": "unity-editor",
+  "version": "5.6.0",
+  "problems": [
+    "invalid: unityeditor-collab-toolbar@0.6.6 /home/joj/.local/share/unity3d/Packages/node_modules/unityeditor-collab-toolbar"
+  ],
+  "dependencies": {
+    "unity-editor-home": {
+      "version": "0.6.13",
+      "from": "unity-editor-home.0.6.13.tgz",
+      "resolved": "file:unity-editor-home.0.6.13.tgz"
+    },
+    "unityeditor-cloud-hub": {
+      "version": "0.0.15",
+      "from": "unityeditor-cloud-hub-0.0.15.tgz",
+      "resolved": "file:unityeditor-cloud-hub-0.0.15.tgz"
+    },
+    "unityeditor-collab-history": {
+      "version": "0.6.6",
+      "from": "unityeditor-collab-history.0.6.6.tgz",
+      "resolved": "file:unityeditor-collab-history.0.6.6.tgz"
+    },
+    "unityeditor-collab-toolbar": {
+      "version": "0.6.6",
+      "from": "unityeditor-collab-toolbar.0.6.6.tgz",
+      "resolved": "file:unityeditor-collab-toolbar.0.6.6.tgz",
+      "invalid": true,
+      "problems": [
+        "invalid: unityeditor-collab-toolbar@0.6.6 /home/joj/.local/share/unity3d/Packages/node_modules/unityeditor-collab-toolbar"
+      ]
+    }
+  }
+}
+
+npm WARN package.json unity-editor@5.6.0 No repository field.
+npm WARN package.json unity-editor@5.6.0 No README data
+npm WARN package.json unity-editor@5.6.0 No license field.
+
+LICENSE SYSTEM [2017218 2:52:17] No start/stop license dates set
+
+LICENSE SYSTEM [2017218 2:52:17] Next license update check is after 2017-02-19T07:39:44
+
+
+ COMMAND LINE ARGUMENTS:
+ue
+[0218/025217:ERROR:browser_main_loop.cc(161)] Running without the SUID sandbox! See https://code.google.com/p/chromium/wiki/LinuxSUIDSandboxDevelopment for more information on developing with the sandbox on.
+[0218/025217:ERROR:renderer_main.cc(227)] Running without renderer sandbox
+[0218/025218:ERROR:gpu_process_transport_factory.cc(402)] Failed to establish GPU channel.
