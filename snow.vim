@@ -19,8 +19,8 @@ hi MatchParen     ctermfg = NONE ctermbg = NONE cterm = underline,bold
 "Help Stuff :: LineNumber, VertSplit, ModeMsg and PopupMenu
 "NOTE       :: The color 3 is mapped to your first orange/yellow value
 "              I personally use a pastel chartreuse
-hi CursorLineNr   ctermfg = 3   ctermbg = 237  cterm = inverse
-hi LineNr         ctermfg = 3   ctermbg = 237  cterm = NONE
+hi CursorLineNr   ctermfg = 3 ctermbg = 237  cterm = inverse
+hi LineNr         ctermfg = 3 ctermbg = 237  cterm = NONE
 hi ModeMsg        ctermfg = 3 ctermbg = 237 cterm = inverse
 hi Pmenu          ctermfg = 3 ctermbg = 237 cterm = NONE
 hi PmenuSel       ctermfg = 3 ctermbg = 237 cterm = inverse
@@ -32,6 +32,7 @@ hi VertSplit      ctermfg = 3 ctermbg = 237 cterm = inverse
 "              The color 15 is mapped to dull gold, your second grey
 "              second black I personally use a pastel gold, and a dull black
 hi Comment    ctermfg = 7    ctermbg = 8    cterm = italic
+hi Todo       ctermfg = 7    ctermbg = 8    cterm = bold,inverse
 hi SpecialKey ctermfg = 15   ctermbg = NONE cterm = italic
 hi Conceal    ctermfg = 15   ctermbg = NONE cterm = italic
 hi SignColumn ctermfg = 15   ctermbg = NONE cterm = NONE
@@ -59,7 +60,7 @@ hi Macro          ctermfg = 108 ctermbg = NONE cterm = NONE
 hi Special        ctermfg = 89  ctermbg = NONE cterm = bold
 hi Statement      ctermfg = 14  ctermbg = NONE cterm = NONE
 hi String         ctermfg = 71 ctermbg = NONE cterm = NONE
-hi Type           ctermfg = 9  ctermbg = NONE cterm = NONE
+hi Type           ctermfg = 1  ctermbg = NONE cterm = NONE
 
 hi ErrorMsg       ctermfg = 246  ctermbg = 160  cterm = NONE
 hi WarningMsg     ctermfg = 246  ctermbg = 227  cterm = NONE
@@ -70,7 +71,7 @@ hi WarningMsg     ctermfg = 246  ctermbg = 227  cterm = NONE
 
 "types
 "
-hi Constant       ctermfg = 202  ctermbg = 232  cterm = underline
+hi Constant       ctermfg = 202  ctermbg = NONE  cterm = NONE
 hi Define         ctermfg = 197  ctermbg = NONE cterm = NONE
 hi DiffAdd        ctermfg = 231  ctermbg = 64   cterm = bold
 hi DiffDelete     ctermfg = 88   ctermbg = NONE cterm = NONE
@@ -84,7 +85,7 @@ hi PreProc        ctermfg = 14   ctermbg = NONE cterm = NONE
 hi StorageClass   ctermfg = 81   ctermbg = NONE cterm = NONE
 hi Tag            ctermfg = 9    ctermbg = NONE cterm = NONE
 hi Title          ctermfg = 231  ctermbg = NONE cterm = bold
-hi Todo           ctermfg = NONE ctermbg = NONE cterm = inverse
 hi Underlined     ctermfg = NONE ctermbg = NONE cterm = underline
 "End of colors
+
 
