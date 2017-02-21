@@ -15,7 +15,6 @@ hi cursorcolumn   ctermfg = NONE ctermbg = NONE cterm = NONE
 hi IncSearch      ctermfg = NONE ctermbg = NONE cterm = underline
 hi Search         ctermfg = NONE ctermbg = NONE cterm = inverse
 hi MatchParen     ctermfg = NONE ctermbg = NONE cterm = underline,bold
-
 "Help Stuff :: LineNumber, VertSplit, ModeMsg and PopupMenu
 "NOTE       :: The color 3 is mapped to your first orange/yellow value
 "              I personally use a pastel chartreuse
@@ -54,19 +53,20 @@ hi Conditional    ctermfg = 5  ctermbg = NONE cterm = bold
 hi Character      ctermfg = 137   ctermbg = NONE cterm = NONE
 hi Float          ctermfg = 76   ctermbg = NONE cterm = NONE
 hi Identifier     ctermfg = 17  ctermbg = NONE cterm = NONE
-hi Number         ctermfg = 130  ctermbg = NONE cterm = NONE
+hi Label          ctermfg = 12  ctermbg = NONE cterm = NONE
+hi Number         ctermfg = 11  ctermbg = NONE cterm = NONE
 hi Keyword        ctermfg = 10   ctermbg = NONE cterm = bold
 hi Macro          ctermfg = 108 ctermbg = NONE cterm = NONE
 hi Special        ctermfg = 89  ctermbg = NONE cterm = bold
 hi Statement      ctermfg = 14  ctermbg = NONE cterm = NONE
 hi String         ctermfg = 71 ctermbg = NONE cterm = NONE
-hi Type           ctermfg = 1  ctermbg = NONE cterm = NONE
+hi Type           ctermfg = 9  ctermbg = NONE cterm = NONE
 
 hi ErrorMsg       ctermfg = 246  ctermbg = 160  cterm = NONE
 hi WarningMsg     ctermfg = 246  ctermbg = 227  cterm = NONE
 
 "dir
-"hi Directory      ctermfg = 141  ctermbg = NONE cterm = NONE
+"hi Directory      ctermfg = 2  ctermbg = NONE cterm = NONE
 "hi Folded         ctermfg = 242  ctermbg = 235  cterm = NONE
 
 "types
@@ -77,8 +77,7 @@ hi DiffAdd        ctermfg = 231  ctermbg = 64   cterm = bold
 hi DiffDelete     ctermfg = 88   ctermbg = NONE cterm = NONE
 hi DiffChange     ctermfg = NONE ctermbg = NONE cterm = NONE
 hi DiffText       ctermfg = 231  ctermbg = 24   cterm = bold
-hi Function       ctermfg = 79   ctermbg = NONE cterm = NONE
-hi Label          ctermfg = 186  ctermbg = NONE cterm = NONE
+hi Function       ctermfg = 125   ctermbg = NONE cterm = NONE
 hi NonText        ctermfg = 59   ctermbg = 236  cterm = NONE
 hi Operator       ctermfg = 231  ctermbg = NONE cterm = NONE
 hi PreProc        ctermfg = 14   ctermbg = NONE cterm = NONE
@@ -86,6 +85,8 @@ hi StorageClass   ctermfg = 81   ctermbg = NONE cterm = NONE
 hi Tag            ctermfg = 9    ctermbg = NONE cterm = NONE
 hi Title          ctermfg = 231  ctermbg = NONE cterm = bold
 hi Underlined     ctermfg = NONE ctermbg = NONE cterm = underline
-"End of colors
 
+syntax match OperatorChars "?\|+\|-\|\*\|;\|:\|,\|<\|>\|&\||\|!\|\~\|%\|=\|\.\|/\(/\|*\)\@!"
+hi OperatorChars ctermfg = 0
+hi Operator ctermfg = 0
 
