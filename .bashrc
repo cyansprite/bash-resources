@@ -126,3 +126,4 @@ fi
 #make default editor to my beloved vim...
 export VISUAL=vim
 export EDITOR="$VISUAL"
+export SIMIP=10.197.53.233
