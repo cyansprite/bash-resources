@@ -19,6 +19,7 @@ declare -a GITURLS=(
  https://github.com/vim-airline/vim-airline
  https://github.com/bronson/vim-trailing-whitespace
  https://github.com/valloric/youcompleteme
+ https://github.com/OrangeT/vim-csharp.git
  https://github.com/tpope/vim-fugitive
  https://github.com/xolox/vim-easytags
  https://github.com/xolox/vim-misc
@@ -65,6 +66,6 @@ ln -fv elemental.jpg ~/Pictures
 
 echo "================================And finally, terminix's json "
 cd "$SOURCE/terminalix"
-ln -fv snow.json ~/.config/terminix/
+ln -fv snow.json ~/.config/terminix/schemes
 
 echo "================================Fin linking!"
