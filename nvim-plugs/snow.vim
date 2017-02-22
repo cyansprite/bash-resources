@@ -9,11 +9,11 @@ let colors_name = "snow"
 "Visual effects relying on effects rather than colors
 hi Cursor         ctermfg = NONE ctermbg = NONE cterm = standout
 "hi CursorNC       ctermfg = NONE ctermbg = NONE cterm = inverse,underline
-hi visual         ctermfg = NONE ctermbg = NONE cterm = standout
+hi visual         ctermfg = NONE ctermbg = NONE cterm = underline
 hi cursorline     ctermfg = NONE ctermbg = NONE cterm = NONE
 hi cursorcolumn   ctermfg = NONE ctermbg = NONE cterm = NONE
 hi IncSearch      ctermfg = NONE ctermbg = NONE cterm = underline
-hi Search         ctermfg = NONE ctermbg = NONE cterm = inverse
+hi Search         ctermfg = NONE ctermbg = 188  cterm = underline
 hi MatchParen     ctermfg = NONE ctermbg = NONE cterm = underline,bold
 "Help Stuff :: LineNumber, VertSplit, ModeMsg and PopupMenu
 "NOTE       :: The color 3 is mapped to your first orange/yellow value
@@ -23,7 +23,7 @@ hi LineNr         ctermfg = 3 ctermbg = 237  cterm = NONE
 hi ModeMsg        ctermfg = 3 ctermbg = 237 cterm = inverse
 hi Pmenu          ctermfg = 3 ctermbg = 237 cterm = NONE
 hi PmenuSel       ctermfg = 3 ctermbg = 237 cterm = inverse
-hi EndOfBuffer    ctermfg = 3 ctermbg = 237 cterm = underline
+hi EndOfBuffer    ctermfg = 3 ctermbg = 237 cterm = NONE
 hi VertSplit      ctermfg = 3 ctermbg = 237 cterm = inverse
 
 "Background Color help
@@ -49,21 +49,30 @@ hi WildMenu       ctermfg = 51 ctermbg = 241 cterm = bold,underline,inverse
 "6 mapped to pastel cyan
 "9 mapped to pastel red
 hi Boolean        ctermfg = 196  ctermbg = NONE cterm = NONE
-hi Conditional    ctermfg = 5  ctermbg = NONE cterm = bold
+hi Conditional    ctermfg = 13  ctermbg = NONE cterm = NONE
 hi Character      ctermfg = 137   ctermbg = NONE cterm = NONE
 hi Float          ctermfg = 76   ctermbg = NONE cterm = NONE
-hi Identifier     ctermfg = 17  ctermbg = NONE cterm = NONE
+hi Identifier     ctermfg = 12  ctermbg = NONE cterm = NONE
 hi Label          ctermfg = 12  ctermbg = NONE cterm = NONE
-hi Number         ctermfg = 11  ctermbg = NONE cterm = NONE
-hi Keyword        ctermfg = 10   ctermbg = NONE cterm = bold
+hi Number         ctermfg = 209  ctermbg = NONE cterm = NONE
+hi Keyword        ctermfg = 111   ctermbg = NONE cterm = NONE
 hi Macro          ctermfg = 108 ctermbg = NONE cterm = NONE
-hi Special        ctermfg = 89  ctermbg = NONE cterm = bold
+hi PreProc        ctermfg = 14   ctermbg = NONE cterm = NONE
+hi Special        ctermfg = 89  ctermbg = NONE cterm = NONE
 hi Statement      ctermfg = 14  ctermbg = NONE cterm = NONE
-hi String         ctermfg = 71 ctermbg = NONE cterm = NONE
-hi Type           ctermfg = 9  ctermbg = NONE cterm = NONE
+hi StorageClass   ctermfg = 6   ctermbg = NONE cterm = NONE
+hi String         ctermfg = 115 ctermbg = NONE cterm = NONE
+hi Type           ctermfg = 204  ctermbg = NONE cterm = NONE
+hi Tag            ctermfg = 191    ctermbg = NONE cterm = NONE
 
+syntax match OperatorChars "?\|+\|-\|\*\|;\|:\|,\|<\|>\|&\||\|!\|\~\|%\|=\|\.\|/\(/\|*\)\@!"
+hi OperatorChars ctermfg = 183 cterm = bold
+hi Operator      ctermfg = 183 cterm = bold
+
+hi Error ctermfg=0 ctermbg=1
 hi ErrorMsg       ctermfg = 246  ctermbg = 160  cterm = NONE
 hi WarningMsg     ctermfg = 246  ctermbg = 227  cterm = NONE
+hi SpellCap       ctermfg = NONE   ctermbg = 255    cterm = NONE
 
 "dir
 "hi Directory      ctermfg = 2  ctermbg = NONE cterm = NONE
@@ -79,14 +88,7 @@ hi DiffChange     ctermfg = NONE ctermbg = NONE cterm = NONE
 hi DiffText       ctermfg = 231  ctermbg = 24   cterm = bold
 hi Function       ctermfg = 125   ctermbg = NONE cterm = NONE
 hi NonText        ctermfg = 59   ctermbg = 236  cterm = NONE
-hi Operator       ctermfg = 231  ctermbg = NONE cterm = NONE
-hi PreProc        ctermfg = 14   ctermbg = NONE cterm = NONE
-hi StorageClass   ctermfg = 81   ctermbg = NONE cterm = NONE
-hi Tag            ctermfg = 9    ctermbg = NONE cterm = NONE
 hi Title          ctermfg = 231  ctermbg = NONE cterm = bold
 hi Underlined     ctermfg = NONE ctermbg = NONE cterm = underline
 
-syntax match OperatorChars "?\|+\|-\|\*\|;\|:\|,\|<\|>\|&\||\|!\|\~\|%\|=\|\.\|/\(/\|*\)\@!"
-hi OperatorChars ctermfg = 0
-hi Operator ctermfg = 0
 
