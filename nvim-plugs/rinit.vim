@@ -1,4 +1,5 @@
 "plugin pathogen stuf
+""""
 execute pathogen#infect()
 let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
 "Rainbow Para
