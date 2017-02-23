@@ -6,25 +6,28 @@ hi clear
 
 let colors_name = "snow"
 
+hi Normal         ctermfg = NONE ctermbg = NONE cterm = NONE
+
 "Visual effects relying on effects rather than colors
 hi Cursor         ctermfg = NONE ctermbg = NONE cterm = standout
 "hi CursorNC       ctermfg = NONE ctermbg = NONE cterm = inverse,underline
-hi visual         ctermfg = NONE ctermbg = 254  cterm = NONE
+hi visual         ctermfg = NONE ctermbg = 193  cterm = NONE
 hi cursorline     ctermfg = NONE ctermbg = 255  cterm = NONE
 hi cursorcolumn   ctermfg = NONE ctermbg = NONE cterm = NONE
 hi IncSearch      ctermfg = NONE ctermbg = NONE cterm = underline
-hi Search         ctermfg = NONE ctermbg = 188  cterm = underline
+hi Search         ctermfg = NONE ctermbg = 195  cterm = underline
 hi MatchParen     ctermfg = NONE ctermbg = NONE cterm = underline,bold
+
 "Help Stuff :: LineNumber, VertSplit, ModeMsg and PopupMenu
 "NOTE       :: The color 3 is mapped to your first orange/yellow value
 "              I personally use a pastel chartreuse
-hi CursorLineNr   ctermfg = 3 ctermbg = 237  cterm = inverse
-hi LineNr         ctermfg = 3 ctermbg = 237  cterm = NONE
-hi ModeMsg        ctermfg = 3 ctermbg = 237 cterm = inverse
-hi Pmenu          ctermfg = 3 ctermbg = 237 cterm = NONE
-hi PmenuSel       ctermfg = 3 ctermbg = 237 cterm = inverse
-hi EndOfBuffer    ctermfg = 3 ctermbg = 237 cterm = NONE
-hi VertSplit      ctermfg = 3 ctermbg = 237 cterm = inverse
+hi CursorLineNr ctermfg = 3 ctermbg = 237 cterm = inverse
+hi LineNr       ctermfg = 3 ctermbg = 237 cterm = NONE
+hi ModeMsg      ctermfg = 3 ctermbg = 237 cterm = inverse
+hi Pmenu        ctermfg = 3 ctermbg = 237 cterm = NONE
+hi PmenuSel     ctermfg = 3 ctermbg = 237 cterm = inverse
+hi EndOfBuffer  ctermfg = 3 ctermbg = 237 cterm = NONE
+hi VertSplit    ctermfg = 3 ctermbg = 237 cterm = inverse
 
 "Background Color help
 "NOTE       :: The color 11 is mapped to your second yellow/orange value and 8 is
@@ -44,24 +47,24 @@ hi StatusLineNC   ctermfg = 51 ctermbg = 241 cterm = NONE
 hi WildMenu       ctermfg = 51 ctermbg = 241 cterm = bold,underline,inverse
 
 "Syn highlighting
-hi Boolean        ctermfg = 196  ctermbg = NONE cterm = NONE
-hi Conditional    ctermfg = 13  ctermbg = NONE cterm = NONE
-hi Constant       ctermfg = 127  ctermbg = NONE  cterm = NONE
-hi Character      ctermfg = 137   ctermbg = NONE cterm = NONE
-hi Float          ctermfg = 76   ctermbg = NONE cterm = NONE
-hi Function       ctermfg = 3   ctermbg = NONE cterm = NONE
-hi Identifier     ctermfg = 12  ctermbg = NONE cterm = NONE
-hi Label          ctermfg = 12  ctermbg = NONE cterm = NONE
-hi Number         ctermfg = 209  ctermbg = NONE cterm = NONE
-hi Keyword        ctermfg = 111   ctermbg = NONE cterm = NONE
-hi Macro          ctermfg = 108 ctermbg = NONE cterm = NONE
-hi PreProc        ctermfg = 14   ctermbg = NONE cterm = NONE
-hi Special        ctermfg = 89  ctermbg = NONE cterm = NONE
-hi Statement      ctermfg = 14  ctermbg = NONE cterm = NONE
-hi StorageClass   ctermfg = 6   ctermbg = NONE cterm = NONE
-hi String         ctermfg = 10 ctermbg = NONE cterm = NONE
-hi Type           ctermfg = 204  ctermbg = NONE cterm = NONE
-hi Tag            ctermfg = 191    ctermbg = NONE cterm = NONE
+hi Boolean      ctermfg = 196 ctermbg = NONE cterm = NONE
+hi Conditional  ctermfg = 13  ctermbg = NONE cterm = NONE
+hi Constant     ctermfg = 127 ctermbg = NONE cterm = NONE
+hi Character    ctermfg = 137 ctermbg = NONE cterm = NONE
+hi Float        ctermfg = 76  ctermbg = NONE cterm = NONE
+hi Function     ctermfg = 3   ctermbg = NONE cterm = NONE
+hi Identifier   ctermfg = 12  ctermbg = NONE cterm = NONE
+hi Label        ctermfg = 12  ctermbg = NONE cterm = NONE
+hi Number       ctermfg = 209 ctermbg = NONE cterm = NONE
+hi Keyword      ctermfg = 111 ctermbg = NONE cterm = NONE
+hi Macro        ctermfg = 108 ctermbg = NONE cterm = NONE
+hi PreProc      ctermfg = 14  ctermbg = NONE cterm = NONE
+hi Special      ctermfg = 89  ctermbg = NONE cterm = NONE
+hi Statement    ctermfg = 14  ctermbg = NONE cterm = NONE
+hi StorageClass ctermfg = 6   ctermbg = NONE cterm = NONE
+hi String       ctermfg = 10  ctermbg = NONE cterm = NONE
+hi Type         ctermfg = 204 ctermbg = NONE cterm = NONE
+hi Tag          ctermfg = 191 ctermbg = NONE cterm = NONE
 
 syntax match OperatorChars "?\|+\|-\|\*\|;\|:\|,\|<\|>\|&\||\|!\|\~\|%\|=\|\.\|/\(/\|*\)\@!"
 hi OperatorChars ctermfg = 232 cterm = bold
@@ -70,7 +73,7 @@ hi Operator      ctermfg = 232 cterm = bold
 hi Error ctermfg=0 ctermbg=1
 hi ErrorMsg       ctermfg = 246  ctermbg = 160  cterm = NONE
 hi WarningMsg     ctermfg = 246  ctermbg = 227  cterm = NONE
-hi SpellCap       ctermfg = NONE   ctermbg = 255    cterm = NONE
+hi SpellCap       ctermfg = NONE ctermbg = 255  cterm = NONE
 
 "dir
 "hi Directory      ctermfg = 2  ctermbg = NONE cterm = NONE

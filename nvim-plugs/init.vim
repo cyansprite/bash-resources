@@ -3,9 +3,7 @@ execute pathogen#infect()
 let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
 "Rainbow Para
 au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
 
 "Airline stuff"
 let g:airline#extensions#tabline#enabled = 1
@@ -32,6 +30,7 @@ set list
 set relativenumber
 set number
 set wrap nowrap
+set hidden
 inoremap  
 set cursorline
 
