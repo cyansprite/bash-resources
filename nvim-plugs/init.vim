@@ -22,6 +22,7 @@ set et
 set wildmode=list:longest:full
 set splitbelow
 set splitright
+let &showbreak = '↳ '
 
 " change cursor to i-beam in insert mode
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
