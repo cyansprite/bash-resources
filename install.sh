@@ -19,7 +19,6 @@ declare -a GITURLS=(
  https://github.com/vim-airline/vim-airline
  https://github.com/bronson/vim-trailing-whitespace
  https://github.com/valloric/youcompleteme
- https://github.com/OrangeT/vim-csharp.git
  https://github.com/tpope/vim-fugitive
  https://github.com/xolox/vim-easytags
  https://github.com/xolox/vim-misc
