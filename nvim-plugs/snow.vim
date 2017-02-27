@@ -26,7 +26,7 @@ hi LineNr       ctermfg = 3 ctermbg = 255 cterm = NONE
 hi ModeMsg      ctermfg = 3 ctermbg = 255 cterm = inverse
 hi Pmenu        ctermfg = 3 ctermbg = 255 cterm = NONE
 hi PmenuSel     ctermfg = 3 ctermbg = 255 cterm = inverse
-hi EndOfBuffer  ctermfg = 3 ctermbg = 255 cterm = NONE
+hi EndOfBuffer  ctermfg = 3 ctermbg = 250 cterm = NONE
 hi VertSplit    ctermfg = 3 ctermbg = 255 cterm = inverse
 
 "Background Color help
