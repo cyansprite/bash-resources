@@ -21,13 +21,13 @@ hi MatchParen     ctermfg = NONE ctermbg = NONE cterm = underline,bold
 "Help Stuff :: LineNumber, VertSplit, ModeMsg and PopupMenu
 "NOTE       :: The color 3 is mapped to your first orange/yellow value
 "              I personally use a pastel chartreuse
-hi CursorLineNr ctermfg = 3 ctermbg = 237 cterm = inverse
-hi LineNr       ctermfg = 3 ctermbg = 237 cterm = NONE
-hi ModeMsg      ctermfg = 3 ctermbg = 237 cterm = inverse
-hi Pmenu        ctermfg = 3 ctermbg = 237 cterm = NONE
-hi PmenuSel     ctermfg = 3 ctermbg = 237 cterm = inverse
-hi EndOfBuffer  ctermfg = 3 ctermbg = 237 cterm = NONE
-hi VertSplit    ctermfg = 3 ctermbg = 237 cterm = inverse
+hi CursorLineNr ctermfg = 3 ctermbg = 255 cterm = inverse
+hi LineNr       ctermfg = 3 ctermbg = 255 cterm = NONE
+hi ModeMsg      ctermfg = 3 ctermbg = 255 cterm = inverse
+hi Pmenu        ctermfg = 3 ctermbg = 255 cterm = NONE
+hi PmenuSel     ctermfg = 3 ctermbg = 255 cterm = inverse
+hi EndOfBuffer  ctermfg = 3 ctermbg = 255 cterm = NONE
+hi VertSplit    ctermfg = 3 ctermbg = 255 cterm = inverse
 
 "Background Color help
 "NOTE       :: The color 11 is mapped to your second yellow/orange value and 8 is

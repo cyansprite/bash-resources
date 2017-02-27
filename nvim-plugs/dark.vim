@@ -9,7 +9,7 @@ let s:N2 = [ '' , '' , 15 , 235 ]
 let s:N3 = [ '' , '' , 15 , 235 ]
 let g:airline#themes#dark#palette.normal = airline#themes#generate_color_map(s:N1, s:N2, s:N3)
 let g:airline#themes#dark#palette.normal_modified = {
-      \ 'airline_c': [ '#e25000' , '#2e2e2e' , 166 , 1 , '' ] ,
+      \ 'airline_c': [ '#e25000' , '#2e2e2e' , 0 , 9 , '' ] ,
       \ }
 
 let s:I1 = [ '' , '' , 6 , 237 ]
@@ -17,7 +17,7 @@ let s:I2 = [ '' , '' , 6 , 237 ]
 let s:I3 = [ '' , '' , 6 , 237 ]
 let g:airline#themes#dark#palette.insert = airline#themes#generate_color_map(s:I1, s:I2, s:I3)
 let g:airline#themes#dark#palette.insert_modified = {
-      \ 'airline_c': [ '' , '' , 166 , 1 , '' ] ,
+      \ 'airline_c': [ '' , '' , 0 , 1 , '' ] ,
       \ }
 let g:airline#themes#dark#palette.insert_paste = {
       \ 'airline_a': [ s:I1[0]   , '' , s:I1[2] , 2 , '' ] ,
@@ -39,7 +39,7 @@ let g:airline#themes#dark#palette.visual_modified = {
 let s:IA = [ '' , '' , 59 , 235 , '' ]
 let g:airline#themes#dark#palette.inactive = airline#themes#generate_color_map(s:IA, s:IA, s:IA)
 let g:airline#themes#dark#palette.inactive_modified = {
-      \ 'airline_c': [ '' , '' , 166 , '' , '' ] ,
+      \ 'airline_c': [ '' , '' , 240 , '' , '' ] ,
        \ }
 
 let g:airline#themes#dark#palette.tabline = {
@@ -47,7 +47,7 @@ let g:airline#themes#dark#palette.tabline = {
       \ 'airline_tabsel':   ['' , '' , 235 , 149 , '' ],
       \ 'airline_tabtype':  ['' , '' , 188 , 235 , '' ],
       \ 'airline_tabfill':  ['' , '' , 188 , 235 , '' ],
-      \ 'airline_tabmod':   ['' , '' , 235 , 149 , '' ],
+      \ 'airline_tabmod':   ['' , '' , 0 , 6 , '' ],
       \ }
 
 let s:WI = [ '', '', 196, 235 ]

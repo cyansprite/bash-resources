@@ -3,7 +3,7 @@
 execute pathogen#infect()
 "Rainbow Para
 au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadRound
 
 "Airline stuff"
 let g:airline#extensions#tabline#enabled = 1
@@ -17,7 +17,7 @@ let b:easytags_auto_highlight = 0
 "vim stuff
 set sts=4
 set sw=4
-set et
+"set et
 set wildmode=list:longest:full
 set splitbelow
 set splitright
@@ -46,6 +46,8 @@ map Y "+y
 "map Meta p/P to paste from clipboard before and after
 map <M-P> "+P
 map <M-p> "+p
+map <C-left> :bp<cr>
+map <C-right> :bn<cr>
 
 set t_Co=256
 colorscheme snow
@@ -53,3 +55,9 @@ colorscheme snow
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+let g:UltiSnipsExpandTrigger="<c-f>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-v>"
+
+let g:ycm_always_populate_location_list = 1
