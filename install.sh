@@ -49,7 +49,7 @@ echo "================================Linking nvim "
 cd "$SOURCE/nvim-plugs"
 ln -fv dark.vim ~/.config/nvim/bundle/vim-airline/autoload/airline/themes/
 ln -fv init.vim ~/.config/nvim/
-echo "================================Need password to access /usr/share/nvim/runtime/colors/ to put in snow.vim"
+echo "================================Need password to access /usr/share/nvim/runtime/colors/ to put in snow.vim and .adb in /bin/"
 sudo ln -fv snow.vim /usr/share/nvim/runtime/colors/snow.vim
 
 #resources time
@@ -58,6 +58,7 @@ cd "$SOURCE"
 ln -fv .bashrc ~/.bashrc
 ln -fv .inputrc ~/.inputrc
 ln -fv .tmux.conf ~/.tmux.conf
+sudo ln -fv .adb /bin/adb.txt
 
 echo "================================Linking wallpapers to Pictures "
 cd "$SOURCE/ims"
