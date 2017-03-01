@@ -46,8 +46,11 @@ map Y "+y
 "map Meta p/P to paste from clipboard before and after
 map <M-P> "+P
 map <M-p> "+p
+"Map c-left and right to switch between buffers
 map <C-left> :bp<cr>
 map <C-right> :bn<cr>
+"Map <C-E> to close current buffer
+map <C-E> :bd<cr>
 
 set t_Co=256
 colorscheme snow
