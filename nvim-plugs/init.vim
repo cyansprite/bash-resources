@@ -17,7 +17,7 @@ let b:easytags_auto_highlight = 0
 "vim stuff
 set sts=4
 set sw=4
-"set et
+set et
 set wildmode=list:longest:full
 set splitbelow
 set splitright
