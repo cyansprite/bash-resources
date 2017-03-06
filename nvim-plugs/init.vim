@@ -15,26 +15,39 @@ let g:easytags_dynamic_files = 2
 let b:easytags_auto_highlight = 0
 
 "vim stuff
-set sts=4
-set sw=4
+set shiftwidth=4   " Use indents of 4 spaces
+set tabstop=4      " An indentation every four columns
+set softtabstop=4  " Let backspace delete indent
 set et
 set wildmode=list:longest:full
 set splitbelow
 set splitright
-let &showbreak = '↳ '
-set cpo=n
-
-" change cursor to i-beam in insert mode
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
-
-set listchars=tab:>-
+set showcmd        "Show cmd while typing
+let &showbreak = '↳ ' "Change show break thing
+set cpo=n          "Show break in line numbers with wrap on
+set showmode nosmd
+set ignorecase
+set smartcase
+set smartindent
+set smarttab
+set scrolloff=10    " Minumum lines to keep above and below cursor
+set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
 set list
 set relativenumber
 set number
 set wrap nowrap
-set hidden
+set hidden         " Allow buffer switching without saving
 inoremap  
 set cursorline
+set showmatch      " Show matching brackets/parentthesis
+set matchtime=5    " Show matching time
+set report=0       " Always report changed lines
+set linespace=0    " No extra spaces between rows
+set t_ut=          "On those rare occasions I use tmux
+
+" change cursor to i-beam in insert mode
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+
 
 "map enter to insert cr and exit insert below, and shift enter for above
 nmap <S-Enter> O<Esc>
@@ -62,3 +75,4 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 let g:UltiSnipsExpandTrigger="<c-f>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-v>"
+

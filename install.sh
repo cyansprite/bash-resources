@@ -20,8 +20,9 @@ declare -a GITURLS=(
  https://github.com/bronson/vim-trailing-whitespace
  https://github.com/valloric/youcompleteme
  https://github.com/tpope/vim-fugitive
- https://github.com/xolox/vim-easytags
+ #https://github.com/xolox/vim-easytags
  https://github.com/xolox/vim-misc
+ https://github.com/guns/xterm-color-table.vim.git
  );
 
 cd ~/.config/nvim/bundle/
