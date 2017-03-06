@@ -22,7 +22,7 @@ hi CursorLineNr  ctermfg = 3    ctermbg = 0    cterm = bold,italic
 hi LineNr        ctermfg = 3    ctermbg = 8    cterm = NONE
 hi ModeMsg       ctermfg = 3    ctermbg = 8    cterm = inverse
 hi Pmenu         ctermfg = 3    ctermbg = 8    cterm = NONE
-hi PmenuSel      ctermfg = 3    ctermbg = 8    cterm = bold,italic
+hi PmenuSel      ctermfg = 3    ctermbg = 0    cterm = bold,italic
 hi EndOfBuffer   ctermfg = 3    ctermbg = 8    cterm = NONE
 hi VertSplit     ctermfg = 3    ctermbg = 8    cterm = inverse
 
