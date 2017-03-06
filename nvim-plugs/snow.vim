@@ -12,10 +12,10 @@ hi Normal        ctermfg = NONE ctermbg = NONE cterm = NONE
 
 hi Cursor        ctermfg = NONE ctermbg = NONE cterm = standout
 hi visual        ctermfg = NONE ctermbg = 193  cterm = NONE
-hi cursorline    ctermfg = NONE ctermbg = 254  cterm = NONE
+hi CursorLine    ctermfg = NONE ctermbg = 255 cterm = NONE
 hi cursorcolumn  ctermfg = NONE ctermbg = NONE cterm = NONE
 hi IncSearch     ctermfg = NONE ctermbg = NONE cterm = underline
-hi Search        ctermfg = NONE ctermbg = 195  cterm = underline
+hi Search        ctermfg = NONE ctermbg = 255  cterm = underline
 hi MatchParen    ctermfg = NONE ctermbg = NONE cterm = underline,bold
 
 hi CursorLineNr  ctermfg = 3    ctermbg = 0    cterm = bold,italic
@@ -35,14 +35,14 @@ hi StatusLineNC  ctermfg = 51   ctermbg = 241  cterm = NONE
 hi WildMenu      ctermfg = 51   ctermbg = 241  cterm = bold,underline,inverse
 
 hi Boolean       ctermfg = 196  ctermbg = NONE cterm = NONE
-hi Conditional   ctermfg = 13   ctermbg = NONE cterm = NONE
+hi Conditional   ctermfg = 13   ctermbg = NONE cterm = bold
 hi Constant      ctermfg = 127  ctermbg = NONE cterm = NONE
 hi Character     ctermfg = 137  ctermbg = NONE cterm = NONE
 hi Float         ctermfg = 76   ctermbg = NONE cterm = NONE
 hi Function      ctermfg = 3    ctermbg = NONE cterm = NONE
 hi Identifier    ctermfg = 12   ctermbg = NONE cterm = NONE
 hi Label         ctermfg = 12   ctermbg = NONE cterm = NONE
-hi Number        ctermfg = 209  ctermbg = NONE cterm = NONE
+hi Number        ctermfg = 3  ctermbg = NONE cterm = NONE
 hi Keyword       ctermfg = 111  ctermbg = NONE cterm = NONE
 hi Macro         ctermfg = 108  ctermbg = NONE cterm = NONE
 hi PreProc       ctermfg = 14   ctermbg = NONE cterm = NONE
@@ -53,8 +53,8 @@ hi String        ctermfg = 10   ctermbg = NONE cterm = NONE
 hi Type          ctermfg = 204  ctermbg = NONE cterm = NONE
 hi Tag           ctermfg = 191  ctermbg = NONE cterm = NONE
 
-hi OperatorChars ctermfg = 232  ctermbg = NONE cterm = bold
-hi Operator      ctermfg = 232  ctermbg = NONE cterm = bold
+hi OperatorChars ctermfg = 3  ctermbg = NONE cterm = bold
+hi Operator      ctermfg = 3  ctermbg = NONE cterm = bold
 
 hi Error         ctermfg =0     ctermbg =1
 hi ErrorMsg      ctermfg = 246  ctermbg = 160  cterm = NONE
@@ -74,3 +74,6 @@ hi SpecialKey    ctermfg = 189  ctermbg = NONE cterm = NONE
 hi NonText       ctermfg = 189  ctermbg = NONE cterm = NONE
 "hi Directory      ctermfg = 2  ctermbg = NONE cterm = NONE
 "hi Folded         ctermfg = 242  ctermbg = 235  cterm = NONE
+"Differences when switching between modes
+autocmd InsertEnter * highlight CursorLine ctermfg=NONE ctermbg=195
+autocmd InsertLeave * highlight CursorLine ctermfg=NONE ctermbg=255
