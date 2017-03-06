@@ -23,6 +23,7 @@ declare -a GITURLS=(
  #https://github.com/xolox/vim-easytags
  https://github.com/xolox/vim-misc
  https://github.com/guns/xterm-color-table.vim.git
+ https://github.com/majutsushi/tagbar
  );
 
 cd ~/.config/nvim/bundle/

@@ -31,7 +31,7 @@ set smartcase
 set smartindent
 set smarttab
 set scrolloff=10    " Minumum lines to keep above and below cursor
-set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
+set listchars=tab:→\ ,trail:·,extends:↷,precedes:↶
 set list
 set relativenumber
 set number
@@ -64,15 +64,17 @@ map <C-left> :bp<cr>
 map <C-right> :bn<cr>
 "Map <C-E> to close current buffer
 map <C-E> :bd<cr>
-
-set t_Co=256
-colorscheme snow
+nmap <C-W><left> :windo left<CR>
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+nmap <F8> :TagbarToggle<CR>
+nmap <F5> :w<CR>
+
+set t_Co=256
+colorscheme snow
 
 let g:UltiSnipsExpandTrigger="<c-f>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-v>"
-
