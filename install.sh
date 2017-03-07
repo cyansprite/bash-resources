@@ -3,28 +3,31 @@ SOURCE=${PWD}
 #make sure they have pathogen...
 PATHOGEN=~/.config/nvim/autoload
 if [ ! -d "$PATHOGEN" ] ; then
-	echo "================================curling pathogen! "
-	mkdir -p ~/.config/nvim/autoload ~/.config/nvim/bundle
-	curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+    echo "================================curling pathogen! "
+    mkdir -p ~/.config/nvim/autoload ~/.config/nvim/bundle
+    curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 else
-	echo "================================Already have pathogen; if not delete autoload, and rerun this. "
+    echo "================================Already have pathogen; if not delete autoload, and rerun this. "
 fi
 
 #make sure we have all the plugins we need!
 declare -a GITURLS=(
- https://github.com/ctrlpvim/ctrlp.vim
- https://github.com/kien/rainbow_parentheses.vim
- https://github.com/godlygeek/tabular
- https://github.com/mbbill/undotree
- https://github.com/vim-airline/vim-airline
- https://github.com/bronson/vim-trailing-whitespace
- https://github.com/valloric/youcompleteme
- https://github.com/tpope/vim-fugitive
- #https://github.com/xolox/vim-easytags
- https://github.com/xolox/vim-misc
- https://github.com/guns/xterm-color-table.vim.git
- https://github.com/majutsushi/tagbar
- );
+        https://github.com/ctrlpvim/ctrlp.vim
+        https://github.com/kien/rainbow_parentheses.vim
+        https://github.com/godlygeek/tabular
+        https://github.com/mbbill/undotree
+        https://github.com/vim-airline/vim-airline
+        https://github.com/bronson/vim-trailing-whitespace
+        https://github.com/valloric/youcompleteme
+        https://github.com/tpope/vim-fugitive
+        #https://github.com/xolox/vim-easytags
+        https://github.com/xolox/vim-misc
+        https://github.com/guns/xterm-color-table.vim.git
+        https://github.com/majutsushi/tagbar
+        https://github.com/jiangmiao/auto-pairs
+        https://github.com/pseewald/vim-anyfold
+        git://github.com/airblade/vim-gitgutter.git
+);
 
 cd ~/.config/nvim/bundle/
 for URL in ${GITURLS[@]}; do
@@ -33,7 +36,7 @@ for URL in ${GITURLS[@]}; do
         echo "================================$gitdir Already exists! "
     else
         echo "================================$gitdir not found, going to clone! "
-	git clone "$URL"
+        git clone "$URL"
     fi
 done
 

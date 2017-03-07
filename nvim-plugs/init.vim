@@ -4,6 +4,8 @@ execute pathogen#infect()
 "Rainbow Para
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
+let g:gitgutter_sign_modified = '>'
+let g:gitgutter_override_sign_column_highlight = 0
 
 "Airline stuff"
 let g:airline#extensions#tabline#enabled = 1
@@ -13,25 +15,28 @@ let g:airline_powerline_fonts = 1
 
 let g:easytags_dynamic_files = 2
 let b:easytags_auto_highlight = 0
+let anyfold_identify_comments = 1
+let anyfold_activate = 1
+set foldlevel=0
 
 "vim stuff
-set shiftwidth=4   " Use indents of 4 spaces
-set tabstop=4      " An indentation every four columns
-set softtabstop=4  " Let backspace delete indent
-set et
-set wildmode=list:longest:full
+set shiftwidth=4               " Use indents of 4 spaces
+set tabstop=4                  " An indentation every four columns
+set softtabstop=4              " Let backspace delete indent
+set expandtab                  " Expands tab to spaces
+set wildmode=list:longest:full "Nobody likes to use the vim default autocomplete in command line mode
 set splitbelow
 set splitright
-set showcmd        "Show cmd while typing
-let &showbreak = '↳ ' "Change show break thing
-set cpo=n          "Show break in line numbers with wrap on
+set showcmd                    "Show cmd while typing
+let &showbreak = '↳ '          "Change show break thing
+set cpo=n                      "Show break in line numbers with wrap on
+set listchars=tab:→\ ,trail:·,extends:↷,precedes:↶ "Changes listchars to more suitable chars
 set showmode nosmd
 set ignorecase
 set smartcase
 set smartindent
 set smarttab
 set scrolloff=10    " Minumum lines to keep above and below cursor
-set listchars=tab:→\ ,trail:·,extends:↷,precedes:↶
 set list
 set relativenumber
 set number
@@ -44,6 +49,7 @@ set matchtime=5    " Show matching time
 set report=0       " Always report changed lines
 set linespace=0    " No extra spaces between rows
 set t_ut=          "On those rare occasions I use tmux
+"set colorcolumn+=1        " highlight column after 'textwidth'
 
 " change cursor to i-beam in insert mode
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
@@ -64,7 +70,11 @@ map <C-left> :bp<cr>
 map <C-right> :bn<cr>
 "Map <C-E> to close current buffer
 map <C-E> :bd<cr>
-nmap <C-W><left> :windo left<CR>
+" Use ctrl-[hjkl] to select the active split!
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
