@@ -12,21 +12,27 @@ fi
 
 #make sure we have all the plugins we need!
 declare -a GITURLS=(
-        https://github.com/ctrlpvim/ctrlp.vim
-        https://github.com/kien/rainbow_parentheses.vim
-        https://github.com/godlygeek/tabular
-        https://github.com/mbbill/undotree
-        https://github.com/vim-airline/vim-airline
-        https://github.com/bronson/vim-trailing-whitespace
-        https://github.com/valloric/youcompleteme
-        https://github.com/tpope/vim-fugitive
-        #https://github.com/xolox/vim-easytags
-        https://github.com/xolox/vim-misc
-        https://github.com/guns/xterm-color-table.vim.git
-        https://github.com/majutsushi/tagbar
-        https://github.com/jiangmiao/auto-pairs
-        https://github.com/pseewald/vim-anyfold
-        git://github.com/airblade/vim-gitgutter.git
+https://github.com/ctrlpvim/ctrlp.vim
+https://github.com/kien/rainbow_parentheses.vim
+https://github.com/godlygeek/tabular
+https://github.com/mbbill/undotree
+https://github.com/vim-airline/vim-airline
+https://github.com/bronson/vim-trailing-whitespace
+https://github.com/valloric/youcompleteme
+https://github.com/tpope/vim-fugitive
+#https://github.com/xolox/vim-easytags
+https://github.com/xolox/vim-misc
+https://github.com/guns/xterm-color-table.vim.git
+https://github.com/majutsushi/tagbar
+#https://github.com/jiangmiao/auto-pairs
+git://github.com/airblade/vim-gitgutter.git
+https://github.com/tomtom/tcomment_vim
+https://github.com/dyng/ctrlsf.vim
+https://github.com/jiangmiao/auto-pairs
+git://github.com/roman/golden-ratio.git
+https://github.com/junegunn/goyo.vim
+https://github.com/blueyed/vim-diminactive
+https://github.com/myusuf3/numbers.vim.git ~/.vim/bundle/numbers
 );
 
 cd ~/.config/nvim/bundle/

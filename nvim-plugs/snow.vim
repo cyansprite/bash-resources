@@ -14,11 +14,12 @@ hi Cursor        ctermfg = NONE ctermbg = NONE cterm = standout
 hi visual        ctermfg = NONE ctermbg = 193  cterm = NONE
 hi CursorLine    ctermfg = NONE ctermbg = 7    cterm = NONE
 hi cursorcolumn  ctermfg = NONE ctermbg = NONE cterm = NONE
+hi colorcolumn   ctermfg = NONE ctermbg = 253  cterm = NONE
 hi IncSearch     ctermfg = NONE ctermbg = NONE cterm = underline
 hi Search        ctermfg = NONE ctermbg = 15   cterm = underline
 hi MatchParen    ctermfg = NONE ctermbg = NONE cterm = underline,bold
 
-hi LineNr        ctermfg = 3    ctermbg = 255  cterm = NONE
+hi LineNr        ctermfg = 3    ctermbg = 255  cterm = inverse
 hi CursorLineNr  ctermfg = 218  ctermbg = NONE cterm = bold,italic
 hi DiffAdd       ctermfg = 34   ctermbg = NONE cterm = NONE
 hi DiffDelete    ctermfg = 160  ctermbg = NONE cterm = NONE
