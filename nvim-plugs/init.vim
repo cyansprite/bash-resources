@@ -21,8 +21,10 @@ let b:easytags_auto_highlight = 0
 let g:limelight_conceal_ctermfg = 'gray'
 let g:airline#extensions#clock#format = '%H:%M:%S'
 let g:airline#extensions#clock#updatetime = 1000
-
+nmap <M-r> :Goyo<cr>
 nmap <C-g> :GitGutterNextHunk<CR>
+map <C-n> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 "end plugin
 
 "vim stuff

@@ -24,7 +24,6 @@ https://github.com/tpope/vim-fugitive
 https://github.com/xolox/vim-misc
 https://github.com/guns/xterm-color-table.vim.git
 https://github.com/majutsushi/tagbar
-#https://github.com/jiangmiao/auto-pairs
 git://github.com/airblade/vim-gitgutter.git
 https://github.com/tomtom/tcomment_vim
 https://github.com/dyng/ctrlsf.vim
@@ -32,7 +31,12 @@ https://github.com/jiangmiao/auto-pairs
 git://github.com/roman/golden-ratio.git
 https://github.com/junegunn/goyo.vim
 https://github.com/blueyed/vim-diminactive
-https://github.com/myusuf3/numbers.vim.git ~/.vim/bundle/numbers
+https://github.com/myusuf3/numbers.vim.git
+https://github.com/ryanoasis/vim-devicons
+https://github.com/mhinz/vim-startify
+https://github.com/scrooloose/nerdtree.git
+https://github.com/tiagofumo/vim-nerdtree-syntax-highlight.git
+https://github.com/Xuyuanp/nerdtree-git-plugin.git
 );
 
 cd ~/.config/nvim/bundle/
@@ -49,11 +53,10 @@ done
 #make sure we have nice font
 cd "$SOURCE/fonts"
 echo "================================Copying fonts to ~/.fonts/ "
-if [ ! -d ~/.fonts ] ; then
-    mkdir ~/.fonts
+if [ ! -d ~/.local/share/fonts ] ; then
+    mkdir ~/.local/share/fonts
 fi
-cp --verbose * ~/.fonts
-
+cp --verbose * ~/.local/share/fonts
 #/usr/share/nvim/runtime/colors
 #make sure we neovim stuffs
 echo "================================Linking nvim "
