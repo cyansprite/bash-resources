@@ -12,7 +12,7 @@ fi
 
 #make sure we have all the plugins we need!
 declare -a GITURLS=(
-https://github.com/ctrlpvim/ctrlp.vim
+https://github.com/farmergreg/vim-lastplace
 https://github.com/kien/rainbow_parentheses.vim
 https://github.com/godlygeek/tabular
 https://github.com/mbbill/undotree
@@ -37,6 +37,8 @@ https://github.com/mhinz/vim-startify
 https://github.com/scrooloose/nerdtree.git
 https://github.com/tiagofumo/vim-nerdtree-syntax-highlight.git
 https://github.com/Xuyuanp/nerdtree-git-plugin.git
+https://github.com/gelguy/cmd2.vim
+https://github.com/mattesgroeger/vim-bookmarks
 );
 
 cd ~/.config/nvim/bundle/

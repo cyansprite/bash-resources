@@ -19,8 +19,8 @@ hi IncSearch     ctermfg = NONE ctermbg = NONE cterm = underline
 hi Search        ctermfg = NONE ctermbg = 15   cterm = underline
 hi MatchParen    ctermfg = NONE ctermbg = NONE cterm = underline,bold
 
-hi LineNr        ctermfg = 3    ctermbg = 0  cterm = inverse
-hi CursorLineNr  ctermfg = 0  ctermbg = 218 cterm = bold,italic
+hi LineNr        ctermfg = 3    ctermbg = 0    cterm = inverse
+hi CursorLineNr  ctermfg = 0    ctermbg = 7    cterm = bold,italic
 hi DiffAdd       ctermfg = 34   ctermbg = NONE cterm = NONE
 hi DiffDelete    ctermfg = 160  ctermbg = NONE cterm = NONE
 hi DiffChange    ctermfg = 202  ctermbg = NONE cterm = NONE
@@ -29,22 +29,22 @@ hi ModeMsg       ctermfg = 3    ctermbg = 8    cterm = inverse
 hi Folded        ctermfg = NONE ctermbg = 255  cterm = underline
 hi Pmenu         ctermfg = 3    ctermbg = 8    cterm = NONE
 hi PmenuSel      ctermfg = 3    ctermbg = 0    cterm = bold,italic
+hi StatusLine    ctermfg = 3    ctermbg = 8    cterm = NONE
+hi StatusLineNC  ctermfg = 3    ctermbg = 8    cterm = NONE
+hi WildMenu      ctermfg = 3    ctermbg = 0    cterm = bold,underline,inverse
 hi EndOfBuffer   ctermfg = 3    ctermbg = 255  cterm = NONE
 hi VertSplit     ctermfg = 3    ctermbg = 8    cterm = inverse
 
 hi Comment       ctermfg = 250  ctermbg = NONE cterm = italic
 hi Todo          ctermfg = 250  ctermbg = 8    cterm = bold,inverse
 hi Conceal       ctermfg = 15   ctermbg = NONE cterm = italic
-hi StatusLine    ctermfg = 51   ctermbg = 241  cterm = bold
-hi StatusLineNC  ctermfg = 51   ctermbg = 241  cterm = NONE
-hi WildMenu      ctermfg = 51   ctermbg = 241  cterm = bold,underline,inverse
 
 hi Boolean       ctermfg = 196 ctermbg = NONE cterm = NONE
 hi Conditional   ctermfg = 13  ctermbg = NONE cterm = bold
 hi Constant      ctermfg = 127 ctermbg = NONE cterm = NONE
 hi Character     ctermfg = 137 ctermbg = NONE cterm = NONE
 hi Float         ctermfg = 76  ctermbg = NONE cterm = NONE
-hi Function      ctermfg = 3   ctermbg = NONE cterm = NONE
+hi Function      ctermfg = 113   ctermbg = NONE cterm = NONE
 hi Identifier    ctermfg = 12  ctermbg = NONE cterm = NONE
 hi Label         ctermfg = 12  ctermbg = NONE cterm = NONE
 hi Number        ctermfg = 11   ctermbg = NONE cterm = NONE
@@ -79,6 +79,12 @@ hi NonText       ctermfg = 189  ctermbg = NONE cterm = NONE
 autocmd InsertEnter * highlight CursorLine ctermfg=NONE ctermbg=195
 autocmd InsertLeave * highlight CursorLine ctermfg=NONE ctermbg=7
 
+"Plugins
 highlight link GitGutterAdd DiffAdd
 highlight link GitGutterChange DiffChange
 highlight link GitGutterDelete DiffDelete
+highlight BookmarkSign           ctermbg=NONE ctermfg=38
+highlight BookmarkLine           ctermbg=227  ctermfg=NONE
+highlight BookmarkAnnotationSign ctermbg=NONE ctermfg=8
+highlight BookmarkAnnotationLine ctermbg=188  ctermfg=NONE
+

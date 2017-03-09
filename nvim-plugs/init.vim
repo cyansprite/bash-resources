@@ -12,19 +12,25 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 1
+"nmap : :<F12>
+nmap / /<F12>
+cmap <F12> <Plug>(Cmd2Suggest)
 
 "Easytags
 let g:easytags_dynamic_files = 1
 let b:easytags_auto_highlight = 0
-
 " Color name (:help cterm-colors) or ANSI code
 let g:limelight_conceal_ctermfg = 'gray'
 let g:airline#extensions#clock#format = '%H:%M:%S'
 let g:airline#extensions#clock#updatetime = 1000
-nmap <M-r> :Goyo<cr>
-nmap <C-g> :GitGutterNextHunk<CR>
-map <C-n> :NERDTreeToggle<CR>
+nmap <silent> <M-r> :Goyo<cr>
+nmap <silent> <C-g> :GitGutterNextHunk<CR>
+nmap <silent> <C-n> :NERDTreeToggle<CR>
+nmap <silent> <C-p> :CtrlSpace O<cr>
+nmap <silent> <C-space> :CtrlSpace<cr>
+"nmap <silent> <C-space> :exe "silent CtrlSpace"<cr>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:bookmark_sign = "★"
 "end plugin
 
 "vim stuff
@@ -68,7 +74,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 "Map control + x to cut current text into clipboard
 vmap <c-x> "+x
 "map control + v in insert mode to paste
-imap <C-v> <C-r>+<cr>
+imap <C-v> <C-r>+
 "map enter to insert cr and exit insert below, and shift enter for above
 nmap <S-Enter> O<Esc>
 nmap <CR> o<Esc>
@@ -83,19 +89,25 @@ nnoremap <C-up> :tabprevious<CR>
 nnoremap <C-down> :tabnext<CR>
 "Map <C-E> to close current buffer
 map <C-E> :bd<cr>
-" Use ctrl-[wasd] to select the active split
+" Use ctrl-[wasd] to select the active split and s-lrud
 nnoremap <silent> <c-k> :wincmd k<CR>
 nnoremap <silent> <c-j> :wincmd j<CR>
 nnoremap <silent> <c-h> :wincmd h<CR>
 nnoremap <silent> <c-l> :wincmd l<CR>
+nnoremap <silent> <s-up> :wincmd k<CR>
+nnoremap <silent> <s-down> :wincmd j<CR>
+nnoremap <silent> <s-left> :wincmd h<CR>
+nnoremap <silent> <s-right> :wincmd l<CR>
 "allow if folding we hit space and it unfolds/folds, otherwise default
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-nnoremap <silent> <C-Space> zi
 vnoremap <Space> zf
 "Tack on a comment to the end of the line in one keystoke based on syn
 nmap <silent>"" A <C-R>=&commentstring<cr><esc>F%2cw
 noremap <C-f> :CtrlSF<Space>
-
+nnoremap <left> h
+nnoremap <right> l
+nnoremap <up> k
+nnoremap <down> j
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
             \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
