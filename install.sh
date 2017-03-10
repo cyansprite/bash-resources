@@ -12,33 +12,36 @@ fi
 
 #make sure we have all the plugins we need!
 declare -a GITURLS=(
-https://github.com/farmergreg/vim-lastplace
-https://github.com/kien/rainbow_parentheses.vim
+#https://github.com/farmergreg/vim-lastplace
+#https://github.com/kien/rainbow_parentheses.vim
 https://github.com/godlygeek/tabular
-https://github.com/mbbill/undotree
+#https://github.com/mbbill/undotree
 https://github.com/vim-airline/vim-airline
-https://github.com/bronson/vim-trailing-whitespace
-https://github.com/valloric/youcompleteme
-https://github.com/tpope/vim-fugitive
-#https://github.com/xolox/vim-easytags
-https://github.com/xolox/vim-misc
-https://github.com/guns/xterm-color-table.vim.git
+#https://github.com/bronson/vim-trailing-whitespace
+#https://github.com/valloric/youcompleteme
+#https://github.com/tpope/vim-fugitive
+##https://github.com/xolox/vim-easytags
+#https://github.com/xolox/vim-misc
+#https://github.com/guns/xterm-color-table.vim.git
 https://github.com/majutsushi/tagbar
 git://github.com/airblade/vim-gitgutter.git
-https://github.com/tomtom/tcomment_vim
-https://github.com/dyng/ctrlsf.vim
-https://github.com/jiangmiao/auto-pairs
+#https://github.com/tomtom/tcomment_vim
+#https://github.com/dyng/ctrlsf.vim
+#https://github.com/jiangmiao/auto-pairs
 git://github.com/roman/golden-ratio.git
-https://github.com/blueyed/vim-diminactive
-https://github.com/myusuf3/numbers.vim.git
+#https://github.com/blueyed/vim-diminactive
+#https://github.com/myusuf3/numbers.vim.git
 https://github.com/ryanoasis/vim-devicons
-https://github.com/mhinz/vim-startify
-https://github.com/scrooloose/nerdtree.git
-https://github.com/tiagofumo/vim-nerdtree-syntax-highlight.git
-https://github.com/Xuyuanp/nerdtree-git-plugin.git
+#https://github.com/mhinz/vim-startify
+#https://github.com/scrooloose/nerdtree.git
+#https://github.com/tiagofumo/vim-nerdtree-syntax-highlight.git
+#https://github.com/Xuyuanp/nerdtree-git-plugin.git
 https://github.com/gelguy/cmd2.vim
-https://github.com/mattesgroeger/vim-bookmarks
-https://github.com/szw/vim-ctrlspace
+#https://github.com/mattesgroeger/vim-bookmarks
+#https://github.com/szw/vim-ctrlspace
+https://github.com/artur-shaik/vim-javacomplete2.git
+https://github.com/DonnieWest/VimStudio.git
+https://github.com/neomake/neomake.git
 );
 
 cd ~/.config/nvim/bundle/
