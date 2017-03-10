@@ -19,21 +19,21 @@ hi IncSearch     ctermfg = NONE ctermbg = NONE cterm = underline
 hi Search        ctermfg = NONE ctermbg = 15   cterm = underline
 hi MatchParen    ctermfg = NONE ctermbg = NONE cterm = underline,bold
 
-hi LineNr        ctermfg = 3    ctermbg = 0    cterm = inverse
-hi CursorLineNr  ctermfg = 0    ctermbg = 7    cterm = bold,italic
+hi LineNr        ctermfg = 8    ctermbg = 0    cterm = inverse
+hi CursorLineNr  ctermfg = 0    ctermbg = 7    cterm = italic
 hi DiffAdd       ctermfg = 34   ctermbg = NONE cterm = NONE
 hi DiffDelete    ctermfg = 160  ctermbg = NONE cterm = NONE
 hi DiffChange    ctermfg = 202  ctermbg = NONE cterm = NONE
 hi SignColumn    ctermfg = NONE ctermbg = NONE cterm = bold
-hi ModeMsg       ctermfg = 3    ctermbg = 8    cterm = inverse
+hi ModeMsg       ctermfg = 3    ctermbg = 0    cterm = inverse
 hi Folded        ctermfg = NONE ctermbg = 255  cterm = underline
-hi Pmenu         ctermfg = 3    ctermbg = 8    cterm = NONE
+hi Pmenu         ctermfg = 3    ctermbg = 0    cterm = NONE
 hi PmenuSel      ctermfg = 3    ctermbg = 0    cterm = bold,italic
-hi StatusLine    ctermfg = 3    ctermbg = 8    cterm = NONE
-hi StatusLineNC  ctermfg = 3    ctermbg = 8    cterm = NONE
+hi StatusLine    ctermfg = 3    ctermbg = 0    cterm = NONE
+hi StatusLineNC  ctermfg = 3    ctermbg = 0    cterm = NONE
 hi WildMenu      ctermfg = 3    ctermbg = 0    cterm = bold,underline,inverse
 hi EndOfBuffer   ctermfg = 3    ctermbg = 255  cterm = NONE
-hi VertSplit     ctermfg = 3    ctermbg = 8    cterm = inverse
+hi VertSplit     ctermfg = 3    ctermbg = 0    cterm = inverse
 
 hi Comment       ctermfg = 250  ctermbg = NONE cterm = italic
 hi Todo          ctermfg = 250  ctermbg = 8    cterm = bold,inverse
@@ -58,12 +58,12 @@ hi String        ctermfg = 10  ctermbg = NONE cterm = NONE
 hi Type          ctermfg = 204 ctermbg = NONE cterm = NONE
 hi Tag           ctermfg = 191 ctermbg = NONE cterm = NONE
 
-hi OperatorChars ctermfg = 0  ctermbg = NONE cterm = bold
-hi Operator      ctermfg = 0  ctermbg = NONE cterm = bold
+hi OperatorChars ctermfg = 232  ctermbg = NONE cterm = bold
+hi Operator      ctermfg = 232  ctermbg = NONE cterm = bold
 
-hi Error         ctermfg =0     ctermbg =1
-hi ErrorMsg      ctermfg = 246  ctermbg = 160  cterm = NONE
-hi WarningMsg    ctermfg = 246  ctermbg = 227  cterm = NONE
+hi Error         ctermfg =0     ctermbg =1     cterm = inverse
+hi ErrorMsg      ctermfg = 246  ctermbg = 160  cterm = inverse
+hi WarningMsg    ctermfg = 246  ctermbg = 227  cterm = inverse
 
 "TODO Do these lol
 hi SpellCap      ctermfg = NONE ctermbg = 255  cterm = NONE
@@ -85,6 +85,7 @@ highlight link GitGutterChange DiffChange
 highlight link GitGutterDelete DiffDelete
 highlight BookmarkSign           ctermbg=NONE ctermfg=38
 highlight BookmarkLine           ctermbg=227  ctermfg=NONE
-highlight BookmarkAnnotationSign ctermbg=NONE ctermfg=8
+highlight BookmarkAnnotationSign ctermbg=NONE ctermfg=0
 highlight BookmarkAnnotationLine ctermbg=188  ctermfg=NONE
 
+hi link CtrlSpaceSearch IncSearch

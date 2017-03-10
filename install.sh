@@ -29,7 +29,6 @@ https://github.com/tomtom/tcomment_vim
 https://github.com/dyng/ctrlsf.vim
 https://github.com/jiangmiao/auto-pairs
 git://github.com/roman/golden-ratio.git
-https://github.com/junegunn/goyo.vim
 https://github.com/blueyed/vim-diminactive
 https://github.com/myusuf3/numbers.vim.git
 https://github.com/ryanoasis/vim-devicons
@@ -39,6 +38,8 @@ https://github.com/tiagofumo/vim-nerdtree-syntax-highlight.git
 https://github.com/Xuyuanp/nerdtree-git-plugin.git
 https://github.com/gelguy/cmd2.vim
 https://github.com/mattesgroeger/vim-bookmarks
+https://github.com/szw/vim-ctrlspace
+https://github.com/jistr/vim-nerdtree-tabs.git
 );
 
 cd ~/.config/nvim/bundle/
