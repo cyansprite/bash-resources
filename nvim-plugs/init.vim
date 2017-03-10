@@ -6,6 +6,8 @@
     let g:gitgutter_sign_modified = '>'
     let g:gitgutter_override_sign_column_highlight = 0
 
+    let g:EclimCompletionMethod = 'omnifunc' 
+
     let g:NERDTreeFileExtensionHighlightFullName = 1
     let g:NERDTreeExactMatchHighlightFullName = 1
     let g:NERDTreePatternMatchHighlightFullName = 1
@@ -13,16 +15,23 @@
     let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
     let g:NERDTreeExtensionHighlightColor = {} "this line is needed to avoid error
     let g:NERDTreeExtensionHighlightColor['cs'] = '33BB33' "assigning it to an empty string will skip highlight
+    let g:ctrlsf_winsize = '15%'
     let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {} " needed
     let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['cs'] = '#'
+
+    nmap     <C-F>f <Plug>CtrlSFPrompt
+    vmap     <C-F>f <Plug>CtrlSFVwordPath
+    vmap     <C-F><C-F> <Plug>CtrlSFVwordExec
+    nmap     <C-F>n <Plug>CtrlSFCwordPath
+    nmap     <C-F>p <Plug>CtrlSFPwordPath
+    imap     <C-F>o <Esc>:CtrlSFToggle<CR>
+    map      <C-F>o <Esc>:CtrlSFToggle<CR>
 
     "Airline stuff"
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#left_sep = ' '
     let g:airline#extensions#tabline#left_alt_sep = '|'
     let g:airline_powerline_fonts = 1
-    autocmd! BufEnter,BufWritePost * Neomake
-
     let g:golden_ratio_exclude_nonmodifiable = 1
 
     let g:neomake_cs_enabled_makers = ['mcs']
@@ -47,13 +56,17 @@
     let g:limelight_conceal_ctermfg = 'gray'
     let g:airline#extensions#clock#format = '%H:%M:%S'
     let g:airline#extensions#clock#updatetime = 1000
-    nmap <silent> <C-g> :GitGutterNextHunk<CR>
-    nmap <silent> <C-n> :NERDTreeTabsOpen<CR>
+    nmap <silent> <C-n> :NERDTreeToggle<CR>
     nmap <silent> <C-p> :CtrlSpace O<cr>
+    nmap <silent> <C-b> :CtrlSpace b<cr>
     nmap <silent> <C-space> :CtrlSpace<cr>
-    "nmap <silent> <C-space> :exe "silent CtrlSpace"<cr>
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
     let g:bookmark_sign = "★"
+    nmap <silent> <C-g> :GitGutterNextHunk<CR>
+    nnoremap gn :GitGutterNextHunk<cr>
+    nnoremap gb :GitGutterPrevHunk<cr>
+    let g:android_sdk_path = '~/Android/Sdk'
+    let g:gradle_path = '~/bin/android-studio/gradle/gradle-2.14.1/bin'
 "end plugin
 
 "vim stuff
@@ -100,9 +113,7 @@
     vmap <c-x> "+x
     "map control + v in insert mode to paste
     imap <C-v> <C-r>+
-    "map enter to insert cr and exit insert below, and shift enter for above
-    nmap <S-Enter> O<Esc>
-    nmap <CR> o<Esc>
+    vmap <C-v> "+P
     "map ctrl + D to clipboard
     nmap <F2> :tabedit <cr>:terminal<cr>
     "map Y to copy to clip in visual mode
@@ -125,14 +136,16 @@
     nnoremap <silent> <s-right> :wincmd l<CR>
     "allow if folding we hit space and it unfolds/folds, otherwise default
     nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-    vnoremap <Space> zf
+    nnoremap <silent> <CR> @=(foldlevel('.')?'zO':"\<CR>")<CR>
     "Tack on a comment to the end of the line in one keystoke based on syn
     nmap <silent>"" A <C-R>=&commentstring<cr><esc>F%2cw
-    noremap <C-f> :CtrlSF<Space>
     nnoremap <left> h
     nnoremap <right> l
     nnoremap <up> k
     nnoremap <down> j
+
+    "Copy full path of filename to black hole
+    nnoremap <C-Y> :let @" = expand("%:p")<cr>
     " Highlight all instances of word under cursor, when idle.
     " Useful when studying strange source code.
     " Type z/ to toggle highlighting on/off.

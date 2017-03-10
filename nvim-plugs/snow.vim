@@ -11,7 +11,7 @@ syntax match OperatorChars "?\|+\|-\|\*\|;\|:\|,\|<\|>\|&\||\|!\|\~\|%\|=\|\.\|/
 hi Normal        ctermfg = NONE ctermbg = NONE cterm = NONE
 
 hi Cursor        ctermfg = NONE ctermbg = NONE cterm = standout
-hi visual        ctermfg = NONE ctermbg = 193  cterm = NONE
+hi visual        ctermfg = NONE ctermbg = 195  cterm = NONE
 hi CursorLine    ctermfg = NONE ctermbg = 7    cterm = NONE
 hi cursorcolumn  ctermfg = NONE ctermbg = NONE cterm = NONE
 hi colorcolumn   ctermfg = NONE ctermbg = 253  cterm = NONE
@@ -19,21 +19,22 @@ hi IncSearch     ctermfg = NONE ctermbg = NONE cterm = underline
 hi Search        ctermfg = NONE ctermbg = 15   cterm = underline
 hi MatchParen    ctermfg = NONE ctermbg = NONE cterm = underline,bold
 
-hi LineNr        ctermfg = 8    ctermbg = 0    cterm = inverse
+hi LineNr        ctermfg = 0    ctermbg = 8    cterm = NONE
+hi Title         ctermfg = 0    ctermbg = 8    cterm = NONE
 hi CursorLineNr  ctermfg = 0    ctermbg = 7    cterm = italic
 hi DiffAdd       ctermfg = 34   ctermbg = NONE cterm = NONE
 hi DiffDelete    ctermfg = 160  ctermbg = NONE cterm = NONE
 hi DiffChange    ctermfg = 202  ctermbg = NONE cterm = NONE
 hi SignColumn    ctermfg = NONE ctermbg = NONE cterm = bold
-hi ModeMsg       ctermfg = 3    ctermbg = 0    cterm = inverse
+hi ModeMsg       ctermfg = 3    ctermbg = 0    cterm = NONE
 hi Folded        ctermfg = NONE ctermbg = 255  cterm = underline
 hi Pmenu         ctermfg = 3    ctermbg = 0    cterm = NONE
 hi PmenuSel      ctermfg = 3    ctermbg = 0    cterm = bold,italic
 hi StatusLine    ctermfg = 3    ctermbg = 0    cterm = NONE
 hi StatusLineNC  ctermfg = 3    ctermbg = 0    cterm = NONE
-hi WildMenu      ctermfg = 3    ctermbg = 0    cterm = bold,underline,inverse
-hi EndOfBuffer   ctermfg = 3    ctermbg = 255  cterm = NONE
-hi VertSplit     ctermfg = 3    ctermbg = 0    cterm = inverse
+hi WildMenu      ctermfg = 0    ctermbg = 3    cterm = bold,underline
+hi EndOfBuffer   ctermfg = 0    ctermbg = 255  cterm = NONE
+hi VertSplit     ctermfg = 0    ctermbg = 8    cterm = NONE
 
 hi Comment       ctermfg = 250  ctermbg = NONE cterm = italic
 hi Todo          ctermfg = 250  ctermbg = 8    cterm = bold,inverse
@@ -70,14 +71,17 @@ hi SpellCap      ctermfg = NONE ctermbg = 255  cterm = NONE
 hi Define        ctermfg = 197  ctermbg = NONE cterm = NONE
 hi DiffText      ctermfg = 6    ctermbg = NONE cterm = bold
 hi NonText       ctermfg = 59   ctermbg = 236  cterm = NONE
-hi Title         ctermfg = 231  ctermbg = NONE cterm = bold
 hi Underlined    ctermfg = NONE ctermbg = NONE cterm = underline
 hi SpecialKey    ctermfg = 189  ctermbg = NONE cterm = NONE
 hi NonText       ctermfg = 189  ctermbg = NONE cterm = NONE
 "hi Directory      ctermfg = 2  ctermbg = NONE cterm = NONE
 "Differences when switching between modes
-autocmd InsertEnter * highlight CursorLine ctermfg=NONE ctermbg=195
-autocmd InsertLeave * highlight CursorLine ctermfg=NONE ctermbg=7
+autocmd InsertEnter * highlight CursorLine   ctermfg=NONE ctermbg=8
+autocmd InsertLeave * highlight CursorLine   ctermfg=NONE ctermbg=7
+autocmd InsertEnter * highlight CursorLineNr ctermfg=NONE ctermbg=8
+autocmd InsertLeave * highlight CursorLineNr ctermfg=NONE ctermbg=7
+autocmd InsertEnter * highlight LineNr ctermfg=NONE ctermbg=7
+autocmd InsertLeave * highlight LineNr ctermfg=NONE ctermbg=8
 
 "Plugins
 highlight link GitGutterAdd DiffAdd

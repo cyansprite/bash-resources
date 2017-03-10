@@ -59,7 +59,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[$(tput setaf 6)\]\[$(tput rev)\]\u@\h\[\033[00m\]\[$(tput rev)\]:\[\033[00;34m\]\[$(tput rev)\]\w\[\033[01;31m\]\n$(tput rmso)|----$ \[\033[00m\]'
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[00;36m\]\[$(tput rev)\]\u@\h\[\033[00m\]\[$(tput rev)\]:\[\033[00;34m\]\[$(tput rev)\]\w\[$(tput sgr0)\]\n\[\033[01;31m\]|--->>$ \[\033[00m\]'
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -122,3 +122,8 @@ fi
 if [ -e /bin/adb.txt ] ; then
 	  source /bin/adb.txt
 fi
+
+#make default editor to my beloved vim...
+export VISUAL=vim
+export EDITOR="$VISUAL"
+export SIMIP=10.197.53.233

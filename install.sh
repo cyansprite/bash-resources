@@ -39,7 +39,6 @@ https://github.com/Xuyuanp/nerdtree-git-plugin.git
 https://github.com/gelguy/cmd2.vim
 https://github.com/mattesgroeger/vim-bookmarks
 https://github.com/szw/vim-ctrlspace
-https://github.com/jistr/vim-nerdtree-tabs.git
 );
 
 cd ~/.config/nvim/bundle/
@@ -66,6 +65,7 @@ echo "================================Linking nvim "
 cd "$SOURCE/nvim-plugs"
 ln -fv dark.vim ~/.config/nvim/bundle/vim-airline/autoload/airline/themes/
 ln -fv init.vim ~/.config/nvim/
+ln -fv init.vim ~/.vimrc
 echo "================================Need password to access /usr/share/nvim/runtime/colors/ to put in snow.vim and .adb in /bin/"
 sudo ln -fv snow.vim /usr/share/nvim/runtime/colors/snow.vim
 
