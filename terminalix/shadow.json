@@ -1,11 +1,10 @@
 {
     "background-color": "#FFFFFF",
     "badge-color": "#FFFFFF",
-    "bold-color": "#FFFFFF",
     "comment": "",
     "cursor-background-color": "#000000",
     "cursor-foreground-color": "#FFFFFF",
-    "dim-color": "#000000",
+    "dim-color": "#FCAF3E",
     "foreground-color": "#000000",
     "highlight-background-color": "#000000",
     "highlight-foreground-color": "#FFFFFF",
@@ -29,9 +28,8 @@
         "#AD86C5"
     ],
     "use-badge-color": false,
-    "use-bold-color": false,
     "use-cursor-color": false,
-    "use-dim-color": false,
+    "use-dim-color": true,
     "use-highlight-color": false,
     "use-theme-colors": false
 }

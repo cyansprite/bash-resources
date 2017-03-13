@@ -8,11 +8,14 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
     tnoremap <Esc> <C-\><C-n>
     nmap     <C-F> <Plug>CtrlSFPrompt
     vmap     <C-F> <Plug>CtrlSFVwordPath
-    let g:golden_ratio_exclude_nonmodifiable = 1
 
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
     let g:airline_powerline_fonts = 1
     let g:airline#extensions#tabline#enabled = 1
-    let g:airline#extensions#tabline#enabled = 1
+    let g:ctrlp_map = '<c-space>'
+    map <c-p> :CtrlPMRU<cr>
+    let g:ctrlp_switch_buffer = 'et'
 
     cmap <F12> <Plug>(Cmd2Suggest)
     nmap / /<F12>
@@ -28,9 +31,9 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 "being vim source {{{│
 "XTerm*cursorBlink: on
-    set fillchars=vert:⏽,stlnc:-,stl:~,fold:,diff:
-    set foldmethod=syntax
-    set scrolloff=0
+    set fillchars=vert:⏽,stlnc:-,stl:=,fold:,diff:
+    set foldmethod=marker
+    set scrolloff=999              "Always have cursor in middle of screen
     set scrolljump=-50
     set shiftwidth=4               " Use indents of 4 spaces
     set tabstop=4                  " An indentation every four columns
@@ -92,11 +95,11 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
     nnoremap <CR> $
     nnoremap 0 ^
     nnoremap <bs> ^
-    nnoremap q :q
 
     map <C-s> <C-Y><C-Y><C-Y><C-Y>
+    map <PageUp> <C-S>
     map <C-D> <C-E><C-E><C-E><C-E>
-
+    map <PageDown> <C-D>
     " Highlight all instances of word under cursor, when idle.
     " Useful when studying strange source code.
     " Type z/ to toggle highlighting on/off.
@@ -132,6 +135,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 "end color }}}
 
 "Aucmd time! {{{
+"Support for tagbar and ctrlsf
     let g:doGoldRatioActive=1
     let g:GoldRatio=1.6
     let g:doAutoNumInActive=1

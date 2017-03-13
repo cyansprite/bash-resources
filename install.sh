@@ -16,7 +16,7 @@ https://github.com/godlygeek/tabular
 https://github.com/vim-airline/vim-airline
 https://github.com/bronson/vim-trailing-whitespace
 https://github.com/valloric/youcompleteme
-#https://github.com/tpope/vim-fugitive
+https://github.com/tpope/vim-fugitive
 https://github.com/guns/xterm-color-table.vim
 https://github.com/majutsushi/tagbar
 git://github.com/airblade/vim-gitgutter
@@ -57,11 +57,19 @@ cd "$SOURCE/nvim-plugs"
 if [ ! -d ~/.config/nvim/colors ] ; then
     mkdir ~/.config/nvim/colors
 fi
+if [ ! -d ~/.config/nvim/after/syntax ] ; then
+    mkdir -p ~/.config/nvim/after/syntax
+fi
+if [ ! -d ~/.local/share/fonts ] ; then
+    mkdir ~/.local/share/fonts
+    cp * ~/.local/share/fonts
+else
 ln -fv dark.vim ~/.config/nvim/bundle/vim-airline/autoload/airline/themes/
 ln -fv init.vim ~/.config/nvim/
 ln -fv init.vim ~/.vimrc
 ln -fv ice.vim ~/.config/nvim/colors
 ln -fv shadow.vim ~/.config/nvim/colors
+ln -fv vim.vim ~/.config/nvim/after/syntax
 
 #resources time
 echo "================================Linking bashrc and inputrc to home "
@@ -77,5 +85,6 @@ ln -fv elemental.jpg ~/Pictures
 echo "================================And finally, terminix's json "
 cd "$SOURCE/terminalix"
 ln -fv snow.json ~/.config/terminix/schemes
+ln -fv shadow.json ~/.config/terminix/schemes
 
 echo "================================Fin linking!"
