@@ -26,11 +26,10 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
     let g:neomake_cs_enabled_makers = ['mcs']
 "End pathogen }}}
 
-"being vim source {{{│
+"being vim source {{{│
 "XTerm*cursorBlink: on
-    set fillchars=vert:⏽,stlnc:-,stl:\|,fold:,diff:
-    set foldmethod=indent
-    set foldlevel=20
+    set fillchars=vert:⏽,stlnc:-,stl:~,fold:,diff:
+    set foldmethod=syntax
     set scrolloff=0
     set scrolljump=-50
     set shiftwidth=4               " Use indents of 4 spaces
@@ -62,7 +61,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
     "Map control + x to cut current text into clipboard
     vmap <c-x> "+x
     "map control + v in insert mode to paste
-    imap <C-v> <esc>"+Pi
+    imap <C-v> <esc>"+pi
     imap <C-f> <C-o>
     vmap <C-v> "+P
     vmap <C-c> "+Y
@@ -129,7 +128,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 "color {{{
     set t_Co=256
-    colorscheme shift
+    colorscheme shadow
 "end color }}}
 
 "Aucmd time! {{{

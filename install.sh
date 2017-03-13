@@ -17,13 +17,13 @@ https://github.com/vim-airline/vim-airline
 https://github.com/bronson/vim-trailing-whitespace
 https://github.com/valloric/youcompleteme
 #https://github.com/tpope/vim-fugitive
-https://github.com/guns/xterm-color-table.vim.git
+https://github.com/guns/xterm-color-table.vim
 https://github.com/majutsushi/tagbar
-git://github.com/airblade/vim-gitgutter.git
+git://github.com/airblade/vim-gitgutter
 https://github.com/dyng/ctrlsf.vim
 #https://github.com/jiangmiao/auto-pairs
 https://github.com/ryanoasis/vim-devicons
-git clone https://github.com/dietsche/vim-lastplace
+https://github.com/dietsche/vim-lastplace
 #https://github.com/mhinz/vim-startify
 https://github.com/gelguy/cmd2.vim
 https://github.com/mattesgroeger/vim-bookmarks
@@ -42,21 +42,26 @@ done
 
 #make sure we have nice font
 cd "$SOURCE/fonts"
-echo "================================Copying fonts to ~/.fonts/ "
+echo "================================Copying fonts to ~/.local/share/fonts/ "
 if [ ! -d ~/.local/share/fonts ] ; then
     mkdir ~/.local/share/fonts
+    cp * ~/.local/share/fonts
+else
+    echo "Fonts dir already exists!"
 fi
-cp --verbose * ~/.local/share/fonts
+
 #/usr/share/nvim/runtime/colors
 #make sure we neovim stuffs
 echo "================================Linking nvim "
 cd "$SOURCE/nvim-plugs"
+if [ ! -d ~/.config/nvim/colors ] ; then
+    mkdir ~/.config/nvim/colors
+fi
 ln -fv dark.vim ~/.config/nvim/bundle/vim-airline/autoload/airline/themes/
 ln -fv init.vim ~/.config/nvim/
 ln -fv init.vim ~/.vimrc
-echo "================================Need password to access /usr/share/nvim/runtime/colors/ to put in snow.vim and ice.vim and .adb in /bin/"
-sudo cp -fv snow.vim /usr/share/nvim/runtime/colors/snow.vim
-sudo cp -fv ice.vim /usr/share/nvim/runtime/colors/snow.vim
+ln -fv ice.vim ~/.config/nvim/colors
+ln -fv shadow.vim ~/.config/nvim/colors
 
 #resources time
 echo "================================Linking bashrc and inputrc to home "
@@ -64,7 +69,6 @@ cd "$SOURCE"
 ln -fv .bashrc ~/.bashrc
 ln -fv .inputrc ~/.inputrc
 ln -fv .tmux.conf ~/.tmux.conf
-sudo ln -fv .adb /bin/adb.txt
 
 echo "================================Linking wallpapers to Pictures "
 cd "$SOURCE/ims"
