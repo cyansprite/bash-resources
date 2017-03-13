@@ -1,5 +1,4 @@
 "The single most important line to me
-set all&
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 "Begin pathogen {{{
@@ -29,7 +28,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 "being vim source {{{│
 "XTerm*cursorBlink: on
-    set fillchars=vert:⏽,stlnc:-,stl:+,fold:,diff:
+    set fillchars=vert:⏽,stlnc:-,stl:\|,fold:,diff:
     set foldmethod=indent
     set foldlevel=20
     set scrolloff=0
@@ -130,7 +129,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 "color {{{
     set t_Co=256
-    colorscheme ice
+    colorscheme shift
 "end color }}}
 
 "Aucmd time! {{{
@@ -149,6 +148,9 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
             setlocal number nonumber
             setlocal relativenumber norelativenumber
         endif
+        if(&modifiable && g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
+            call setwinvar(winnr(),'&colorcolumn',join(range(1,&columns),','))
+        endif
     endfunction
 
     function! EnterWin()
@@ -162,6 +164,9 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
         if(&modifiable && g:doAutoNumInActive)
             setlocal number number
             setlocal relativenumber
+        endif
+        if(&modifiable && g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
+            call setwinvar(winnr(),'&colorcolumn',0)
         endif
     endfunction
     "end aucmd!! }}}

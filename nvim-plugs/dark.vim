@@ -43,7 +43,7 @@ let g:airline#themes#dark#palette.inactive_modified = {
        \ }
 
 let g:airline#themes#dark#palette.tabline = {
-      \ 'airline_tab':      ['' , '' , 250 , 232 , '' ],
+      \ 'airline_tab':      ['' , '' , 250 , 231 , '' ],
       \ 'airline_tabsel':   ['' , '' , 232 , 231 , '' ],
       \ 'airline_tabtype':  ['' , '' , 188 , 235 , '' ],
       \ 'airline_tabfill':  ['' , '' , 188 , 235 , '' ],
