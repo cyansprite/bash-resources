@@ -63,7 +63,7 @@ fi
 if [ ! -d ~/.local/share/fonts ] ; then
     mkdir ~/.local/share/fonts
     cp * ~/.local/share/fonts
-else
+fi
 ln -fv dark.vim ~/.config/nvim/bundle/vim-airline/autoload/airline/themes/
 ln -fv init.vim ~/.config/nvim/
 ln -fv init.vim ~/.vimrc

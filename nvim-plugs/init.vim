@@ -33,8 +33,8 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 "XTerm*cursorBlink: on
     set fillchars=vert:⏽,stlnc:-,stl:=,fold:,diff:
     set foldmethod=marker
-    set scrolloff=999              "Always have cursor in middle of screen
-    set scrolljump=-50
+    set scrolloff=0              "Always have cursor in middle of screen
+    set scrolljump=0
     set shiftwidth=4               " Use indents of 4 spaces
     set tabstop=4                  " An indentation every four columns
     set softtabstop=4              " Let backspace delete indent
@@ -92,14 +92,11 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
     "Copy full path of filename to black hole
     nnoremap <M-Y> :let @" = expand("%:p")<cr>
-    nnoremap <CR> $
-    nnoremap 0 ^
-    nnoremap <bs> ^
 
-    map <C-s> <C-Y><C-Y><C-Y><C-Y>
-    map <PageUp> <C-S>
-    map <C-D> <C-E><C-E><C-E><C-E>
-    map <PageDown> <C-D>
+    map <PageUp> <C-Y><C-Y><C-Y><C-Y>
+    map <Pagedown> <C-E><C-E><C-E><C-E>
+    map <s-PageUp> <C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>
+    map <s-Pagedown> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
     " Highlight all instances of word under cursor, when idle.
     " Useful when studying strange source code.
     " Type z/ to toggle highlighting on/off.
@@ -132,6 +129,47 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 "color {{{
     set t_Co=256
     colorscheme shadow
+    let g:theme=0
+    let g:colorList=[[231,232,235,236,237,233,240,],
+                    \[232,231,255,254,254,255,253,]]
+    nnoremap <F9> :cal ColorMeHappy()<cr>
+    "switch between light and dark theme with <F9> {{{
+    fun! ColorMeHappy()
+        syntax reset
+        let g:theme=xor(1,g:theme)
+        let start=255
+        let end=233
+        let acc=-1
+        if g:theme
+            let start=233
+            let end=255
+            let acc=1
+        endif
+        while start != end
+            exec printf("hi Normal ctermbg=%d",start)
+            sleep 10m
+            let start = start + acc
+        endwhile
+        exec printf("hi Normal ctermfg=%d ctermbg=%d cterm=NONE"      , g:colorList[g:theme][0]  , g:colorList[g:theme][1])
+        exec printf("hi Pmenu ctermfg=73 ctermbg=%d cterm=NONE"       , g:colorList[g:theme][2])
+        exec printf("hi Visual ctermfg=NONE ctermbg=%d cterm=NONE"    , g:colorList[g:theme][2])
+        exec printf("hi Incsearch ctermfg=NONE ctermbg=%d cterm=NONE" , g:colorList[g:theme][2])
+        exec printf("hi PmenuSel ctermfg=80 ctermbg=%d cterm=NONE"    , g:colorList[g:theme][3])
+        exec printf("hi Tag ctermfg=NONE ctermbg=%d cterm=NONE"       , g:colorList[g:theme][3])
+        exec printf("hi Question ctermfg=NONE ctermbg=%d cterm=NONE"  , g:colorList[g:theme][3])
+        exec printf("hi Ignore ctermfg=NONE ctermbg=%d cterm=NONE"    , g:colorList[g:theme][3])
+        exec printf("hi MoreMsg ctermfg=45 ctermbg=%d cterm=NONE"     , g:colorList[g:theme][3])
+        exec printf("hi ModeMsg ctermfg=45 ctermbg=%d cterm=NONE"     , g:colorList[g:theme][3])
+        exec printf("hi WarningMsg ctermfg=178 ctermbg=%d cterm=NONE" , g:colorList[g:theme][3])
+        exec printf("hi ErrorMsg ctermfg=203 ctermbg=%d cterm=NONE"   , g:colorList[g:theme][3])
+        exec printf("hi Error ctermfg=160 ctermbg=%d cterm=NONE"      , g:colorList[g:theme][3])
+        exec printf("hi Search ctermfg=NONE ctermbg=%d cterm=NONE"    , g:colorList[g:theme][4])
+        exec printf("hi WildMenu ctermfg=NONE ctermbg=%d cterm=NONE"  , g:colorList[g:theme][4])
+        exec printf("hi Folded ctermfg=NONE ctermbg=%d cterm=NONE"    , g:colorList[g:theme][5])
+        exec printf("hi SearchNC ctermfg=NONE ctermbg=%d cterm=NONE"  , g:colorList[g:theme][6])
+        cal g:HandleOtherColors()
+    endfun
+    "}}}
 "end color }}}
 
 "Aucmd time! {{{
