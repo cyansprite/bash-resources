@@ -14,7 +14,8 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
     let g:airline_powerline_fonts = 1
     let g:airline#extensions#tabline#enabled = 1
     let g:ctrlp_map = '<c-space>'
-    map <c-p> :CtrlPMRU<cr>
+    nmap <c-p> :CtrlPMRU<cr>
+    nmap <c-b> :CtrlPBuffer<cr>
     let g:ctrlp_switch_buffer = 'et'
 
     cmap <F12> <Plug>(Cmd2Suggest)
@@ -34,13 +35,9 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 "being vim source {{{│
 "XTerm*cursorBlink: on
     set fillchars=vert:⏽,stlnc:-,stl:=,fold:,diff:
-<<<<<<< HEAD
-    set foldmethod=marker
-    set updatetime=500
-=======
     set foldmethod=manual
->>>>>>> 1ef679d0b7ee91648fbdbe0fb581e3cf8e8112ef
-    set scrolloff=0              "Always have cursor in middle of screen
+    set updatetime=2000
+    set foldmethod=manual
     set scrolljump=0
     set shiftwidth=4               " Use indents of 4 spaces
     set tabstop=4                  " An indentation every four columns
@@ -57,11 +54,14 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
     set ignorecase
     set smartcase
     set smartindent
+    set winwidth=1
+    set equalalways noequalalways
     set smarttab
     set list
-    if &modifiable | set number | set relativenumber | endif "If it's modifable, turn on numbers
+    if &modifiable | set number | endif "If it's modifable, turn on numbers
     set wrap nowrap
     inoremap  
+    nnoremap  i
     set showmatch      " Show matching brackets/parentthesis
     set matchtime=1    " Show matching time
     set report=0       " Always report changed lines
@@ -69,13 +69,11 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 "Map Stuff and functions {{{
     "Map control + x to cut current text into clipboard
-    vmap <c-x> "+x
     "map control + v in insert mode to paste
     imap <C-v> <esc>"+pi
-    imap <C-f> <C-o>
     vmap <C-v> "+P
     vmap <C-c> "+Y
-    vnoremap i <s-i>
+    vmap <c-x> "+x
     nnoremap <F6> :%s/<C-r><C-w>/
 
     "Map c-leftright to switch between buffers, ctrlupdown for taps
@@ -102,8 +100,6 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
     map <PageUp> <C-Y><C-Y><C-Y><C-Y>
     map <Pagedown> <C-E><C-E><C-E><C-E>
-    map <s-PageUp> <C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>
-    map <s-Pagedown> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
     " Highlight all instances of word under cursor, when idle.
     " Useful when studying strange source code.
     " Type z/ to toggle highlighting on/off.
@@ -183,6 +179,9 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
     let g:GoldRatio=1.6
     let g:doAutoNumInActive=1
     let g:doAutoDimInactive=1
+
+    autocmd CursorHold * if &number | set relativenumber | endif
+    autocmd CursorMoved * if &relativenumber | set relativenumber norelativenumber | endif
     autocmd WinEnter * cal EnterWin()
     autocmd WinLeave * cal LeaveWin()
 
@@ -204,12 +203,16 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
         let windowCount = winnr('$')
 
         if(g:doGoldRatioActive && (&modifiable || (&lines-winheight(curWinIndex) != 3)))
-            exec printf("vertical resize %d", float2nr(&columns/g:GoldRatio))
+            let ratio = &columns/g:GoldRatio
+            for i in range(1,windowCount)
+                echo ratio/windowCount
+                exec printf("vertical resize %d", float2nr((ratio)/(windowCount)))
+            endfor
+            exec printf("vertical resize %d", float2nr(ratio))
         endif
 
         if(&modifiable && g:doAutoNumInActive)
             setlocal number number
-            setlocal relativenumber
         endif
         if(&modifiable && g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
             call setwinvar(winnr(),'&colorcolumn',0)
