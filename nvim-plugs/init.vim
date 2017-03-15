@@ -20,8 +20,10 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
     cmap <F12> <Plug>(Cmd2Suggest)
     nmap / /<F12>
     nmap <F8> :TagbarToggle<CR>
+    nmap <c-n> :NERDTreeToggle<cr>
 
     let g:bookmark_sign = "★"
+    let g:bookmark_save_per_working_dir = 1
     nmap <silent> <C-g> :GitGutterNextHunk<CR>
     autocmd VimEnter * GitGutterToggle
     nnoremap gn :GitGutterNextHunk<cr>
@@ -33,6 +35,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 "XTerm*cursorBlink: on
     set fillchars=vert:⏽,stlnc:-,stl:=,fold:,diff:
     set foldmethod=marker
+    set updatetime=500
     set scrolloff=0              "Always have cursor in middle of screen
     set scrolljump=0
     set shiftwidth=4               " Use indents of 4 spaces
@@ -100,13 +103,11 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
     " Highlight all instances of word under cursor, when idle.
     " Useful when studying strange source code.
     " Type z/ to toggle highlighting on/off.
-    nnoremap <F1> :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
     function! AutoHighlightToggle()
         let @/ = ''
         if exists('#auto_highlight')
             au! auto_highlight
             augroup! auto_highlight
-                setl updatetime=4000
                 echo 'Highlight current word: off'
                 return 0
             else
@@ -114,11 +115,11 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
                     au!
                     au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
                 augroup end
-                    setl updatetime=500
                     echo 'Highlight current word: ON'
                     return 1
             endif
     endfunction
+    nnoremap <F1> :if AutoHighlightToggle() <Bar> endif<CR>
 
     "I like playing with colors
     map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
