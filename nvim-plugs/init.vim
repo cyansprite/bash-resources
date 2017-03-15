@@ -32,7 +32,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 "being vim source {{{│
 "XTerm*cursorBlink: on
     set fillchars=vert:⏽,stlnc:-,stl:=,fold:,diff:
-    set foldmethod=marker
+    set foldmethod=manual
     set scrolloff=0              "Always have cursor in middle of screen
     set scrolljump=0
     set shiftwidth=4               " Use indents of 4 spaces
@@ -130,7 +130,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
     set t_Co=256
     colorscheme shadow
     let g:theme=0
-    let g:colorList=[[231,232,235,236,237,233,240,],
+    let g:colorList=[[231,232,235,236,237,238,240,],
                     \[232,231,255,254,254,255,253,]]
     nnoremap <F9> :cal ColorMeHappy()<cr>
     "switch between light and dark theme with <F9> {{{
