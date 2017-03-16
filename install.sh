@@ -19,12 +19,9 @@ https://github.com/valloric/youcompleteme
 https://github.com/tpope/vim-fugitive
 https://github.com/guns/xterm-color-table.vim
 https://github.com/majutsushi/tagbar
-git://github.com/airblade/vim-gitgutter
 https://github.com/dyng/ctrlsf.vim
-#https://github.com/jiangmiao/auto-pairs
 https://github.com/ryanoasis/vim-devicons
 https://github.com/dietsche/vim-lastplace
-#https://github.com/mhinz/vim-startify
 https://github.com/gelguy/cmd2.vim
 https://github.com/mattesgroeger/vim-bookmarks
 );

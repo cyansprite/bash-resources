@@ -4,17 +4,17 @@ let g:airline#themes#dark#palette.accents = {
       \ 'red': [ '' , '' , '' , '' , '' ],
       \ }
 "shadow
-let s:N1 = [ '' , '' , 2 , '' ]
-let s:N2 = [ '' , '' , 2 , '' ]
-let s:N3 = [ '' , '' , 2 , '' ]
+let s:N1 = [ '' , '' , 112 , '' ]
+let s:N2 = [ '' , '' , 112 , '' ]
+let s:N3 = [ '' , '' , 112 , '' ]
 let g:airline#themes#dark#palette.normal = airline#themes#generate_color_map(s:N1, s:N2, s:N3)
 let g:airline#themes#dark#palette.normal_modified = {
       \ 'airline_c': [ '' , '' , 12 , '' , 'bold' ] ,
       \ }
 "cyan
-let s:I1 = [ '' , '' , 6 , '' ]
-let s:I2 = [ '' , '' , 14 , '' ]
-let s:I3 = [ '' , '' , 6 , '' ]
+let s:I1 = [ '' , '' , 81 , '' ]
+let s:I2 = [ '' , '' , 81 , '' ]
+let s:I3 = [ '' , '' , 81 , '' ]
 let g:airline#themes#dark#palette.insert = airline#themes#generate_color_map(s:I1, s:I2, s:I3)
 "blue
 let g:airline#themes#dark#palette.insert_modified = {
@@ -29,9 +29,9 @@ let g:airline#themes#dark#palette.replace.airline_a = [ '#' , s:I1[1] , 1 , s:I1
 let g:airline#themes#dark#palette.replace.airline_z = [ '#' , s:I1[1] , 1 , s:I1[3] , '' ]
 let g:airline#themes#dark#palette.replace_modified = g:airline#themes#dark#palette.insert_modified
 "purple
-let s:V1 = [ '' , '' , 5 , '' ]
-let s:V2 = [ '' , '' , 5 , '' ]
-let s:V3 = [ '' , '' , 5 , '' ]
+let s:V1 = [ '' , '' , 165 , '' ]
+let s:V2 = [ '' , '' , 165 , '' ]
+let s:V3 = [ '' , '' , 165 , '' ]
 "blue
 let g:airline#themes#dark#palette.visual = airline#themes#generate_color_map(s:V1, s:V2, s:V3)
 let g:airline#themes#dark#palette.visual_modified = {
