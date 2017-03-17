@@ -3,6 +3,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 "Begin pathogen {{{
 execute pathogen#infect()
+call pathogen#helptags()
 let g:gradle_path = '/home/joj/bin/android-studio/gradle/gradle-2.14.1'
 let g:android_sdk_path = '/home/joj/Android/Sdk'
 tnoremap <Esc> <C-\><C-n>
@@ -21,14 +22,24 @@ let g:airline#extensions#tabline#right_alt_sep = ''
 call g:airline#parts#define_accent('file','italic')
 call g:airline#parts#define_accent('filetype','italic')
 
+let g:ctrlp_line_prefix = ''
 let g:ctrlp_map = '<c-space>'
+let g:ctrlp_mruf_max=30
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:20'
+let g:ctrlp_switch_buffer = 'etvh'
 nmap <c-p> :CtrlPMRU<cr>
 nmap <c-b> :CtrlPBuffer<cr>
-let g:ctrlp_switch_buffer = 'et'
+nmap <c-w> :CtrlPBookmarkDir<cr>
+nmap <m-]> :CtrlPTag<cr>
+
+let gutentags_add_default_project_roots = 1
 
 cmap <F12> <Plug>(Cmd2Suggest)
 nmap / /<F12>
 nmap <F8> :TagbarToggle<CR>
+let g:tagbar_width = 30
+let g:ctrlsf_winsize='20%'
+
 nmap <c-n> :NERDTreeToggle<cr>
 
 let g:bookmark_sign = "★"
@@ -42,6 +53,9 @@ set fillchars=vert:⏽,stlnc:-,stl:=,fold:,diff:
 set foldmethod=manual
 set updatetime=500
 set foldmethod=manual
+set lazyredraw
+set cmdwinheight=10
+set cmdheight=1
 set scrolljump=0
 set shiftwidth=4               " Use indents of 4 spaces
 set tabstop=4                  " An indentation every four columns
@@ -179,27 +193,12 @@ function! AutoHighlightToggle()
         let g:doGoldRatioActive=1
         let g:GoldRatio=1.6
         let g:doAutoNumInActive=1
-        let g:doAutoDimInactive=1
-        let g:doTabOnlyAirline=1
+        let g:doAutoDimInactive=0
 
-
-        autocmd TabEnter,TabLeave * cal NewTab()
         autocmd CursorHold * if &number | set relativenumber | endif
         autocmd CursorMoved * if &relativenumber | set relativenumber norelativenumber | endif
         autocmd WinEnter * cal EnterWin()
         autocmd WinLeave * cal LeaveWin()
-
-        function! NewTab()
-            let tabCount = tabpagenr('$')
-            if(g:doTabOnlyAirline)
-                if(tabCount > 1)
-                    let g:airline#extensions#tabline#enabled = 1
-                elseif(tabCount == 1)
-                    let g:airline#extensions#tabline#enabled = 0
-                endif
-                exec printf("%s","AirlineRefresh")
-            endif
-        endfun
 
         function! LeaveWin()
             let curWinIndex = winnr()
@@ -217,6 +216,10 @@ function! AutoHighlightToggle()
         function! EnterWin()
             let curWinIndex = winnr()
             let windowCount = winnr('$')
+            echo &filetype
+            if (&filetype == "ctrlsf" || &filetype == "tagbar")
+                return
+            endif
 
             if(g:doGoldRatioActive && (&modifiable || (&lines-winheight(curWinIndex) != 3)))
                 let ratio = &columns/g:GoldRatio

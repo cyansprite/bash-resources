@@ -86,6 +86,7 @@ fun! g:HandleOtherColors()
     hi Number                     ctermfg=165   ctermbg=NONE cterm=bold
     hi Conditional                ctermfg=105   ctermbg=NONE cterm=bold
     hi DiffText                   ctermfg=102   ctermbg=NONE cterm=NONE
+    hi link notesSubtleURL Directory
 endfun
 
 cal g:HandleOtherColors()
