@@ -18,17 +18,17 @@ hi ColorColumn                ctermfg=NONE ctermbg=NONE cterm=NONE
 "Bg colors :
 hi SearchNc                   ctermfg=NONE ctermbg=240  cterm=underline
 hi Folded                     ctermfg=NONE ctermbg=237  cterm=underline
-hi WildMenu                   ctermfg=6    ctermbg=236  cterm=bold,underline
+hi WildMenu                   ctermfg=45   ctermbg=236  cterm=bold,underline
 hi Search                     ctermfg=NONE ctermbg=236  cterm=underline
-hi Error                      ctermfg=1    ctermbg=235  cterm=NONE
-hi ErrorMsg                   ctermfg=1    ctermbg=235  cterm=NONE
-hi WarningMsg                 ctermfg=3    ctermbg=235  cterm=NONE
-hi ModeMsg                    ctermfg=12   ctermbg=235  cterm=NONE
-hi MoreMsg                    ctermfg=12   ctermbg=235  cterm=NONE
-hi Ignore                     ctermfg=12   ctermbg=235  cterm=NONE
-hi Question                   ctermfg=12   ctermbg=235  cterm=NONE
-hi Tag                        ctermfg=12   ctermbg=235  cterm=NONE
-hi PmenuSel                   ctermfg=6    ctermbg=235  cterm=NONE
+hi Error                      ctermfg=196  ctermbg=235  cterm=NONE
+hi ErrorMsg                   ctermfg=196  ctermbg=235  cterm=NONE
+hi WarningMsg                 ctermfg=118  ctermbg=235  cterm=NONE
+hi ModeMsg                    ctermfg=39   ctermbg=235  cterm=NONE
+hi MoreMsg                    ctermfg=39   ctermbg=235  cterm=NONE
+hi Ignore                     ctermfg=39   ctermbg=235  cterm=NONE
+hi Question                   ctermfg=39   ctermbg=235  cterm=NONE
+hi Tag                        ctermfg=46   ctermbg=235  cterm=NONE
+hi PmenuSel                   ctermfg=36   ctermbg=235  cterm=NONE
 hi IncSearch                  ctermfg=NONE ctermbg=235  cterm=underline
 hi visual                     ctermfg=NONE ctermbg=234  cterm=NONE
 hi Pmenu                      ctermfg=NONE ctermbg=234  cterm=NONE

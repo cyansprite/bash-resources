@@ -12,21 +12,24 @@ fi
 
 #make sure we have all the plugins we need!
 declare -a GITURLS=(
-https://github.com/godlygeek/tabular
-https://github.com/vim-airline/vim-airline
-https://github.com/bronson/vim-trailing-whitespace
-https://github.com/valloric/youcompleteme
-https://github.com/tpope/vim-fugitive
-https://github.com/guns/xterm-color-table.vim
-https://github.com/majutsushi/tagbar
-https://github.com/dyng/ctrlsf.vim
-https://github.com/ryanoasis/vim-devicons
-https://github.com/dietsche/vim-lastplace
-https://github.com/gelguy/cmd2.vim
-https://github.com/mattesgroeger/vim-bookmarks
-https://github.com/xolox/vim-misc
-https://github.com/xolox/vim-notes
-https://github.com/ludovicchabant/vim-gutentags
+    https://github.com/godlygeek/tabular
+    https://github.com/vim-airline/vim-airline
+    https://github.com/bronson/vim-trailing-whitespace
+    https://github.com/valloric/youcompleteme
+    https://github.com/tpope/vim-fugitive
+    https://github.com/guns/xterm-color-table.vim
+    https://github.com/majutsushi/tagbar
+    https://github.com/dyng/ctrlsf.vim
+    https://github.com/ryanoasis/vim-devicons
+    https://github.com/dietsche/vim-lastplace
+    https://github.com/gelguy/cmd2.vim
+    https://github.com/mattesgroeger/vim-bookmarks
+    https://github.com/xolox/vim-misc
+    https://github.com/xolox/vim-notes
+    https://github.com/ludovicchabant/vim-gutentags
+    https://github.com/ctrlpvim/ctrlp.vim
+    https://github.com/scrooloose/nerdtree
+    git://github.com/airblade/vim-gitgutter
 );
 
 cd ~/.config/nvim/bundle/

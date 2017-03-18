@@ -52,7 +52,6 @@ let g:neomake_cs_enabled_makers = ['mcs']
 set fillchars=vert:⏽,stlnc:-,stl:=,fold:,diff:
 set foldmethod=manual
 set updatetime=500
-set foldmethod=manual
 set lazyredraw
 set cmdwinheight=10
 set cmdheight=1
@@ -193,7 +192,7 @@ function! AutoHighlightToggle()
         let g:doGoldRatioActive=1
         let g:GoldRatio=1.6
         let g:doAutoNumInActive=1
-        let g:doAutoDimInactive=0
+        let g:doAutoDimInactive=1
 
         autocmd CursorHold * if &number | set relativenumber | endif
         autocmd CursorMoved * if &relativenumber | set relativenumber norelativenumber | endif
@@ -216,10 +215,6 @@ function! AutoHighlightToggle()
         function! EnterWin()
             let curWinIndex = winnr()
             let windowCount = winnr('$')
-            echo &filetype
-            if (&filetype == "ctrlsf" || &filetype == "tagbar")
-                return
-            endif
 
             if(g:doGoldRatioActive && (&modifiable || (&lines-winheight(curWinIndex) != 3)))
                 let ratio = &columns/g:GoldRatio
