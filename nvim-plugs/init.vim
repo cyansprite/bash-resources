@@ -15,12 +15,10 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#tab_nr_type = 2 " splits and tab number
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
 call g:airline#parts#define_accent('file','italic')
 call g:airline#parts#define_accent('filetype','italic')
+
+autocmd Vimenter * GitGutterDisable
 
 let g:ctrlp_line_prefix = ''
 let g:ctrlp_map = '<c-space>'
@@ -93,11 +91,11 @@ vmap <C-c> "+y
 vmap <c-x> "+x
 nnoremap <F6> :%s/<C-r><C-w>/
 
-"Map c-leftright to switch between buffers, ctrlupdown for taps
-"nnoremap <C-left> :bp<cr>
-"nnoremap <C-right> :bn<cr>
-nnoremap <C-up> :tabprevious<CR>
-nnoremap <C-down> :tabnext<CR>
+"Map c-left and right to switch between buffers
+nnoremap <C-left> :tabprevious<CR>
+nnoremap <C-right> :tabnext<CR>
+nnoremap <C-up> 4k
+nnoremap <C-down> 4j
 
 " Use ctrl-[wasd] to select the active split and s-lrud
 nnoremap <silent> <s-up> :wincmd k<CR>
@@ -122,118 +120,99 @@ function! AutoHighlightToggle()
         au! auto_highlight
         augroup! auto_highlight
             echo 'Highlight current word: off'
-            return 0
-        else
-            augroup auto_highlight
-                au!
-                au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-            augroup end
-                echo 'Highlight current word: ON'
-                return 1
+            return
+    else
+        augroup auto_highlight
+            au!
+            au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+        augroup end
+            echo 'Highlight current word: ON'
+            return 1
+    endif
+endfunction
+nnoremap <F1> :if AutoHighlightToggle() <Bar> endif<CR>
+
+"I like playing with colors
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+            \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+            \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+"end map stuff }}}
+
+"color {{{
+set t_Co=256
+colorscheme shadow
+nnoremap <F9> :cal ColorMeHappy()<cr>
+"switch between light and dark theme with <F9> {{{
+fun! ColorMeHappy()
+    syntax reset
+    let g:theme=xor(1,g:theme)
+    let start=255
+    let end=233
+    let acc=-1
+    if g:theme
+        let start=233
+        let end=255
+        let acc=1
+    endif
+    while start != end
+        exec printf("hi Normal ctermbg=%d",start)
+        sleep 10m
+        let start = start + acc
+    endwhile
+    cal g:HandleBackgroundColors()
+    cal g:HandleOtherColors()
+    exec printf("%s","AirlineRefresh")
+endfun
+"}}}
+"end color }}}
+
+"Aucmd time! {{{
+"Support for tagbar and ctrlsf
+let g:doGoldRatioActive=1
+let g:GoldRatio=1.6
+let g:doAutoNumInActive=1
+let g:doAutoDimInactive=0
+
+autocmd CursorHold * if &number | set relativenumber | endif
+autocmd CursorMoved * if &relativenumber | set relativenumber norelativenumber | endif
+autocmd WinEnter * cal EnterWin()
+autocmd WinLeave * cal LeaveWin()
+
+function! LeaveWin()
+    let curWinIndex = winnr()
+    let windowCount = winnr('$')
+
+    if(&modifiable && g:doAutoNumInActive)
+        setlocal number nonumber
+        setlocal relativenumber norelativenumber
+    endif
+    if(&modifiable && g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
+        call setwinvar(winnr(),'&colorcolumn',join(range(1,&columns),','))
+    endif
+endfunction
+
+function! EnterWin()
+    let curWinIndex = winnr()
+    let windowCount = winnr('$')
+
+    if(g:doGoldRatioActive && (&modifiable || (&lines-winheight(curWinIndex) != 3)))
+        let ratio = &columns/g:GoldRatio
+        let minRatio = float2nr(ratio/windowCount)
+        for i in range(1,winnr('$'))
+            if i != curWinIndex
+                cal setwinvar(i,"&winminwidth",minRatio)
+                cal setwinvar(i,"&winwidth",minRatio)
             endif
-        endfunction
-        nnoremap <F1> :if AutoHighlightToggle() <Bar> endif<CR>
+        endfor
 
-        "I like playing with colors
-        map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-                    \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-                    \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-        "end map stuff }}}
+        exec printf("vertical resize %d", float2nr(ratio))
+    endif
 
-        "color {{{
-        set t_Co=256
-        colorscheme shadow
-        let g:theme=0
-        let g:colorList=[[231,232,235,236,237,238,240,],
-                    \[232,231,255,254,254,255,253,]]
-        nnoremap <F9> :cal ColorMeHappy()<cr>
-        "switch between light and dark theme with <F9> {{{
-        fun! ColorMeHappy()
-            syntax reset
-            let g:theme=xor(1,g:theme)
-            let start=255
-            let end=233
-            let acc=-1
-            if g:theme
-                let start=233
-                let end=255
-                let acc=1
-            endif
-            while start != end
-                exec printf("hi Normal ctermbg=%d",start)
-                sleep 10m
-                let start = start + acc
-            endwhile
-            exec printf("hi Normal ctermfg=%d ctermbg=%d cterm=NONE"      , g:colorList[g:theme][0]  , g:colorList[g:theme][1])
-            exec printf("hi Pmenu ctermfg=73 ctermbg=%d cterm=NONE"       , g:colorList[g:theme][2])
-            exec printf("hi Visual ctermfg=NONE ctermbg=%d cterm=NONE"    , g:colorList[g:theme][2])
-            exec printf("hi Incsearch ctermfg=NONE ctermbg=%d cterm=NONE" , g:colorList[g:theme][2])
-            exec printf("hi PmenuSel ctermfg=80 ctermbg=%d cterm=NONE"    , g:colorList[g:theme][3])
-            exec printf("hi Tag ctermfg=NONE ctermbg=%d cterm=NONE"       , g:colorList[g:theme][3])
-            exec printf("hi Question ctermfg=NONE ctermbg=%d cterm=NONE"  , g:colorList[g:theme][3])
-            exec printf("hi Ignore ctermfg=NONE ctermbg=%d cterm=NONE"    , g:colorList[g:theme][3])
-            exec printf("hi MoreMsg ctermfg=45 ctermbg=%d cterm=NONE"     , g:colorList[g:theme][3])
-            exec printf("hi ModeMsg ctermfg=45 ctermbg=%d cterm=NONE"     , g:colorList[g:theme][3])
-            exec printf("hi WarningMsg ctermfg=178 ctermbg=%d cterm=NONE" , g:colorList[g:theme][3])
-            exec printf("hi ErrorMsg ctermfg=203 ctermbg=%d cterm=NONE"   , g:colorList[g:theme][3])
-            exec printf("hi Error ctermfg=160 ctermbg=%d cterm=NONE"      , g:colorList[g:theme][3])
-            exec printf("hi Search ctermfg=NONE ctermbg=%d cterm=NONE"    , g:colorList[g:theme][4])
-            exec printf("hi WildMenu ctermfg=NONE ctermbg=%d cterm=NONE"  , g:colorList[g:theme][4])
-            exec printf("hi Folded ctermfg=NONE ctermbg=%d cterm=NONE"    , g:colorList[g:theme][5])
-            exec printf("hi SearchNC ctermfg=NONE ctermbg=%d cterm=NONE"  , g:colorList[g:theme][6])
-            cal g:HandleOtherColors()
-            exec printf("%s","AirlineRefresh")
-        endfun
-        "}}}
-        "end color }}}
-
-        "Aucmd time! {{{
-        "Support for tagbar and ctrlsf
-        let g:doGoldRatioActive=1
-        let g:GoldRatio=1.6
-        let g:doAutoNumInActive=1
-        let g:doAutoDimInactive=1
-
-        autocmd CursorHold * if &number | set relativenumber | endif
-        autocmd CursorMoved * if &relativenumber | set relativenumber norelativenumber | endif
-        autocmd WinEnter * cal EnterWin()
-        autocmd WinLeave * cal LeaveWin()
-
-        function! LeaveWin()
-            let curWinIndex = winnr()
-            let windowCount = winnr('$')
-
-            if(&modifiable && g:doAutoNumInActive)
-                setlocal number nonumber
-                setlocal relativenumber norelativenumber
-            endif
-            if(&modifiable && g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
-                call setwinvar(winnr(),'&colorcolumn',join(range(1,&columns),','))
-            endif
-        endfunction
-
-        function! EnterWin()
-            let curWinIndex = winnr()
-            let windowCount = winnr('$')
-
-            if(g:doGoldRatioActive && (&modifiable || (&lines-winheight(curWinIndex) != 3)))
-                let ratio = &columns/g:GoldRatio
-                let minRatio = float2nr(ratio/windowCount)
-                for i in range(1,winnr('$'))
-                    if i != curWinIndex
-                        cal setwinvar(i,"&winminwidth",minRatio)
-                        cal setwinvar(i,"&winwidth",minRatio)
-                    endif
-                endfor
-
-                exec printf("vertical resize %d", float2nr(ratio))
-            endif
-
-            if(&modifiable && g:doAutoNumInActive)
-                setlocal number number
-            endif
-            if(&modifiable && g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
-                call setwinvar(winnr(),'&colorcolumn',0)
-            endif
-        endfunction
-        "end aucmd!! }}}
+    if(&modifiable && g:doAutoNumInActive)
+        setlocal number number
+    endif
+    if(&modifiable && g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
+        call setwinvar(winnr(),'&colorcolumn',0)
+    endif
+endfunction
+"end aucmd!! }}}
