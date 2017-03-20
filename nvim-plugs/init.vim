@@ -43,12 +43,14 @@ nmap <c-n> :NERDTreeToggle<cr>
 let g:bookmark_sign = "★"
 let g:bookmark_save_per_working_dir = 1
 let g:neomake_cs_enabled_makers = ['mcs']
+let g:ycm_error_symbol = ''
+let g:ycm_warning_symbol = ''
 "End pathogen }}}
 
 "being vim source {{{│
 "XTerm*cursorBlink: on
 set fillchars=vert:⏽,stlnc:-,stl:=,fold:,diff:
-set foldmethod=manual
+set foldmethod=syntax
 set updatetime=500
 set lazyredraw
 set cmdwinheight=10
@@ -91,11 +93,21 @@ vmap <C-c> "+y
 vmap <c-x> "+x
 nnoremap <F6> :%s/<C-r><C-w>/
 
-"Map c-left and right to switch between buffers
-nnoremap <C-left> :tabprevious<CR>
-nnoremap <C-right> :tabnext<CR>
-nnoremap <C-up> 4k
-nnoremap <C-down> 4j
+
+"map fold movements
+nnoremap <C-left> [z
+nnoremap <C-right> ]z
+nnoremap <C-up> zk
+inoremap <C-down> zj
+inoremap <C-left> [z
+nnoremap <C-right> ]z
+inoremap <C-up> zk
+inoremap <C-down> zj
+vnoremap <C-left> [z
+vnoremap <C-right> ]z
+vnoremap <C-up> zk
+vnoremap <C-down> zj
+map <F7>  :sp tags<CR>:%s/^\([^ :]*:\)\=\([^    ]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><F12>
 
 " Use ctrl-[wasd] to select the active split and s-lrud
 nnoremap <silent> <s-up> :wincmd k<CR>
@@ -109,6 +121,7 @@ nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 "Copy full path of filename to black hole
 nnoremap <M-Y> :let @" = expand("%:p")<cr>
 
+"Smooth scroll
 map <PageUp> <C-Y><C-Y><C-Y><C-Y>
 map <Pagedown> <C-E><C-E><C-E><C-E>
 " Highlight all instances of word under cursor, when idle.
