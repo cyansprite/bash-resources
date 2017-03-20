@@ -23,8 +23,8 @@ declare -a GITURLS=(
     https://github.com/ryanoasis/vim-devicons
     https://github.com/dietsche/vim-lastplace
     https://github.com/gelguy/cmd2.vim
-    https://github.com/mattesgroeger/vim-bookmarks
     https://github.com/xolox/vim-misc
+    https://github.com/enricobacis/vim-airline-clock
     https://github.com/xolox/vim-notes
     https://github.com/ludovicchabant/vim-gutentags
     https://github.com/ctrlpvim/ctrlp.vim

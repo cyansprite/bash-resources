@@ -18,7 +18,7 @@ let g:airline#extensions#tabline#tab_nr_type = 2 " splits and tab number
 call g:airline#parts#define_accent('file','italic')
 call g:airline#parts#define_accent('filetype','italic')
 
-autocmd Vimenter * GitGutterDisable
+autocmd VimEnter * GitGutterDisable
 
 let g:ctrlp_line_prefix = ''
 let g:ctrlp_map = '<c-space>'
@@ -27,7 +27,6 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:20'
 let g:ctrlp_switch_buffer = 'etvh'
 nmap <c-p> :CtrlPMRU<cr>
 nmap <c-b> :CtrlPBuffer<cr>
-nmap <c-w> :CtrlPBookmarkDir<cr>
 nmap <m-]> :CtrlPTag<cr>
 
 let gutentags_add_default_project_roots = 1
@@ -40,8 +39,6 @@ let g:ctrlsf_winsize='20%'
 
 nmap <c-n> :NERDTreeToggle<cr>
 
-let g:bookmark_sign = "★"
-let g:bookmark_save_per_working_dir = 1
 let g:neomake_cs_enabled_makers = ['mcs']
 let g:ycm_error_symbol = ''
 let g:ycm_warning_symbol = ''
@@ -49,8 +46,8 @@ let g:ycm_warning_symbol = ''
 
 "being vim source {{{│
 "XTerm*cursorBlink: on
-set fillchars=vert:⏽,stlnc:-,stl:=,fold:,diff:
-set foldmethod=syntax
+set cursorline
+set fillchars=vert:⏽,stlnc:-,stl:=,fold:*,diff:
 set updatetime=500
 set lazyredraw
 set cmdwinheight=10
@@ -65,7 +62,6 @@ set splitbelow "when split, split below the window instead of above
 set splitright
 set showcmd                    "Show cmd while typing
 let &showbreak = '↳ '          "Change show break thing
-set cpo=n                      "Show break in line numbers with wrap on
 set listchars=tab:→\ ,trail:·,extends:↷,precedes:↶ "Changes listchars to more suitable chars
 set laststatus=2
 set ignorecase
@@ -93,14 +89,19 @@ vmap <C-c> "+y
 vmap <c-x> "+x
 nnoremap <F6> :%s/<C-r><C-w>/
 
+"Map home and end to ^$ respect'
+nnoremap <End> $
+nnoremap <Home> ^
+vnoremap <End> $
+vnoremap <Home> ^
 
 "map fold movements
 nnoremap <C-left> [z
 nnoremap <C-right> ]z
 nnoremap <C-up> zk
+nnoremap <C-down> zj
 inoremap <C-down> zj
 inoremap <C-left> [z
-nnoremap <C-right> ]z
 inoremap <C-up> zk
 inoremap <C-down> zj
 vnoremap <C-left> [z
@@ -212,7 +213,7 @@ function! EnterWin()
         let ratio = &columns/g:GoldRatio
         let minRatio = float2nr(ratio/windowCount)
         for i in range(1,winnr('$'))
-            if i != curWinIndex
+            if( i != curWinIndex && &winwidth > minRatio)
                 cal setwinvar(i,"&winminwidth",minRatio)
                 cal setwinvar(i,"&winwidth",minRatio)
             endif
@@ -228,4 +229,16 @@ function! EnterWin()
         call setwinvar(winnr(),'&colorcolumn',0)
     endif
 endfunction
+" Go to last file(s) if invoked without arguments.
+autocmd VimLeave * nested if (!isdirectory($HOME . "/.config/nvim")) |
+    \ call mkdir($HOME . "/.config/nvim") |
+    \ endif |
+    \ execute "mksession! " . $HOME . "/.config/nvim/lastSession.vim"
+
+autocmd VimEnter * nested if argc() == 0 && filereadable($HOME . "/.config/nvim/lastSession.vim") |
+    \ execute "source " . $HOME . "/.config/nvim/lastSession.vim"
+augroup vimrc
+    au BufReadPre * setlocal foldmethod=indent
+    au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
+augroup END
 "end aucmd!! }}}
