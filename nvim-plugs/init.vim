@@ -1,22 +1,17 @@
 "The single most important line to me
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+map  \
+map <BS> X
 
 "Begin pathogen {{{
 execute pathogen#infect()
 call pathogen#helptags()
-let g:gradle_path = '/home/joj/bin/android-studio/gradle/gradle-2.14.1'
-let g:android_sdk_path = '/home/joj/Android/Sdk'
-tnoremap <Esc> <C-\><C-n>
-nmap     <C-F> <Plug>CtrlSFPrompt
-vmap     <C-F> <Plug>CtrlSFVwordPath
 
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline#extensions#tabline#tab_nr_type = 2 " splits and tab number
-call g:airline#parts#define_accent('file','italic')
-call g:airline#parts#define_accent('filetype','italic')
+tnoremap <Esc> <C-\><C-n>
+let g:esearch#out#win#open = 'split'
+hi link ESearchMatch SearchNC
+
+let g:gtags_auto_gen=1
 
 autocmd VimEnter * GitGutterDisable
 
@@ -27,7 +22,7 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:20'
 let g:ctrlp_switch_buffer = 'etvh'
 nmap <c-p> :CtrlPMRU<cr>
 nmap <c-b> :CtrlPBuffer<cr>
-nmap <m-]> :CtrlPTag<cr>
+nmap <m-]> :CtrlPFunky<cr>
 
 let gutentags_add_default_project_roots = 1
 
@@ -35,19 +30,29 @@ cmap <F12> <Plug>(Cmd2Suggest)
 nmap / /<F12>
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_width = 30
-let g:ctrlsf_winsize='20%'
 
 nmap <c-n> :NERDTreeToggle<cr>
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeLimitedSyntax = 1
+let g:NERDTreeHighlightFolders = 0 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 
-let g:neomake_cs_enabled_makers = ['mcs']
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
+
 let g:ycm_error_symbol = ''
-let g:ycm_warning_symbol = ''
+let g:ycm_warning_symbol = '>'
 "End pathogen }}}
 
-"being vim source {{{│
-"XTerm*cursorBlink: on
+"being vim source {{{│
+let g:statusActive='%(\ \ \ \ \ %)%'
+set statusline=%#linenr#%(\ %n\ \ \ %P\ \ \ \%)%{&columns}:::%y%f%h%r%w%q%=%l,%c
+"set statusline=...%(\ [%M%R%H]%)...
 set cursorline
-set fillchars=vert:⏽,stlnc:-,stl:=,fold:*,diff:
+set foldmethod=manual
+set fillchars=vert:x,stlnc:.,stl:\ ,fold:*,diff:
 set updatetime=500
 set lazyredraw
 set cmdwinheight=10
@@ -83,7 +88,6 @@ set report=0       " Always report changed lines
 "Map control + x to cut current text into clipboard
 "map control + v in insert mode to paste
 map <silent> <c-q> :bd<cr>
-imap <C-v> <esc>"+pi
 vmap <C-v> "+P
 vmap <C-c> "+y
 vmap <c-x> "+x
@@ -175,7 +179,6 @@ fun! ColorMeHappy()
     endwhile
     cal g:HandleBackgroundColors()
     cal g:HandleOtherColors()
-    exec printf("%s","AirlineRefresh")
 endfun
 "}}}
 "end color }}}
@@ -213,7 +216,7 @@ function! EnterWin()
         let ratio = &columns/g:GoldRatio
         let minRatio = float2nr(ratio/windowCount)
         for i in range(1,winnr('$'))
-            if( i != curWinIndex && &winwidth > minRatio)
+            if( i != curWinIndex )
                 cal setwinvar(i,"&winminwidth",minRatio)
                 cal setwinvar(i,"&winwidth",minRatio)
             endif
@@ -229,16 +232,14 @@ function! EnterWin()
         call setwinvar(winnr(),'&colorcolumn',0)
     endif
 endfunction
-" Go to last file(s) if invoked without arguments.
+
+"I want to save my session on leave automatically
 autocmd VimLeave * nested if (!isdirectory($HOME . "/.config/nvim")) |
     \ call mkdir($HOME . "/.config/nvim") |
     \ endif |
     \ execute "mksession! " . $HOME . "/.config/nvim/lastSession.vim"
-
 autocmd VimEnter * nested if argc() == 0 && filereadable($HOME . "/.config/nvim/lastSession.vim") |
     \ execute "source " . $HOME . "/.config/nvim/lastSession.vim"
-augroup vimrc
-    au BufReadPre * setlocal foldmethod=indent
-    au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
-augroup END
+
+let g:mod=0
 "end aucmd!! }}}

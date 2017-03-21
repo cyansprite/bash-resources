@@ -81,6 +81,6 @@ if !get(g:, 'loaded_ctrlp', 0)
   finish
 endif
 let g:airline#themes#dark#palette.ctrlp = airline#extensions#ctrlp#generate_color_map(
-      \ [ '' , '' , 23 , '' , ''     ] ,
-      \ [ '' , '' , 59 , '' , ''     ] ,
-      \ [ '' , '' , 70 , '' , 'bold'     ] )
+      \ [ '' , '' , 142 , '' , ''     ] ,
+      \ [ '' , '' , g:backcentColor , '' , ''     ] ,
+      \ [ '' , '' , g:selectColor , '' , 'bold'     ] )

@@ -12,6 +12,7 @@ fi
 
 #make sure we have all the plugins we need!
 declare -a GITURLS=(
+    https://github.com/eugen0329/vim-esearch.git
     https://github.com/godlygeek/tabular
     https://github.com/vim-airline/vim-airline
     https://github.com/bronson/vim-trailing-whitespace
@@ -26,10 +27,12 @@ declare -a GITURLS=(
     https://github.com/xolox/vim-misc
     https://github.com/enricobacis/vim-airline-clock
     https://github.com/xolox/vim-notes
-    https://github.com/ludovicchabant/vim-gutentags
     https://github.com/ctrlpvim/ctrlp.vim
+    https://github.com/jsfaint/gen_tags.vim.git
     https://github.com/scrooloose/nerdtree
     git://github.com/airblade/vim-gitgutter
+    https://github.com/tacahiroy/ctrlp-funky
+    https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
 );
 
 cd ~/.config/nvim/bundle/
