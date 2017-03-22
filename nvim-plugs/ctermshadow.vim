@@ -4,7 +4,7 @@ hi clear SpecialKey
 hi clear
 syntax reset
 
-let colors_name = "shadow"
+let colors_name = "cshadow"
 
 "Setting the standard | Will have autcmd to change this from light to dark,and vice
 hi Normal                     ctermfg=231  ctermbg=232  cterm=NONE

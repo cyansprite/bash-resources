@@ -1,7 +1,14 @@
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 set termguicolors
+map <m-i> k
+map <m-j> h
+map <m-k> j
+map <m-l> l
 map  \
 map <BS> X
+map <F5> :w \| colo cyansprite<cr>
+map <s-F5> :so ~/.config/nvim/init.vim<cr>
+imap <c-v> <esc>"+P
 
 "Begin pathogen {{{
 execute pathogen#infect()
@@ -21,8 +28,6 @@ let g:ctrlp_switch_buffer = 'etvh'
 nmap <c-p> :CtrlPMRU<cr>
 nmap <c-b> :CtrlPBuffer<cr>
 nmap <m-]> :CtrlPFunky<cr>
-
-let gutentags_add_default_project_roots = 1
 
 cmap <F12> <Plug>(Cmd2Suggest)
 nmap / /<F12>
@@ -45,16 +50,12 @@ let g:ycm_warning_symbol = ''
 "End pathogen }}}
 
 "being vim source {{{│
-let statStart='%(\ \ \ %)'
-"let statLine='%(\ %l\ %c\ \ %)'
-let statSep='\ \ '
-"set statusline=%#linenr#%(\ %n\ \ \ %P\ \ \ \%)%{&columns}:::%y%f%h%r%w%q%=%l,%c
-"set statusline=...%(\ [%M%R%H]%)...
 set cursorline
 set selectmode=mouse
 set showmode noshowmode
+set hidden
 set foldmethod=manual
-set fillchars=vert:\|,stlnc:.,stl:\ ,fold:*,diff:
+set fillchars=vert:\|,stlnc:\ ,stl:\ ,fold:*,diff:
 set updatetime=500
 set lazyredraw
 set cmdwinheight=10
@@ -80,14 +81,25 @@ set smarttab
 set list
 if &modifiable | set number | endif "If it's modifable, turn on numbers
 set wrap nowrap
-inoremap  
 set showmatch      " Show matching brackets/parentthesis
 set matchtime=1    " Show matching time
 set report=0       " Always report changed lines
 "end vim }}}
 
 "Map Stuff and functions {{{
-map <silent> <c-q> :bd<cr>
+map  
+imap  
+tmap  
+xmap  
+smap  
+omap  
+lmap  
+cmap  
+
+vnoremap <c-c> "+y
+vnoremap <c-v> "+P
+vnoremap <c-x> "+d
+
 nnoremap <F6> :%s/<C-r><C-w>/
 
 "Map home and end to ^$ respect'
@@ -112,6 +124,10 @@ vnoremap <C-down> zj
 map <F7>  :sp tags<CR>:%s/^\([^ :]*:\)\=\([^    ]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><F12>
 
 " Use ctrl-[wasd] to select the active split and s-lrud
+nnoremap <silent> <m-I> :wincmd k<CR>
+nnoremap <silent> <m-K> :wincmd j<CR>
+nnoremap <silent> <m-J> :wincmd h<CR>
+nnoremap <silent> <m-L> :wincmd l<CR>
 nnoremap <silent> <s-up> :wincmd k<CR>
 nnoremap <silent> <s-down> :wincmd j<CR>
 nnoremap <silent> <s-left> :wincmd h<CR>
@@ -126,8 +142,8 @@ nnoremap <M-Y> :let @" = expand("%:p")<cr>
 "Smooth scroll
 map <PageUp> <C-Y><C-Y><C-Y><C-Y>
 map <Pagedown> <C-E><C-E><C-E><C-E>
-imap <PageUp> <C-Y><C-Y><C-Y><C-Y>
-imap <Pagedown> <C-E><C-E><C-E><C-E>
+imap <PageUp> <esc><C-Y><C-Y><C-Y><C-Y>i
+imap <Pagedown> <esc><C-E><C-E><C-E><C-E>i
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
 " Type z/ to toggle highlighting on/off.
@@ -145,7 +161,7 @@ function! AutoHighlightToggle()
         augroup end
             echo 'Highlight current word: ON'
             return 1
-    endif
+    ndif
 endfunction
 nnoremap <F1> :if AutoHighlightToggle() <Bar> endif<CR>
 
@@ -157,7 +173,7 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 
 "color {{{
 set t_Co=256
-colorscheme shadow
+colorscheme cyansprite
 nnoremap <F9> :cal ColorMeHappy()<cr>
 "switch between light and dark theme with <F9> {{{
 fun! ColorMeHappy()
@@ -188,47 +204,51 @@ let g:doGoldRatioActive=0
 let g:GoldRatio=1.6
 let g:doAutoNumInActive=1
 let g:doAutoDimInactive=0
+let g:killInactiveCursor=1
+let g:dynamicStatusLine=1
 
 autocmd CursorHold * if &number | set relativenumber | endif
 autocmd CursorMoved * if &relativenumber | set relativenumber norelativenumber | endif
 autocmd WinEnter * cal EnterWin()
-autocmd WinLeave * cal LeaveWin()
-
-function! LeaveWin()
-    let curWinIndex = winnr()
-    let windowCount = winnr('$')
-
-    if(&modifiable && g:doAutoNumInActive)
-        setlocal number nonumber
-        setlocal relativenumber norelativenumber
-    endif
-    if(&modifiable && g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
-        call setwinvar(winnr(),'&colorcolumn',join(range(1,&columns),','))
-    endif
-endfunction
 
 function! EnterWin()
     let curWinIndex = winnr()
     let windowCount = winnr('$')
 
-    if(g:doGoldRatioActive && (&modifiable || (&lines-winheight(curWinIndex) != 3)))
-        let ratio = &columns/g:GoldRatio
-        let minRatio = float2nr(ratio/windowCount)
-        for i in range(1,winnr('$'))
-            if( i != curWinIndex )
+    for i in range(1,winnr('$'))
+        if( i != curWinIndex )
+            wincmd w
+            if(g:doGoldRatioActive && (&modifiable || (&lines-winheight(curWinIndex) != 3)))
+                let ratio = &columns/g:GoldRatio
+                let minRatio = float2nr(ratio/windowCount)
+
                 cal setwinvar(i,"&winminwidth",minRatio)
                 cal setwinvar(i,"&winwidth",minRatio)
             endif
-        endfor
+            if(g:doAutoNumInActive)
+                setlocal number nonumber
+                setlocal relativenumber norelativenumber
+            endif
+            if(g:killInactiveCursor)
+                set cursorline nocursorline
+            endif
+        endif
+    endfor
 
-        exec printf("vertical resize %d", float2nr(ratio))
-    endif
-
-    if(&modifiable && g:doAutoNumInActive)
-        setlocal number number
-    endif
-    if(&modifiable && g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
-        call setwinvar(winnr(),'&colorcolumn',0)
+    wincmd w
+    if(&modifiable)
+        if(g:doGoldRatioActive)
+            exec printf("vertical resize %d", float2nr(ratio))
+        endif
+        if(g:killInactiveCursor)
+            set cursorline
+        endif
+        if(g:doAutoNumInActive)
+            setlocal number
+        endif
+        if(g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
+            call setwinvar(winnr(),'&colorcolumn',0)
+        endif
     endif
 endfunction
 
@@ -240,38 +260,67 @@ autocmd VimLeave * nested if (!isdirectory($HOME . "/.config/nvim")) |
 autocmd VimEnter * nested if argc() == 0 && filereadable($HOME . "/.config/nvim/lastSession.vim") |
     \ execute "source " . $HOME . "/.config/nvim/lastSession.vim"
 
+map <leader>kh :h bdelete
+"
 "status line management
-exec printf('set statusline=%s%s',"%{ManageMode()}",statSep)
-let g:mod=0
+"let statStart='%(\ \ \ %)'
+"let statLine='%(\ %l\ %c\ \ %)'
+"set statusline=%#linenr#%(\ %n\ \ \ %P\ \ \ \%)%{&columns}:::%y%f%h%r%w%q%=%l,%c
+"set statusline=...%(\ [%M%R%H]%)...
+let statSep='\ \ '
+exec printf('set statusline=%s%s',"%#linenr#%{ManageMode()}%n",statSep)
+let mod=0
+let g:curMode=''
+fun! ManageBuffer(bufnum)
+
+endfun
 fun! ManageMode()
+    if !&modifiable
+        if &filetype == "help"
+            return " [HELP]"
+        else
+            return "       "
+        endif
+    endif
     let myMode = mode()
+    let colorMe = 1
+
+    if(myMode ==# g:curMode)
+        let colorMe=0
+    endif
+
+    let g:curMode = mode()
     if(myMode ==# 'no')
-        echo "no"
         return "Normal()"
     endif
     if(myMode ==# 'n')
-        cal g:HandleDynamicColors(g:normalColor)
-        redraw!
+        if colorMe
+            cal g:HandleDynamicColors(g:normalColor)
+        endif
         return "Normal  "
     endif
     if(myMode ==# 'i')
-        cal g:HandleDynamicColors(g:insertColor)
-        redraw!
+        if colorMe
+            cal g:HandleDynamicColors(g:insertColor)
+        endif
         return "Insert  "
     endif
     if(myMode ==# 'v')
-        cal g:HandleDynamicColors(g:visualColor)
-        redraw!
+        if colorMe
+            cal g:HandleDynamicColors(g:visualColor)
+        endif
         return "Visual  "
     endif
     if(myMode ==# 'V')
-        cal g:HandleDynamicColors(g:visualBColor)
-        redraw!
+        if colorMe
+            cal g:HandleDynamicColors(g:visualLColor)
+        endif
         return "Visual-L"
     endif
     if(myMode ==# '')
-        cal g:HandleDynamicColors(g:visualBColor)
-        redraw!
+        if colorMe
+            cal g:HandleDynamicColors(g:visualBColor)
+        endif
         return "Visual-B"
     endif
     if(myMode ==# 's')

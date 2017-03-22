@@ -14,23 +14,19 @@ fi
 declare -a GITURLS=(
     https://github.com/eugen0329/vim-esearch.git
     https://github.com/godlygeek/tabular
-    https://github.com/vim-airline/vim-airline
     https://github.com/bronson/vim-trailing-whitespace
     https://github.com/valloric/youcompleteme
     https://github.com/tpope/vim-fugitive
-    https://github.com/guns/xterm-color-table.vim
-    https://github.com/majutsushi/tagbar
+        https://github.com/majutsushi/tagbar
     https://github.com/dyng/ctrlsf.vim
     https://github.com/ryanoasis/vim-devicons
     https://github.com/dietsche/vim-lastplace
     https://github.com/gelguy/cmd2.vim
     https://github.com/xolox/vim-misc
-    https://github.com/enricobacis/vim-airline-clock
     https://github.com/xolox/vim-notes
     https://github.com/ctrlpvim/ctrlp.vim
     https://github.com/jsfaint/gen_tags.vim.git
     https://github.com/scrooloose/nerdtree
-    git://github.com/airblade/vim-gitgutter
     https://github.com/tacahiroy/ctrlp-funky
     https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
 );
@@ -70,12 +66,9 @@ if [ ! -d ~/.local/share/fonts ] ; then
     mkdir ~/.local/share/fonts
     cp * ~/.local/share/fonts
 fi
-ln -fv dark.vim ~/.config/nvim/bundle/vim-airline/autoload/airline/themes/
 ln -fv init.vim ~/.config/nvim/
 ln -fv init.vim ~/.vimrc
-ln -fv ice.vim ~/.config/nvim/colors
-ln -fv shadow.vim ~/.config/nvim/colors
-ln -fv vim.vim ~/.config/nvim/after/syntax
+ln -fv cyansprite.vim ~/.config/nvim/colors
 
 #resources time
 echo "================================Linking bashrc and inputrc to home "
