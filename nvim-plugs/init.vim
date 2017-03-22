@@ -13,8 +13,6 @@ hi link ESearchMatch SearchNC
 
 let g:gtags_auto_gen=1
 
-autocmd VimEnter * GitGutterDisable
-
 let g:ctrlp_line_prefix = ''
 let g:ctrlp_map = '<c-space>'
 let g:ctrlp_mruf_max=30
@@ -39,20 +37,24 @@ let g:NERDTreeLimitedSyntax = 1
 let g:NERDTreeHighlightFolders = 0 " enables folder icon highlighting using exact match
 let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = ''
+let g:NERDTreeDirArrowExpandable = ' '
+let g:NERDTreeDirArrowCollapsible = ' '
 
 let g:ycm_error_symbol = ''
-let g:ycm_warning_symbol = '>'
+let g:ycm_warning_symbol = ''
 "End pathogen }}}
 
 "being vim source {{{│
-let g:statusActive='%(\ \ \ \ \ %)%'
-set statusline=%#linenr#%(\ %n\ \ \ %P\ \ \ \%)%{&columns}:::%y%f%h%r%w%q%=%l,%c
+let statStart='%(\ \ \ %)'
+"let statLine='%(\ %l\ %c\ \ %)'
+let statSep='\ \ '
+"set statusline=%#linenr#%(\ %n\ \ \ %P\ \ \ \%)%{&columns}:::%y%f%h%r%w%q%=%l,%c
 "set statusline=...%(\ [%M%R%H]%)...
 set cursorline
+set selectmode=mouse
+set showmode noshowmode
 set foldmethod=manual
-set fillchars=vert:x,stlnc:.,stl:\ ,fold:*,diff:
+set fillchars=vert:\|,stlnc:.,stl:\ ,fold:*,diff:
 set updatetime=500
 set lazyredraw
 set cmdwinheight=10
@@ -85,12 +87,7 @@ set report=0       " Always report changed lines
 "end vim }}}
 
 "Map Stuff and functions {{{
-"Map control + x to cut current text into clipboard
-"map control + v in insert mode to paste
 map <silent> <c-q> :bd<cr>
-vmap <C-v> "+P
-vmap <C-c> "+y
-vmap <c-x> "+x
 nnoremap <F6> :%s/<C-r><C-w>/
 
 "Map home and end to ^$ respect'
@@ -129,6 +126,8 @@ nnoremap <M-Y> :let @" = expand("%:p")<cr>
 "Smooth scroll
 map <PageUp> <C-Y><C-Y><C-Y><C-Y>
 map <Pagedown> <C-E><C-E><C-E><C-E>
+imap <PageUp> <C-Y><C-Y><C-Y><C-Y>
+imap <Pagedown> <C-E><C-E><C-E><C-E>
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
 " Type z/ to toggle highlighting on/off.
@@ -185,7 +184,7 @@ endfun
 
 "Aucmd time! {{{
 "Support for tagbar and ctrlsf
-let g:doGoldRatioActive=1
+let g:doGoldRatioActive=0
 let g:GoldRatio=1.6
 let g:doAutoNumInActive=1
 let g:doAutoDimInactive=0
@@ -241,5 +240,78 @@ autocmd VimLeave * nested if (!isdirectory($HOME . "/.config/nvim")) |
 autocmd VimEnter * nested if argc() == 0 && filereadable($HOME . "/.config/nvim/lastSession.vim") |
     \ execute "source " . $HOME . "/.config/nvim/lastSession.vim"
 
+"status line management
+exec printf('set statusline=%s%s',"%{ManageMode()}",statSep)
 let g:mod=0
+fun! ManageMode()
+    let myMode = mode()
+    if(myMode ==# 'no')
+        echo "no"
+        return "Normal()"
+    endif
+    if(myMode ==# 'n')
+        cal g:HandleDynamicColors(g:normalColor)
+        redraw!
+        return "Normal  "
+    endif
+    if(myMode ==# 'i')
+        cal g:HandleDynamicColors(g:insertColor)
+        redraw!
+        return "Insert  "
+    endif
+    if(myMode ==# 'v')
+        cal g:HandleDynamicColors(g:visualColor)
+        redraw!
+        return "Visual  "
+    endif
+    if(myMode ==# 'V')
+        cal g:HandleDynamicColors(g:visualBColor)
+        redraw!
+        return "Visual-L"
+    endif
+    if(myMode ==# '')
+        cal g:HandleDynamicColors(g:visualBColor)
+        redraw!
+        return "Visual-B"
+    endif
+    if(myMode ==# 's')
+        return "Select  "
+    endif
+    if(myMode ==# 'S')
+        return "Select-L"
+    endif
+    if(myMode ==# 'R')
+        return "Replace "
+    endif
+    if(myMode ==# 'Rv')
+        return "VReplace"
+    endif
+    if(myMode ==# 't')
+        return "Terminal"
+    endif
+    if(myMode ==# 'c')
+        return "Cmd-Line"
+    endif
+    if(myMode ==# 'cv')
+        return "Vim-Ex  "
+    endif
+    if(myMode ==# 'ce')
+        return "NormalEx"
+    endif
+    if(myMode ==# 'r')
+        return "HitEnter"
+    endif
+    if(myMode ==# 'rn')
+        return "MoreInfo"
+    endif
+    if(myMode ==# 'rn')
+        return "..Well??"
+    endif
+    if(myMode ==# '!')
+        return "Shell!!!"
+    endif
+
+    return printf("%s","Mode unsupported...")
+endfun
+
 "end aucmd!! }}}
