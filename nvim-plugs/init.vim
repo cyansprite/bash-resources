@@ -1,5 +1,5 @@
-"The single most important line to me
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+set termguicolors
 map  \
 map <BS> X
 
