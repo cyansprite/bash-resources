@@ -2,8 +2,6 @@ SOURCE=${PWD}
 
 #make sure we have dein
 
-
-
 #make sure we have nice font
 cd "$SOURCE/fonts"
 echo "================================Copying fonts to ~/.local/share/fonts/ "
@@ -23,6 +21,7 @@ fi
 ln -fv init.vim ~/.config/nvim/
 ln -fv init.vim ~/.vimrc
 ln -fv cyansprite.vim ~/.config/nvim/colors
+ln -fv dark.vim ~/.config/nvim/bundle/repos/github.com/vim-airline/vim-airline/autoload/airline/themes/dark.vim
 
 #resources time
 echo "================================Linking bashrc,inputrc, and tmux to home "

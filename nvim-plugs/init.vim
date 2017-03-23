@@ -38,6 +38,8 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('godlygeek/tabular')
     call dein#add('artur-shaik/vim-javacomplete2')
+    call dein#add('vim-airline/vim-airline')
+    call dein#add('enricobacis/vim-airline-clock')
 
     " Required:
     call dein#end()
@@ -136,6 +138,9 @@ function! s:check_back_space() abort "{{{
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
 
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+
 " If you want to install not installed plugins on start
 "if dein#check_install()
 "  call dein#install()
@@ -187,7 +192,7 @@ imap <Pagedown> <esc><C-E><C-E><C-E><C-E>i
 vnoremap <c-c> "+y
 vnoremap <c-v> "+P
 vnoremap <c-x> "+d
-imap <c-v> <esc>"+pa
+imap <c-v> <c-r><c-r>+
 
 "Search and replace word under cursor
 nnoremap <F6> :%s/<C-r><C-w>/
