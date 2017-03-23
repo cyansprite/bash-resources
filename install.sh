@@ -17,8 +17,6 @@ declare -a GITURLS=(
     https://github.com/bronson/vim-trailing-whitespace
     https://github.com/valloric/youcompleteme
     https://github.com/tpope/vim-fugitive
-        https://github.com/majutsushi/tagbar
-    https://github.com/dyng/ctrlsf.vim
     https://github.com/ryanoasis/vim-devicons
     https://github.com/dietsche/vim-lastplace
     https://github.com/gelguy/cmd2.vim
@@ -29,6 +27,8 @@ declare -a GITURLS=(
     https://github.com/scrooloose/nerdtree
     https://github.com/tacahiroy/ctrlp-funky
     https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
+    https://github.com/Shougo/deoplete.nvim
+    https://github.com/Shougo/neco-vim
 );
 
 cd ~/.config/nvim/bundle/

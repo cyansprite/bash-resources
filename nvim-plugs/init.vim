@@ -17,8 +17,19 @@ call pathogen#helptags()
 tnoremap <Esc> <C-\><C-n>
 let g:esearch#out#win#open = 'split'
 hi link ESearchMatch SearchNC
-
 let g:gtags_auto_gen=1
+
+let g:deoplete#enable_at_startup = 1
+inoremap <silent><expr> <TAB>
+\ pumvisible() ? "\<C-n>" :
+\ <SID>check_back_space() ? "\<TAB>" :
+\ deoplete#mappings#manual_complete()
+
+function! s:check_back_space() abort "{{{
+let col = col('.') - 1
+return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
 
 let g:ctrlp_line_prefix = ''
 let g:ctrlp_map = '<c-space>'
