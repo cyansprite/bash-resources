@@ -32,26 +32,26 @@ let g:replaceColor  = '#ff0000'
 
 fun! g:HandleBackgroundColors()
     "fg/bg
-    exec printf("hi Normal guifg=%s guibg=%s gui=NONE"            , g:colorList[g:theme][0]  , g:colorList[g:theme][1])
+    exec printf("hi Normal guifg=%s guibg=%s gui=NONE"                   , g:colorList[g:theme][0]  , g:colorList[g:theme][1])
     "cyansprite :P
-    exec printf("hi CursorLine guifg=NONE guibg=%s gui=NONE"      , g:colorList[g:theme][7])
+    exec printf("hi CursorLine guifg=NONE guibg=%s gui=NONE"             , g:colorList[g:theme][7])
     "blue grey
-    exec printf("hi Tag guifg=NONE guibg=%s gui=NONE"             , g:colorList[g:theme][4])
-    exec printf("hi Question guifg=NONE guibg=%s gui=NONE"        , g:colorList[g:theme][4])
-    exec printf("hi Ignore guifg=NONE guibg=%s gui=NONE"          , g:colorList[g:theme][4])
-    exec printf("hi MoreMsg guifg=NONE guibg=%s gui=NONE"         , g:colorList[g:theme][4])
-    exec printf("hi ModeMsg guifg=NONE guibg=%s gui=NONE"         , g:colorList[g:theme][4])
-    exec printf("hi WarningMsg guifg=#aaaa00 guibg=%s gui=NONE"   , g:colorList[g:theme][4])
-    exec printf("hi SpellCap guifg=#ff0000 guibg=%s gui=NONE"     , g:colorList[g:theme][4])
-    exec printf("hi SpellBad guifg=#ff0000 guibg=%s gui=NONE"     , g:colorList[g:theme][4])
-    exec printf("hi ErrorMsg guifg=#ff0000 guibg=%s gui=NONE"     , g:colorList[g:theme][4])
-    exec printf("hi Error guifg=196 guibg=%s gui=NONE"            , g:colorList[g:theme][4])
-    exec printf("hi Search guifg=NONE guibg=%s gui=NONE"          , g:colorList[g:theme][4])
+    exec printf("hi Tag guifg=NONE guibg=%s gui=NONE"                    , g:colorList[g:theme][4])
+    exec printf("hi Question guifg=NONE guibg=%s gui=NONE"               , g:colorList[g:theme][4])
+    exec printf("hi Ignore guifg=NONE guibg=%s gui=NONE"                 , g:colorList[g:theme][4])
+    exec printf("hi MoreMsg guifg=NONE guibg=%s gui=NONE"                , g:colorList[g:theme][4])
+    exec printf("hi ModeMsg guifg=NONE guibg=%s gui=NONE"                , g:colorList[g:theme][4])
+    exec printf("hi WarningMsg guifg=#aaaa00 guibg=%s gui=NONE"          , g:colorList[g:theme][4])
+    exec printf("hi SpellCap guifg=#ff0000 guibg=%s gui=NONE"            , g:colorList[g:theme][4])
+    exec printf("hi SpellBad guifg=#ff0000 guibg=%s gui=NONE"            , g:colorList[g:theme][4])
+    exec printf("hi ErrorMsg guifg=#ff0000 guibg=%s gui=NONE"            , g:colorList[g:theme][4])
+    exec printf("hi Error guifg=196 guibg=%s gui=NONE"                   , g:colorList[g:theme][4])
+    exec printf("hi Search guifg=NONE guibg=%s gui=NONE"                 , g:colorList[g:theme][4])
     "green grey
-    exec printf("hi Visual guifg=NONE guibg=%s gui=NONE"          , g:colorList[g:theme][5])
+    exec printf("hi Visual guifg=NONE guibg=%s gui=NONE"                 , g:colorList[g:theme][5])
     "grey grey lol
-    exec printf("hi SearchNC guifg=NONE guibg=%s gui=NONE"        , g:colorList[g:theme][6])
-    exec printf("hi Incsearch guifg=black guibg=%s gui=underline" , g:colorList[g:theme][6])
+    exec printf("hi SearchNC guifg=NONE guibg=%s gui=NONE"               , g:colorList[g:theme][6])
+    exec printf("hi Incsearch guifg=%s guibg=NONE gui=inverse,underline" , g:offColor)
 endfun
 
 fun! g:HandleDynamicColors(color)
@@ -91,12 +91,12 @@ fun! g:HandleOtherColors()
     hi Number                        guifg=#ff00ff guibg=NONE gui=bold
     hi Character                     guifg=#ff00aa guibg=NONE gui=NONE
     hi Identifier                    guifg=#ff5757 guibg=NONE gui=NONE
-    hi String                        guifg=#33ac33 guibg=NONE gui=NONE
+    hi String                        guifg=#55aa55 guibg=NONE gui=NONE
     hi Label                         guifg=#4488cc guibg=NONE gui=NONE
     hi Title                         guifg=#ffaa00 guibg=NONE gui=NONE
     hi StorageClass                  guifg=#77ccff guibg=NONE gui=bold
     hi Special                       guifg=#9d92da guibg=NONE gui=bold
-    hi Conditional                   guifg=#8f4fcf guibg=NONE gui=bold
+    hi Conditional                   guifg=#af6fcf guibg=NONE gui=bold
     hi DiffChange                    guifg=#44cc44 guibg=NONE gui=NONE
     hi Statement                     guifg=#33cccc guibg=NONE gui=bold
     hi Keyword                       guifg=#ec5e8e guibg=NONE gui=bold
