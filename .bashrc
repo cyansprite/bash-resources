@@ -127,3 +127,5 @@ fi
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export SIMIP=10.197.53.233
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
