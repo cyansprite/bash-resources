@@ -44,6 +44,7 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     call dein#add('vim-airline/vim-airline')
     call dein#add('enricobacis/vim-airline-clock')
     call dein#add('airblade/vim-gitgutter')
+    call dein#add('tpope/vim-obsession')
 
     " Required:
     call dein#end()
@@ -161,7 +162,9 @@ nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
+
 let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_signs = 0
 
 " If you want to install not installed plugins on start
 "if dein#check_install()
@@ -171,6 +174,8 @@ let g:gitgutter_override_sign_column_highlight = 0
 "End dein Scripts-------------------------
 
 "Begin Vim set   -------------------------
+set titlestring=%{ObsessionStatus()}
+set title
 set cursorline "set cursorline to highlight the current line I'm no
 set selectmode=mouse "set if I use mouse, use select mode, NOT visual mode
 set showmode noshowmode "don't show mode in cmd line, I hate when it clears an echo

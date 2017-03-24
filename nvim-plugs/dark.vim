@@ -82,7 +82,7 @@ let g:airline#themes#dark#palette.tabline = {
       \ 'airline_tabsel':   [g:selectColor , g:colorList[g:theme][8] , 235 , 149 , '' ],
       \ 'airline_tabtype':  [g:backcentColor , g:colorList[g:theme][2] , 188 , 235 , '' ],
       \ 'airline_tabfill':  [g:backcentColor , g:colorList[g:theme][2] , 188 , 235 , '' ],
-      \ 'airline_tabmod':   [g:modColor , g:colorList[g:theme][5] , 235 , 149 , '' ],
+      \ 'airline_tabmod':   [g:modColor , g:colorList[g:theme][9] , 235 , 149 , '' ],
       \ }
 
 " Accents are used to give parts within a section a slightly different look or

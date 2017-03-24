@@ -13,11 +13,10 @@ hi Normal                     guifg=231  guibg=232  gui=NONE
 "Effects
 hi Cursor                     guifg=NONE guibg=NONE gui=standout
 hi MatchParen                 guifg=NONE guibg=NONE gui=underline,bold
-hi SignColumn                 guifg=NONE guibg=NONE gui=NONE
 
 let g:theme=0
-let g:colorList=[['#ffffff','#0f0f0f','#202020','#000000','#304050','#2a3a2a','#444444','#1f2828', '#3f5858'],
-            \    ['#000000','#f6f6f6','#dedede','#ffffff','#ddddee','#ddeedd','#cccccc','#ddffff', '#ddffff']]
+let g:colorList=[['#ffffff','#0f0f0f','#202020','#000000','#304050','#2a3a2a','#444444','#1f2828', '#3f5858','#3f883f'],
+            \    ['#000000','#f6f6f6','#dedede','#ffffff','#ddddee','#ddeedd','#cccccc','#ddffff', '#ddffff', 'ddffdd']]
 let g:offColor      = '#7788aa'
 let g:backcentColor = '#ff0088'
 let g:modColor      = '#55aa55'
@@ -62,10 +61,11 @@ fun! g:HandleAccentColors()
     exec printf("hi SignColumn guifg=%s guibg=%s gui=bold" , g:offColor              , g:colorList[g:theme][1])
     "background
     exec printf("hi StatusLine guifg=%s guibg=%s gui=NONE"        , g:selectColor           , g:colorList[g:theme][2])
-    exec printf("hi VertSplit guifg=%s  guibg=%s gui=bold,inverse"        , g:offColor              , g:colorList[g:theme][2])
+    exec printf("hi VertSplit guifg=%s  guibg=%s gui=bold"        , g:offColor              , g:colorList[g:theme][2])
     exec printf("hi Pmenu guifg=%s guibg=%s gui=NONE"             , g:offColor              , g:colorList[g:theme][2])
     "end of buffer is black
     exec printf("hi EndOfBuffer guifg=%s  guibg=%s gui=NONE"      , g:backcentColor         , g:colorList[g:theme][3])
+    exec printf("hi SignColumn guifg=%s  guibg=%s gui=NONE"      , g:backcentColor         , g:colorList[g:theme][3])
     "cyan :P
     exec printf("hi PmenuSel guifg=%s guibg=%s gui=NONE"          , g:selectColor           , g:colorList[g:theme][7])
     exec printf("hi WildMenu guifg=%s guibg=%s gui=underline"       , g:offColor              , g:colorList[g:theme][7])
