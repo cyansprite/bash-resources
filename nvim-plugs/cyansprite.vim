@@ -16,19 +16,13 @@ hi MatchParen                 guifg=NONE guibg=NONE gui=underline,bold
 hi SignColumn                 guifg=NONE guibg=NONE gui=NONE
 
 let g:theme=0
-let g:colorList=[['#ffffff','#0f0f0f','#202020','#000000','#304050','#2a3a2a','#444444','#1f2828'],
-            \    ['#000000','#f6f6f6','#dedede','#ffffff','#ddddee','#ddeedd','#cccccc','#ddffff']]
+let g:colorList=[['#ffffff','#0f0f0f','#202020','#000000','#304050','#2a3a2a','#444444','#1f2828', '#3f5858'],
+            \    ['#000000','#f6f6f6','#dedede','#ffffff','#ddddee','#ddeedd','#cccccc','#ddffff', '#ddffff']]
 let g:offColor      = '#7788aa'
 let g:backcentColor = '#ff0088'
-let g:modColor      = '#00ff00'
-let g:backModColor  = '#009a00'
+let g:modColor      = '#55aa55'
+let g:backModColor  = '#339933'
 let g:selectColor   = '#33cccc'
-let g:normalColor   =  g:offColor
-let g:insertColor   =  g:selectColor
-let g:visualColor   = '#cc33cc'
-let g:visualLColor  = '#aa55aa'
-let g:visualBColor  = '#775577'
-let g:replaceColor  = '#ff0000'
 
 fun! g:HandleBackgroundColors()
     "fg/bg
@@ -65,9 +59,10 @@ endfun
 fun! g:HandleAccentColors()
     "none
     exec printf("hi StatusLineNC guifg=%s guibg=%s gui=underline" , g:offColor              , g:colorList[g:theme][1])
+    exec printf("hi SignColumn guifg=%s guibg=%s gui=bold" , g:offColor              , g:colorList[g:theme][1])
     "background
     exec printf("hi StatusLine guifg=%s guibg=%s gui=NONE"        , g:selectColor           , g:colorList[g:theme][2])
-    exec printf("hi VertSplit guifg=%s  guibg=%s gui=bold"        , g:colorList[g:theme][3] , g:colorList[g:theme][2])
+    exec printf("hi VertSplit guifg=%s  guibg=%s gui=bold,inverse"        , g:offColor              , g:colorList[g:theme][2])
     exec printf("hi Pmenu guifg=%s guibg=%s gui=NONE"             , g:offColor              , g:colorList[g:theme][2])
     "end of buffer is black
     exec printf("hi EndOfBuffer guifg=%s  guibg=%s gui=NONE"      , g:backcentColor         , g:colorList[g:theme][3])
@@ -78,7 +73,7 @@ endfun
 
 "NOTE: change this to printf? TODO Love it
 fun! g:HandleOtherColors()
-    cal HandleDynamicColors(g:normalColor)
+    cal HandleDynamicColors(g:offColor)
     cal HandleAccentColors()
     hi Comment                       guifg=#8f8f8f guibg=NONE gui=italic
     hi Folded                        guifg=#cccc88 guibg=NONE gui=underline

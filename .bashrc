@@ -123,9 +123,6 @@ if [ -e /bin/adb.txt ] ; then
     source /bin/adb.txt
 fi
 
-#make default editor to my beloved vim...
 export VISUAL=vim
-export EDITOR="$VISUAL"
-export SIMIP=10.197.53.233
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

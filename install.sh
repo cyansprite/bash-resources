@@ -1,6 +1,11 @@
 SOURCE=${PWD}
 
 #make sure we have dein
+if [ ! -d ~/.config/nvim/bundles ] ; then
+    ./dein.sh ~/.config/nvim/bundle
+else
+    echo "Dein already exists, if not wipe your nvim bundle folder"
+fi
 
 #make sure we have nice font
 cd "$SOURCE/fonts"
@@ -41,9 +46,9 @@ cd "$SOURCE/tilix"
 
 echo "================================Fin linking!"
 
-if [ ! -d ~/.local/share/fonts ] ; then
-    mkdir ~/.local/share/fonts
-    cp * ~/.local/share/fonts
+if [ ! -d ~/.fzf ] ; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
 else
-    echo "Fonts dir already exists!"
+    echo "FZF already exists!"
 fi

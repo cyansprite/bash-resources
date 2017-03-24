@@ -3,6 +3,9 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 set termguicolors
 colorscheme cyansprite
 
+"allow if folding we hit space and it unfolds/folds, otherwise default
+map <space> <leader>
+
 "dein Scripts-----------------------------
 if &compatible
     set nocompatible               " Be iMproved
@@ -40,6 +43,7 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     call dein#add('artur-shaik/vim-javacomplete2')
     call dein#add('vim-airline/vim-airline')
     call dein#add('enricobacis/vim-airline-clock')
+    call dein#add('airblade/vim-gitgutter')
 
     " Required:
     call dein#end()
@@ -139,7 +143,25 @@ function! s:check_back_space() abort "{{{
 endfunction"}}}
 
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 2 " splits and tab number
 let g:airline_powerline_fonts = 1
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>+ <Plug>AirlineSelectNextTab
+let g:gitgutter_override_sign_column_highlight = 0
 
 " If you want to install not installed plugins on start
 "if dein#check_install()
@@ -164,7 +186,7 @@ set smartcase  "makes things a bit better
 set smartindent "indent things well
 set smarttab	"tab plays nicer
 set list        "list my chars
-set fillchars=vert:\|,stlnc:\ ,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
+set fillchars=vert:\X,stlnc:\ ,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
 set listchars=tab:→\ ,trail:·,extends:↷,precedes:↶ "Changes listchars to more suitable chars
 let &showbreak = '↳ '          "Change show break thing
 set showmatch      " Show matching brackets/parentthesis
@@ -208,9 +230,6 @@ nnoremap <silent> <s-up> :wincmd k<CR>
 nnoremap <silent> <s-down> :wincmd j<CR>
 nnoremap <silent> <s-left> :wincmd h<CR>
 nnoremap <silent> <s-right> :wincmd l<CR>
-
-"allow if folding we hit space and it unfolds/folds, otherwise default
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 
 "Copy full path of filename to black hole
 nnoremap <M-Y> :let @" = expand("%:p")<cr>
