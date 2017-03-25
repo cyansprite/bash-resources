@@ -22,7 +22,7 @@ scriptencoding utf-8
 " First, let's define an empty dictionary and assign it to the "palette"
 " variable. The # is a separator that maps with the directory structure. If
 " you get this wrong, Vim will complain loudly.
-let g:airline#themes#dark#palette = {}
+let g:airline#themes#cyanair#palette = {}
 
 " First let's define some arrays. The s: is just a VimL thing for scoping the
 " variables to the current script. Without this, these variables would be
@@ -33,12 +33,12 @@ let g:airline#themes#dark#palette = {}
 let s:N1   = [ g:offColor ,  g:colorList[g:theme][2], 17  , 190 ]
 let s:N2   = [ g:offColor ,  g:colorList[g:theme][2], 255 , 238 ]
 let s:N3   = [ g:offColor ,  g:colorList[g:theme][2], 85  , 234 ]
-let g:airline#themes#dark#palette.normal = airline#themes#generate_color_map(s:N1, s:N2, s:N3)
+let g:airline#themes#cyanair#palette.normal = airline#themes#generate_color_map(s:N1, s:N2, s:N3)
 
 " Here we define overrides for when the buffer is modified.  This will be
-" applied after g:airline#themes#dark#palette.normal, hence why only certain keys are
+" applied after g:airline#themes#cyanair#palette.normal, hence why only certain keys are
 " declared.
-let g:airline#themes#dark#palette.normal_modified = {
+let g:airline#themes#cyanair#palette.normal_modified = {
       \ 'airline_c': [ '#ffffff' , g:modColor , 255     , 53      , ''     ] ,
       \ }
 
@@ -46,43 +46,43 @@ let g:airline#themes#dark#palette.normal_modified = {
 let s:I1 = [ g:selectColor , g:colorList[g:theme][7] , 17  , 45  ]
 let s:I2 = [ g:selectColor , g:colorList[g:theme][7] , 255 , 27  ]
 let s:I3 = [ g:selectColor , g:colorList[g:theme][7] , 15  , 17  ]
-let g:airline#themes#dark#palette.insert = airline#themes#generate_color_map(s:I1, s:I2, s:I3)
-let g:airline#themes#dark#palette.insert_modified = {
+let g:airline#themes#cyanair#palette.insert = airline#themes#generate_color_map(s:I1, s:I2, s:I3)
+let g:airline#themes#cyanair#palette.insert_modified = {
       \ 'airline_c': [ '#ffffff' , g:modColor , 255     , 53      , ''     ] ,
       \ }
-let g:airline#themes#dark#palette.insert_paste = {
+let g:airline#themes#cyanair#palette.insert_paste = {
       \ 'airline_a': [ s:I1[0]   , '#d78700' , s:I1[2] , 172     , ''     ] ,
       \ }
 
 
-let g:airline#themes#dark#palette.replace = copy(g:airline#themes#dark#palette.insert)
-let g:airline#themes#dark#palette.replace.airline_a = [ s:I2[0]   , '#af0000' , s:I2[2] , 124     , ''     ]
-let g:airline#themes#dark#palette.replace_modified = g:airline#themes#dark#palette.insert_modified
+let g:airline#themes#cyanair#palette.replace = copy(g:airline#themes#cyanair#palette.insert)
+let g:airline#themes#cyanair#palette.replace.airline_a = [ s:I2[0]   , '#af0000' , s:I2[2] , 124     , ''     ]
+let g:airline#themes#cyanair#palette.replace_modified = g:airline#themes#cyanair#palette.insert_modified
 
 
 let s:V1 = [ g:backcentColor , g:colorList[g:theme][5] , 232 , 214 ]
 let s:V2 = [ g:backcentColor , g:colorList[g:theme][5] , 232 , 202 ]
 let s:V3 = [ g:backcentColor , g:colorList[g:theme][5] , 15  , 52  ]
-let g:airline#themes#dark#palette.visual = airline#themes#generate_color_map(s:V1, s:V2, s:V3)
-let g:airline#themes#dark#palette.visual_modified = {
+let g:airline#themes#cyanair#palette.visual = airline#themes#generate_color_map(s:V1, s:V2, s:V3)
+let g:airline#themes#cyanair#palette.visual_modified = {
       \ 'airline_c': [ '#ffffff' , g:modColor , 255     , 53      , ''     ] ,
       \ }
 
 
-let s:IA1 = [ g:offColor , g:colorList[g:theme][1] , 239 , 234 , 'underline' ]
-let s:IA2 = [ g:offColor , g:colorList[g:theme][1] , 239 , 235 , 'underline' ]
-let s:IA3 = [ g:offColor , g:colorList[g:theme][1] , 239 , 236 , 'underline' ]
-let g:airline#themes#dark#palette.inactive = airline#themes#generate_color_map(s:IA1, s:IA2, s:IA3)
-let g:airline#themes#dark#palette.inactive_modified = {
+let s:IA1 = [ g:inactiveColor , g:colorList[g:theme][1] , 239 , 234 , 'underline' ]
+let s:IA2 = [ g:inactiveColor , g:colorList[g:theme][1] , 239 , 235 , 'underline' ]
+let s:IA3 = [ g:inactiveColor , g:colorList[g:theme][1] , 239 , 236 , 'underline' ]
+let g:airline#themes#cyanair#palette.inactive = airline#themes#generate_color_map(s:IA1, s:IA2, s:IA3)
+let g:airline#themes#cyanair#palette.inactive_modified = {
       \ 'airline_c': [ g:backModColor, '' , 97 , '' , '' ] ,
       \ }
 
-let g:airline#themes#dark#palette.tabline = {
-      \ 'airline_tab':      [g:offColor , g:colorList[g:theme][2] , 188 , 235 , '' ],
-      \ 'airline_tabsel':   [g:selectColor , g:colorList[g:theme][8] , 235 , 149 , '' ],
-      \ 'airline_tabtype':  [g:backcentColor , g:colorList[g:theme][2] , 188 , 235 , '' ],
-      \ 'airline_tabfill':  [g:backcentColor , g:colorList[g:theme][2] , 188 , 235 , '' ],
-      \ 'airline_tabmod':   [g:modColor , g:colorList[g:theme][9] , 235 , 149 , '' ],
+let g:airline#themes#cyanair#palette.tabline = {
+      \ 'airline_tab':      [g:inactiveColor , g:colorList[g:theme][2] , 188 , 235 , '' ] ,
+      \ 'airline_tabsel':   [g:selectColor   , g:colorList[g:theme][8] , 235 , 149 , '' ] ,
+      \ 'airline_tabtype':  [g:backcentColor , g:colorList[g:theme][2] , 188 , 235 , '' ] ,
+      \ 'airline_tabfill':  [g:backcentColor , g:colorList[g:theme][2] , 188 , 235 , '' ] ,
+      \ 'airline_tabmod':   [g:modColor      , g:colorList[g:theme][9] , 235 , 149 , '' ] ,
       \ }
 
 " Accents are used to give parts within a section a slightly different look or
@@ -92,7 +92,7 @@ let g:airline#themes#dark#palette.tabline = {
 " this means is that regardless of which section the part is defined in, it
 " will be red instead of the section's foreground color. You can also have
 " multiple parts with accents within a section.
-let g:airline#themes#dark#palette.accents = {
+let g:airline#themes#cyanair#palette.accents = {
       \ 'red': [ '#ff0000' , '' , 160 , ''  ]
       \ }
 

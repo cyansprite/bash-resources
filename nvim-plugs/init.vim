@@ -26,8 +26,11 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('tweekmonster/deoplete-clang2')
     call dein#add('Shougo/neco-vim')
-    call dein#add('Shougo/neoinclude.vim')
     call dein#add('Shougo/neco-syntax')
+    call dein#add('Shougo/echodoc.vim')
+    call dein#add('Shougo/neopairs.vim')
+    call dein#add('Konfekt/FastFold')
+    call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/denite.nvim')
     call dein#add('bfredl/nvim-miniyank')
     call dein#add('Robzz/deoplete-omnisharp')
@@ -45,6 +48,7 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     call dein#add('enricobacis/vim-airline-clock')
     call dein#add('airblade/vim-gitgutter')
     call dein#add('tpope/vim-obsession')
+    call map(dein#check_clean(), "delete(v:val, 'rf')")
 
     " Required:
     call dein#end()
@@ -56,6 +60,24 @@ filetype plugin indent on
 syntax enable
 "Denite
 " Change mappings.
+call denite#custom#map(
+            \ 'insert',
+            \ '<C-P>',
+            \ '<denite:do_action:preview>',
+            \ 'noremap'
+            \)
+call denite#custom#map(
+            \ 'insert',
+            \ '<C-S>',
+            \ '<denite:do_action:split>',
+            \ 'noremap'
+            \)
+call denite#custom#map(
+            \ 'insert',
+            \ '<C-V>',
+            \ '<denite:do_action:vsplit>',
+            \ 'noremap'
+            \)
 call denite#custom#map(
             \ 'insert',
             \ '<down>',
@@ -133,7 +155,8 @@ let s:menus.my_commands.command_candidates = [
 call denite#custom#var('menu', 'menus', s:menus)
 
 "deoplete
-let g:deoplete#enable_at_startup=1
+"g:deoplete#auto_complete_delay|
+let g:deoplete#enable_at_startup=0
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
             \ <SID>check_back_space() ? "\<TAB>" :
@@ -142,6 +165,15 @@ function! s:check_back_space() abort "{{{
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function() abort
+    return deoplete#close_popup() . "\<CR>"
+endfunction
+
+"
+"
+"
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 2 " splits and tab number
@@ -150,6 +182,7 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
+let g:airline_theme='cyanair'
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
@@ -191,7 +224,7 @@ set smartcase  "makes things a bit better
 set smartindent "indent things well
 set smarttab	"tab plays nicer
 set list        "list my chars
-set fillchars=vert:\X,stlnc:\ ,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
+set fillchars=vert:╳,stlnc:\ ,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
 set listchars=tab:→\ ,trail:·,extends:↷,precedes:↶ "Changes listchars to more suitable chars
 let &showbreak = '↳ '          "Change show break thing
 set showmatch      " Show matching brackets/parentthesis

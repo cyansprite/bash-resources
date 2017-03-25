@@ -1,7 +1,7 @@
 SOURCE=${PWD}
 
 #make sure we have dein
-if [ ! -d ~/.config/nvim/bundles ] ; then
+if [ ! -d ~/.config/nvim/bundle ] ; then
     ./dein.sh ~/.config/nvim/bundle
 else
     echo "Dein already exists, if not wipe your nvim bundle folder"
@@ -26,7 +26,8 @@ fi
 ln -fv init.vim ~/.config/nvim/
 ln -fv init.vim ~/.vimrc
 ln -fv cyansprite.vim ~/.config/nvim/colors
-ln -fv dark.vim ~/.config/nvim/bundle/repos/github.com/vim-airline/vim-airline/autoload/airline/themes/dark.vim
+ln -fv cyanair.vim ~/.config/nvim/bundle/repos/github.com/vim-airline/vim-airline/autoload/airline/themes/
+ln -fv cyanair.vim ~/.config/nvim/bundle/.cache/init.vim/.dein/autoload/airline/themes/
 
 #resources time
 echo "================================Linking bashrc,inputrc, and tmux to home "
