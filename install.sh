@@ -53,3 +53,5 @@ if [ ! -d ~/.fzf ] ; then
 else
     echo "FZF already exists!"
 fi
+
+#TODO add open vim, install dein, then import colors for airline so i don't have to do it twice

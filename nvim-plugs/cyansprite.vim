@@ -16,15 +16,15 @@ hi MatchParen                 guifg=NONE guibg=NONE gui=underline,bold
 
 let g:theme=0
                   "fg      , bg      , acnt-bg , blk/wht , b,srch  , g/vis   , lgry    , cy/tb/cl, crsgry  , lmodg/tbm
-let g:colorList=[['#ffffff','#0f0f0f','#202020','#000000','#2f6faa','#2a3a2a','#464474','#1f3838','#2f2f2f','#4f684f'],
-            \    ['#000000','#f6f6f6','#dedede','#ffffff','#ddddee','#ddeedd','#cccccc','#ddffff','#ccffff','ddffdd']]
-let g:offColor         = '#d778aa'
+let g:colorList=[['#ffffff','#0f0f0f','#202020','#000000','#2f6faa','#2a3a2a','#666666','#000000','#2f2f2f','#4f684f'],
+            \    ['#000000','#f6f6f6','#dedede','#ffffff','#ddddee','#ddeedd','#cccccc','#ddffff','#ccffff','#ddffdd']]
+let g:offColor         = '#87cccc'
 let g:inactiveColor    = '#9a8a8a'
 let g:backcentColor    = '#ff4088'
-let g:offBackcentColor = '#ff40ff'
+let g:offBackcentColor = '#8f408f'
 let g:modColor         = '#95ff95'
 let g:backModColor     = '#339933'
-let g:selectColor      = '#83ffff'
+let g:selectColor      = '#ff8888'
 
 fun! g:HandleBackgroundColors()
     "fg/bg
@@ -41,13 +41,13 @@ fun! g:HandleBackgroundColors()
     exec printf("hi Ignore guifg=NONE guibg=%s gui=NONE"                 , g:colorList[g:theme][6])
     exec printf("hi MoreMsg guifg=NONE guibg=%s gui=NONE"                , g:colorList[g:theme][6])
     exec printf("hi ModeMsg guifg=NONE guibg=%s gui=NONE"                , g:colorList[g:theme][6])
-    exec printf("hi WarningMsg guifg=#aaaa00 guibg=%s gui=NONE"          , g:colorList[g:theme][6])
-    exec printf("hi SpellCap guifg=#ff0000 guibg=%s gui=NONE"            , g:colorList[g:theme][6])
-    exec printf("hi SpellBad guifg=#ff0000 guibg=%s gui=NONE"            , g:colorList[g:theme][6])
-    exec printf("hi ErrorMsg guifg=#ff0000 guibg=%s gui=NONE"            , g:colorList[g:theme][6])
-    exec printf("hi Error guifg=196 guibg=%s gui=NONE"                   , g:colorList[g:theme][6])
-    exec printf("hi SearchNC guifg=NONE guibg=%s gui=inverse"               , g:colorList[g:theme][6])
-    exec printf("hi Incsearch guifg=%s guibg=%s gui=underline"           , g:offColor                , g:colorList[g:theme][6])
+    exec printf("hi WarningMsg guifg=#aaaa00 guibg=%s gui=bold"          , g:colorList[g:theme][6])
+    exec printf("hi SpellCap guifg=#ff0000 guibg=%s gui=bold"            , g:colorList[g:theme][6])
+    exec printf("hi SpellBad guifg=#ff0000 guibg=%s gui=bold"            , g:colorList[g:theme][6])
+    exec printf("hi ErrorMsg guifg=#ff2223 guibg=%s gui=bold"            , g:colorList[g:theme][7])
+    exec printf("hi Error guifg=#ff2223 guibg=%s gui=bold"               , g:colorList[g:theme][7])
+    exec printf("hi SearchNC guifg=NONE guibg=%s gui=inverse"            , g:colorList[g:theme][6])
+    exec printf("hi Incsearch guifg=%s guibg=%s gui=underline"           , g:offColor              , g:colorList[g:theme][6])
 endfun
 
 fun! g:HandleDynamicColors(color)
@@ -88,7 +88,7 @@ fun! g:HandleOtherColors()
     hi Boolean                       guifg=#baba33 guibg=NONE gui=bold
     hi Number                        guifg=#ff00ff guibg=NONE gui=bold
     hi Character                     guifg=#ff00aa guibg=NONE gui=NONE
-    hi Identifier                    guifg=#ff5757 guibg=NONE gui=NONE
+    hi Identifier                    guifg=#ff8888 guibg=NONE gui=NONE
     hi String                        guifg=#55aa55 guibg=NONE gui=NONE
     hi Label                         guifg=#4488cc guibg=NONE gui=NONE
     hi Title                         guifg=#ffaa00 guibg=NONE gui=NONE

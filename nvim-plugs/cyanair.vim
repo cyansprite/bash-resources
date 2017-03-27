@@ -30,25 +30,25 @@ let g:airline#themes#cyanair#palette = {}
 " to the dictionary.  The array is in the format:
 " [ guifg, guibg, ctermfg, ctermbg, opts ]. See "help attr-list" for valid
 " values for the "opt" value.
-let s:N1   = [ g:offColor ,  g:colorList[g:theme][2], 17  , 190 ]
-let s:N2   = [ g:offColor ,  g:colorList[g:theme][2], 255 , 238 ]
-let s:N3   = [ g:offColor ,  g:colorList[g:theme][2], 85  , 234 ]
+let s:N1   = [ g:offColor ,  g:colorList[g:theme][8], 17  , 190 ]
+let s:N2   = [ g:offColor ,  g:colorList[g:theme][8], 255 , 238 ]
+let s:N3   = [ g:offColor ,  g:colorList[g:theme][8], 85  , 234 ]
 let g:airline#themes#cyanair#palette.normal = airline#themes#generate_color_map(s:N1, s:N2, s:N3)
 
 " Here we define overrides for when the buffer is modified.  This will be
 " applied after g:airline#themes#cyanair#palette.normal, hence why only certain keys are
 " declared.
 let g:airline#themes#cyanair#palette.normal_modified = {
-      \ 'airline_c': [ '#ffffff' , g:modColor , 255     , 53      , ''     ] ,
+      \ 'airline_c': [ '#000000' , g:modColor , 255     , 53      , ''     ] ,
       \ }
 
 
-let s:I1 = [ g:selectColor , g:colorList[g:theme][7] , 17  , 45  ]
-let s:I2 = [ g:selectColor , g:colorList[g:theme][7] , 255 , 27  ]
-let s:I3 = [ g:selectColor , g:colorList[g:theme][7] , 15  , 17  ]
+let s:I1 = [ g:selectColor , g:colorList[g:theme][8] , 17  , 45  ]
+let s:I2 = [ g:selectColor , g:colorList[g:theme][8] , 255 , 27  ]
+let s:I3 = [ g:selectColor , g:colorList[g:theme][8] , 15  , 17  ]
 let g:airline#themes#cyanair#palette.insert = airline#themes#generate_color_map(s:I1, s:I2, s:I3)
 let g:airline#themes#cyanair#palette.insert_modified = {
-      \ 'airline_c': [ '#ffffff' , g:modColor , 255     , 53      , ''     ] ,
+      \ 'airline_c': [ '#000000' , g:modColor , 255     , 53      , ''     ] ,
       \ }
 let g:airline#themes#cyanair#palette.insert_paste = {
       \ 'airline_a': [ s:I1[0]   , '#d78700' , s:I1[2] , 172     , ''     ] ,
@@ -60,12 +60,12 @@ let g:airline#themes#cyanair#palette.replace.airline_a = [ s:I2[0]   , '#af0000'
 let g:airline#themes#cyanair#palette.replace_modified = g:airline#themes#cyanair#palette.insert_modified
 
 
-let s:V1 = [ g:backcentColor , g:colorList[g:theme][5] , 232 , 214 ]
-let s:V2 = [ g:backcentColor , g:colorList[g:theme][5] , 232 , 202 ]
-let s:V3 = [ g:backcentColor , g:colorList[g:theme][5] , 15  , 52  ]
+let s:V1 = [ g:backcentColor , g:colorList[g:theme][8] , 232 , 214 ]
+let s:V2 = [ g:backcentColor , g:colorList[g:theme][8] , 232 , 202 ]
+let s:V3 = [ g:backcentColor , g:colorList[g:theme][8] , 15  , 52  ]
 let g:airline#themes#cyanair#palette.visual = airline#themes#generate_color_map(s:V1, s:V2, s:V3)
 let g:airline#themes#cyanair#palette.visual_modified = {
-      \ 'airline_c': [ '#ffffff' , g:modColor , 255     , 53      , ''     ] ,
+      \ 'airline_c': [ '000000' , g:modColor , 255     , 53      , ''     ] ,
       \ }
 
 
@@ -79,7 +79,7 @@ let g:airline#themes#cyanair#palette.inactive_modified = {
 
 let g:airline#themes#cyanair#palette.tabline = {
       \ 'airline_tab':      [g:inactiveColor , g:colorList[g:theme][2] , 188 , 235 , '' ] ,
-      \ 'airline_tabsel':   [g:selectColor   , g:colorList[g:theme][8] , 235 , 149 , '' ] ,
+      \ 'airline_tabsel':   [g:selectColor   , g:colorList[g:theme][6] , 235 , 149 , '' ] ,
       \ 'airline_tabtype':  [g:backcentColor , g:colorList[g:theme][2] , 188 , 235 , '' ] ,
       \ 'airline_tabfill':  [g:backcentColor , g:colorList[g:theme][2] , 188 , 235 , '' ] ,
       \ 'airline_tabmod':   [g:modColor      , g:colorList[g:theme][9] , 235 , 149 , '' ] ,

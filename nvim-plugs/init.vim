@@ -43,11 +43,12 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     call dein#add('scrooloose/nerdcommenter')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('godlygeek/tabular')
-    call dein#add('artur-shaik/vim-javacomplete2')
     call dein#add('vim-airline/vim-airline')
     call dein#add('enricobacis/vim-airline-clock')
     call dein#add('airblade/vim-gitgutter')
     call dein#add('tpope/vim-obsession')
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('gregsexton/gitv')
     call map(dein#check_clean(), "delete(v:val, 'rf')")
 
     " Required:
@@ -127,8 +128,6 @@ nmap <leader>b :Denite buffer<cr>
 nmap <leader>' :Denite jump<cr>
 nmap <leader>* :DeniteCursorWord grep<cr>
 
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-
 "cmd2
 nmap / /<F12>
 cmap <F12> <Plug>(Cmd2Suggest)
@@ -170,10 +169,9 @@ inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function() abort
     return deoplete#close_popup() . "\<CR>"
 endfunction
-
-"
-"
-"
+"
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 2 " splits and tab number
@@ -207,8 +205,9 @@ let g:gitgutter_signs = 0
 "End dein Scripts-------------------------
 
 "Begin Vim set   -------------------------
-set titlestring=%{ObsessionStatus()}
-set title
+auto BufEnter * let &titlestring = "NVIM   %f%h%m%r%y   "
+set title titlestring=%P
+set wrap nowrap
 set cursorline "set cursorline to highlight the current line I'm no
 set selectmode=mouse "set if I use mouse, use select mode, NOT visual mode
 set showmode noshowmode "don't show mode in cmd line, I hate when it clears an echo
@@ -223,8 +222,8 @@ set ignorecase "in the name
 set smartcase  "makes things a bit better
 set smartindent "indent things well
 set smarttab	"tab plays nicer
-set list        "list my chars
-set fillchars=vert:╳,stlnc:\ ,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
+set list        "list my chars╳
+set fillchars=vert:,stlnc:\ ,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
 set listchars=tab:→\ ,trail:·,extends:↷,precedes:↶ "Changes listchars to more suitable chars
 let &showbreak = '↳ '          "Change show break thing
 set showmatch      " Show matching brackets/parentthesis
@@ -237,6 +236,7 @@ if &modifiable | set number | endif "If it's modifable, turn on numbers
 "Fuck escape
 map  
 lmap  
+vnoremap  
 
 "My weird preference for Entering insert mode <c-f> for fuckin-sert
 nnoremap  i
@@ -245,11 +245,13 @@ nmap <s-f> I
 "Smooth scroll
 map <PageUp> <C-Y><C-Y><C-Y><C-Y>
 map <Pagedown> <C-E><C-E><C-E><C-E>
+vmap <S-up> <C-Y><C-Y><C-Y><C-Y>
+vmap <S-down> <C-E><C-E><C-E><C-E>
 imap <PageUp> <esc><C-Y><C-Y><C-Y><C-Y>i
 imap <Pagedown> <esc><C-E><C-E><C-E><C-E>i
 
 "Map some clipboard function
-vnoremap <c-c> "+y
+vnoremap <s-c> "+y
 vnoremap <c-v> "+P
 vnoremap <c-x> "+d
 imap <c-v> <c-r><c-r>+
