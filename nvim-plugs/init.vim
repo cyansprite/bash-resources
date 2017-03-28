@@ -2,15 +2,17 @@
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 set termguicolors
 colorscheme cyansprite
-
-"allow if folding we hit space and it unfolds/folds, otherwise default
 map <space> <leader>
+map <leader>gc <c-\>c
+map <leader>gd <c-\>d
+map <leader>ge <c-\>e
+map <leader>gf <c-\>f
+map <leader>gg <c-\>g
+map <leader>gi <c-\>i
+map <leader>gs <c-\>s
+map <leader>gt <c-\>t
 
 "dein Scripts-----------------------------
-if &compatible
-    set nocompatible               " Be iMproved
-endif
-
 " Required:
 set runtimepath+=/home/joj/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
 
@@ -23,32 +25,31 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     call dein#add('/home/joj/.config/nvim/bundle/repos/github.com/Shougo/dein.vim')
 
     " Add or remove your plugins here:
+    "Deoplete
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('tweekmonster/deoplete-clang2')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neco-syntax')
     call dein#add('Shougo/echodoc.vim')
     call dein#add('Shougo/neopairs.vim')
-    call dein#add('Konfekt/FastFold')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/denite.nvim')
-    call dein#add('bfredl/nvim-miniyank')
     call dein#add('Robzz/deoplete-omnisharp')
-    call dein#add('eugen0329/vim-esearch')
-    call dein#add('jsfaint/gen_tags.vim')
-    call dein#add('gelguy/cmd2.vim')
+
+    "Nerd tree and comment
+    call dein#add('scrooloose/nerdcommenter')
     call dein#add('scrooloose/nerdtree')
     call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
+    "Git
     call dein#add('xuyuanp/nerdtree-git-plugin')
-    call dein#add('scrooloose/nerdcommenter')
-    call dein#add('ryanoasis/vim-devicons')
-    call dein#add('godlygeek/tabular')
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('enricobacis/vim-airline-clock')
-    call dein#add('airblade/vim-gitgutter')
-    call dein#add('tpope/vim-obsession')
     call dein#add('tpope/vim-fugitive')
     call dein#add('gregsexton/gitv')
+
+    "Other nice things
+    call dein#add('jsfaint/gen_tags.vim')
+    call dein#add('gelguy/cmd2.vim')
+    call dein#add('ryanoasis/vim-devicons')
+    call dein#add('godlygeek/tabular')
     call map(dein#check_clean(), "delete(v:val, 'rf')")
 
     " Required:
@@ -59,6 +60,7 @@ endif
 " Required:
 filetype plugin indent on
 syntax enable
+
 "Denite
 " Change mappings.
 call denite#custom#map(
@@ -115,7 +117,6 @@ call denite#custom#map(
             \ '<denite:scroll_page_backwards>',
             \ 'noremap'
             \)
-"denite
 nmap <leader>f :Denite grep<cr>
 nmap <leader><space> :Denite file_rec<cr>
 nmap <leader>u :Denite change<cr>
@@ -154,7 +155,6 @@ let s:menus.my_commands.command_candidates = [
 call denite#custom#var('menu', 'menus', s:menus)
 
 "deoplete
-"g:deoplete#auto_complete_delay|
 let g:deoplete#enable_at_startup=0
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
@@ -164,52 +164,24 @@ function! s:check_back_space() abort "{{{
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" <CR>: close popup
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<cr>
 function! s:my_cr_function() abort
-    return deoplete#close_popup() . "\<CR>"
+    return deoplete#close_popup()
 endfunction
-"
+
+"NerdTree
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#tab_nr_type = 2 " splits and tab number
-let g:airline_powerline_fonts = 1
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_theme='cyanair'
-
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
-
-let g:gitgutter_override_sign_column_highlight = 0
-let g:gitgutter_signs = 0
-
-" If you want to install not installed plugins on start
-"if dein#check_install()
-"  call dein#install()
-"endif
 
 "End dein Scripts-------------------------
 
 "Begin Vim set   -------------------------
 auto BufEnter * let &titlestring = "NVIM   %f%h%m%r%y   "
+set foldcolumn=1
 set title titlestring=%P
 set wrap nowrap
 set cursorline "set cursorline to highlight the current line I'm no
-set selectmode=mouse "set if I use mouse, use select mode, NOT visual mode
 set showmode noshowmode "don't show mode in cmd line, I hate when it clears an echo
 set shiftwidth=4               " Use indents of 4 spaces
 set tabstop=4                  " An indentation every four columns
@@ -222,8 +194,8 @@ set ignorecase "in the name
 set smartcase  "makes things a bit better
 set smartindent "indent things well
 set smarttab	"tab plays nicer
-set list        "list my chars╳
-set fillchars=vert:,stlnc:\ ,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
+set list        "list my chars╳
+set fillchars=vert:╳,stlnc:-,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
 set listchars=tab:→\ ,trail:·,extends:↷,precedes:↶ "Changes listchars to more suitable chars
 let &showbreak = '↳ '          "Change show break thing
 set showmatch      " Show matching brackets/parentthesis
@@ -236,11 +208,11 @@ if &modifiable | set number | endif "If it's modifable, turn on numbers
 "Fuck escape
 map  
 lmap  
-vnoremap  
 
-"My weird preference for Entering insert mode <c-f> for fuckin-sert
-nnoremap  i
-nmap <s-f> I
+"[Pre/App]end to the word under the cursor
+"And in visual mode, slow movement
+map  ea
+map <c-i> bi
 
 "Smooth scroll
 map <PageUp> <C-Y><C-Y><C-Y><C-Y>
@@ -251,7 +223,7 @@ imap <PageUp> <esc><C-Y><C-Y><C-Y><C-Y>i
 imap <Pagedown> <esc><C-E><C-E><C-E><C-E>i
 
 "Map some clipboard function
-vnoremap <s-c> "+y
+vnoremap  
 vnoremap <c-v> "+P
 vnoremap <c-x> "+d
 imap <c-v> <c-r><c-r>+
@@ -332,7 +304,10 @@ function! EnterWin()
     endif
 endfunction
 
-"I want to save my session on leave automatically
+"I want to save my session/view on leave automatically
+set viewoptions=cursor,folds
+set sessionoptions=help,resize,sesdir,tabpages,winpos,winsize,buffers,folds
+
 autocmd VimLeave * nested if (!isdirectory($HOME . "/.config/nvim")) |
             \ call mkdir($HOME . "/.config/nvim") |
             \ endif |
