@@ -14,20 +14,25 @@ map <leader>gi <c-\>i
 map <leader>gs <c-\>s
 map <leader>gt <c-\>t
 "Far
-nmap <leader>f :F<space>
-nmap <leader>h :Far<space>
+nmap <leader>ff :F<space>*/*<s-lefT><space><left>
+nmap <leader>fr :Far<space>
+nmap <leader>fc :Fardo<space>
+let g:far#window_layout='tab'
+let g:far#file_mask_favorites = ['**/*.*', '%']
+let g:far#collapse_result=1
+
 "Denite
-nmap <leader>grep :Denite grep<cr>
-nmap <leader><space> :Denite file_rec<cr>
-nmap <leader>d :Denite directory_rec<cr>
-nmap <leader>u :Denite change<cr>
-nmap <leader>p :Denite file_old<cr>
-nmap <leader>help :Denite help<cr>
-nmap <leader>me :Denite menu<cr>
-nmap <leader>r :Denite register<cr>
-nmap <leader>y :Denite miniyank<cr>
-nmap <leader>b :Denite buffer<cr>
-nmap <leader>' :Denite jump<cr>
+nmap <leader>grep :DeniteBufferDir grep<cr>
+nmap <leader><space> :DeniteBufferDir file_rec<cr>
+nmap <leader>d :DeniteBufferDir directory_rec<cr>
+nmap <leader>u :DeniteBufferDir change<cr>
+nmap <leader>p :DeniteBufferDir file_old<cr>
+nmap <leader>H :DeniteBufferDir help<cr>
+nmap <leader>me :DeniteBufferDir menu<cr>
+nmap <leader>r :DeniteBufferDir register<cr>
+nmap <leader>y :DeniteBufferDir miniyank<cr>
+nmap <leader>b :DeniteBufferDir buffer<cr>
+nmap <leader>' :DeniteBufferDir jump<cr>
 nmap <leader>* :DeniteCursorWord grep<cr>
 nmap <Leader>1 :1tabn<cr>
 nmap <Leader>2 :2tabn<cr>
@@ -236,7 +241,6 @@ if &modifiable | set number | endif "If it's modifable, turn on numbers
 "Fuck escape
 map  
 lmap  
-vmap  
 tmap <leader><leader> <C-\><C-n>
 
 "[Pre/App]end to the word under the cursor
@@ -255,7 +259,7 @@ imap <PageUp> <esc><C-Y><C-Y><C-Y><C-Y>i
 imap <Pagedown> <esc><C-E><C-E><C-E><C-E>i
 
 "Map some clipboard function
-vnoremap  
+vnoremap  "+y
 vnoremap <c-v> "+P
 vnoremap <c-x> "+d
 imap <c-v> <c-r><c-r>+
@@ -354,5 +358,41 @@ augroup init
     autocmd BufWinEnter,Syntax * syn sync minlines=100 maxlines=100
     au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 augroup END
+
+set showtabline=2
+set tabline=%!MyTabLine()
+
+function MyTabLine()
+    let s = ''
+    for i in range(tabpagenr('$'))
+        " select the highlighting
+        if i + 1 == tabpagenr()
+            let s .= '%#TabLineSel#'
+        else
+            let s .= '%#TabLine#'
+        endif
+
+        " set the tab page number (for mouse clicks)
+        let s .= '%' . (i + 1) . 'T'
+
+        " the label is made by MyTabLabel()
+        let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
+    endfor
+
+    " after the last tab fill with TabLineFill and reset tab page nr
+    let s .= '%#TabLineFill#%T'
+
+    " right-align the label to close the current tab page
+    if tabpagenr('$') > 1
+	    let s .= '%=%#TabLine#%999X'
+    endif
+
+    return s
+endfunction
+function MyTabLabel(n)
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    return a:n . ' -- '. bufname(buflist[winnr - 1])
+endfunction
 
 "End    Aucmd   -------------------------
