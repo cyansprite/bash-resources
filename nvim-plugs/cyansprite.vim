@@ -115,7 +115,6 @@ fun! g:HandleModColor(mod)
     exec printf("hi StorageClass guifg = %s      guibg = NONE gui = bold"      , g:accentColor                                 )
     exec printf("hi Folded       guifg = %s      guibg = NONE gui = underline" , g:accentColor                                 )
     exec printf("hi VertSplit    guifg = %s      guibg = %s   gui = bold"      , g:accentColor       , g:bgColor               )
-    exec printf("hi Incsearch    guifg = %s      guibg = %s   gui = underline" , g:accentColor       , g:neutralColor          )
     exec printf("hi LineNr       guifg = %s      guibg = %s   gui = NONE"      , g:accentColor       , g:accentBackgroundColor )
     exec printf("hi Pmenu        guifg = %s      guibg = %s   gui = NONE"      , g:accentColor       , g:accentBackgroundColor )
     exec printf("hi TabLineSel   guifg = %s      guibg = %s   gui = NONE"      , g:accentColor       , g:harshAccentColor      )
@@ -129,7 +128,8 @@ cal g:HandleDynamicColors()
 cal g:HandleModColor(0)
 
 "Effects
-hi Cursor                     guifg=NONE guibg=NONE gui=inverse
+hi Cursor    guifg=NONE guibg=NONE gui=inverse
+hi Incsearch guifg=NONE guibg=NONE gui=reverse
 
 "Links
 hi link diffAdded DiffAdd

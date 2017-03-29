@@ -2,7 +2,9 @@
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 set termguicolors
 colorscheme cyansprite
+"Leader maps
 map <space> <leader>
+"gen tags
 map <leader>gc <c-\>c
 map <leader>gd <c-\>d
 map <leader>ge <c-\>e
@@ -11,6 +13,42 @@ map <leader>gg <c-\>g
 map <leader>gi <c-\>i
 map <leader>gs <c-\>s
 map <leader>gt <c-\>t
+"Far
+nmap <leader>f :F<space>
+nmap <leader>h :Far<space>
+"Denite
+nmap <leader>grep :Denite grep<cr>
+nmap <leader><space> :Denite file_rec<cr>
+nmap <leader>d :Denite directory_rec<cr>
+nmap <leader>u :Denite change<cr>
+nmap <leader>p :Denite file_old<cr>
+nmap <leader>help :Denite help<cr>
+nmap <leader>me :Denite menu<cr>
+nmap <leader>r :Denite register<cr>
+nmap <leader>y :Denite miniyank<cr>
+nmap <leader>b :Denite buffer<cr>
+nmap <leader>' :Denite jump<cr>
+nmap <leader>* :DeniteCursorWord grep<cr>
+nmap <Leader>1 :1tabn<cr>
+nmap <Leader>2 :2tabn<cr>
+nmap <Leader>3 :3tabn<cr>
+nmap <Leader>4 :4tabn<cr>
+nmap <Leader>5 :5tabn<cr>
+nmap <Leader>6 :6tabn<cr>
+nmap <Leader>7 :7tabn<cr>
+nmap <Leader>8 :8tabn<cr>
+nmap <Leader>9 :9tabn<cr>
+tmap <Leader>1 :1tabn<cr>
+tmap <Leader>2 :2tabn<cr>
+tmap <Leader>3 :3tabn<cr>
+tmap <Leader>4 :4tabn<cr>
+tmap <Leader>5 :5tabn<cr>
+tmap <Leader>6 :6tabn<cr>
+tmap <Leader>7 :7tabn<cr>
+tmap <Leader>8 :8tabn<cr>
+tmap <Leader>9 :9tabn<cr>
+nmap <cr> gg
+vmap <cr> gg
 
 "dein Scripts-----------------------------
 " Required:
@@ -118,18 +156,6 @@ call denite#custom#map(
             \ '<denite:scroll_page_backwards>',
             \ 'noremap'
             \)
-nmap <leader>f :Far<space>
-nmap <leader>grep :Denite grep<cr>
-nmap <leader><space> :Denite file_rec<cr>
-nmap <leader>u :Denite change<cr>
-nmap <leader>p :Denite file_old<cr>
-nmap <leader>h :Denite help<cr>
-nmap <leader>me :Denite menu<cr>
-nmap <leader>r :Denite register<cr>
-nmap <leader>y :Denite miniyank<cr>
-nmap <leader>b :Denite buffer<cr>
-nmap <leader>' :Denite jump<cr>
-nmap <leader>* :DeniteCursorWord grep<cr>
 
 "cmd2
 nmap / /<F12>
@@ -166,10 +192,10 @@ function! s:check_back_space() abort "{{{
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
-" <CR>: close popup
+
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<cr>
 function! s:my_cr_function() abort
-    return deoplete#close_popup()
+    return deoplete#close_popup() . "\<CR>"
 endfunction
 
 "NerdTree
@@ -210,11 +236,15 @@ if &modifiable | set number | endif "If it's modifable, turn on numbers
 "Fuck escape
 map  
 lmap  
+vmap  
+tmap <leader><leader> <C-\><C-n>
 
 "[Pre/App]end to the word under the cursor
 "And in visual mode, slow movement
-map  ea
-map <c-i> bi
+map <m-a> ea
+map <m-i> bi
+map <m-p> ep
+map <m-P> bP
 
 "Smooth scroll
 map <PageUp> <C-Y><C-Y><C-Y><C-Y>
@@ -244,6 +274,10 @@ nnoremap <silent> <s-up> :wincmd k<CR>
 nnoremap <silent> <s-down> :wincmd j<CR>
 nnoremap <silent> <s-left> :wincmd h<CR>
 nnoremap <silent> <s-right> :wincmd l<CR>
+tnoremap <silent> <s-up> <C-\><C-n>:wincmd k<CR>
+tnoremap <silent> <s-down> <C-\><C-n>:wincmd j<CR>
+tnoremap <silent> <s-left> <C-\><C-n>:wincmd h<CR>
+tnoremap <silent> <s-right> <C-\><C-n>:wincmd l<CR>
 
 "Copy full path of filename to black hole
 nnoremap <M-Y> :let @" = expand("%:p")<cr>
@@ -262,8 +296,6 @@ let g:doAutoNumInActive=1
 let g:doAutoDimInactive=0
 let g:killInactiveCursor=1
 let g:dynamicStatusLine=1
-
-autocmd WinEnter * cal EnterWin()
 
 function! EnterWin()
     let curWinIndex = winnr()
@@ -290,7 +322,7 @@ function! EnterWin()
     endfor
 
     wincmd w
-    if(&modifiable)
+    if(&modifiable && &buftype != 'terminal')
         if(g:doGoldRatioActive)
             exec printf("vertical resize %d", float2nr(ratio))
         endif
@@ -310,11 +342,17 @@ endfunction
 set viewoptions=cursor,folds
 set sessionoptions=help,resize,sesdir,tabpages,winpos,winsize,buffers,folds
 
-autocmd VimLeave * nested if (!isdirectory($HOME . "/.config/nvim")) |
-            \ call mkdir($HOME . "/.config/nvim") |
-            \ endif |
-            \ execute "mksession! " . $HOME . "/.config/nvim/lastSession.vim"
-autocmd VimEnter * nested if argc() == 0 && filereadable($HOME . "/.config/nvim/lastSession.vim") |
-            \ execute "source " . $HOME . "/.config/nvim/lastSession.vim"
+augroup init
+    autocmd!
+    autocmd WinEnter * cal EnterWin()
+    autocmd VimLeave * nested if (!isdirectory($HOME . "/.config/nvim")) |
+                \ call mkdir($HOME . "/.config/nvim") |
+                \ endif |
+                \ execute "mksession! " . $HOME . "/.config/nvim/lastSession.vim"
+    autocmd VimEnter * nested if argc() == 0 && filereadable($HOME . "/.config/nvim/lastSession.vim") |
+                \ execute "source " . $HOME . "/.config/nvim/lastSession.vim"
+    autocmd BufWinEnter,Syntax * syn sync minlines=100 maxlines=100
+    au BufEnter * if &buftype == 'terminal' | :startinsert | endif
+augroup END
 
 "End    Aucmd   -------------------------
