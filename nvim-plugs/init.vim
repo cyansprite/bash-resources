@@ -50,6 +50,7 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     call dein#add('gelguy/cmd2.vim')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('godlygeek/tabular')
+    call dein#add('brooth/far.vim')
     call map(dein#check_clean(), "delete(v:val, 'rf')")
 
     " Required:
@@ -117,7 +118,8 @@ call denite#custom#map(
             \ '<denite:scroll_page_backwards>',
             \ 'noremap'
             \)
-nmap <leader>f :Denite grep<cr>
+nmap <leader>f :Far<space>
+nmap <leader>grep :Denite grep<cr>
 nmap <leader><space> :Denite file_rec<cr>
 nmap <leader>u :Denite change<cr>
 nmap <leader>p :Denite file_old<cr>

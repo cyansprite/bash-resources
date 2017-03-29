@@ -33,6 +33,7 @@ ln -fv cyanair.vim ~/.config/nvim/bundle/.cache/init.vim/.dein/autoload/airline/
 echo "================================Linking bashrc,inputrc, and tmux to home "
 cd "$SOURCE"
 ln -fv .bashrc ~/.bashrc
+ln -fv .bash_aliases ~/.bash_aliases
 ln -fv .inputrc ~/.inputrc
 ln -fv .tmux.conf ~/.tmux.conf
 
