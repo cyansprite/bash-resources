@@ -17,6 +17,7 @@ map <leader>gt <c-\>t
 nmap <leader>ff :F<space>*/*<s-lefT><space><left>
 nmap <leader>fr :Far<space>
 nmap <leader>fc :Fardo<space>
+nmap <leader>m :make<cr>
 let g:far#window_layout='tab'
 let g:far#file_mask_favorites = ['**/*.*', '%']
 let g:far#collapse_result=1
@@ -28,7 +29,6 @@ nmap <leader>d :DeniteBufferDir directory_rec<cr>
 nmap <leader>u :DeniteBufferDir change<cr>
 nmap <leader>p :DeniteBufferDir file_old<cr>
 nmap <leader>H :DeniteBufferDir help<cr>
-nmap <leader>me :DeniteBufferDir menu<cr>
 nmap <leader>r :DeniteBufferDir register<cr>
 nmap <leader>y :DeniteBufferDir miniyank<cr>
 nmap <leader>b :DeniteBufferDir buffer<cr>
@@ -70,6 +70,7 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     " Add or remove your plugins here:
     "Deoplete
     call dein#add('Shougo/deoplete.nvim')
+    call dein#add('zchee/deoplete-jedi')
     call dein#add('tweekmonster/deoplete-clang2')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neco-syntax')
@@ -94,6 +95,7 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('godlygeek/tabular')
     call dein#add('brooth/far.vim')
+    call dein#add('neomake/neomake')
     call map(dein#check_clean(), "delete(v:val, 'rf')")
 
     " Required:
@@ -188,6 +190,8 @@ let s:menus.my_commands.command_candidates = [
 call denite#custom#var('menu', 'menus', s:menus)
 
 "deoplete
+autocmd CompleteDone * pclose!
+
 let g:deoplete#enable_at_startup=0
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
@@ -212,6 +216,7 @@ let g:NERDTreeDirArrowCollapsible = ''
 "Begin Vim set   -------------------------
 auto BufEnter * let &titlestring = "NVIM   %f%h%m%r%y   "
 set foldcolumn=1
+set mouse=a
 set title titlestring=%P
 set wrap nowrap
 set cursorline "set cursorline to highlight the current line I'm no
