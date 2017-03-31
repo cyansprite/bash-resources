@@ -36,6 +36,7 @@ ln -fv .bashrc ~/.bashrc
 ln -fv .bash_aliases ~/.bash_aliases
 ln -fv .inputrc ~/.inputrc
 ln -fv .tmux.conf ~/.tmux.conf
+ln -fv .xbinkeysrc ~/.xbindkeysrc
 
 echo "================================Linking wallpapers to Pictures "
 cd "$SOURCE/ims"

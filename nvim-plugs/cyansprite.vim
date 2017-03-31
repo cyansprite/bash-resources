@@ -13,11 +13,11 @@ let g:theme                 = 0
 
 let g:fgColor               = '#fafada'
 let g:bgColor               = '#1f251f'
-let g:accentBackgroundColor = '#2a3a3a'
+let g:accentBackgroundColor = '#2f353a'
 let g:harshAccentColor      = '#000000'
 let g:searchColor           = '#2f3f7a'
 let g:visualColor           = '#4a6a4a'
-let g:cursorColor           = '#555555'
+let g:cursorColor           = '#2f352f'
 let g:lightBackModColor     = '#4f684f'
 let g:neutralColor          = '#888860'
 
@@ -117,7 +117,7 @@ fun! g:HandleModColor(mod)
     endif
     exec printf("hi StorageClass guifg = %s      guibg = NONE gui = bold"      , g:accentColor                                 )
     exec printf("hi Folded       guifg = %s      guibg = NONE gui = underline" , g:selectColor                                 )
-    exec printf("hi VertSplit    guifg = %s      guibg = %s   gui = bold"      , g:otherAccentcolor  , g:bgColor               )
+    exec printf("hi VertSplit    guifg = %s      guibg = %s   gui = NONE"      , g:accentColor  , g:accentBackgroundColor               )
     exec printf("hi LineNr       guifg = %s      guibg = %s   gui = NONE"      , g:accentColor       , g:accentBackgroundColor )
     exec printf("hi Pmenu        guifg = %s      guibg = %s   gui = NONE"      , g:accentColor       , g:accentBackgroundColor )
     exec printf("hi TabLineSel   guifg = %s      guibg = %s   gui = bold"      , g:selectColor       , g:accentBackgroundColor )

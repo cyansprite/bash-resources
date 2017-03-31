@@ -48,8 +48,6 @@ if dein#load_state('/home/joj/.config/nvim/bundle')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/denite.nvim')
     call dein#add('Robzz/deoplete-omnisharp')
-    call dein#add('svermeulen/vim-easyclip')
-    call dein#add('tpope/vim-repeat')
 
     "Git
     call dein#add('tpope/vim-fugitive')
@@ -70,32 +68,6 @@ endif
 filetype plugin indent on
 syntax enable
 "End dein Scripts-------------------------
-
-"Denite
-"Denite leader cmds
-let g:EasyClipUseSubstituteDefaults=1
-imap <c-v> <plug>EasyClipInsertModePaste
-cmap <c-v> <plug>EasyClipCommandModePaste
-let g:EasyClipShareYanks=1
-
-nmap <leader>grep :Denite grep<cr>
-nmap <leader><space> :Denite file_rec<cr>
-nmap <leader>d :Denite directory_rec<cr>
-nmap <leader>u :Denite change<cr>
-nmap <leader>p :Denite file_old<cr>
-nmap <leader>H :Denite help<cr>
-nmap <leader>r :Denite register<cr>
-nmap <leader>y :Denite miniyank<cr>
-nmap <leader>b :Denite buffer<cr>
-nmap <leader>' :Denite jump<cr>
-nmap <leader>* :DeniteCursorWord grep<cr>
-" Change mappings.
-call denite#custom#map(
-            \ 'insert',
-            \ '<C-P>',
-            \ '<denite:do_action:preview>',
-            \ 'noremap'
-            \)
 call denite#custom#map(
             \ 'insert',
             \ '<C-S>',
@@ -192,19 +164,14 @@ function! s:my_cr_function() abort
     return deoplete#close_popup() . "\<CR>"
 endfunction
 
-"NerdTree
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = ''
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeChDirMode = 2
-nmap <leader>n :NERDTreeToggle<cr>
+"''
+"''
 
 "Begin Vim set   -------------------------
 auto BufEnter * let &titlestring = "NVIM   %f%h%m%r%y   "
 "I want to save my session/view on leave automatically
-set clipboard=unnamed
+set clipboard+=unnamed
+set sol nosol
 set viewoptions=cursor,folds
 set sessionoptions=help,resize,sesdir,tabpages,winpos,winsize,buffers,folds
 set foldcolumn=1
@@ -225,7 +192,7 @@ set smartcase  "makes things a bit better
 set smartindent "indent things well
 set smarttab	"tab plays nicer
 set list        "list my chars╳
-set fillchars=vert:╳,stlnc:-,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
+set fillchars=vert:│,stlnc:-,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
 set listchars=tab:→\ ,trail:·,extends:┇,precedes:┇  "Changes listchars to more suitable chars
 let &showbreak = '↳ '          "Change show break thing
 set showmatch      " Show matching brackets/parentthesis
@@ -235,11 +202,6 @@ if &modifiable | set number | endif "If it's modifable, turn on numbers
 "End   Vim set   -------------------------
 
 "Begin Mappings  -------------------------
-"Fuck escape
-map  
-lmap  
-tmap <leader><leader> <C-\><C-n>
-
 nmap <Leader>1 :1tabn<cr>
 nmap <Leader>2 :2tabn<cr>
 nmap <Leader>3 :3tabn<cr>
@@ -353,12 +315,11 @@ function! EnterWin()
     endif
 endfunction
 
-"End    Aucmd   -------------------------
-
-"init     -------------------------
 func! LeaveBufWin()
     execute "mksession! " . $HOME . "/.config/nvim/lastSession.vim"
-    mkview
+    if &modifiable
+        mkview
+    endif
 endfun
 
 func! EnterBufWin()
@@ -366,7 +327,34 @@ func! EnterBufWin()
         execute "source " . $HOME . "/.config/nvim/lastSession.vim"
     endif
 
-    silent loadview
+    if &modifiable && filereadable(&viewdir .'/~=+.config=+nvim=+'.expand('%:t').'=')
+        silent loadview
+    endif
+endfun
+
+let g:smoothWait = 1
+map <silent><pageup> :cal SmoothScroll(1,0)<cr>
+map <silent><pagedown> :cal SmoothScroll(0,0)<cr>
+map <m-pageup> :cal SmoothScroll(1,1)<cr>
+map <m-pagedown> :cal SmoothScroll(0,1)<cr>
+inoremap <Leader><Leader> <esc>
+inoremap <m-q> <esc>
+inoremap <silent><c-v> <esc>gpa
+
+func! SmoothScroll(up,mid)
+    let lines = winheight(winnr() - 1) / 3
+    for i in range(1,lines)
+        if a:mid
+            exec "normal! M"
+        endif
+        if a:up
+            exec "normal! \<C-y>"
+        else
+            exec "normal! \<C-e>"
+        endif
+        redraw
+        exec printf("sleep %dm", g:smoothWait)
+    endfor
 endfun
 
 augroup init
@@ -375,18 +363,7 @@ augroup init
     autocmd BufWinLeave * cal LeaveBufWin()
     autocmd BufWinEnter * cal EnterBufWin()
 augroup END
-"end init -------------------------
-
-"Fold Function
-set foldtext=MyFoldText()
-function! MyFoldText()
-    let line = getline(v:foldstart)
-    let sub = substitute(line, '/\*\|\*/\|{{{\d\=', '', 'g')
-    return v:folddashes . sub
-endfunction
-
-
-
+"End    Aucmd   -------------------------
 
 "Symbols
 " AÁĂÂÄÀĀĄÅÃÆBCĆČÇĈDÐĎĐEÉĚÊËĖÈĒĘFGĜHĤIĲÍÎÏÌĪĮJĴKLĹĽĿŁMNŃŇÑOÓÔÖÒŐŌØÕŒPÞQRŔŘSŚŠŞŜTŦŤUÚŬÛÜÙŰŪŲŮVWẂŴẄẀXYÝŶŸỲZŹŽŻŢa
