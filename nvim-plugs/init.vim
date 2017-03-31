@@ -68,6 +68,14 @@ endif
 filetype plugin indent on
 syntax enable
 "End dein Scripts-------------------------
+map <leader><space> :Denite file_rec<cr>
+map <leader>p :Denite file_old<cr>
+map <leader>H :Denite help<cr>
+map <leader>c :Denite change<cr>
+map <leader>l :Denite line<cr>
+map <leader>t :Denite outline<cr>
+map <leader>b :Denite buffer<cr>
+
 call denite#custom#map(
             \ 'insert',
             \ '<C-S>',
@@ -174,7 +182,7 @@ set clipboard+=unnamed
 set sol nosol
 set viewoptions=cursor,folds
 set sessionoptions=help,resize,sesdir,tabpages,winpos,winsize,buffers,folds
-set foldcolumn=1
+set foldcolumn=0
 set mouse=a
 set title titlestring=%P
 set wrap nowrap
@@ -251,6 +259,10 @@ nnoremap <silent> <s-up> :wincmd k<CR>
 nnoremap <silent> <s-down> :wincmd j<CR>
 nnoremap <silent> <s-left> :wincmd h<CR>
 nnoremap <silent> <s-right> :wincmd l<CR>
+nnoremap <silent> <c-k> :wincmd k<CR>
+nnoremap <silent> <c-j> :wincmd j<CR>
+nnoremap <silent> <c-h> :wincmd h<CR>
+nnoremap <silent> <c-l> :wincmd l<CR>
 tnoremap <silent> <s-up> <C-\><C-n>:wincmd k<CR>
 tnoremap <silent> <s-down> <C-\><C-n>:wincmd j<CR>
 tnoremap <silent> <s-left> <C-\><C-n>:wincmd h<CR>
@@ -332,7 +344,7 @@ func! EnterBufWin()
     endif
 endfun
 
-let g:smoothWait = 1
+let g:smoothWait = 5
 map <silent><pageup> :cal SmoothScroll(1,0)<cr>
 map <silent><pagedown> :cal SmoothScroll(0,0)<cr>
 map <m-pageup> :cal SmoothScroll(1,1)<cr>
@@ -344,16 +356,24 @@ inoremap <silent><c-v> <esc>gpa
 func! SmoothScroll(up,mid)
     let lines = winheight(winnr() - 1) / 3
     for i in range(1,lines)
+        let time = g:smoothWait - i
+
         if a:mid
             exec "normal! M"
         endif
+
         if a:up
             exec "normal! \<C-y>"
         else
             exec "normal! \<C-e>"
         endif
-        redraw
-        exec printf("sleep %dm", g:smoothWait)
+
+        if time < 1
+            let time = 1
+        else
+            redraw
+        endif
+        exec printf("sleep %dm", time)
     endfor
 endfun
 
