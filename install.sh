@@ -1,12 +1,4 @@
 SOURCE=${PWD}
-
-#make sure we have dein
-if [ ! -d ~/.config/nvim/bundle ] ; then
-    ./dein.sh ~/.config/nvim/bundle
-else
-    echo "Dein already exists, if not wipe your nvim bundle folder"
-fi
-
 #make sure we have nice font
 cd "$SOURCE/fonts"
 echo "================================Copying fonts to ~/.local/share/fonts/ "
