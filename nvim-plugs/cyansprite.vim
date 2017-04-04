@@ -1,6 +1,5 @@
 "Vim Colorscheme file
 "init
-set bg&
 hi clear Normal
 hi clear SpecialKey
 hi clear
@@ -10,20 +9,19 @@ syntax reset
 let colors_name             = "cyansprite"
 let g:theme                 = 0
 
-let g:fgColor                 = '#fafada'
-let g:bgColor                 = '#1f251f'
+let g:fgColor                 = 'NONE'
+let g:bgColor                 = 'NONE'
 let g:accentBackgroundColor   = '#2f353a'
-let g:secondAccentBgColor     = '#2f3f3f'
-let g:secondAccentBgColorLite = '#5f7f7f'
+let g:secondAccentBgColor     = '#1f2f2f'
 let g:harshAccentColor        = '#000000'
-let g:searchColor             = '#2f3f7a'
-let g:visualColor             = '#4a6a4a'
-let g:cursorColor             = '#4a4a4a'
+let g:searchColor             = '#1f2f6a'
+let g:visualColor             = '#2a4a2a'
+let g:cursorColor             = '#111111'
 let g:lightBackModColor       = '#4f684f'
 let g:neutralColor            = '#888860'
 
 let g:offBackcentColor      = neutralColor
-let g:accentColor           = '#8Ef785'
+let g:accentColor           = '#888888'
 let g:otherAccentcolor      = '#afffff'
 let g:origAccentColor       = '#a8a5bf'
 let g:inactiveColor         = '#9a8a8a'
@@ -32,7 +30,6 @@ let g:modColor              = '#52cc52'
 let g:envModColor           = '#95ff95'
 let g:backModColor          = '#339933'
 let g:selectColor           = '#88ffff'
-
 
 let g:offYellow             = '#df9a3a'
 let g:yellow                = '#cccc33'
@@ -57,11 +54,11 @@ fun! g:HandleDynamicColors()
     exec printf("hi Visual       guifg = NONE    guibg = %s   gui = NONE"      , g:visualColor                                 )
 
 
-    exec printf("hi StatusLineNc guifg = %s      guibg = %s   gui = NONE"      , g:offBackcentColor  , g:secondAccentBgColor )
+    exec printf("hi StatusLineNc guifg = %s      guibg = %s   gui = NONE"      , g:offBackcentColor  , g:harshAccentColor )
     exec printf("hi TabLine      guifg = %s      guibg = %s   gui = NONE"      , g:offBackcentColor  , g:secondAccentBgColor )
 
     exec printf("hi TabLineFill  guifg = %s      guibg = %s   gui = NONE"      , g:backcentColor     , g:harshAccentColor )
-    exec printf("hi EndOfBuffer  guifg = %s      guibg = %s   gui = NONE"      , g:backcentColor     , g:harshAccentColor )
+    exec printf("hi EndOfBuffer  guifg = %s      guibg = %s   gui = NONE"      , g:backcentColor     , g:accentBackgroundColor )
 
     exec printf("hi PmenuSel     guifg = %s      guibg = %s   gui = NONE"      , g:selectColor       , g:harshAccentColor      )
     exec printf("hi WildMenu     guifg = %s      guibg = %s   gui = underline" , g:selectColor       , g:harshAccentColor      )
@@ -107,17 +104,16 @@ fun! g:HandleDynamicColors()
     exec printf("hi Directory    guifg = %s      guibg = NONE gui = NONE"      , g:blue                                        )
     exec printf("hi Underlined   guifg = %s      guibg = NONE gui = NONE"      , g:lavender                                    )
     exec printf("hi Function     guifg = %s      guibg = NONE gui = NONE"      , g:hotPink                                     )
-    exec printf("hi MatchParen   guifg = %s      guibg = %s   gui = bold,reverse"   , g:bgColor           , g:accentColor           )
-
+    exec printf("hi MatchParen   guifg = %s      guibg = %s   gui = bold,underline"      , g:bgColor           , g:harshAccentColor           )
 endfun
 
-fun! g:HandleModColor(mod)
+fun! g:HandleModColor()
     exec printf("hi StorageClass guifg = %s      guibg = NONE gui = bold"      , g:selectColor                                 )
     exec printf("hi Folded       guifg = %s      guibg = NONE gui = underline" , g:accentColor                                 )
-    exec printf("hi VertSplit    guifg = %s      guibg = %s   gui = NONE"      , g:accentColor       , g:accentBackgroundColor )
+    exec printf("hi VertSplit    guifg = %s      guibg = %s   gui = NONE"      , g:accentColor       , g:harshAccentColor )
     exec printf("hi LineNr       guifg = %s      guibg = %s   gui = NONE"      , g:accentColor       , g:accentBackgroundColor )
     exec printf("hi Pmenu        guifg = %s      guibg = %s   gui = NONE"      , g:accentColor       , g:accentBackgroundColor )
-    exec printf("hi TabLineSel   guifg = %s      guibg = %s   gui = bold"      , g:selectColor       , g:secondAccentBgColorLite )
+    exec printf("hi TabLineSel   guifg = %s      guibg = %s   gui = bold"      , g:selectColor       , g:secondAccentBgColor )
     exec printf("hi StatusLine   guifg = %s      guibg = %s   gui = NONE"      , g:selectColor       , g:secondAccentBgColor   )
     exec printf("hi SignColumn   guifg = %s      guibg = %s   gui = bold"      , g:accentColor       , g:bgColor               )
     exec printf("hi FoldColumn   guifg = %s      guibg = %s   gui = bold"      , g:selectColor       , g:harshAccentColor      )
@@ -125,10 +121,10 @@ endfun
 
 "Make it happen
 cal g:HandleDynamicColors()
-cal g:HandleModColor(0)
+cal g:HandleModColor()
 
 "Effects
-hi Cursor    guifg=NONE guibg=NONE gui=inverse
+hi Cursor    guifg=NONE guibg=NONE gui=standout
 hi Incsearch guifg=NONE guibg=NONE gui=reverse
 
 "Links
