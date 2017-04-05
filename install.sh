@@ -36,8 +36,7 @@ ln -fv elemental.jpg ~/Pictures
 
 echo "================================And finally, tilix's json "
 cd "$SOURCE/tilix"
-#ln -fv snow.json ~/.config/tilix/schemes
-#ln -fv shadow.json ~/.config/tilix/schemes
+ln -fv cyansprite.json ~/.config/tilix/schemes
 
 echo "================================Fin linking!"
 
@@ -47,5 +46,3 @@ if [ ! -d ~/.fzf ] ; then
 else
     echo "FZF already exists!"
 fi
-
-#TODO add open vim, install dein, then import colors for airline so i don't have to do it twice

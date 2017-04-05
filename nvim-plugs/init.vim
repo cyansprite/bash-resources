@@ -1,3 +1,4 @@
+call elemental#assimilate()
 
 "The 4 most important lines
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
