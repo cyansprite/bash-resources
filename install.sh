@@ -36,6 +36,9 @@ ln -fv elemental.jpg ~/Pictures
 
 echo "================================And finally, tilix's json "
 cd "$SOURCE/tilix"
+if [ ! -d ~/.config/tilix/schemes ] ; then
+    mkdir -p ~/.config/tilix/schemes
+fi
 ln -fv cyansprite.json ~/.config/tilix/schemes
 
 echo "================================Fin linking!"

@@ -11,7 +11,7 @@ let g:theme                 = 0
 
 let g:fgColor                 = 'NONE'
 let g:bgColor                 = 'NONE'
-let g:accentBackgroundColor   = '#2f353a'
+let g:accentBackgroundColor   = '#111118'
 let g:secondAccentBgColor     = '#1f2f2f'
 let g:harshAccentColor        = '#000000'
 let g:searchColor             = '#1f2f6a'

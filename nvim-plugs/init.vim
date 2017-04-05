@@ -5,20 +5,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 set termguicolors
 colorscheme cyansprite
 map <space> <leader>
-
-"Far
-"nmap <leader>ff :F<space>*/*<s-lefT><space><left>
-"nmap <leader>fh :Far<space>
-"nmap <leader>fr :Refar<space>
-"nmap <leader>fc :Fardo<space>
-"nmap <leader>m :make<cr>
-"let g:far#window_layout='tab'
-"let g:far#file_mask_favorites = ['**/*.*', '%']
-"let g:far#collapse_result=1
-
-"cmd2
-nmap / /<F12>
-cmap <F12> <Plug>(Cmd2Suggest)
+map <leader>ee :ElemOpenList<cr>
 
 "''
 "''
@@ -63,6 +50,10 @@ map <m-a> ea
 map <m-i> bi
 map <m-p> ep
 map <m-P> bP
+
+map <silent><pageup> <c-u>
+map <silent><pagedown> <c-d>
+inoremap <silent><c-v> <esc>gpa
 
 "Smooth scroll
 
@@ -116,6 +107,7 @@ let g:doAutoWrap=0
 function! EnterWin()
     let curWinIndex = winnr()
     let windowCount = winnr('$')
+    exec printf("set scroll=%d",float2nr(winheight(winnr() - 1) * 0.3))
 
     for i in range(1,winnr('$'))
         if( i != curWinIndex )
@@ -174,38 +166,6 @@ func! EnterBufWin()
     endif
 endfun
 
-let g:smoothWait = 5
-map <silent><pageup> :cal SmoothScroll(1,0)<cr>
-map <silent><pagedown> :cal SmoothScroll(0,0)<cr>
-map <m-pageup> :cal SmoothScroll(1,1)<cr>
-map <m-pagedown> :cal SmoothScroll(0,1)<cr>
-inoremap <Leader><Leader> <esc>
-inoremap <m-q> <esc>
-inoremap <silent><c-v> <esc>gpa
-
-func! SmoothScroll(up,mid)
-    let lines = winheight(winnr() - 1) / 3
-    for i in range(1,lines)
-        let time = g:smoothWait - i
-
-        if a:mid
-            exec "normal! M"
-        endif
-
-        if a:up
-            exec "normal! \<C-y>"
-        else
-            exec "normal! \<C-e>"
-        endif
-
-        if time < 1
-            let time = 1
-        else
-            redraw
-        endif
-        exec printf("sleep %dm", time)
-    endfor
-endfun
 
 augroup init
     autocmd!
