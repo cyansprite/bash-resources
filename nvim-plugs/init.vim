@@ -1,5 +1,4 @@
 call elemental#assimilate()
-
 "The 4 most important lines
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 set termguicolors
@@ -96,24 +95,24 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 "End   Mappings   -------------------------
 
 "Aucmd time       -------------------------
-let g:doGoldRatioActive=0
+let g:doGoldRatioActive=1
 let g:GoldRatio=1.6
-let g:doAutoNumInActive=0
-let g:doAutoDimInactive=0
-let g:killInactiveCursor=0
+let g:doAutoNumInActive=1
+let g:killInactiveCursor=1
+let g:doAutoWrap=1
 let g:dynamicStatusLine=0
-let g:doAutoWrap=0
 
 function! EnterWin()
     let curWinIndex = winnr()
     let windowCount = winnr('$')
-    exec printf("set scroll=%d",float2nr(winheight(winnr() - 1) * 0.3))
+    let ratio = &columns/g:GoldRatio
+
+    exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.3))
 
     for i in range(1,winnr('$'))
         if( i != curWinIndex )
             wincmd w
             if(g:doGoldRatioActive && (&modifiable || (&lines-winheight(curWinIndex) != 3)))
-                let ratio = &columns/g:GoldRatio
                 let minRatio = float2nr(ratio/windowCount)
 
                 cal setwinvar(i,"&winminwidth",minRatio)
@@ -142,9 +141,6 @@ function! EnterWin()
         endif
         if(g:doAutoWrap)
             setlocal wrap nowrap
-        endif
-        if(g:doAutoDimInactive && !getbufvar(bufnr(1),'&diff'))
-            call setwinvar(winnr(),'&colorcolumn',0)
         endif
     endif
 endfunction

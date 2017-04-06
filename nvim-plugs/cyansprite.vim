@@ -1,9 +1,10 @@
 "Vim Colorscheme file
 "init
-hi clear Normal
-hi clear SpecialKey
+set bg&
 hi clear
-syntax reset
+if exists("syntax_on")
+  syntax reset
+endif
 
 "vars
 let colors_name             = "cyansprite"
