@@ -1,4 +1,5 @@
 call elemental#assimilate()
+
 "The 4 most important lines
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 set termguicolors
@@ -10,7 +11,7 @@ map <leader>ee :ElemOpenList<cr>
 "''
 
 "Begin Vim set   -------------------------
-auto BufEnter * let &titlestring = "NVIM   %f%h%m%r%y   "
+auto BufEnter * let &titlestring = "NVIM│%f│%h%m%r%y "
 "set clipboard+=unnamed
 set sol nosol
 set viewoptions=cursor,folds
@@ -53,7 +54,7 @@ map <m-P> bP
 map <silent><pageup> <c-u>
 map <silent><pagedown> <c-d>
 inoremap <silent><c-v> <esc>gpa
-
+inoremap <silent><c-z> <esc>ua
 "Smooth scroll
 
 "Map some clipboard function
@@ -146,17 +147,12 @@ function! EnterWin()
 endfunction
 
 func! LeaveBufWin()
-    execute "mksession! " . $HOME . "/.config/nvim/lastSession.vim"
     if &modifiable
         mkview
     endif
 endfun
 
 func! EnterBufWin()
-    if argc() == 0 && filereadable($HOME . "/.config/nvim/lastSession.vim") 
-        execute "source " . $HOME . "/.config/nvim/lastSession.vim"
-    endif
-
     if &modifiable && filereadable(&viewdir .'/~=+.config=+nvim=+'.expand('%:t').'=')
         silent loadview
     endif
