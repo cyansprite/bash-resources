@@ -1,9 +1,8 @@
-call elemental#assimilate()
-
 "The 4 most important lines
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 set termguicolors
 colorscheme cyansprite
+
 map <space> <leader>
 map <leader>ee :ElemOpenList<cr>
 
@@ -41,8 +40,7 @@ set report=0       " Always report changed lines
 if &modifiable | set number | endif "If it's modifable, turn on numbers
 "End   Vim set   -------------------------
 
-nmap <cr> gg
-vmap <cr> gg
+map <cr> ggzz
 
 "[Pre/App]end to the word under the cursor
 "And in visual mode, slow movement
@@ -53,6 +51,8 @@ map <m-P> bP
 
 map <silent><pageup> <c-u>
 map <silent><pagedown> <c-d>
+map <silent><c-up> 5k
+map <silent><c-down> 5j
 inoremap <silent><c-v> <esc>gpa
 inoremap <silent><c-z> <esc>ua
 "Smooth scroll
@@ -61,6 +61,8 @@ inoremap <silent><c-z> <esc>ua
 vnoremap  "+y
 vnoremap <c-v> "+P
 vnoremap <c-x> "+d
+vnoremap <s-down> <c-e>
+vnoremap <s-up> <c-y>
 
 "Search and replace word under cursor
 nnoremap <F6> :%s/<C-r><C-w>/
