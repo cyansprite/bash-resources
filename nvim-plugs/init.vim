@@ -37,7 +37,9 @@ let &showbreak = '↳ '          "Change show break thing
 set showmatch      " Show matching brackets/parentthesis
 set matchtime=1    " Show matching time
 set report=0       " Always report changed lines
-if &modifiable | set number | endif "If it's modifable, turn on numbers
+set nonumber
+set nowrap
+"if &modifiable | set number | endif "If it's modifable, turn on numbers
 "End   Vim set   -------------------------
 
 map <cr> ggzz
@@ -58,7 +60,7 @@ inoremap <silent><c-z> <esc>ua
 "Smooth scroll
 
 "Map some clipboard function
-vnoremap  "+y
+vnoremap  <esc>
 vnoremap <c-v> "+P
 vnoremap <c-x> "+d
 vnoremap <s-down> <c-e>
@@ -163,7 +165,7 @@ endfun
 
 augroup init
     autocmd!
-    autocmd WinEnter * cal EnterWin()
+    "autocmd WinEnter * cal EnterWin()
     autocmd BufWinLeave * cal LeaveBufWin()
     autocmd BufWinEnter * cal EnterBufWin()
 augroup END
