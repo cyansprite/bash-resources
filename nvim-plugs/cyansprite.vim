@@ -34,7 +34,7 @@ hi diffchange   guifg=#f8bf88 guibg=none gui=none
 hi diffdelete   guifg=#f88888 guibg=none gui=none
 hi matchparen   guifg=none    guibg=#666666 gui=underline,bold
 hi vertsplit    guifg=#afffff guibg=none gui=bold
-hi Title        guifg=#ffffff gui=bold,underline
+hi Title        guifg=#0000aa gui=italic,bold
 
 hi link vimMap string
 hi link vimAutoEvent function
