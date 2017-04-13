@@ -3,11 +3,14 @@
 syntax reset
 let colors_name = "cyansprite"
 
+hi normal       guifg=#ffffff guibg=#4a4a4a
 hi cursor       guifg=#ffffff
 hi String       guifg=#afffff gui=none
 hi cursorline   guibg=#666666 gui=none
-hi statusline   guifg=#444444 guibg=#889999 gui=none
-hi statuslinenc guifg=#444444 guibg=#889999 gui=inverse
+hi statusline   guifg=#444444 guibg=#4aaaaa gui=underline,bold
+hi tabline      guifg=#444444 guibg=#4aaaaa gui=underline,bold
+hi statuslinenc guifg=#444444 guibg=#4a5a5a gui=underline
+hi tablinenc    guifg=#444444 guibg=#4a5a5a gui=underline
 hi pmenu        guifg=#444444 guibg=#889999 gui=none
 hi endofbuffer  guifg=#444444 guibg=#333333 gui=underline,bold
 hi number       guifg=#dfdf8f gui=none

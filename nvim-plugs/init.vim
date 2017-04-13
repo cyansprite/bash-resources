@@ -57,10 +57,10 @@ map <silent><c-up> 5k
 map <silent><c-down> 5j
 inoremap <silent><c-v> <esc>gpa
 inoremap <silent><c-z> <esc>ua
-"Smooth scroll
+inoremap  
+vnoremap  
 
 "Map some clipboard function
-vnoremap  <esc>
 vnoremap <c-v> "+P
 vnoremap <c-x> "+d
 vnoremap <s-down> <c-e>
