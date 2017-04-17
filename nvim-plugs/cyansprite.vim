@@ -28,7 +28,8 @@ hi visual       guibg=#888888 gui=bold
 hi search       guifg=#000000 guibg=#aaaaaa gui=none
 hi identifier   guifg=#aaffaa gui=none
 hi function     guifg=#ffccca gui=none
-hi warningmsg   guifg=#bfbfcf gui=none
+hi warningmsg   guifg=#000000 guibg=#afaf00 gui=none
+hi errormsg      guifg=#000000 guibg=#af0000 gui=none
 hi specialkey   guifg=#fafa0f gui=none
 hi nontext      guifg=#000000 gui=none
 hi wildmenu     guifg=#0fffff guibg=#888888 gui=bold
