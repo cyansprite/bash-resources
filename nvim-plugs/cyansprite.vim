@@ -39,6 +39,7 @@ hi diffdelete   guifg=#f88888 guibg=none gui=none
 hi matchparen   guifg=none    guibg=#666666 gui=underline,bold
 hi vertsplit    guifg=#afffff guibg=none gui=bold
 hi Title        guifg=#0000aa gui=italic,bold
+hi Underlined   guifg=#aaaaff gui=italic,bold,underline
 
 hi link vimMap string
 hi link vimAutoEvent function
