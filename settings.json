@@ -27,5 +27,9 @@
     "workbench.activityBar.visible": true,
     "window.menuBarVisibility": "toggle",
     "workbench.iconTheme": "vscode-icons",
-    "workbench.colorTheme": "Cyansprite"
+    "workbench.colorTheme": "Cyansprite",
+    "vim.handleKeys":{
+        "<C-f>": false
+    },
+    "vim.scroll": 10
 }
