@@ -31,16 +31,17 @@ hi function     guifg=#ffccca gui=none
 hi warningmsg   guifg=#000000 guibg=#afaf00 gui=none
 hi errormsg      guifg=#000000 guibg=#af0000 gui=none
 hi specialkey   guifg=#fafa0f gui=none
-hi nontext      guifg=#000000 gui=none
+hi nontext      guifg=#668f8f gui=none
 hi wildmenu     guifg=#0fffff guibg=#888888 gui=bold
 hi pmenusel     guifg=#0fffff guibg=#888888 gui=bold
 hi diffadd      guifg=#88ff88 guibg=none gui=none
 hi diffchange   guifg=#f8bf88 guibg=none gui=none
 hi diffdelete   guifg=#f88888 guibg=none gui=none
 hi matchparen   guifg=none    guibg=#666666 gui=underline,bold
+hi folded       guifg=#afffff guibg=none gui=bold
 hi vertsplit    guifg=#afffff guibg=none gui=bold
 hi Title        guifg=#0000aa gui=italic,bold
-hi Underlined   guifg=#aaaaff gui=italic,bold,underline
+hi underlined   guifg=#88ccff gui=underline
 
 hi link vimMap string
 hi link vimAutoEvent function

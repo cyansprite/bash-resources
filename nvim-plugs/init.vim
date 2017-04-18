@@ -31,7 +31,7 @@ set smartcase  "makes things a bit better
 set smartindent "indent things well
 set smarttab	"tab plays nicer
 set list        "list my chars╳
-set fillchars=vert:│,stlnc:-,stl:\ ,fold:*,diff: "set fill chars to things that make me happy
+set fillchars=vert:│,stlnc:-,stl:\ ,fold:-,diff: "set fill chars to things that make me happy
 set listchars=tab:→\ ,trail:·,extends:┇,precedes:┇  "Changes listchars to more suitable chars
 let &showbreak = '↳ '          "Change show break thing
 set showmatch      " Show matching brackets/parentthesis
