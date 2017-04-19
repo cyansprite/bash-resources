@@ -30,12 +30,17 @@
     "workbench.iconTheme": "vscode-icons",
     "vim.handleKeys": {
         "<C-f>": false,
+        "<C-k>": false,
         "<C-w>": false,
         "<C-b>": false
     },
+    "workbench.experimental.colorCustomizations": {
+        "statusBarBackground": "#1A1A1A",
+        "statusBarNoFolderBackground": "#212121",
+        "statusBarDebuggingBackground": "#263238"
+    },
     "vim.scroll": 5,
     "vim.leader": "\\",
-    "workbench.colorTheme": "cyansprite",
     "vim.easymotion": true,
     "vim.hlsearch": true,
     "vim.otherModesKeyBindingsNonRecursive": [
@@ -63,9 +68,27 @@
                     "args": []
                 }
             ]
+        },
+        {
+            "before": [
+                "leader",
+                "q"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.closeActiveEditor",
+                    "args": []
+                }
+            ]
         }
+        
     ],
-    "vim.easymotionMarkerBackgroundColor": "#555555",
-    "vim.easymotionMarkerForegroundColorOneChar": "#afffff",
-    "vim.easymotionMarkerForegroundColorTwoChar": "#aaffaa"
+    "vim.easymotionMarkerBackgroundColor": "#000000",
+    "vim.easymotionMarkerForegroundColorOneChar": "#0fffff",
+    "vim.easymotionMarkerForegroundColorTwoChar": "#0aff0a",
+    "workbench.colorTheme": "Default Light+",
+    "vim.autoindent": false,
+    "workbench.editor.showTabs": true,
+    "window.zoomLevel": 0
 }

@@ -1,7 +1,7 @@
 "The 4 most important lines
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 set termguicolors
-colorscheme cyansprite
+colorscheme zellner
 
 map <space> <leader>
 map <leader>ee :ElemOpenList<cr>
