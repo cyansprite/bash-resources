@@ -1,3 +1,4 @@
+// Place your settings in this file to overwrite the default settings
 {
     "[cpp]": {
         "editor.quickSuggestions": false
@@ -27,9 +28,44 @@
     "workbench.activityBar.visible": true,
     "window.menuBarVisibility": "toggle",
     "workbench.iconTheme": "vscode-icons",
-    "workbench.colorTheme": "Cyansprite",
-    "vim.handleKeys":{
-        "<C-f>": false
+    "vim.handleKeys": {
+        "<C-f>": false,
+        "<C-w>": false,
+        "<C-b>": false
     },
-    "vim.scroll": 10
+    "vim.scroll": 5,
+    "vim.leader": "\\",
+    "workbench.colorTheme": "cyansprite",
+    "vim.easymotion": true,
+    "vim.hlsearch": true,
+    "vim.otherModesKeyBindingsNonRecursive": [
+        {
+            "before": [
+                ":"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.showCommands",
+                    "args": []
+                }
+            ]
+        },
+        {
+            "before": [
+                "leader",
+                "w"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.files.save",
+                    "args": []
+                }
+            ]
+        }
+    ],
+    "vim.easymotionMarkerBackgroundColor": "#555555",
+    "vim.easymotionMarkerForegroundColorOneChar": "#afffff",
+    "vim.easymotionMarkerForegroundColorTwoChar": "#aaffaa"
 }
