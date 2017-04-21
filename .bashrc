@@ -126,3 +126,11 @@ fi
 export VISUAL=vim
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+
+cex() {
+    code $1
+    sleep 2
+    wmctrl -a 'Welcome - '$1' - Visual Studio Code'
+    exit
+}
