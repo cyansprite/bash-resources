@@ -7,7 +7,7 @@
         "editor.quickSuggestions": false
     },
     "editor.fontSize": 12,
-    "editor.fontFamily": "'mononoki Nerd Font'",
+    "editor.fontFamily": "Fira Code Retina",
     "editor.renderWhitespace": "boundary",
     "editor.insertSpaces": true,
     "editor.lineHeight": 15,
@@ -21,74 +21,14 @@
     "editor.renderControlCharacters": true,
     "editor.renderLineHighlight": "all",
     "diffEditor.ignoreTrimWhitespace": false,
-    "workbench.welcome.enabled": true,
     "search.useIgnoreFilesByDefault": true,
     "terminal.external.linuxExec": "tilix",
     "terminal.integrated.scrollback": 50000,
     "workbench.activityBar.visible": true,
     "window.menuBarVisibility": "toggle",
     "workbench.iconTheme": "vscode-icons",
-    "vim.handleKeys": {
-        "<C-f>": false,
-        "<C-k>": false,
-        "<C-w>": false,
-        "<C-b>": false
-    },
-    "workbench.experimental.colorCustomizations": {
-        "statusBarBackground": "#1A1A1A",
-        "statusBarNoFolderBackground": "#212121",
-        "statusBarDebuggingBackground": "#263238"
-    },
-    "vim.scroll": 5,
-    "vim.leader": "\\",
-    "vim.easymotion": true,
-    "vim.hlsearch": true,
-    "vim.otherModesKeyBindingsNonRecursive": [
-        {
-            "before": [
-                ":"
-            ],
-            "after": [],
-            "commands": [
-                {
-                    "command": "workbench.action.showCommands",
-                    "args": []
-                }
-            ]
-        },
-        {
-            "before": [
-                "leader",
-                "w"
-            ],
-            "after": [],
-            "commands": [
-                {
-                    "command": "workbench.action.files.save",
-                    "args": []
-                }
-            ]
-        },
-        {
-            "before": [
-                "leader",
-                "q"
-            ],
-            "after": [],
-            "commands": [
-                {
-                    "command": "workbench.action.closeActiveEditor",
-                    "args": []
-                }
-            ]
-        }
-        
-    ],
-    "vim.easymotionMarkerBackgroundColor": "#000000",
-    "vim.easymotionMarkerForegroundColorOneChar": "#0fffff",
-    "vim.easymotionMarkerForegroundColorTwoChar": "#0aff0a",
-    "workbench.colorTheme": "Default Light+",
-    "vim.autoindent": false,
-    "workbench.editor.showTabs": true,
-    "window.zoomLevel": 0
+    "workbench.colorTheme": "Spirited Away",
+    "editor.fontLigatures": true,
+    "typescript.referencesCodeLens.enabled": true,
+    "typescript.implementationsCodeLens.enabled": true
 }
