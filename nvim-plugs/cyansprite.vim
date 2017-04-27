@@ -3,7 +3,7 @@
 syntax reset
 let colors_name = "cyansprite"
 
-hi normal       guifg=#ffffff guibg=NONE
+hi normal       guifg=#ffffff guibg=#333333
 hi cursor       guifg=#ffffff
 hi String       guifg=#afffff gui=none
 hi Constant     guifg=#000000 gui=none

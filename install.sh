@@ -16,10 +16,7 @@ if [ ! -d ~/.config/nvim/colors ] ; then
     mkdir ~/.config/nvim/colors
 fi
 ln -fv init.vim ~/.config/nvim/
-ln -fv init.vim ~/.vimrc
 ln -fv cyansprite.vim ~/.config/nvim/colors
-ln -fv cyanair.vim ~/.config/nvim/bundle/repos/github.com/vim-airline/vim-airline/autoload/airline/themes/
-ln -fv cyanair.vim ~/.config/nvim/bundle/.cache/init.vim/.dein/autoload/airline/themes/
 
 #resources time
 echo "================================Linking bashrc,inputrc, and tmux to home "
@@ -28,11 +25,6 @@ ln -fv .bashrc ~/.bashrc
 ln -fv .bash_aliases ~/.bash_aliases
 ln -fv .inputrc ~/.inputrc
 ln -fv .tmux.conf ~/.tmux.conf
-ln -fv .xbinkeysrc ~/.xbindkeysrc
-
-echo "================================Linking wallpapers to Pictures "
-cd "$SOURCE/ims"
-ln -fv elemental.jpg ~/Pictures
 
 echo "================================And finally, tilix's json "
 cd "$SOURCE/tilix"
@@ -41,8 +33,14 @@ if [ ! -d ~/.config/tilix/schemes ] ; then
 fi
 ln -fv cyansprite.json ~/.config/tilix/schemes
 
+cd "$SOURCE/vscode"
+echo "================================Linking vscode things"
+ln -fv settings.json /home/joj/.config/Code/User/settings.json
+ln -fv keybindings.json /home/joj/.config/Code/User/settings.json
+
 echo "================================Fin linking!"
 
+echo "================================Installing FZF : "
 if [ ! -d ~/.fzf ] ; then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
