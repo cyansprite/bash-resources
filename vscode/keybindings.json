@@ -1,6 +1,11 @@
 // Place your key bindings in this file to overwrite the defaults
 [
     {
+        "key": "ctrl+backspace",
+        "command": "subwordNavigation.deleteSubwordLeft",
+        "when": "editorTextFocus"
+    },
+    {
         "key": "ctrl+numpad_multiply",
         "command": "editor.action.nextSelectionMatchFindAction",
         "when": "editorFocus"
@@ -68,16 +73,6 @@
         "when": "inQuickOpen"
     },
     {
-        "key": "ctrl+tab",
-        "command": "-workbench.action.quickOpenNavigateNext",
-        "when": "inQuickOpen"
-    },
-    {
-        "key": "ctrl+shift+tab",
-        "command": "-workbench.action.quickOpenNavigatePrevious",
-        "when": "inQuickOpen"
-    },
-    {
         "key": "ctrl+shift+e",
         "command": "-workbench.action.quickOpenNavigatePrevious",
         "when": "inQuickOpen"
@@ -119,7 +114,7 @@
         "command": "-workbench.action.zoomReset"
     },
     {
-        "key": "ctrl+k \\",
+        "key": "ctrl+k ctrl+s",
         "command": "workbench.action.splitEditor"
     },
     {
@@ -158,7 +153,7 @@
         "command": "-workbench.action.togglePanel"
     },
     {
-        "key": "ctrl+b",
+        "key": "alt+b",
         "command": "workbench.action.showAllEditors"
     },
     {
@@ -178,5 +173,93 @@
     {
         "key": "alt+enter",
         "command": "extension.aceJump"
+    },
+    {
+        "key": "ctrl+k ctrl+k",
+        "command": "workbench.action.openGlobalKeybindings"
+    },
+    {
+        "key": "ctrl+k ctrl+s",
+        "command": "-workbench.action.openGlobalKeybindings"
+    },
+    {
+        "key": "ctrl+shift+q",
+        "command": "workbench.action.quit"
+    },
+    {
+        "key": "ctrl+q",
+        "command": "-workbench.action.quit"
+    },
+    {
+        "key": "ctrl+b",
+        "command": "search.action.focusNextSearchResult"
+    },
+    {
+        "key": "f4",
+        "command": "-search.action.focusNextSearchResult"
+    },
+    {
+        "key": "ctrl+shift+b",
+        "command": "search.action.focusPreviousSearchResult"
+    },
+    {
+        "key": "shift+f4",
+        "command": "-search.action.focusPreviousSearchResult"
+    },
+    {
+        "key": "alt+n",
+        "command": "workbench.action.files.newUntitledFile"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "-workbench.action.files.newUntitledFile"
+    },
+    {
+        "key": "shift+alt+n",
+        "command": "workbench.action.newWindow"
+    },
+    {
+        "key": "ctrl+shift+n",
+        "command": "-workbench.action.newWindow"
+    },
+    {
+        "key": "ctrl+delete ctrl+shift+left",
+        "command": "deleteAllLeft",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+delete ctrl+shift+right",
+        "command": "deleteAllRight",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+delete ctrl+right",
+        "command": "deleteWordEndRight",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+delete ctrl+left",
+        "command": "deleteWordEndLeft",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+delete right",
+        "command": "deleteWordStartRight",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+delete left",
+        "command": "deleteWordStartLeft",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "selectNextSuggestion",
+        "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "selectPrevSuggestion",
+        "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
     }
 ]

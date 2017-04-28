@@ -36,7 +36,7 @@ ln -fv cyansprite.json ~/.config/tilix/schemes
 cd "$SOURCE/vscode"
 echo "================================Linking vscode things"
 ln -fv settings.json /home/joj/.config/Code/User/settings.json
-ln -fv keybindings.json /home/joj/.config/Code/User/settings.json
+ln -fv keybindings.json /home/joj/.config/Code/User/keybindings.json
 
 echo "================================Fin linking!"
 

@@ -28,30 +28,37 @@
         [
             "()",
             [
-                "Gold",
-                "Orchid",
-                "LightSkyBlue"
+                "#ffffaa",
+                "#aaffff",
+                "#ffaaff"
             ],
             "Red"
         ],
         [
             "[]",
             [
-                "Gold",
-                "Orchid",
-                "LightSkyBlue"
+                "#ffffaa",
+                "#aaffff",
+                "#ffaaff"
             ],
             "Red"
         ],
         [
             "{}",
             [
-                "Gold",
-                "Orchid",
-                "LightSkyBlue"
+                "#ffffaa",
+                "#aaffff",
+                "#ffaaff"
             ],
             "Red"
         ]
     ],
     "bracketPairColorizer.colorMode": "Independent",
+    "[cpp]": {
+        "editor.quickSuggestions": false
+    },
+    "[c]": {
+        "editor.quickSuggestions": false
+    },
+    "workbench.colorTheme": "Pixeler Dark"
 }
