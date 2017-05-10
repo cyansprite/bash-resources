@@ -1,17 +1,14 @@
+"Plug
+so ~/.config/nvim/plug.vim
+
 "The 4 most important lines
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
-set termguicolors
-colorscheme cyansprite
 
 map <space> <leader>
-map <leader>ee :ElemOpenList<cr>
-
-"''
-"''
+map <cr> ggzz
 
 "Begin Vim set   -------------------------
 auto BufEnter * let &titlestring = "NVIM│%f│%h%m%r%y "
-"set clipboard+=unnamed
 set sol nosol
 set viewoptions=cursor,folds
 set foldcolumn=0
@@ -42,14 +39,15 @@ set nowrap
 "if &modifiable | set number | endif "If it's modifable, turn on numbers
 "End   Vim set   -------------------------
 
-map <cr> ggzz
+"When jumping somewhere, also center it.
+map gg ggzz
 
 "[Pre/App]end to the word under the cursor
 "And in visual mode, slow movement
-map <m-a> ea
-map <m-i> bi
-map <m-p> ep
-map <m-P> bP
+map <c-a> ea
+map <c-i> bi
+map <c-p> ep
+map <c-P> bP
 
 map <silent><pageup> <c-u>
 map <silent><pagedown> <c-d>
@@ -69,28 +67,11 @@ vnoremap <s-up> <c-y>
 "Search and replace word under cursor
 nnoremap <F6> :%s/<C-r><C-w>/
 
-"Map home and end to ^$ respect'
-nnoremap <End> $
-nnoremap <Home> ^
-vnoremap <End> $
-vnoremap <Home> ^
-
 "s-lrud for window movement
-nnoremap <silent> <s-up> :wincmd k<CR>
-nnoremap <silent> <s-down> :wincmd j<CR>
-nnoremap <silent> <s-left> :wincmd h<CR>
-nnoremap <silent> <s-right> :wincmd l<CR>
 nnoremap <silent> <c-k> :wincmd k<CR>
 nnoremap <silent> <c-j> :wincmd j<CR>
 nnoremap <silent> <c-h> :wincmd h<CR>
 nnoremap <silent> <c-l> :wincmd l<CR>
-tnoremap <silent> <s-up> <C-\><C-n>:wincmd k<CR>
-tnoremap <silent> <s-down> <C-\><C-n>:wincmd j<CR>
-tnoremap <silent> <s-left> <C-\><C-n>:wincmd h<CR>
-tnoremap <silent> <s-right> <C-\><C-n>:wincmd l<CR>
-
-"Copy full path of filename to black hole
-nnoremap <M-Y> :let @" = expand("%:p")<cr>
 
 "I like playing with colors (Gives me hi-lo ids)
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -102,7 +83,7 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 "Aucmd time       -------------------------
 let g:doGoldRatioActive=1
 let g:GoldRatio=1.6
-let g:doAutoNumInActive=1
+let g:doAutoNumInActive=0
 let g:killInactiveCursor=1
 let g:doAutoWrap=1
 let g:dynamicStatusLine=0
@@ -151,7 +132,7 @@ function! EnterWin()
 endfunction
 
 func! LeaveBufWin()
-    if &modifiable
+    if &modifiable && filereadable("%")
         mkview
     endif
 endfun
@@ -162,10 +143,9 @@ func! EnterBufWin()
     endif
 endfun
 
-
 augroup init
     autocmd!
-    "autocmd WinEnter * cal EnterWin()
+    autocmd WinEnter * cal EnterWin()
     autocmd BufWinLeave * cal LeaveBufWin()
     autocmd BufWinEnter * cal EnterBufWin()
 augroup END
