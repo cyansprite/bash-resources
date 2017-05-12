@@ -1,5 +1,6 @@
 "Plug
 so ~/.config/nvim/plug.vim
+colo seoul256
 
 "The 4 most important lines
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
@@ -44,10 +45,10 @@ map gg ggzz
 
 "[Pre/App]end to the word under the cursor
 "And in visual mode, slow movement
-map <c-a> ea
-map <c-i> bi
-map <c-p> ep
-map <c-P> bP
+map <m-a> ea
+map <m-i> bi
+map <m-p> ep
+map <m-P> bP
 
 map <silent><pageup> <c-u>
 map <silent><pagedown> <c-d>
