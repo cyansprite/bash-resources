@@ -5,7 +5,7 @@ colo seoul256
 "The 4 most important lines
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
-map <space> <leader>
+map <space> <leader><leader>
 map <cr> ggzz
 
 "Begin Vim set   -------------------------
@@ -13,7 +13,7 @@ auto BufEnter * let &titlestring = "NVIM│%f│%h%m%r%y "
 set sol nosol
 set viewoptions=cursor,folds
 set foldcolumn=0
-set mouse=a
+set mouse=
 set title titlestring=%P
 set cursorline "set cursorline to highlight the current line I'm no
 set showmode noshowmode "don't show mode in cmd line, I hate when it clears an echo
@@ -37,11 +37,15 @@ set matchtime=1    " Show matching time
 set report=0       " Always report changed lines
 set nonumber
 set nowrap
-"if &modifiable | set number | endif "If it's modifable, turn on numbers
+if &modifiable | set number | endif "If it's modifable, turn on numbers
 "End   Vim set   -------------------------
 
 "When jumping somewhere, also center it.
 map gg ggzz
+map n nzz
+map <c-o> <c-o>zz
+map <c-t> <c-t>zz
+map <c-i> <c-i>zz
 
 "[Pre/App]end to the word under the cursor
 "And in visual mode, slow movement
@@ -49,6 +53,15 @@ map <m-a> ea
 map <m-i> bi
 map <m-p> ep
 map <m-P> bP
+
+"movement while in insert mode
+imap <c-j> <down>
+imap <c-k> <up>
+imap <c-h> <left>
+imap <c-l> <right>
+"delete word in front of, acts like ctrl-w for unix except backwards...well
+"forwards lol
+imap <c-q> <esc>ldwi
 
 map <silent><pageup> <c-u>
 map <silent><pagedown> <c-d>
@@ -82,11 +95,11 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 "End   Mappings   -------------------------
 
 "Aucmd time       -------------------------
-let g:doGoldRatioActive=1
+let g:doGoldRatioActive=0
 let g:GoldRatio=1.6
 let g:doAutoNumInActive=0
 let g:killInactiveCursor=1
-let g:doAutoWrap=1
+let g:doAutoWrap=0
 let g:dynamicStatusLine=0
 
 function! EnterWin()
