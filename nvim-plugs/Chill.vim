@@ -13,16 +13,17 @@ let colors_name = "Chill"
 
 " General colors
 hi Normal       ctermfg=254 ctermbg=235 cterm=none
-hi Cursor       ctermfg=235 ctermbg=254 cterm=none
-hi Visual       ctermbg=60    cterm=none
-hi VisualNOS    ctermfg=254 ctermbg=241 cterm=none
+hi Cursor       cterm=inverse
+hi Visual       ctermbg=242    cterm=none
+"hi VisualNOS    ctermfg=254 ctermbg=241 cterm=none
 hi Search       ctermfg=254 ctermbg=60  cterm=none
 hi Folded       ctermfg=241 ctermbg=235 cterm=none
 " hi Title  cterm=none
-hi StatusLine   ctermfg=16  ctermbg=251 cterm=none
-hi StatusLineNC ctermfg=241 ctermbg=251 cterm=none
+" hi StatusLine   ctermfg=16  ctermbg=251 cterm=none
+" hi StatusLineNC ctermfg=241 ctermbg=251 cterm=none
 hi VertSplit    ctermfg=251 ctermbg=251 cterm=none
-hi LineNr       ctermfg=241 ctermbg=16  cterm=none
+hi LineNr       ctermfg=241 ctermbg=236 cterm=none
+hi CursorLineNr ctermfg=189 ctermbg=238 cterm=none
 hi NonText      ctermfg=241 ctermbg=235 cterm=none
 " hi SpecialKey  cterm=oe
 " hi WarningMsg  cterm=oe
@@ -32,9 +33,7 @@ hi Error        ctermfg=254   cterm=none
 hi CursorLine   ctermbg=237   cterm=none
 hi MatchParen   ctermfg=254 ctermbg=16  cterm=none
 hi Pmenu        ctermfg=254 ctermbg=237 cterm=none
-hi PmenuSel     ctermfg=233 ctermbg=251 cterm=none
-hi PmenuSbar    ctermfg=237 ctermbg=237 cterm=none
-hi PmenuThumb   ctermfg=241 ctermbg=241 cterm=none
+hi PmenuSel     ctermfg=131 ctermbg=251 cterm=bold
 
 " Diff highlighting
 hi DiffAdd      ctermfg=235 ctermbg=193 cterm=none
@@ -71,7 +70,7 @@ hi Keyword      ctermfg=217   cterm=none
 " hi Statement  ctermfg19  cterm=noe
 hi Statement    ctermfg=217   cterm=none
 hi Constant     ctermfg=254   cterm=none
-hi Number       ctermfg=110   cterm=none
+hi Number       ctermfg=189   cterm=none
 hi PreProc      ctermfg=217   cterm=none
 hi Function     ctermfg=193   cterm=none
 hi Identifier   ctermfg=110   cterm=none
