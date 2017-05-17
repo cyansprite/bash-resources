@@ -1,12 +1,11 @@
 "Plug
 so ~/.config/nvim/plug.vim
-colo seoul256
+colo Chill
 
 "The 4 most important lines
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 map <space> <leader><leader>
-map <cr> ggzz
 
 "Begin Vim set   -------------------------
 auto BufEnter * let &titlestring = "NVIM│%f│%h%m%r%y "
@@ -43,6 +42,7 @@ if &modifiable | set number | endif "If it's modifable, turn on numbers
 "When jumping somewhere, also center it.
 map gg ggzz
 map n nzz
+map N Nzz
 map <c-o> <c-o>zz
 map <c-t> <c-t>zz
 map <c-i> <c-i>zz
@@ -59,14 +59,25 @@ imap <c-j> <down>
 imap <c-k> <up>
 imap <c-h> <left>
 imap <c-l> <right>
+xmap <c-j> <down>
+xmap <c-k> <up>
+xmap <c-h> <left>
+xmap <c-l> <right>
+cmap <c-j> <down>
+cmap <c-k> <up>
+cmap <c-h> <left>
+cmap <c-l> <right>
 "delete word in front of, acts like ctrl-w for unix except backwards...well
 "forwards lol
 imap <c-q> <esc>ldwi
 
 map <silent><pageup> <c-u>
 map <silent><pagedown> <c-d>
-map <silent><c-up> 5k
-map <silent><c-down> 5j
+map <m-n> :bn<cr>
+map <m-N> :bp<cr>
+map <m-w> :bwipeout %<cr><cr>
+map <silent><m-k> 5k
+map <silent><m-j> 5j
 inoremap <silent><c-v> <esc>gpa
 inoremap <silent><c-z> <esc>ua
 inoremap  

@@ -9,15 +9,19 @@ cp * ~/.local/share/fonts
 
 #make sure we neovim stuffs
 echo "================================Linking nvim "
+if [ ! -d ~/.config/nvim/colors ] ; then
+    mkdir ~/.config/nvim/colors
+fi
 cd "$SOURCE/nvim-plugs"
 ln -fv init.vim ~/.config/nvim/
 ln -fv plug.vim ~/.config/nvim/
+ln -fv Chill.vim ~/.config/nvim/colors/
 
 #resources time
 echo "================================Linking bashrc,inputrc, and tmux to home "
 cd "$SOURCE"
 ln -fv .bashrc ~/.bashrc
-ln -fv .bash_aliases ~/.bash_aliases
+#ln -fv .bash_aliases ~/.bash_aliases
 ln -fv .inputrc ~/.inputrc
 ln -fv .tmux.conf ~/.tmux.conf
 

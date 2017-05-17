@@ -2,16 +2,13 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'wellle/targets.vim'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'junegunn/vim-easy-align'
-Plug 'vim-utils/vim-man'
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
 Plug 'jsfaint/gen_tags.vim'
 Plug 'easymotion/vim-easymotion'
-Plug 'haya14busa/incsearch.vim'
 Plug 'tpope/vim-fugitive'
 
 " Plugin outside ~/.vim/plugged with post-update hook
@@ -40,10 +37,15 @@ let g:gen_tags#verbose = 1
 "Ctrl+\ t    Find this text string
 map <leader>g <c-\>
 
-"inc search /fzf
-map /  <Plug>(incsearch-forward)
-map ?  :Ag 
-map g/ <Plug>(incsearch-stay)
+"fzf
+map <c-s> :Ag 
+map <c-p> :Files<cr>
+imap <c-x><c-w> <plug>(fzf-complete-word)
+imap <c-x><c-p> <plug>(fzf-complete-path)
+imap <c-x><c-t> <plug>(fzf-complete-file-ag)
+imap <c-x><c-i> <plug>(fzf-complete-line)
+
+
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
@@ -52,7 +54,7 @@ let g:EasyMotion_smartcase = 1
 
 "vim airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme='raven'
+let g:airline_theme='onedark'
 let g:airline#extensions#tabline#enabled = 1
 
 "easy motion
