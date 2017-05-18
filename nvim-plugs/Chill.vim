@@ -16,22 +16,23 @@ hi Normal       ctermfg=254 ctermbg=235 cterm=none
 hi Cursor       cterm=inverse
 hi Visual       ctermbg=242    cterm=none
 "hi VisualNOS    ctermfg=254 ctermbg=241 cterm=none
-hi Search       ctermfg=254 ctermbg=60  cterm=none
-hi Folded       ctermfg=241 ctermbg=235 cterm=none
+hi Search       ctermfg=229 ctermbg=240  cterm=none
+hi IncSearch    ctermfg=none ctermbg=none  cterm=underline,reverse
+hi Folded       ctermfg=236 ctermbg=241 cterm=none
 " hi Title  cterm=none
 " hi StatusLine   ctermfg=16  ctermbg=251 cterm=none
 " hi StatusLineNC ctermfg=241 ctermbg=251 cterm=none
-hi VertSplit    ctermfg=251 ctermbg=251 cterm=none
-hi LineNr       ctermfg=241 ctermbg=236 cterm=none
-hi CursorLineNr ctermfg=189 ctermbg=238 cterm=none
-hi NonText      ctermfg=241 ctermbg=235 cterm=none
+hi VertSplit    ctermfg=189 ctermbg=238 cterm=none
+hi LineNr       ctermfg=242 ctermbg=236 cterm=none
+hi CursorLineNr ctermfg=159 ctermbg=240 cterm=none
+hi NonText      ctermfg=241 ctermbg=236 cterm=none
 " hi SpecialKey  cterm=oe
 " hi WarningMsg  cterm=oe
 hi ErrorMsg     ctermfg=254   cterm=none
 hi Error        ctermfg=254   cterm=none
 
-hi CursorLine   ctermbg=237   cterm=none
-hi MatchParen   ctermfg=254 ctermbg=16  cterm=none
+hi CursorLine   ctermbg=236   cterm=none
+hi MatchParen   ctermfg=162 ctermbg=none cterm=bold
 hi Pmenu        ctermfg=254 ctermbg=237 cterm=none
 hi PmenuSel     ctermfg=131 ctermbg=251 cterm=bold
 
@@ -66,22 +67,23 @@ hi DiffText     ctermfg=235 ctermbg=189 cterm=none
 
 
 " Syntax highlighting
-hi Keyword      ctermfg=217   cterm=none
-" hi Statement  ctermfg19  cterm=noe
-hi Statement    ctermfg=217   cterm=none
-hi Constant     ctermfg=254   cterm=none
-hi Number       ctermfg=189   cterm=none
-hi PreProc      ctermfg=217   cterm=none
+hi Keyword      ctermfg=109   cterm=none
+"Yellow :: 178 Red :: 167?
+hi Statement    ctermfg=153   cterm=none
+hi Conditonal   ctermfg=141   cterm=none
+hi Constant     ctermfg=189
+hi PreProc      ctermfg=180   cterm=none
 hi Function     ctermfg=193   cterm=none
-hi Identifier   ctermfg=110   cterm=none
+hi Identifier   ctermfg=66   cterm=none
 hi Builtin      ctermfg=110   cterm=none
 hi Type         ctermfg=193   cterm=none
 hi Special      ctermfg=254   cterm=none
-hi String       ctermfg=110   cterm=none
-hi Character    ctermfg=217   cterm=none
+hi String       ctermfg=217   cterm=none
+hi Character    ctermfg=219   cterm=none
 hi Comment      ctermfg=241   cterm=italic
 hi Todo         ctermfg=254 ctermbg=16  cterm=none
 hi Boolean      ctermfg=110   cterm=none
+hi Directory    ctermfg=4    cterm=bold
 
 
 " Links

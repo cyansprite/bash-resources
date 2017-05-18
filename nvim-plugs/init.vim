@@ -27,8 +27,8 @@ set ignorecase "in the name
 set smartcase  "makes things a bit better
 set smartindent "indent things well
 set smarttab	"tab plays nicer
-set list        "list my chars╳
-set fillchars=vert:│,stlnc:-,stl:\ ,fold:-,diff: "set fill chars to things that make me happy
+set list        "list my chars╳│
+set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: "set fill chars to things that make me happy
 set listchars=tab:→\ ,trail:·,extends:┇,precedes:┇  "Changes listchars to more suitable chars
 let &showbreak = '↳ '          "Change show break thing
 set showmatch      " Show matching brackets/parentthesis
@@ -51,8 +51,8 @@ map <c-i> <c-i>zz
 "And in visual mode, slow movement
 map <m-a> ea
 map <m-i> bi
-map <m-p> ep
-map <m-P> bP
+map <m-p> "+p
+map <m-P> "+P
 
 "movement while in insert mode
 imap <c-j> <down>
@@ -84,10 +84,7 @@ inoremap  
 vnoremap  
 
 "Map some clipboard function
-vnoremap <c-v> "+P
 vnoremap <c-x> "+d
-vnoremap <s-down> <c-e>
-vnoremap <s-up> <c-y>
 
 "Search and replace word under cursor
 nnoremap <F6> :%s/<C-r><C-w>/
