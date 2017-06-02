@@ -1,0 +1,1 @@
+ctags-exuberant --fields=+l+a+K+m+n+S+z --excmd=number --format=2 --recurse --sort=yes --verbose=yes
