@@ -53,6 +53,8 @@ map <m-a> ea
 map <m-i> bi
 map <m-p> "+p
 map <m-P> "+P
+map <f4> :cp<cr>
+map <f5> :cn<cr>
 
 "movement while in insert mode
 imap <c-j> <down>
@@ -63,13 +65,18 @@ xmap <c-j> <down>
 xmap <c-k> <up>
 xmap <c-h> <left>
 xmap <c-l> <right>
+cmap <c-v> <c-r>"
 cmap <c-j> <down>
 cmap <c-k> <up>
 cmap <c-h> <left>
 cmap <c-l> <right>
-"delete word in front of, acts like ctrl-w for unix except backwards...well
-"forwards lol
-imap <c-q> <esc>ldwi
+"Temporary quick term
+map <F12> :10split \| terminal<cr>
+tmap <F12> <C-\><C-n>:hide<cr>
+tmap <c-left> <C-\><C-n><c-w><left>
+tmap <c-down> <C-\><C-n><c-w><down>
+tmap <c-up> <C-\><C-n><c-w><up>
+tmap <c-right> <C-\><C-n><c-w><right>
 
 map <silent><pageup> <c-u>
 map <silent><pagedown> <c-d>

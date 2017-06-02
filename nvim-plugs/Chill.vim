@@ -14,18 +14,18 @@ let colors_name = "Chill"
 " General colors
 hi Normal       ctermfg=254 ctermbg=235 cterm=none
 hi Cursor       cterm=inverse
-hi Visual       ctermbg=242    cterm=none
+hi Visual       ctermfg=none ctermbg=232    cterm=none
 "hi VisualNOS    ctermfg=254 ctermbg=241 cterm=none
-hi Search       ctermfg=229 ctermbg=240  cterm=none
-hi IncSearch    ctermfg=none ctermbg=none  cterm=underline,reverse
+hi Search       ctermfg=none ctermbg=none  cterm=inverse
+hi IncSearch    ctermfg=232 ctermbg=231  cterm=underline
 hi Folded       ctermfg=236 ctermbg=241 cterm=none
 " hi Title  cterm=none
 " hi StatusLine   ctermfg=16  ctermbg=251 cterm=none
 " hi StatusLineNC ctermfg=241 ctermbg=251 cterm=none
 hi VertSplit    ctermfg=189 ctermbg=238 cterm=none
-hi LineNr       ctermfg=242 ctermbg=236 cterm=none
+hi LineNr       ctermfg=245 ctermbg=236 cterm=none
 hi CursorLineNr ctermfg=159 ctermbg=240 cterm=none
-hi NonText      ctermfg=241 ctermbg=236 cterm=none
+hi NonText      ctermfg=232 ctermbg=236 cterm=none
 " hi SpecialKey  cterm=oe
 " hi WarningMsg  cterm=oe
 hi ErrorMsg     ctermfg=254   cterm=none
@@ -64,6 +64,8 @@ hi DiffText     ctermfg=235 ctermbg=189 cterm=none
 "hi User1
 "hi User9
 "hi WildMenu
+hi WildMenu ctermfg=black ctermbg=189 cterm=bold
+hi StatusLine ctermfg=189 ctermbg=233 cterm=none
 
 
 " Syntax highlighting
@@ -77,13 +79,14 @@ hi Function     ctermfg=193   cterm=none
 hi Identifier   ctermfg=66   cterm=none
 hi Builtin      ctermfg=110   cterm=none
 hi Type         ctermfg=193   cterm=none
-hi Special      ctermfg=254   cterm=none
+hi Special      ctermfg=212   cterm=none
 hi String       ctermfg=217   cterm=none
 hi Character    ctermfg=219   cterm=none
-hi Comment      ctermfg=241   cterm=italic
+hi Comment      ctermfg=59   cterm=italic
 hi Todo         ctermfg=254 ctermbg=16  cterm=none
 hi Boolean      ctermfg=110   cterm=none
 hi Directory    ctermfg=4    cterm=bold
+hi EndOfBuffer  ctermfg=232  ctermbg=236 cterm=bold
 
 
 " Links
