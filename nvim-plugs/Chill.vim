@@ -12,7 +12,7 @@ endif
 let colors_name = "Chill"
 
 " General colors
-hi Normal       ctermfg=254 ctermbg=235 cterm=none
+hi Normal       ctermfg=254 ctermbg=none cterm=none
 hi Cursor       cterm=inverse
 hi Visual       ctermfg=none ctermbg=232    cterm=none
 "hi VisualNOS    ctermfg=254 ctermbg=241 cterm=none
@@ -82,7 +82,7 @@ hi Type         ctermfg=193   cterm=none
 hi Special      ctermfg=212   cterm=none
 hi String       ctermfg=217   cterm=none
 hi Character    ctermfg=219   cterm=none
-hi Comment      ctermfg=59   cterm=italic
+hi Comment      ctermfg=130   ctermbg=none
 hi Todo         ctermfg=254 ctermbg=16  cterm=none
 hi Boolean      ctermfg=110   cterm=none
 hi Directory    ctermfg=4    cterm=bold
