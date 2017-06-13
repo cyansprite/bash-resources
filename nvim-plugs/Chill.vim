@@ -14,7 +14,7 @@ let colors_name = "Chill"
 " General colors
 hi Normal       ctermfg=254 ctermbg=none cterm=none
 hi Cursor       cterm=inverse
-hi Visual       ctermfg=none ctermbg=232    cterm=none
+hi Visual       ctermfg=232 ctermbg=231    cterm=none
 "hi VisualNOS    ctermfg=254 ctermbg=241 cterm=none
 hi Search       ctermfg=none ctermbg=none  cterm=inverse
 hi IncSearch    ctermfg=232 ctermbg=231  cterm=underline
@@ -24,14 +24,14 @@ hi Folded       ctermfg=236 ctermbg=241 cterm=none
 " hi StatusLineNC ctermfg=241 ctermbg=251 cterm=none
 hi VertSplit    ctermfg=189 ctermbg=238 cterm=none
 hi LineNr       ctermfg=245 ctermbg=236 cterm=none
-hi CursorLineNr ctermfg=159 ctermbg=240 cterm=none
+hi CursorLineNr ctermfg=159 ctermbg=232 cterm=none
 hi NonText      ctermfg=232 ctermbg=236 cterm=none
 " hi SpecialKey  cterm=oe
 " hi WarningMsg  cterm=oe
 hi ErrorMsg     ctermfg=254   cterm=none
 hi Error        ctermfg=254   cterm=none
 
-hi CursorLine   ctermbg=236   cterm=none
+hi CursorLine   ctermbg=232   cterm=none
 hi MatchParen   ctermfg=162 ctermbg=none cterm=bold
 hi Pmenu        ctermfg=254 ctermbg=237 cterm=none
 hi PmenuSel     ctermfg=131 ctermbg=251 cterm=bold
