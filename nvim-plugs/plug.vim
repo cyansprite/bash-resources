@@ -27,9 +27,17 @@ call plug#end()
     let g:airline_theme='base16_twilight'
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#show_buffers = 0
+    let g:airline#extensions#tabline#tab_min_count = 2
+    let g:airline#extensions#tabline#show_close_button = 0
     let g:airline_section_y = fnamemodify(getcwd(), ':t')
-    let g:airline_left_sep = ''
-    let g:airline_right_sep = ''
+    let g:airline_left_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline#extensions#tagbar#flags = 'f'
+    let g:airline#extensions#whitespace#enabled = 0
+    let g:airline#extensions#whitespace#show_message = 0
+    let g:airline#extensions#tabline#tab_nr_type = 2
+    silent! call airline#extensions#whitespace#disable()
+
     let g:bufferline_echo = 0
     let g:bufferline_show_bufnr = 0
 
@@ -42,3 +50,5 @@ call plug#end()
 "various things
     let g:startify_change_to_vcs_root = 1
     let g:ycm_complete_in_comments = 1
+
+
