@@ -3,7 +3,6 @@
     colo Chill
     let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
-
 "Begin Vim set
     "Those that use macros
     set sol nosol           " Moving to the start of the line every jump is stupid
@@ -39,15 +38,10 @@
 "End Vim set
 
 
-"Being Vim map
+"Begin Vim map
     "I don't use space so...here it is
     map <space> <leader>
 
-    "[Pre/App]end to the word under the cursor
-    map <m-a> ea
-    map <m-i> bi
-    map <m-p> "+p
-    map <m-P> "+P
 
     "Cycle error list like a boss
     map <f4> :cp<cr>
@@ -71,19 +65,28 @@
     "Temporary quick term and terminal stuff
     map <F12> :10split \| terminal<cr>
     tmap <F12> <C-\><C-n>:hide<cr>
-    tmap <c-left> <C-\><C-n><c-w><left>
-    tmap <c-down> <C-\><C-n><c-w><down>
-    tmap <c-up> <C-\><C-n><c-w><up>
-    tmap <c-right> <C-\><C-n><c-w><right>
+    tmap <c-h> <C-\><C-n><c-w><left>
+    tmap <c-j> <C-\><C-n><c-w><down>
+    tmap <c-k> <C-\><C-n><c-w><up>
+    tmap <c-l> <C-\><C-n><c-w><right>
 
     "Buffer movement
     map <m-n> :bn<cr>
     map <m-N> :bp<cr>
-    map <m-w> :bwipeout %<cr><cr>
     map <silent><m-k> 5k
     map <silent><m-j> 5j
+    map <silent><m-e> 5<c-e>
+    map <silent><m-y> 5<c-y>
+    "[Pre/App]end to the word under the cursor
+    map <m-a> ea
+    map <m-i> bi
+
+    "Paste from clipboard
+    map <m-p> "+p
+    map <m-P> "+P
+
+    "pasting undoing
     inoremap <silent><c-v> <esc>gpa
-    inoremap <silent><c-z> <esc>ua
 
     "I uh... don't use ESC
     inoremap  
@@ -91,6 +94,7 @@
 
     "Search and replace word under cursor
     nnoremap <F6> :%s/<C-r><C-w>/
+    nnoremap <F7> :%s/\<<C-r><C-w>\>/
 
     "c-hjkl for window movement
     nnoremap <silent> <c-k> :wincmd k<CR>

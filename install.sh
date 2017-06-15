@@ -16,6 +16,7 @@ cd "$SOURCE/nvim-plugs"
 ln -fv init.vim ~/.config/nvim/
 ln -fv plug.vim ~/.config/nvim/
 ln -fv Chill.vim ~/.config/nvim/colors/
+ln -fv air.vim ~/.local/share/nvim/plugged/vim-airline-themes/autoload/airline/themes/base16_twilight.vim
 
 #resources time
 echo "================================Linking bashrc,inputrc, and tmux to home "
