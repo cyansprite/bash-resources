@@ -17,13 +17,14 @@
     set smartindent         " indent things well
     set smarttab            " tab plays nicer
     set nowrap              " I really hate wrap
+    set nowrapscan          " I don't like my searches to continue forever
     set list                " list my chars╳│
 
     "Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy
     set listchars=tab:→\ ,trail:·,extends:┇,precedes:┇ " Changes listchars to more suitable chars
     set viewoptions=cursor,folds                       " What to save with mkview
-    set foldcolumn=0                                   " foldcolumn... noty
+    set foldcolumn=1                                   " foldcolumn... yes
     set mouse=a                                        " I sometimes jump around with this
     set shiftwidth=4                                   " Use indents of 4 spaces
     set tabstop=4                                      " An indentation every four columns
@@ -37,7 +38,6 @@
     auto BufEnter * let &titlestring = "NVIM│%f│%h%m%r%y "
 "End Vim set
 
-
 "Begin Vim map
     "I don't use space so...here it is
     map <space> <leader>
@@ -47,7 +47,7 @@
     map <f4> :cp<cr>
     map <f5> :cn<cr>
 
-    "movement while in insert mode
+    "movement while in insert mode, xmode and command mode
     imap <c-j> <down>
     imap <c-k> <up>
     imap <c-h> <left>
@@ -73,6 +73,8 @@
     "Buffer movement
     map <m-n> :bn<cr>
     map <m-N> :bp<cr>
+    map <m-h> :hid<cr>
+    map <m-w> :bw<cr><cr>
     map <silent><m-k> 5k
     map <silent><m-j> 5j
     map <silent><m-e> 5<c-e>
@@ -161,14 +163,14 @@
     endfunction
 
     func! LeaveBufWin()
-        if &modifiable && filereadable("%")
+        if &modifiable && filereadable(expand("%"))
             mkview
         endif
     endfun
 
     func! EnterBufWin()
         if &modifiable && filereadable(&viewdir .'/~=+.config=+nvim=+'.expand('%:t').'=')
-            silent loadview
+            loadview
         endif
     endfun
 
@@ -177,5 +179,3 @@
         autocmd WinEnter * cal EnterWin()
         autocmd BufWinLeave * cal LeaveBufWin()
         autocmd BufWinEnter * cal EnterBufWin()
-    augroup END
-"End    Aucmd   -------------------------

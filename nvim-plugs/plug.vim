@@ -2,6 +2,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'wellle/targets.vim'
     Plug 'junegunn/vim-easy-align'
     Plug 'vim-airline/vim-airline'
+    Plug 'guns/xterm-color-table.vim'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'flazz/vim-colorschemes'
     Plug 'easymotion/vim-easymotion'
@@ -50,5 +51,3 @@ call plug#end()
 "various things
     let g:startify_change_to_vcs_root = 1
     let g:ycm_complete_in_comments = 1
-
-

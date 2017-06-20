@@ -9,23 +9,18 @@ endif
 let colors_name = "Chill"
 
 " General colors
-hi Normal       ctermfg=254 ctermbg=none cterm=none
-hi Cursor       cterm=inverse
-hi Visual       ctermfg=none ctermbg=235    cterm=none
-hi Search       ctermfg=none ctermbg=none  cterm=inverse
-hi IncSearch    ctermfg=232 ctermbg=231  cterm=underline
-hi Folded       ctermfg=236 ctermbg=241 cterm=none
-" hi Title  cterm=none
-" hi StatusLine   ctermfg=16  ctermbg=251 cterm=none
-" hi StatusLineNC ctermfg=241 ctermbg=251 cterm=none
-hi LineNr ctermfg=240
-" hi SpecialKey  cterm=oe
-" hi WarningMsg  cterm=oe
+hi Normal       guifg=#e4e4e4 guibg=none    gui=none      ctermfg=254  ctermbg=none cterm=none
+hi Cursor       guifg=none    guibg=none    gui=inverse   ctermfg=none ctermbg=none cterm=inverse
+hi Visual       guifg=none    guibg=#262626 gui=none      ctermfg=none ctermbg=235  cterm=none
+hi Search       guifg=none    guibg=none    gui=inverse   ctermfg=none ctermbg=none cterm=inverse
+hi IncSearch    guifg=#080808 guibg=#ffffff gui=underline ctermfg=232  ctermbg=231  cterm=underline 
+hi Folded       guifg=#dfafff guibg=none    gui=none      ctermfg=183  ctermbg=none cterm=none
+hi LineNr       guifg=#585858 guibg=none    gui=none      ctermfg=240  ctermbg=none
 hi NonText      ctermfg=232 ctermbg=233 cterm=none
-hi ErrorMsg     ctermfg=254   cterm=none
-hi Error        ctermfg=254   cterm=none
+hi ErrorMsg     guibg=none gui=none ctermfg=254   cterm=none
+hi Error        guibg=none gui=none ctermfg=254   cterm=none
 hi CursorLine   ctermbg=232   cterm=none
-hi MatchParen   ctermfg=131 ctermbg=none cterm=bold
+hi MatchParen   guibg=none gui=bold ctermfg=131 ctermbg=none cterm=bold
 hi Pmenu        ctermfg=231 ctermbg=232 cterm=none
 hi PmenuSel     ctermfg=131 ctermbg=231 cterm=bold
 
@@ -35,35 +30,13 @@ hi DiffDelete   ctermfg=235 ctermbg=217 cterm=none
 hi DiffChange   ctermfg=235 ctermbg=110 cterm=none
 hi DiffText     ctermfg=235 ctermbg=189 cterm=none
 
-"hi CursorIM
-"hi Directory
-"hi IncSearch
-"hi Menu
-"hi ModeMsg
-"hi MoreMsg
-"hi PmenuSbar
-"hi PmenuThumb
-"hi Question
-"hi Scrollbar
 hi SignColumn ctermbg=none
-"hi SpellBad
-"hi SpellCap
-"hi SpellLocal
-"hi SpellRare
-"hi TabLine
-"hi TabLineFill
-"hi TabLineSel
-"hi Tooltip
-"hi User1
-"hi User9
-"hi WildMenu
 hi WildMenu ctermfg=131 ctermbg=231 cterm=bold
 hi StatusLine ctermfg=189 ctermbg=none cterm=none
 
 
 " Syntax highlighting
 hi Keyword      ctermfg=109   cterm=none
-"Yellow :: 178 Red :: 167?
 hi Statement    ctermfg=153   cterm=none
 hi Conditonal   ctermfg=141   cterm=none
 hi Constant     ctermfg=189
@@ -81,7 +54,6 @@ hi Boolean      ctermfg=110   cterm=none
 hi Directory    ctermfg=4    cterm=bold
 hi EndOfBuffer  ctermfg=232  ctermbg=none cterm=underline
 
-
 " Links
 hi! link FoldColumn Folded
 hi! link CursorColumn CursorLine
@@ -97,8 +69,7 @@ highlight SignifySignDelete          ctermfg=217
 highlight SignifySignChangeDelete    ctermfg=131
 highlight SignifySignDeleteFirstLine ctermfg=111
 
-" Dyn colors
-
+" Dyn colors... eventually
 func! HiDyn()
     exec printf("hi VertSplit    ctermfg=%d ctermbg=none cterm=bold", g:jojo#current#color)
     exec printf("hi CursorLineNr    ctermfg=%d ctermbg=none cterm=bold", g:jojo#current#color)
