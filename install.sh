@@ -22,15 +22,7 @@ fi
 
 #make sure we neovim stuffs
 echo "================================Linking nvim "
-if [ ! -d ~/.config/nvim/colors ] ; then
-    mkdir ~/.config/nvim/colors
-fi
-cd "$SOURCE/nvim-plugs"
-ln -fv init.vim ~/.config/nvim/
-ln -fv plug.vim ~/.config/nvim/
-ln -fv Chill.vim ~/.config/nvim/colors/
-ln -fv air.vim ~/.local/share/nvim/plugged/vim-airline-themes/autoload/airline/themes/base16_twilight.vim
-=======
+
 configdir=""
 localdir=""
 
@@ -48,11 +40,14 @@ fi
 if [ ! -d $configdir/colors ] ; then
     mkdir $configdir/colors
 fi
+
 cd "$SOURCE/nvim-plugs"
 ln -fv init.vim $configdir/
 ln -fv plug.vim $configdir/
 ln -fv Chill.vim $configdir/colors/
 ln -fv ~=+.config=+nvim=+init.vim= $localdir/view/
 ln -fv ~=+.config=+nvim=+plug.vim= $localdir/view/
+ln -fv ~=+.config=+nvim=+colors=+Chill.vim= $localdir/view/
+ln -fv air.vim $localdir/plugged/vim-airline-themes/autoload/airline/themes/base16_twilight.vim
 
 echo "Fin installing."
