@@ -11,15 +11,18 @@ setlocal fen
 silent! normal! zE
 1,17fold
 19,23fold
-25,42fold
-44,48fold
-50,52fold
-let s:l = 18 - ((17 * winheight(0) + 27) / 55)
+25,44fold
+46,50fold
+52,54fold
+25
+normal! zo
+let s:l = 41 - ((23 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-18
-normal! 0
+41
+normal! 039|
+lcd /bonus/scratch/bcoffman/git/ui-core
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

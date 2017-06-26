@@ -9,7 +9,7 @@ endif
 let colors_name = "Chill"
 
 " General colors
-hi Normal       guifg=#e4e4e4 guibg=none    gui=none      ctermfg=254  ctermbg=none cterm=none
+hi Normal       guifg=none guibg=none    gui=none      ctermfg=none  ctermbg=none cterm=none
 hi Cursor       guifg=none    guibg=none    gui=inverse   ctermfg=none ctermbg=none cterm=inverse
 hi Visual       guifg=none    guibg=#262626 gui=none      ctermfg=none ctermbg=235  cterm=none
 hi Search       guifg=none    guibg=none    gui=inverse   ctermfg=none ctermbg=none cterm=inverse
@@ -19,16 +19,19 @@ hi LineNr       guifg=#585858 guibg=none    gui=none      ctermfg=240  ctermbg=n
 hi NonText      ctermfg=232 ctermbg=233 cterm=none
 hi ErrorMsg     guibg=none gui=none ctermfg=254   cterm=none
 hi Error        guibg=none gui=none ctermfg=254   cterm=none
-hi CursorLine   ctermbg=232   cterm=none
+hi CursorLine   ctermbg=0   cterm=none
 hi MatchParen   guibg=none gui=bold ctermfg=131 ctermbg=none cterm=bold
 hi Pmenu        ctermfg=231 ctermbg=232 cterm=none
 hi PmenuSel     ctermfg=131 ctermbg=231 cterm=bold
 
 " Diff highlighting
-hi DiffAdd      ctermfg=235 ctermbg=193 cterm=none
-hi DiffDelete   ctermfg=235 ctermbg=217 cterm=none
-hi DiffChange   ctermfg=235 ctermbg=110 cterm=none
-hi DiffText     ctermfg=235 ctermbg=189 cterm=none
+hi DiffAdd      ctermfg=235 ctermbg=193  cterm=none
+hi DiffDelete   ctermfg=235 ctermbg=217  cterm=none
+hi DiffChange   ctermfg=235 ctermbg=110  cterm=none
+hi DiffText     ctermfg=235 ctermbg=189  cterm=none
+hi SpellBad     ctermfg=124 ctermbg=none cterm=underline
+hi SpellCap     ctermfg=27  ctermbg=none cterm=underline
+hi Whitespace   ctermfg=88  ctermbg=none cterm=underline
 
 hi SignColumn ctermbg=none
 hi WildMenu ctermfg=131 ctermbg=231 cterm=bold
@@ -74,6 +77,9 @@ func! HiDyn()
     exec printf("hi VertSplit    ctermfg=%d ctermbg=none cterm=bold", g:jojo#current#color)
     exec printf("hi CursorLineNr    ctermfg=%d ctermbg=none cterm=bold", g:jojo#current#color)
 endfun
+
+autocmd InsertEnter * hi CursorLine   ctermbg=233   cterm=none
+autocmd InsertLeave * hi CursorLine   ctermbg=0   cterm=none
 
 let g:jojo#current#color = 150
 call HiDyn()

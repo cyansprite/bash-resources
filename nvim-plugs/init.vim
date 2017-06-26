@@ -1,7 +1,6 @@
-"Plug, colo, and cursor shape.
+"Plug, colo
     so ~/.config/nvim/plug.vim
     colo Chill
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 "Begin Vim set
     "Those that use macros
@@ -44,8 +43,8 @@
 
 
     "Cycle error list like a boss
-    map <f4> :cp<cr>
-    map <f5> :cn<cr>
+    map <f3> :cp<cr>
+    map <f4> :cn<cr>
 
     "movement while in insert mode, xmode and command mode
     imap <c-j> <down>

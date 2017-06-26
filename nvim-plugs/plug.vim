@@ -14,21 +14,21 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'mhinz/vim-signify'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+    "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 call plug#end()
 
 "fzf, tagbar, and nerdtree
     map <c-s> :Ag 
-    map <c-p> :Files<cr>
+    "map <c-p> :Files<cr>
     map <m-]> :Tagbar<cr>
     map <C-n> :NERDTreeToggle<CR>
 
 "vim airline
     let g:airline_powerline_fonts = 1
-    let g:airline_theme='base16_twilight'
+    "let g:airline_theme='base16_twilight'
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#show_buffers = 0
-    let g:airline#extensions#tabline#tab_min_count = 2
+    "let g:airline#extensions#tabline#tab_min_count = 2
     let g:airline#extensions#tabline#show_close_button = 0
     let g:airline_section_y = fnamemodify(getcwd(), ':t')
     let g:airline_left_sep = ''
@@ -37,6 +37,8 @@ call plug#end()
     let g:airline#extensions#whitespace#enabled = 0
     let g:airline#extensions#whitespace#show_message = 0
     let g:airline#extensions#tabline#tab_nr_type = 2
+    let g:airline#extensions#tabline#tabs_label = 't'
+    call airline#parts#define_accent('-', 'red')
     silent! call airline#extensions#whitespace#disable()
 
     let g:bufferline_echo = 0

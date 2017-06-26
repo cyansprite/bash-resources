@@ -4,51 +4,42 @@ setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=0
+setlocal fdl=2
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-1,4fold
-7,21fold
-23,38fold
-6,39fold
-42,43fold
-45,49fold
-51,53fold
-55,68fold
-70,76fold
-78,86fold
-88,90fold
-92,93fold
-95,99fold
-101,104fold
-41,106fold
-109,114fold
-116,157fold
-159,163fold
-165,169fold
-171,175fold
-108,175fold
-177,181fold
-6
+1,3fold
+6,20fold
+22,37fold
+5,38fold
+41,42fold
+44,48fold
+50,52fold
+54,67fold
+69,75fold
+77,85fold
+87,89fold
+91,92fold
+94,98fold
+100,103fold
+40,105fold
+108,113fold
+115,156fold
+158,162fold
+164,168fold
+170,174fold
+107,174fold
+176,180fold
+5
 normal! zo
-6
-normal! zc
-41
-normal! zo
-41
-normal! zc
-108
-normal! zo
-108
-normal! zc
-let s:l = 177 - ((176 * winheight(0) + 27) / 55)
+let s:l = 1 - ((0 * winheight(0) + 29) / 59)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-177
-normal! 0
+1
+normal! 011|
+lcd ~/Downloads
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :
