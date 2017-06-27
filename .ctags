@@ -1,0 +1,6 @@
+--fields=+l+a+i+K+l+m+n+z
+--extra=+q
+--excmd=number
+--format=2
+--recurse
+--sort=yes

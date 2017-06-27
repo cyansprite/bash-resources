@@ -39,12 +39,12 @@ hi StatusLine ctermfg=189 ctermbg=none cterm=none
 
 
 " Syntax highlighting
-hi Keyword      ctermfg=109   cterm=none
+hi Keyword      ctermfg=34   cterm=none
 hi Statement    ctermfg=153   cterm=none
 hi Conditonal   ctermfg=141   cterm=none
 hi Constant     ctermfg=189
 hi PreProc      ctermfg=180   cterm=none
-hi Function     ctermfg=193   cterm=none
+hi Function     ctermfg=109   cterm=none
 hi Identifier   ctermfg=66   cterm=none
 hi Builtin      ctermfg=110   cterm=none
 hi Type         ctermfg=193   cterm=none

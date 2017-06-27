@@ -1,11 +1,13 @@
 call plug#begin('~/.local/share/nvim/plugged')
     Plug 'wellle/targets.vim'
+    Plug 'terryma/vim-expand-region'
     Plug 'junegunn/vim-easy-align'
     Plug 'vim-airline/vim-airline'
+    Plug 'michaeljsmith/vim-indent-object'
+    Plug 'chrisbra/nrrwrgn'
     Plug 'guns/xterm-color-table.vim'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'flazz/vim-colorschemes'
-    Plug 'easymotion/vim-easymotion'
     Plug 'tpope/vim-fugitive'
     Plug 'mhinz/vim-startify'
     Plug 'scrooloose/nerdtree'
@@ -14,18 +16,30 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'mhinz/vim-signify'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-    "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+    Plug 'andrewradev/sideways.vim'
+    Plug 'vim-scripts/TagHighlight'
+    Plug 'rhysd/clever-f.vim'
+    Plug 'thaerkh/vim-workspace'
+    Plug 'romainl/vim-qlist'
+    Plug 'arithran/vim-delete-hidden-buffers'
+    Plug 'wahidrahim/resize-font'
+    Plug 'romgrk/replace.vim'
+    Plug 'romainl/vim-qf'
+    Plug 'andrewvos/vim-git-navigator'
+    Plug 'foosoft/vim-argwrap'
+    Plug 'farfanoide/inflector.vim'
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 call plug#end()
 
 "fzf, tagbar, and nerdtree
-    map <c-s> :Ag 
-    "map <c-p> :Files<cr>
+    map <c-s> :Ag
+    map <c-p> :Files<cr>
     map <m-]> :Tagbar<cr>
     map <C-n> :NERDTreeToggle<CR>
 
 "vim airline
     let g:airline_powerline_fonts = 1
-    "let g:airline_theme='base16_twilight'
+    let g:airline_theme='base16_twilight'
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#show_buffers = 0
     "let g:airline#extensions#tabline#tab_min_count = 2
@@ -53,3 +67,17 @@ call plug#end()
 "various things
     let g:startify_change_to_vcs_root = 1
     let g:ycm_complete_in_comments = 1
+    let g:clever_f_fix_key_direction = 1
+
+    " This is like calling R with g:replace_register=='|'
+    nmap R <Plug>ReplaceOperator
+    vmap R <Plug>ReplaceOperator
+    nmap X <Plug>ExchangeOperator
+    let g:inflector_mapping = 'gi'
+
+
+    nnoremap <m-h> :SidewaysLeft<cr>
+    nnoremap <m-l> :SidewaysRight<cr>
+
+    nnoremap <silent> <leader>a :ArgWrap<CR>
+    let g:qf_auto_resize = 0
