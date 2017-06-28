@@ -1,6 +1,2 @@
---fields=+l+a+i+K+l+m+n+z
---extra=+q
---excmd=number
---format=2
+--fields=+l+a+i+l+m+n+z
 --recurse
---sort=yes

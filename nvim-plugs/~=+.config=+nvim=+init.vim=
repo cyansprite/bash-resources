@@ -30,7 +30,6 @@ silent! normal! zE
 165,169fold
 171,175fold
 108,175fold
-177,181fold
 1
 normal! zc
 6
@@ -79,14 +78,12 @@ normal! zc
 normal! zc
 108
 normal! zc
-177
-normal! zc
-let s:l = 3 - ((2 * winheight(0) + 27) / 55)
+let s:l = 108 - ((107 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 014|
+108
+normal! 0
 lcd ~/Downloads
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
