@@ -22,12 +22,12 @@ normal! zo
 normal! zo
 65
 normal! zo
-let s:l = 83 - ((57 * winheight(0) + 27) / 55)
+let s:l = 1 - ((0 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-83
-normal! 05|
+1
+normal! 04|
 lcd /bonus/scratch/bcoffman/git/ui-core
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost

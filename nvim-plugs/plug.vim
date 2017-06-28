@@ -80,4 +80,16 @@ call plug#end()
     nnoremap <m-l> :SidewaysRight<cr>
 
     nnoremap <silent> <leader>a :ArgWrap<CR>
-    let g:qf_auto_resize = 0
+    let g:qf_auto_resize = 1
+
+    let g:startify_bookmarks = [
+            \ { 'p': '~/.config/nvim/plug.vim' },
+            \ { 'i': '~/.config/nvim/init.vim' },
+            \ { 'c': '~/.config/nvim/colors/chill.vim' },
+            \ ]
+
+    nnoremap <leader>se :Startify<cr>
+    nnoremap <leader>sv :vsp \| Startify<cr>
+    nnoremap <leader>ss :sp \| Startify<cr>
+    nmap <leader>qq <Plug>(qf_qf_toggle)
+    nmap <leader>ll <Plug>(qf_loc_toggle)

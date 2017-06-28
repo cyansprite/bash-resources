@@ -119,21 +119,12 @@ if ! shopt -oq posix; then
 fi
 
 #VI-style command-line editing
-set -o vi
 
 #enable adb autocompleter
 if [ -e /bin/adb.txt ] ; then
     source /bin/adb.txt
 fi
 
-export VISUAL=vim
+export VISUAL=nvim
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-
-cex() {
-    code $1
-    sleep 2
-    wmctrl -a 'Welcome - '$1' - Visual Studio Code'
-    exit
-}
