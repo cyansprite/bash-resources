@@ -92,6 +92,7 @@
     "I uh... don't use ESC
     inoremap  
     vnoremap  
+    nnoremap  
 
     "Search and replace word under cursor
     nnoremap <F6> :%s/<C-r><C-w>/

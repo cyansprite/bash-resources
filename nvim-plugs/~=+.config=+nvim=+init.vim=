@@ -21,15 +21,15 @@ silent! normal! zE
 78,86fold
 88,90fold
 92,93fold
-95,99fold
-101,104fold
-41,106fold
-109,114fold
-116,157fold
-159,163fold
-165,169fold
-171,175fold
-108,175fold
+96,100fold
+102,105fold
+41,107fold
+110,115fold
+117,158fold
+160,164fold
+166,170fold
+172,176fold
+109,176fold
 1
 normal! zc
 6
@@ -58,27 +58,23 @@ normal! zc
 normal! zc
 92
 normal! zc
-95
+96
 normal! zc
-101
-normal! zc
-41
-normal! zc
-108
+109
 normal! zo
+110
+normal! zc
+117
+normal! zc
+160
+normal! zc
+166
+normal! zc
+172
+normal! zc
 109
 normal! zc
-116
-normal! zc
-159
-normal! zc
-165
-normal! zc
-171
-normal! zc
-108
-normal! zc
-let s:l = 108 - ((107 * winheight(0) + 28) / 56)
+let s:l = 108 - ((30 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt

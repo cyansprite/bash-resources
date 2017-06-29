@@ -20,7 +20,7 @@ hi NonText      ctermfg=232 ctermbg=233 cterm=none
 hi ErrorMsg     guibg=none gui=none ctermfg=254   cterm=none
 hi Error        guibg=none gui=none ctermfg=254   cterm=none
 hi CursorLine   ctermbg=0   cterm=none
-hi MatchParen   guibg=none gui=bold ctermfg=131 ctermbg=none cterm=bold
+hi MatchParen   guibg=none gui=bold ctermfg=126 ctermbg=none cterm=bold
 hi Pmenu        ctermfg=231 ctermbg=232 cterm=none
 hi PmenuSel     ctermfg=131 ctermbg=231 cterm=bold
 
@@ -31,7 +31,7 @@ hi DiffChange   ctermfg=235 ctermbg=110  cterm=none
 hi DiffText     ctermfg=235 ctermbg=189  cterm=none
 hi SpellBad     ctermfg=124 ctermbg=none cterm=underline
 hi SpellCap     ctermfg=27  ctermbg=none cterm=underline
-hi Whitespace   ctermfg=88  ctermbg=none cterm=underline
+hi Whitespace   ctermfg=53  ctermbg=none cterm=underline
 
 hi SignColumn ctermbg=none
 hi WildMenu ctermfg=131 ctermbg=231 cterm=bold

@@ -1,10 +1,18 @@
+"set termguicolors
+
 call plug#begin('~/.local/share/nvim/plugged')
     Plug 'wellle/targets.vim'
     Plug 'terryma/vim-expand-region'
-    Plug 'junegunn/vim-easy-align'
+    Plug 'godlygeek/tabular'
+    Plug 'yggdroot/indentline'
+    Plug 'sjl/gundo.vim'
+    Plug 'chrisbra/colorizer'
+    Plug 'sbdchd/neoformat'
+    Plug 'vasconcelloslf/vim-interestingwords'
+    Plug 'pseewald/vim-anyfold'
+    "Plug 'zefei/vim-colortuner'
     Plug 'vim-airline/vim-airline'
     Plug 'michaeljsmith/vim-indent-object'
-    Plug 'chrisbra/nrrwrgn'
     Plug 'guns/xterm-color-table.vim'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'flazz/vim-colorschemes'
@@ -19,23 +27,26 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'andrewradev/sideways.vim'
     Plug 'vim-scripts/TagHighlight'
     Plug 'rhysd/clever-f.vim'
-    Plug 'thaerkh/vim-workspace'
-    Plug 'romainl/vim-qlist'
     Plug 'arithran/vim-delete-hidden-buffers'
-    Plug 'wahidrahim/resize-font'
-    Plug 'romgrk/replace.vim'
     Plug 'romainl/vim-qf'
-    Plug 'andrewvos/vim-git-navigator'
     Plug 'foosoft/vim-argwrap'
     Plug 'farfanoide/inflector.vim'
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+    "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'honza/vim-snippets'
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'roxma/nvim-completion-manager'
+    Plug 'roxma/clang_complete'
+    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
 "fzf, tagbar, and nerdtree
     map <c-s> :Ag
     map <c-p> :Files<cr>
     map <m-]> :Tagbar<cr>
-    map <C-n> :NERDTreeToggle<CR>
+    map <m-\> :NERDTreeToggle<CR>
 
 "vim airline
     let g:airline_powerline_fonts = 1
@@ -93,3 +104,19 @@ call plug#end()
     nnoremap <leader>ss :sp \| Startify<cr>
     nmap <leader>qq <Plug>(qf_qf_toggle)
     nmap <leader>ll <Plug>(qf_loc_toggle)
+    let g:UltiSnipsJumpForwardTrigger="<c-b>"
+    let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+    let g:UltiSnipsEditSplit="vertical"
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    let g:clang_library_path="/usr/lib/llvm-4.0/lib"
+    let g:AutoPairsShortcutJump='<c-n>'
+    let g:clever_f_across_no_line=1
+    let g:NERDSpaceDelims = 1
+    let g:NERDCompactSexyComs = 1
+    let g:NERDDefaultAlign = 'left'
+    let g:interestingWordsRandomiseColors = 1
+    let g:interestingWordsGUIColors = [ '#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '#FFB3FF', '#9999FF' ]
+    let s:semanticGUIColors = [ '#72d572', '#c5e1a5', '#e6ee9c', '#fff59d', '#ffe082', '#ffcc80', '#ffab91', '#bcaaa4', '#b0bec5', '#ffa726', '#ff8a65', '#f9bdbb', '#f9bdbb', '#f8bbd0', '#e1bee7', '#d1c4e9', '#ffe0b2', '#c5cae9', '#d0d9ff', '#b3e5fc', '#b2ebf2', '#b2dfdb', '#a3e9a4', '#dcedc8' , '#f0f4c3', '#ffb74d' ]
+
+    au bufread * ColorHighlight!
