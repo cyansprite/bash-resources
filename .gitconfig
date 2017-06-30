@@ -1,0 +1,22 @@
+[user]
+    name = Jojo Brandon Coffman
+[diff]
+    tool = nvim
+[difftool]
+    prompt = false
+[difftool "nvim"]
+    cmd = nvim -f -d \"$LOCAL\" \"$REMOTE\"
+[merge]
+    ff = false
+    tool = nvim
+[mergetool "nvim"]
+    cmd = nvim -f -d \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
+    trustExitCode = true
+[color]
+    ui = auto
+    branch = always
+    interactive = always
+    status = always
+[alias]
+    s = status --short --branch
+    l = log -n 15 --date=format:'%Y-%m-%d %H:%M' --graph --all --decorate
