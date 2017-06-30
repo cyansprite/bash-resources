@@ -9,22 +9,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-44,47fold
-50,68fold
-70,74fold
-76,76fold
-44
-normal! zo
-50
-normal! zo
-76
-normal! zo
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+1,36fold
+let s:l = 79 - ((26 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+79
+normal! 041|
 lcd /bonus/scratch/bcoffman/git/ui-core
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost

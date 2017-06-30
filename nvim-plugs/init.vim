@@ -41,7 +41,6 @@
     "I don't use space so...here it is
     map <space> <leader>
 
-
     "Cycle error list like a boss
     map <f3> :cp<cr>
     map <f4> :cn<cr>
@@ -88,6 +87,7 @@
 
     "pasting undoing
     inoremap <silent><c-v> <esc>gpa
+    inoremap <silent><c-q> <esc>"gpa
 
     "I uh... don't use ESC
     inoremap  
