@@ -27,7 +27,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'romainl/vim-qf'
     Plug 'foosoft/vim-argwrap'
     Plug 'farfanoide/inflector.vim'
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --omnisharp-completer' }
     Plug 'scrooloose/nerdcommenter'
     Plug 'honza/vim-snippets'
     Plug 'SirVer/ultisnips'
@@ -56,7 +56,7 @@ call plug#end()
     " Auto pairs pair movement
         let g:AutoPairsShortcutJump='<c-n>'
 
-"vim airline
+"vim airline and options
     " Lengthy process to setup airline...but hey, I'm picky
     let g:airline_powerline_fonts = 1
     let g:airline_theme='base16_twilight'

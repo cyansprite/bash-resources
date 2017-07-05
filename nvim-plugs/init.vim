@@ -1,6 +1,7 @@
 "Plug, colo
     so ~/.config/nvim/plug.vim
-    colo Chill
+    set termguicolors
+    colo chill
 
 "Begin Vim set
     "Those that use macros
@@ -23,7 +24,7 @@
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy
     set listchars=tab:→\ ,trail:·,extends:┇,precedes:┇ " Changes listchars to more suitable chars
     set viewoptions=cursor,folds                       " What to save with mkview
-    set foldcolumn=1                                   " foldcolumn... yes
+    set foldcolumn=0                                   " foldcolumn... yes
     set mouse=a                                        " I sometimes jump around with this
     set shiftwidth=4                                   " Use indents of 4 spaces
     set tabstop=4                                      " An indentation every four columns

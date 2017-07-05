@@ -4,29 +4,29 @@ setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=2
+setlocal fdl=1
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-1,3fold
-5,38fold
-40,112fold
-114,181fold
+1,4fold
+6,39fold
+41,113fold
+115,182fold
 1
 normal! zc
-5
+6
 normal! zc
-40
+41
 normal! zc
-114
+115
 normal! zc
-let s:l = 181 - ((180 * winheight(0) + 27) / 55)
+let s:l = 36 - ((35 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-181
-normal! 01|
+36
+normal! 0
 lcd ~/Downloads
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
