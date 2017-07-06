@@ -127,4 +127,10 @@ fi
 
 export VISUAL=nvim
 
+# I love fzf...
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Fzf colors (note neovim is different)
+FZF_DEFAULT_OPTS="--color light,fg:138,bg+:235,fg+:189,hl:22,hl+:40,prompt:22,pointer:146,marker:182,spinner:197,header:181,info:159"
+# Setting ag as the default source for fzf
+export FZF_DEFAULT_COMMAND='ag -g ""'
+

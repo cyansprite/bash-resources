@@ -1,5 +1,8 @@
 call plug#begin('~/.local/share/nvim/plugged')
     Plug 'wellle/targets.vim'
+    Plug 'junegunn/limelight.vim'
+    Plug 'junegunn/gv.vim'
+    Plug 'junegunn/goyo.vim'
     Plug 'terryma/vim-expand-region'
     Plug 'godlygeek/tabular'
     Plug 'sjl/gundo.vim'
@@ -12,6 +15,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'guns/xterm-color-table.vim'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'flazz/vim-colorschemes'
+    Plug 'junegunn/vim-peekaboo'
     Plug 'tpope/vim-fugitive'
     Plug 'mhinz/vim-startify'
     Plug 'scrooloose/nerdtree'
@@ -33,6 +37,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'jiangmiao/auto-pairs'
+    Plug 'Valloric/vim-operator-highlight'
+    Plug 'junegunn/vim-peekaboo'
+    Plug 'junegunn/vim-github-dashboard'
+    Plug 'junegunn/vim-slash'
+
 call plug#end()
 
 " mappings
@@ -104,3 +113,30 @@ call plug#end()
     let g:interestingWordsGUIColors = [ '#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '#FFB3FF', '#9999FF' ]
 
     au bufread * ColorHighlight!
+        " Customize fzf colors to match your color scheme
+    let g:fzf_colors =
+    \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
+
+    " Enable per-command history.
+    " CTRL-N and CTRL-P will be automatically bound to next-history and
+    " previous-history instead of down and up. If you don't like the change,
+    " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+    let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+    let g:goyo_width='80%'
+    let g:goyo_linenr=1
+    if has('timers')
+      " Blink 2 times with 50ms interval
+      noremap <expr> <plug>(slash-after) slash#blink(2, 50)
+    endif
