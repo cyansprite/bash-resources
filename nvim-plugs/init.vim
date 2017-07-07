@@ -175,8 +175,29 @@
         endif
     endfun
 
+    func GitGrep(...)
+        let save = &grepprg
+        set grepprg=git\ grep\ -n\ $*
+        let s = 'grep'
+        for i in a:000
+            let s = s . ' ' . i
+        endfor
+        exe s
+        let &grepprg = save
+    endfun
+    command -nargs=? G call GitGrep(<f-args>)
+
+    autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
+
+    func KillWhitespace()
+        exec "%s/\\s\\+$//g"
+    endf
+    command -nargs=0 Kws call KillWhitespace()
+
+
     augroup init
         autocmd!
+        autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
         autocmd WinEnter * cal EnterWin()
         autocmd BufWinLeave * cal LeaveBufWin()
         autocmd BufWinEnter * cal EnterBufWin()

@@ -12,7 +12,7 @@ silent! normal! zE
 1,4fold
 6,39fold
 41,113fold
-115,182fold
+115,203fold
 1
 normal! zc
 6
@@ -21,11 +21,11 @@ normal! zc
 normal! zc
 115
 normal! zc
-let s:l = 36 - ((35 * winheight(0) + 27) / 55)
+let s:l = 6 - ((5 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-36
+6
 normal! 0
 lcd ~/Downloads
 let &so = s:so_save | let &siso = s:siso_save
