@@ -1,19 +1,24 @@
 call plug#begin('~/.local/share/nvim/plugged')
-    Plug 'pseewald/vim-anyfold'
-
     " IDE like shit
     Plug 'scrooloose/nerdtree'
     Plug 'majutsushi/tagbar'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
+    Plug 'pbogut/fzf-mru.vim'
     Plug 'mhinz/vim-startify'
     Plug 'sjl/gundo.vim'
     Plug 'vasconcelloslf/vim-interestingwords'
+    Plug 'jlanzarotta/bufexplorer'
+    Plug 'cyansprite/CmdlineComplete'
+    Plug 'wesleyche/SrcExpl'
 
     " Motion stuff
     Plug 'tpope/vim-surround'
     Plug 'wellle/targets.vim'
     Plug 'terryma/vim-expand-region'
+    Plug 'thinca/vim-visualstar'
+    Plug 'sickill/vim-pasta'
+    Plug 'justinmk/vim-sneak'
 
     " Format (I need a new formatter)
     Plug 'foosoft/vim-argwrap'
@@ -21,6 +26,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'godlygeek/tabular'
     Plug 'scrooloose/nerdcommenter'
     Plug 'farfanoide/inflector.vim'
+    Plug 'pseewald/vim-anyfold'
+    Plug 'cyansprite/vim-fold-cycle'
 
     " Autocompelete
     Plug 'jiangmiao/auto-pairs'
@@ -115,6 +122,11 @@ call plug#end()
     nnoremap <silent> <leader>? :call UncolorAllWords()<cr>
     let anyfold_activate=1
     set foldlevel=0
+    " Won't close when max fold is opened
+    let g:fold_cycle_toggle_max_open  = 0
+    " Won't open when max fold is closed
+    let g:fold_cycle_toggle_max_close = 0
+
 
     let g:fzf_colors =
     \ { 'fg':      ['fg', 'Normal'],
@@ -135,3 +147,4 @@ call plug#end()
     " previous-history instead of down and up. If you don't like the change,
     " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
     let g:fzf_history_dir = '~/.local/share/fzf-history'
+    let g:sneak#use_ic_scs = 1

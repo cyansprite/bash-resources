@@ -12,20 +12,20 @@
 
 "Begin Vim set
     "Those that use macros
-    set sol nosol           " Moving to the start of the line every jump is stupid
-    set cursorline          " set cursorline to highlight the current line I'm no
-    set showmode noshowmode " don't show mode in cmd line, I hate when it clears an echo
-    set expandtab           " Expands tab to spaces
-    set splitbelow          " when split, split below the window instead of above
-    set splitright          " when vsplit, splt to the right instead of left
-    set showcmd             " Show cmd while typing
-    set ignorecase          " in the name
-    set smartcase           " makes things a bit better
-    set smartindent         " indent things well
-    set smarttab            " tab plays nicer
-    set nowrap              " I really hate wrap
-    set nowrapscan          " I don't like my searches to continue forever
-    set list                " list my chars╳│
+    set sol nosol            " Moving to the start of the line every jump is stupid
+    set cursorline           " set cursorline to highlight the current line I'm no
+    set showmode noshowmode  " don't show mode in cmd line, I hate when it clears an echo
+    set expandtab            " Expands tab to spaces
+    set splitbelow           " when split, split below the window instead of above
+    set splitright           " when vsplit, splt to the right instead of left
+    set showcmd              " Show cmd while typing
+    set ignorecase smartcase " in the name
+    set smartcase            " makes things a bit better
+    set smartindent          " indent things well
+    set smarttab             " tab plays nicer
+    set nowrap               " I really hate wrap
+    set nowrapscan           " I don't like my searches to continue forever
+    set list                 " list my chars╳│
 
     "Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy
@@ -89,12 +89,19 @@
 
     "pasting
     inoremap <silent><c-v> <esc>gpa
+    inoremap <silent><c-y> <esc>"ygpa
     inoremap <silent><c-x> <esc>"xgpa
     inoremap <silent><C-q> <esc>"+gpa
     inoremap <silent><C-s> <esc>"cgpa
     inoremap <silent><C-d> <esc>"dgpa
     inoremap <silent><C-.> <esc>".gpa
     inoremap <silent><C-*> <esc>"*gpa
+    nnoremap <silent>x "xx
+    nnoremap <silent>X "xX
+    nnoremap <silent>c "cc
+    nnoremap <silent>C "cC
+    nnoremap <silent>d "dd
+    nnoremap <silent>D "dD
 
     "I uh... don't use ESC
     inoremap  
@@ -191,7 +198,7 @@
         exe s
         let &grepprg = save
     endfun
-    command -nargs=? G call GitGrep(<f-args>)
+    command! -nargs=? G call GitGrep(<f-args>)
 
     hi holdSearch guifg=none guibg=#4a5f58 gui=none
     set updatetime=300
