@@ -64,6 +64,11 @@
     xmap <c-h> <left>
     xmap <c-l> <right>
     cmap <c-v> <c-r>"
+    cmap <c-x> <c-r>x
+    cmap <c-d> <c-r>d
+    cmap <c-s> <c-r>s
+    cmap <c-q> <c-r>+
+    cmap <c-.> <c-r>.
     cmap <c-j> <down>
     cmap <c-k> <up>
     cmap <c-h> <left>
@@ -94,11 +99,21 @@
 
     "pasting undoing
     inoremap <silent><c-v> <esc>gpa
+    inoremap <silent><c-x> <esc>"xgpa
     inoremap <silent><C-q> <esc>"+gpa
+    inoremap <silent><C-s> <esc>"cgpa
+    inoremap <silent><C-d> <esc>"dgpa
+    inoremap <silent><C-.> <esc>".gpa
 
     "I uh... don't use ESC
     inoremap  
     vnoremap  
+    nnoremap x "xx
+    nnoremap X "xX
+    nnoremap c "cc
+    nnoremap C "cC
+    nnoremap d "dd
+    nnoremap D "dD
 
     "Search and replace word under cursor
     nnoremap <F6> :%s/<C-r><C-w>/
@@ -179,6 +194,20 @@
             silent loadview
         endif
     endfun
+
+    func! HighlightOnHold()
+        try
+            exec printf("match holdSearch \/%s\/", expand("<cword>"))
+        catch /.*/
+            echo "Ignoring match error :: " v:exception
+        endtry
+    endfun
+
+    hi holdSearch guifg=none guibg=#4a5f58 gui=none
+    set updatetime=300
+    au! CursorHold * call HighlightOnHold()
+
+    set hlsearch
 
     augroup init
         autocmd!
