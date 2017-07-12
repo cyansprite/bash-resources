@@ -1,45 +1,45 @@
 call plug#begin('~/.local/share/nvim/plugged')
-    Plug 'wellle/targets.vim'
-    Plug 'junegunn/limelight.vim'
-    Plug 'junegunn/gv.vim'
-    Plug 'junegunn/goyo.vim'
-    Plug 'terryma/vim-expand-region'
-    Plug 'godlygeek/tabular'
-    Plug 'sjl/gundo.vim'
-    Plug 'chrisbra/colorizer'
-    Plug 'sbdchd/neoformat'
-    Plug 'vasconcelloslf/vim-interestingwords'
     Plug 'pseewald/vim-anyfold'
-    Plug 'vim-airline/vim-airline'
-    Plug 'michaeljsmith/vim-indent-object'
-    Plug 'guns/xterm-color-table.vim'
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'flazz/vim-colorschemes'
-    Plug 'junegunn/vim-peekaboo'
-    Plug 'tpope/vim-fugitive'
-    Plug 'mhinz/vim-startify'
+
+    " IDE like shit
     Plug 'scrooloose/nerdtree'
-    Plug 'bling/vim-bufferline'
     Plug 'majutsushi/tagbar'
-    Plug 'mhinz/vim-signify'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-    Plug 'andrewradev/sideways.vim'
-    Plug 'vim-scripts/TagHighlight'
-    Plug 'rhysd/clever-f.vim'
-    Plug 'arithran/vim-delete-hidden-buffers'
-    Plug 'romainl/vim-qf'
+    Plug 'mhinz/vim-startify'
+    Plug 'sjl/gundo.vim'
+    Plug 'vasconcelloslf/vim-interestingwords'
+
+    " Motion stuff
+    Plug 'tpope/vim-surround'
+    Plug 'wellle/targets.vim'
+    Plug 'terryma/vim-expand-region'
+
+    " Format (I need a new formatter)
     Plug 'foosoft/vim-argwrap'
-    Plug 'farfanoide/inflector.vim'
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --omnisharp-completer' }
+    Plug 'andrewradev/sideways.vim'
+    Plug 'godlygeek/tabular'
     Plug 'scrooloose/nerdcommenter'
-    Plug 'honza/vim-snippets'
+    Plug 'farfanoide/inflector.vim'
+
+    " Autocompelete
+    Plug 'jiangmiao/auto-pairs'
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
-    Plug 'jiangmiao/auto-pairs'
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --omnisharp-completer' }
+
+    " Pretty stuff
     Plug 'Valloric/vim-operator-highlight'
-    Plug 'junegunn/vim-peekaboo'
-    Plug 'tpope/vim-surround'
+    Plug 'vim-scripts/TagHighlight'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'bling/vim-bufferline'
+    Plug 'arithran/vim-delete-hidden-buffers'
+
+    " Source control
+    Plug 'junegunn/gv.vim'
+    Plug 'mhinz/vim-signify'
+    Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " mappings
@@ -72,8 +72,14 @@ call plug#end()
     let g:airline#extensions#tabline#show_close_button = 0
     " let g:airline_section_y = fnamemodify(getcwd(), ':t')
     let g:airline_section_y = getcwd()
-    let g:airline_left_sep = '█▓▒░'
-    let g:airline_right_sep = '░▒▓█'
+    " win doesn't know how to render these correctly...because it sucks
+    if(has("unix"))
+        let g:airline_left_sep = '█▓▒░'
+        let g:airline_right_sep = '░▒▓█'
+    else
+        let g:airline_left_sep = ''
+        let g:airline_right_sep = ''
+    endif
     let g:airline#extensions#tagbar#flags = 'f'
     let g:airline#extensions#whitespace#enabled = 0
     let g:airline#extensions#whitespace#show_message = 0
@@ -98,21 +104,18 @@ call plug#end()
 
     let g:inflector_mapping = 'gi'
 
-
     nnoremap <silent> <leader>a :ArgWrap<CR>
-
-    let g:qf_auto_resize = 1
-    nmap <leader>qq <Plug>(qf_qf_toggle)
-    nmap <leader>ll <Plug>(qf_loc_toggle)
 
     let g:NERDSpaceDelims = 1
     let g:NERDCompactSexyComs = 1
     let g:NERDDefaultAlign = 'left'
     let g:interestingWordsRandomiseColors = 1
     let g:interestingWordsGUIColors = [ '#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '#FFB3FF', '#9999FF' ]
+    nnoremap <silent> <leader>/ :call InterestingWords('n')<cr>
+    nnoremap <silent> <leader>? :call UncolorAllWords()<cr>
+    let anyfold_activate=1
+    set foldlevel=0
 
-    au bufread * ColorHighlight!
-        " Customize fzf colors to match your color scheme
     let g:fzf_colors =
     \ { 'fg':      ['fg', 'Normal'],
       \ 'bg':      ['bg', 'Normal'],
@@ -132,10 +135,3 @@ call plug#end()
     " previous-history instead of down and up. If you don't like the change,
     " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
     let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-    let g:goyo_width='80%'
-    let g:goyo_linenr=1
-    if has('timers')
-      " Blink 2 times with 50ms interval
-      noremap <expr> <plug>(slash-after) slash#blink(2, 50)
-    endif

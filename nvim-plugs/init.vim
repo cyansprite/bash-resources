@@ -1,6 +1,13 @@
 "Plug, colo
-    so ~/.config/nvim/plug.vim
-    set termguicolors
+    if(has("unix"))
+        set termguicolors
+        so ~/.config/nvim/plug.vim
+    else
+        so ~\AppData\Local\nvim\plug.vim
+    endif
+    set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+                \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+                \,sm:block-blinkwait175-blinkoff150-blinkon175
     colo chill
 
 "Begin Vim set
@@ -22,8 +29,8 @@
 
     "Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy
-    set listchars=tab:→\ ,trail:·,extends:┇,precedes:┇ " Changes listchars to more suitable chars
-    set viewoptions=cursor,folds                       " What to save with mkview
+    set listchars=tab:→\ ,trail:·,extends:<,precedes:> " Changes listchars to more suitable chars
+    set viewoptions=cursor                             " What to save with mkview
     set foldcolumn=0                                   " foldcolumn... yes
     set mouse=a                                        " I sometimes jump around with this
     set shiftwidth=4                                   " Use indents of 4 spaces
@@ -56,28 +63,22 @@
     xmap <c-h> <left>
     xmap <c-l> <right>
     cmap <c-v> <c-r>"
+    cmap <c-x> <c-r>x
+    cmap <c-d> <c-r>d
+    cmap <c-s> <c-r>s
+    cmap <c-q> <c-r>+
+    cmap <c-.> <c-r>.
     cmap <c-j> <down>
     cmap <c-k> <up>
     cmap <c-h> <left>
     cmap <c-l> <right>
-
-    "Temporary quick term and terminal stuff
-    map <F12> :10split \| terminal<cr>
-    tmap <F12> <C-\><C-n>:hide<cr>
-    tmap <c-h> <C-\><C-n><c-w><left>
-    tmap <c-j> <C-\><C-n><c-w><down>
-    tmap <c-k> <C-\><C-n><c-w><up>
-    tmap <c-l> <C-\><C-n><c-w><right>
 
     "Buffer movement
     map <m-n> :bn<cr>
     map <m-N> :bp<cr>
     map <m-h> :hid<cr>
     map <m-w> :bw<cr><cr>
-    map <silent><m-k> 5k
-    map <silent><m-j> 5j
-    map <silent><m-e> 5<c-e>
-    map <silent><m-y> 5<c-y>
+
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
     map <m-i> bi
@@ -86,9 +87,14 @@
     map <m-p> "+p
     map <m-P> "+P
 
-    "pasting undoing
+    "pasting
     inoremap <silent><c-v> <esc>gpa
-    inoremap <silent><c-q> <esc>"gpa
+    inoremap <silent><c-x> <esc>"xgpa
+    inoremap <silent><C-q> <esc>"+gpa
+    inoremap <silent><C-s> <esc>"cgpa
+    inoremap <silent><C-d> <esc>"dgpa
+    inoremap <silent><C-.> <esc>".gpa
+    inoremap <silent><C-*> <esc>"*gpa
 
     "I uh... don't use ESC
     inoremap  
@@ -175,7 +181,7 @@
         endif
     endfun
 
-    func GitGrep(...)
+    func! GitGrep(...)
         let save = &grepprg
         set grepprg=git\ grep\ -n\ $*
         let s = 'grep'
@@ -187,17 +193,29 @@
     endfun
     command -nargs=? G call GitGrep(<f-args>)
 
-    autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
+    hi holdSearch guifg=none guibg=#4a5f58 gui=none
+    set updatetime=300
+    func! HighlightOnHold()
+        try
+            exec printf("2match holdSearch \/%s\/", expand("<cword>"))
+        catch /.*/
+            echo "Ignoring match error :: " v:exception
+        endtry
+    endfun
 
-    func KillWhitespace()
+    func! KillWhitespace()
         exec "%s/\\s\\+$//g"
     endf
-    command -nargs=0 Kws call KillWhitespace()
+    command! -nargs=0 Kws call KillWhitespace()
 
+    " TODO Make this a command so it can accept a filter
+    noremap <Leader>T :noautocmd vimgrep /TODO/j **/*.cs<CR>:cw<CR>.
 
     augroup init
         autocmd!
+        autocmd CursorHold * call HighlightOnHold()
         autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
         autocmd WinEnter * cal EnterWin()
         autocmd BufWinLeave * cal LeaveBufWin()
         autocmd BufWinEnter * cal EnterBufWin()
+        autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
