@@ -9,8 +9,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'sjl/gundo.vim'
     Plug 'vasconcelloslf/vim-interestingwords'
     Plug 'jlanzarotta/bufexplorer'
-    Plug 'cyansprite/CmdlineComplete'
-    Plug 'wesleyche/SrcExpl'
+    Plug 'eugen0329/vim-esearch'
+    Plug 'pelodelfuego/vim-swoop'
 
     " Motion stuff
     Plug 'tpope/vim-surround'
@@ -33,6 +33,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'jiangmiao/auto-pairs'
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
+    Plug 'cyansprite/CmdlineComplete'
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --omnisharp-completer' }
 
     " Pretty stuff
@@ -69,6 +70,9 @@ call plug#end()
         let g:UltiSnipsEditSplit="vertical"
     " Auto pairs pair movement
         let g:AutoPairsShortcutJump='<c-n>'
+    " Visual expand region
+        " map K <Plug>(expand_region_expand)
+        " map J <Plug>(expand_region_shrink)
 
 "vim airline and options
     " Lengthy process to setup airline...but hey, I'm picky
@@ -126,6 +130,7 @@ call plug#end()
     let g:fold_cycle_toggle_max_open  = 0
     " Won't open when max fold is closed
     let g:fold_cycle_toggle_max_close = 0
+    autocmd BufEnter * if &filetype == "" | let anyfold_activate=0 | endif
 
 
     let g:fzf_colors =
@@ -148,3 +153,14 @@ call plug#end()
     " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
     let g:fzf_history_dir = '~/.local/share/fzf-history'
     let g:sneak#use_ic_scs = 1
+    let g:ophigh_color_gui = "#FFFFFF"
+
+    let g:esearch = {
+                \ 'adapter':    'ag',
+                \ 'backend':    'nvim',
+                \ 'out':        'win',
+                \ 'batch_size': 1000,
+                \ 'use':        [],
+                \}
+
+    autocmd VimEnter * nested :call tagbar#autoopen(1)

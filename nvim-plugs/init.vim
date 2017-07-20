@@ -10,7 +10,7 @@
                 \,sm:block-blinkwait175-blinkoff150-blinkon175
     colo chill
 
-"Begin Vim set
+"Begin Vim set {{{
     "Those that use macros
     set sol nosol            " Moving to the start of the line every jump is stupid
     set cursorline           " set cursorline to highlight the current line I'm no
@@ -43,9 +43,9 @@
     set title titlestring=%P                           " titlestring needs to be something for the below to work
     if &modifiable | set number | endif                " If it's modifable, turn on numbers
     auto BufEnter * let &titlestring = "NVIM│%f│%h%m%r%y "
-"End Vim set
+"End Vim set }}}
 
-"Begin Vim map
+"Begin Vim map {{{
     "I don't use space so...here it is
     map <space> <leader>
 
@@ -123,7 +123,7 @@
                 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
                 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
-"End Vim Map
+"End Vim Map }}}
 
 "Aucmd
     let g:doGoldRatioActive=0
@@ -201,12 +201,12 @@
     command! -nargs=? G call GitGrep(<f-args>)
 
     hi holdSearch guifg=none guibg=#4a5f58 gui=none
-    set updatetime=300
+    set updatetime=500
     func! HighlightOnHold()
         try
-            exec printf("2match holdSearch \/%s\/", expand("<cword>"))
+            "echo expand("<cword>")
+            exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
         catch /.*/
-            echo "Ignoring match error :: " v:exception
         endtry
     endfun
 
