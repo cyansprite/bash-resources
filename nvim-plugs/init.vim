@@ -12,22 +12,22 @@
 
 "Begin Vim set {{{
     "Those that use macros
-    set sol nosol            " Moving to the start of the line every jump is stupid
-    set cursorline           " set cursorline to highlight the current line I'm no
-    set showmode noshowmode  " don't show mode in cmd line, I hate when it clears an echo
-    set expandtab            " Expands tab to spaces
-    set splitbelow           " when split, split below the window instead of above
-    set splitright           " when vsplit, splt to the right instead of left
-    set showcmd              " Show cmd while typing
-    set ignorecase smartcase " in the name
-    set smartcase            " makes things a bit better
-    set smartindent          " indent things well
-    set smarttab             " tab plays nicer
-    set nowrap               " I really hate wrap
-    set nowrapscan           " I don't like my searches to continue forever
-    set list                 " list my chars╳│
+    set sol nosol                                      " Moving to the start of the line every jump is stupid
+    set cursorline                                     " set cursorline to highlight the current line I'm on
+    set showmode noshowmode                            " don't show mode in cmd line, I hate when it clears an echo
+    set expandtab                                      " Expands tab to spaces
+    set splitbelow                                     " when split, split below the window instead of above
+    set splitright                                     " when vsplit, splt to the right instead of left
+    set showcmd                                        " Show cmd while typing in bottom right corner
+    set ignorecase smartcase                           " in the name
+    set smartcase                                      " makes things a bit better
+    set smartindent                                    " indent things well
+    set smarttab                                       " tab plays nicer
+    set nowrap                                         " I really hate wrap
+    set nowrapscan                                     " I don't like my searches to continue forever
+    set list                                           " list my chars╳│
 
-    "Those that use =
+   " Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy
     set listchars=tab:→\ ,trail:·,extends:<,precedes:> " Changes listchars to more suitable chars
     set viewoptions=cursor                             " What to save with mkview
@@ -36,13 +36,11 @@
     set shiftwidth=4                                   " Use indents of 4 spaces
     set tabstop=4                                      " An indentation every four columns
     set softtabstop=4                                  " Let backspace delete indent
-    let &showbreak = '↳ '                              " Change show break thing
+    let &showbreak = '↳ '                              " Change show break thing (rare occasion I use wrap)
     set showmatch                                      " Show matching brackets/parentthesis
     set matchtime=1                                    " Show matching time
     set report=0                                       " Always report changed lines
-    set title titlestring=%P                           " titlestring needs to be something for the below to work
     if &modifiable | set number | endif                " If it's modifable, turn on numbers
-    auto BufEnter * let &titlestring = "NVIM│%f│%h%m%r%y "
 "End Vim set }}}
 
 "Begin Vim map {{{
@@ -72,6 +70,7 @@
     cmap <c-k> <up>
     cmap <c-h> <left>
     cmap <c-l> <right>
+    cmap <m-w> \s\+$
 
     "Buffer movement
     map <m-n> :bn<cr>
@@ -200,15 +199,15 @@
     endfun
     command! -nargs=? G call GitGrep(<f-args>)
 
-    hi holdSearch guifg=none guibg=#4a5f58 gui=none
-    set updatetime=500
-    func! HighlightOnHold()
-        try
-            "echo expand("<cword>")
-            exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
-        catch /.*/
-        endtry
-    endfun
+    " hi holdSearch guifg=none guibg=#4a5f58 gui=none
+    " set updatetime=500
+    " func! HighlightOnHold()
+    "     try
+    "         "echo expand("<cword>")
+    "         exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
+    "     catch /.*/
+    "     endtry
+    " endfun
 
     func! KillWhitespace()
         exec "%s/\\s\\+$//g"
@@ -220,7 +219,7 @@
 
     augroup init
         autocmd!
-        autocmd CursorHold * call HighlightOnHold()
+        " autocmd CursorHold * call HighlightOnHold()
         autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
         autocmd WinEnter * cal EnterWin()
         autocmd BufWinLeave * cal LeaveBufWin()

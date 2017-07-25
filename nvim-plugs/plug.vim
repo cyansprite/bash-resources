@@ -10,7 +10,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vasconcelloslf/vim-interestingwords'
     Plug 'jlanzarotta/bufexplorer'
     Plug 'eugen0329/vim-esearch'
-    Plug 'pelodelfuego/vim-swoop'
 
     " Motion stuff
     Plug 'tpope/vim-surround'
@@ -26,7 +25,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'godlygeek/tabular'
     Plug 'scrooloose/nerdcommenter'
     Plug 'farfanoide/inflector.vim'
-    Plug 'pseewald/vim-anyfold'
     Plug 'cyansprite/vim-fold-cycle'
 
     " Autocompelete
@@ -124,13 +122,10 @@ call plug#end()
     let g:interestingWordsGUIColors = [ '#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '#FFB3FF', '#9999FF' ]
     nnoremap <silent> <leader>/ :call InterestingWords('n')<cr>
     nnoremap <silent> <leader>? :call UncolorAllWords()<cr>
-    let anyfold_activate=1
-    set foldlevel=0
     " Won't close when max fold is opened
     let g:fold_cycle_toggle_max_open  = 0
     " Won't open when max fold is closed
     let g:fold_cycle_toggle_max_close = 0
-    autocmd BufEnter * if &filetype == "" | let anyfold_activate=0 | endif
 
 
     let g:fzf_colors =
