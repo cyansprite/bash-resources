@@ -41,6 +41,7 @@
     set matchtime=1                                    " Show matching time
     set report=0                                       " Always report changed lines
     if &modifiable | set number | endif                " If it's modifable, turn on numbers
+    set wildmode=longest,list                          " Let's make it nice tab completion
 "End Vim set }}}
 
 "Begin Vim map {{{
@@ -61,11 +62,6 @@
     xmap <c-h> <left>
     xmap <c-l> <right>
     cmap <c-v> <c-r>"
-    cmap <c-x> <c-r>x
-    cmap <c-d> <c-r>d
-    cmap <c-s> <c-r>s
-    cmap <c-q> <c-r>+
-    cmap <c-.> <c-r>.
     cmap <c-j> <down>
     cmap <c-k> <up>
     cmap <c-h> <left>
@@ -88,13 +84,6 @@
 
     "pasting
     inoremap <silent><c-v> <esc>gpa
-    inoremap <silent><c-y> <esc>"ygpa
-    inoremap <silent><c-x> <esc>"xgpa
-    inoremap <silent><C-q> <esc>"+gpa
-    inoremap <silent><C-s> <esc>"cgpa
-    inoremap <silent><C-d> <esc>"dgpa
-    inoremap <silent><C-.> <esc>".gpa
-    inoremap <silent><C-*> <esc>"*gpa
     nnoremap <silent>x "xx
     nnoremap <silent>X "xX
     nnoremap <silent>c "cc
@@ -198,6 +187,7 @@
         let &grepprg = save
     endfun
     command! -nargs=? G call GitGrep(<f-args>)
+    command! -nargs=0 W write
 
     " hi holdSearch guifg=none guibg=#4a5f58 gui=none
     " set updatetime=500
