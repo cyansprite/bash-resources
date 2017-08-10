@@ -11,8 +11,6 @@ import neovim
 import sys
 from multiprocessing import Pool
 
-
-
 @neovim.plugin
 class Ser(object):#sirsirsirsirs-ir-ser-ser
     def __init__(self, nvim):
@@ -33,14 +31,19 @@ class Ser(object):#sirsirsirsirs-ir-ser-ser
         # needs to be lowercase, let user know they should add onto this list...?
         # I need to find somewhere that docs all these and make a "Complete" list
         # TODO FIXME
-        self.blacklist  = (
-                '.pdf','.safariextz','.idx','.store','.ap_','.webm','.aar',
-                '.gif','.pack','.sym','.keystream','.values','.shada','.tzo','.db','.sqlite','.ttf','.dex',
-                '.bin', '.dat', '.tar', '.gz' , '.properties', '.json' ,
-                '.xml', '.so' , 'r.java', '.class', '.jar' , '.png' , '.jpg' ,
-                'r.txt', '.pyc' , '.ser', 'tags', '.taghl', '.fls', '.ppt', '.tif', '.bmp', '.exe', '.dcx', '.ico', '.dll', '.apk',
-                'gpath', '.png', '=', '.rawproto', '.svn-base', '.pnm', '.eot', '.zip', '.gitignore'
+        self.extensionBlackList  = (
+            '.pdf','.safariextz','.idx','.store','.ap_','.webm','.aar',
+            '.gif','.pack','.sym','.keystream','.values','.shada','.tzo','.db','.sqlite','.ttf','.dex',
+            '.bin', '.dat', '.tar', '.gz' , '.properties', '.json' ,
+            '.xml', '.so' , 'r.java', '.class', '.jar' , '.png' , '.jpg' ,
+            'r.txt', '.pyc' , '.ser', 'tags', '.taghl', '.fls', '.ppt', '.tif', '.bmp', '.exe', '.dcx', '.ico', '.dll', '.apk',
+            'gpath', '.png', '=', '.rawproto', '.svn-base', '.pnm', '.eot', '.zip', '.gitignore',
         )
+        self.dirNameBlackList  = (
+            "AppData",
+        )
+
+        self.ignoreDotFiles = True
         self.whitelist     =      ()
 
         # Searching vars
@@ -49,6 +52,8 @@ class Ser(object):#sirsirsirsirs-ir-ser-ser
         self.buflist     = []
         self.dictResults = {}
         self.searchBuffers = {}
+        self.cwd = os.getcwd()
+        self.filesCached = False
 
         # These NEED to be threadsafe
         self.readyToReplace    = False
@@ -212,7 +217,6 @@ class Ser(object):#sirsirsirsirs-ir-ser-ser
 
         # Reset these
         self.skipper     = []
-        self.files       = []
         self.tempFiles   = []
         self.resultIndex = []
         self.patString   = args[0]
@@ -223,8 +227,6 @@ class Ser(object):#sirsirsirsirs-ir-ser-ser
         self.fileIndex   = 0
         self.ind         = 0
 
-        # Get me some files
-        self.omni_walk()
 
         if len(args) == 1:
             self.temp.write("Find actions : e/o=open, v=vsplit, s=split, p=preview\n")
@@ -235,13 +237,28 @@ class Ser(object):#sirsirsirsirs-ir-ser-ser
             self.ind += 3
             self.repl = args[1]
 
-        #  for self.fileIndex, fi in enumerate(self.files, 0):
-        #      fi = fi.rstrip()
+        def process(fi):
+            self.fileIndex += 1
 
-            #  if len(args) == 1:
-            #      self.find_in_file(fi)
-            #  else:
-            #      self.find_in_file(fi, self.tempFiles[self.fileIndex])
+            if len(args) == 1:
+                self.find_in_file(fi)
+            else:
+                #TODO support for winders
+                self.tempFiles.append( os.path.join( self.cacheDir, dirpath.replace("/","#")+filenames ) )
+                self.find_in_file(fi, self.tempFiles[self.fileIndex])
+
+        # Get me some files
+        if (not self.filesCached):
+            for dirpath,filenames in self.omni_walk():
+                for fi in filenames:
+                    fi = os.path.join(dirpath,fi).rstrip()
+                    self.files.append(fi)
+                    process(fi)
+        else:
+            for fi in self.files:
+                process(fi)
+
+        self.filesCached = True
 
         self.replMutex.acquire()
         self.readyToReplace = True
@@ -389,7 +406,7 @@ class Ser(object):#sirsirsirsirs-ir-ser-ser
         #Keys users can pick
         self.nvim.command('nnoremap <nowait><leader>f :Ser ')
         self.useWhiteListKey              = 'Sir_useWhiteList'
-        self.blacklistKey                 = 'Sir_blackList'
+        self.extensionBlackListKey        = 'Sir_extensionBlackList'
         self.whitelistKey                 = 'Sir_whiteList'
         self.tabLengthKey                 = 'Sir_tabLength'
         self.foldMarkerKey                = 'Sir_foldmarker'
@@ -401,7 +418,7 @@ class Ser(object):#sirsirsirsirs-ir-ser-ser
                     self.wrapKey             : False,
                     self.showRealTimeKey     : True,
                     self.whitelistKey        : self.whitelist,
-                    self.blacklistKey        : self.blacklist,
+                    self.extensionBlackListKey        : self.extensionBlackList,
                     self.tabLengthKey        : 4,
                     self.foldMarkerKey       : 'XX|>,<|XX',
                     self.openSerMethodKey    : 'tabe',
@@ -462,29 +479,34 @@ class Ser(object):#sirsirsirsirs-ir-ser-ser
         with open(self.searchCacheSuggestionFile, 'r') as sf:
             return "".join(str(s) for s in sf.readlines())
 
-#TODO consider caching if search, if chdir then recache when searched next or something...idk I'm lazy
+#TODO cache
     def omni_walk(self):
         start = time.time()
+        extensionBlackList = self.nvim.vars[ self.extensionBlackListKey ]
+        for dirpath, dirnames, filenames in os.walk(self.cwd):
 
-        blacklist = self.nvim.vars[ self.blacklistKey ]
-        #  whitelist = self.nvim.vars[ self.nvim.vars[ self.whitelistKey ] ]
+            dirnames[:] = [
+                    dn for dn in dirnames
+                    if not ( (self.ignoreDotFiles and dn.startswith(".") ) or dn in self.dirNameBlackList )
+            ]
 
-        for root, dirs, files in os.walk(os.getcwd()):
-            for name in files:
-                path = os.path.join(root,name)
-                if ( ".git" in root ):
-                    continue
-                if ( name.lower().endswith( tuple( blacklist) ) ):
-                    continue
-                #  if ( not name.endswith( tuple ( whitelist) ) ):
-                #      continue
-                self.files.append( path )
-                #TODO support for winders
-                self.tempFiles.append( os.path.join( self.cacheDir, root.replace("/","?")+name ) )
+            filenames[:] = [
+                    fn for fn in filenames
+                    if not ( (self.ignoreDotFiles and fn.startswith(".") ) or fn.endswith(tuple(extensionBlackList)) )
+            ]
+
+            yield dirpath, filenames
 
     @neovim.autocmd('VimEnter', pattern='*')
     def on_vimenter(self):
         self.handle_var()
+
+    @neovim.autocmd('DirChanged', pattern='*', eval="getcwd()")
+    def on_dirchanged(self, newcwd):
+        if newcwd != self.cwd:
+            self.files = []
+            self.filesCached = False
+            self.cwd = newcwd
 
     @neovim.autocmd('BufEnter', pattern='*', eval='&filetype')
     def on_bufenter(self, filetype):
