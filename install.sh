@@ -45,9 +45,6 @@ cd "$SOURCE/nvim-plugs"
 ln -fv init.vim $configdir/
 ln -fv plug.vim $configdir/
 ln -fv Chill.vim $configdir/colors/
-ln -fv ~=+.config=+nvim=+init.vim= $localdir/view/
-ln -fv ~=+.config=+nvim=+plug.vim= $localdir/view/
-ln -fv ~=+.config=+nvim=+colors=+Chill.vim= $localdir/view/
-ln -fv air.vim $localdir/plugged/vim-airline-themes/autoload/airline/themes/base16_twilight.vim
+ln -fv air.vim $localdir/plugged/vim-airline/autoload/airline/themes/dark.vim
 
 echo "Fin installing."

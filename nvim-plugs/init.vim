@@ -49,8 +49,8 @@
     map <space> <leader>
 
     "Cycle error list like a boss
-    map <f3> :cp<cr>
-    map <f4> :cn<cr>
+    map <f4> :cp<cr>
+    map <f5> :cn<cr>
 
     "movement while in insert mode, xmode and command mode
     imap <c-j> <down>
@@ -69,8 +69,6 @@
     cmap <m-w> \s\+$
 
     "Buffer movement
-    map <m-n> :bn<cr>
-    map <m-N> :bp<cr>
     map <m-h> :hid<cr>
     map <m-w> :bw<cr><cr>
 
@@ -204,8 +202,79 @@
     endf
     command! -nargs=0 Kws call KillWhitespace()
 
-    " TODO Make this a command so it can accept a filter
-    noremap <Leader>T :noautocmd vimgrep /TODO/j **/*.cs<CR>:cw<CR>.
+    let g:term_buf = 0
+    function! Term_toggle()
+        if g:term_buf == bufnr("")
+            setlocal bufhidden=hide
+            hide
+        else
+            exec printf("botright %dnew", winheight(winnr()) * 10 / 30)
+            try
+                exec "buffer ".g:term_buf
+            catch
+                term
+                let g:term_buf = bufnr("")
+            endtry
+            startinsert!
+        endif
+    endfunction
+
+    function! GetNextBuffer()
+        let l:curbuf = bufnr("")
+        let l:newbuf = 0
+        let l:firstbuf = 0
+        for buf in getbufinfo({'buflisted': 1})
+            if !empty(buf.windows) || l:curbuf == buf.bufnr || buf.hidden
+                continue
+            endif
+
+            if l:firstbuf == 0
+                let l:firstbuf = buf.bufnr
+            endif
+
+            if l:curbuf > buf.bufnr
+                let l:newbuf = buf.bufnr
+                continue
+            else
+                exec "buffer". buf.bufnr
+                return
+            endif
+        endfor
+        if l:firstbuf != 0
+            exec "buffer". firstbuf
+        endif
+    endfunction
+
+    function! GetPrevBuffer()
+        let l:curbuf = bufnr("")
+        let l:newbuf = 0
+        let l:firstbuf = 0
+        for buf in reverse(getbufinfo({'buflisted': 1}))
+            if !empty(buf.windows) || l:curbuf == buf.bufnr || buf.hidden
+                continue
+            endif
+
+            if l:firstbuf == 0
+                let l:firstbuf = buf.bufnr
+            endif
+
+            if l:curbuf < buf.bufnr
+                let l:newbuf = buf.bufnr
+                continue
+            else
+                exec "buffer". buf.bufnr
+                return
+            endif
+        endfor
+        if l:firstbuf != 0
+            exec "buffer". firstbuf
+        endif
+    endfunction
+
+    noremap <silent> <m-t> :silent call Term_toggle()<cr>
+    tnoremap <silent> <m-t> <C-\><C-n>:silent call Term_toggle()<cr>
+    nmap <silent> <m-n> :call GetNextBuffer()<cr>
+    nmap <silent> <m-N> :call GetPrevBuffer()<cr>
 
     augroup init
         autocmd!

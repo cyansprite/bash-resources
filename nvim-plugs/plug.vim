@@ -25,7 +25,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Pretty stuff
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-    Plug 'bling/vim-bufferline'
+    " Plug 'bling/vim-bufferline'
 
     " Source control
     Plug 'airblade/vim-gitgutter'
@@ -48,19 +48,27 @@ call plug#end()
 "vim airline and options
     " Lengthy process to setup airline...but hey, I'm picky
     let g:airline_powerline_fonts = 1
-    let g:airline_theme='bubblegum'
+    let g:airline_theme='serene'
     let g:airline#extensions#tabline#enabled = 1
-    let g:airline#extensions#tabline#show_buffers = 0
+    " let g:airline#extensions#tabline#show_buffers = 0
     let g:airline#extensions#tabline#show_close_button = 0
     " let g:airline_section_y = fnamemodify(getcwd(), ':t')
     let g:airline_section_y = getcwd()
     " win doesn't know how to render these correctly...because it sucks
     if(has("unix"))
-        let g:airline_left_sep = '█▓▒░'
-        let g:airline_right_sep = '░▒▓█'
+        let g:airline_left_sep = '█░'
+        let g:airline_right_sep = '░█'
+        let g:airline#extensions#tabline#left_sep = '█░'
+        let g:airline#extensions#tabline#left_alt_sep = '█░'
+        let g:airline#extensions#tabline#right_sep = '░█'
+        let g:airline#extensions#tabline#right_alt_sep = '░█'
     else
         let g:airline_left_sep = ''
         let g:airline_right_sep = ''
+        let g:airline#extensions#tabline#left_sep = ''
+        let g:airline#extensions#tabline#left_alt_sep = ''
+        let g:airline#extensions#tabline#right_sep = ''
+        let g:airline#extensions#tabline#right_alt_sep = ''
     endif
     let g:airline#extensions#tagbar#flags = 'f'
     let g:airline#extensions#whitespace#enabled = 0
@@ -69,11 +77,9 @@ call plug#end()
     let g:airline#extensions#tabline#tabs_label = 't'
     call airline#parts#define_accent('-', 'red')
     silent! call airline#extensions#whitespace#disable()
-    let g:bufferline_echo = 0
-    let g:bufferline_rotate = 1 "weep
-    let g:bufferline_fixed_index =  0 "always first
-
-
+    " let g:bufferline_echo = 0
+    " let g:bufferline_rotate = 1 "weep
+    " let g:bufferline_fixed_index =  0 "always first
 
     let g:ycm_complete_in_comments = 1
     let g:ycm_complete_in_strings  = 1
