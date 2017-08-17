@@ -1,6 +1,6 @@
-"Plug, colo
+"Plug, colo{{{
     if(has("unix"))
-        set termguicolors
+        " set termguicolors
         so ~/.config/nvim/plug.vim
     else
         so ~\AppData\Local\nvim\plug.vim
@@ -8,7 +8,7 @@
     set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
                 \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
                 \,sm:block-blinkwait175-blinkoff150-blinkon175
-    colo chill
+    colo Tomorrow"}}}
 
 "Begin Vim set {{{
     "Those that use macros
@@ -26,6 +26,8 @@
     set nowrap                                         " I really hate wrap
     set nowrapscan                                     " I don't like my searches to continue forever
     set list                                           " list my chars╳│
+    set undofile                                       " keep undo history ina file
+    set foldmethod=marker                              " fold stuff :)
 
    " Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy
@@ -42,11 +44,13 @@
     set report=0                                       " Always report changed lines
     if &modifiable | set number | endif                " If it's modifable, turn on numbers
     set wildmode=longest,list                          " Let's make it nice tab completion
+    set undolevels=99999                               " A lot of undo history :P
 "End Vim set }}}
 
 "Begin Vim map {{{
     "I don't use space so...here it is
     map <space> <leader>
+    map <cr> ggzz
 
     "Cycle error list like a boss
     map <f4> :cp<cr>
@@ -82,12 +86,7 @@
 
     "pasting
     inoremap <silent><c-v> <esc>gpa
-    nnoremap <silent>x "xx
-    nnoremap <silent>X "xX
-    nnoremap <silent>c "cc
-    nnoremap <silent>C "cC
-    nnoremap <silent>d "dd
-    nnoremap <silent>D "dD
+    inoremap <CR> <C-]><C-G>u<CR>
 
     "I uh... don't use ESC
     inoremap  
@@ -111,7 +110,7 @@
 
 "End Vim Map }}}
 
-"Aucmd
+"Aucmd{{{
     let g:doGoldRatioActive=0
     let g:GoldRatio=1.6
     let g:doAutoNumInActive=0
@@ -275,12 +274,26 @@
     tnoremap <silent> <m-t> <C-\><C-n>:silent call Term_toggle()<cr>
     nmap <silent> <m-n> :call GetNextBuffer()<cr>
     nmap <silent> <m-N> :call GetPrevBuffer()<cr>
+"}}}
 
-    augroup init
+function! NeatFoldText() "{{{
+    let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+    let lines_count = v:foldend - v:foldstart + 1
+    let lines_count_text = printf("%s", lines_count)
+    let foldchar = " "
+    let foldtextstart = strpart('' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+    let foldtextend = lines_count_text
+    let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+    return '....'.repeat('.',winwidth('.') / 3). line . repeat(foldchar,winwidth('.') / 8- len(line)) .foldtextend . repeat(".",winwidth('.'))
+endfunction
+set foldtext=NeatFoldText()
+" }}}
+
+    augroup init"{{{
         autocmd!
         " autocmd CursorHold * call HighlightOnHold()
         autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
         autocmd WinEnter * cal EnterWin()
         autocmd BufWinLeave * cal LeaveBufWin()
         autocmd BufWinEnter * cal EnterBufWin()
-        autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
+        autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])"}}}
