@@ -1,3 +1,4 @@
+" plugins (Plug.vim) {{{
 call plug#begin('~/.local/share/nvim/plugged')
     " IDE like shit
     Plug 'majutsushi/tagbar'
@@ -23,10 +24,11 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Source control
     Plug 'airblade/vim-gitgutter'
-    Plug 'tpope/vim-fugitive'
+    " Plug 'tpope/vim-fugitive'
 call plug#end()
+"}}}
 
-" mappings
+" mappings {{{
     " fzf
         noremap <c-s> :Ag 
         noremap <c-p> :Files<cr>
@@ -49,3 +51,4 @@ call plug#end()
     let g:NERDDefaultAlign = 'left'
 
     let g:targets_nlNL = 'nlNL'
+"}}}
