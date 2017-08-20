@@ -28,6 +28,7 @@
     set list                                           " list my chars╳│
     set undofile                                       " keep undo history ina file
     set foldmethod=marker                              " fold stuff :)
+    set foldopen=all                                   " fold open if I do anything.
 
    " Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy
@@ -36,14 +37,16 @@
     set foldcolumn=0                                   " foldcolumn... yes
     set mouse=a                                        " I sometimes jump around with this
     set shiftwidth=4                                   " Use indents of 4 spaces
+    set cindent                                        " Match c type files
     set tabstop=4                                      " An indentation every four columns
     set softtabstop=4                                  " Let backspace delete indent
     let &showbreak = '↳ '                              " Change show break thing (rare occasion I use wrap)
     set showmatch                                      " Show matching brackets/parentthesis
     set matchtime=1                                    " Show matching time
+    set visualbell                                     " Please don't make noises
     set report=0                                       " Always report changed lines
     if &modifiable | set number | endif                " If it's modifable, turn on numbers
-    set wildmode=longest,list                          " Let's make it nice tab completion
+    set wildmode=longest,full                          " Let's make it nice tab completion
     set undolevels=99999                               " A lot of undo history :P
 "End Vim set }}}
 
@@ -51,6 +54,13 @@
     "I don't use space so...here it is
     map <space> <leader>
     map <cr> ggzz
+    " Does anyone actually use single quote?
+    map ' `
+    
+    " It's awkward for me to type $ ^ if I'm using a command...
+    " if it's regexp my hands don't care, I don't know...
+    map <c-e> $
+    map <c-a> ^
 
     "Cycle error list like a boss
     map <f4> :cp<cr>
