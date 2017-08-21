@@ -28,6 +28,7 @@
     set list                                           " list my chars╳│
     set undofile                                       " keep undo history ina file
     set foldmethod=marker                              " fold stuff :)
+    set foldopen+=jump                                 " open folds when I jump to things as well but not all...
 
    " Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy
@@ -50,6 +51,7 @@
 "End Vim set }}}
 
 "Begin Vim map {{{
+    " map K and <c-z> to something useful...
     "I don't use space so...here it is
     map <space> <leader>
     map <cr> ggzz
@@ -285,17 +287,17 @@
     nmap <silent> <m-N> :call GetPrevBuffer()<cr>
 "}}}
 
-function! NeatFoldText() "{{{
+function! SuperSexyFoldText() "{{{
     let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
     let lines_count = v:foldend - v:foldstart + 1
     let lines_count_text = printf("%s", lines_count)
     let foldchar = " "
     let foldtextstart = strpart('' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-    let foldtextend = lines_count_text
+    let foldtextend = ' ( ' . repeat(" ", 5 - len(lines_count_text)) . lines_count_text . repeat(" ", 2) . "lines" . '   )  '
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-    return '....'.repeat('.',winwidth('.') / 3). line . repeat(foldchar,winwidth('.') / 8- len(line)) .foldtextend . repeat(".",winwidth('.'))
+    return '....' . repeat('.', winwidth('.') / 4) . " " . line . repeat(foldchar, winwidth('.') / 3 - len(line)) . foldtextend . repeat(".", winwidth('.'))
 endfunction
-set foldtext=NeatFoldText()
+set foldtext=SuperSexyFoldText()
 " }}}
 
     augroup init"{{{
