@@ -28,7 +28,6 @@
     set list                                           " list my chars╳│
     set undofile                                       " keep undo history ina file
     set foldmethod=marker                              " fold stuff :)
-    set foldopen=all                                   " fold open if I do anything.
 
    " Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy
@@ -56,7 +55,7 @@
     map <cr> ggzz
     " Does anyone actually use single quote?
     map ' `
-    
+
     " It's awkward for me to type $ ^ if I'm using a command...
     " if it's regexp my hands don't care, I don't know...
     map <c-e> $
