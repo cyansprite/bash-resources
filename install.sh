@@ -1,8 +1,10 @@
 winorlin=$(uname -s)
+echo "Environment :" $winorlin
 
 SOURCE=${PWD}
+echo "PWD:" $SOURCE
 
-if [ $winorlin == "Linux" ]; then
+if [ $winorlin = "Linux" ]; then
     #make sure we have nice font
     cd "$SOURCE/fonts"
     echo "================================Copying fonts to ~/.local/share/fonts/ "
@@ -12,10 +14,10 @@ if [ $winorlin == "Linux" ]; then
     cp * ~/.local/share/fonts
 
     #resources time
-    echo "================================Linking bashrc,inputrc, and tmux to home "
+    echo "================================Linking bashrc,zshrc, inputrc, and tmux to home "
     cd "$SOURCE"
     ln -fv .bashrc ~/.bashrc
-    #ln -fv .bash_aliases ~/.bash_aliases
+    ln -fv .zshrc ~/.zshrc
     ln -fv .inputrc ~/.inputrc
     ln -fv .tmux.conf ~/.tmux.conf
 fi
@@ -26,11 +28,11 @@ echo "================================Linking nvim "
 configdir=""
 localdir=""
 
-if [ $winorlin == "Linux" ]; then
+if [ $winorlin = "Linux" ]; then
     configdir=~/.config/nvim
     localdir=~/.local/share/nvim
     echo $configdir
-elif [ $winorlin == "Windows" ]; then
+elif [ $winorlin = "Windows" ]; then
     configdir=~/AppData/Local/nvim
     localdir=~/AppData/Local/nvim-data
 else
@@ -44,7 +46,5 @@ fi
 cd "$SOURCE/nvim-plugs"
 ln -fv init.vim $configdir/
 ln -fv plug.vim $configdir/
-ln -fv Chill.vim $configdir/colors/
-ln -fv air.vim $localdir/plugged/vim-airline/autoload/airline/themes/dark.vim
 
 echo "Fin installing."
