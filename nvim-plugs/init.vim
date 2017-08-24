@@ -1,4 +1,4 @@
-"Plug, colo{{{
+"Plug, colo {{{
     if(has("unix"))
         " set termguicolors
         so ~/.config/nvim/plug.vim
@@ -8,7 +8,9 @@
     set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
                 \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
                 \,sm:block-blinkwait175-blinkoff150-blinkon175
-    colo Tomorrow"}}}
+    "}}}
+    colo chill
+
 
 "Begin Vim set {{{
     "Those that use macros
@@ -44,7 +46,8 @@
     set showmatch                                      " Show matching brackets/parentthesis
     set matchtime=1                                    " Show matching time
     set visualbell                                     " Please don't make noises
-    set report=0                                       " Always report changed lines
+    " set report=0                                       " Always report changed lines
+    set complete=.,w,b,u,U,i,d,]                       " Complete more...
     if &modifiable | set number | endif                " If it's modifable, turn on numbers
     set wildmode=longest,full                          " Let's make it nice tab completion
     set undolevels=99999                               " A lot of undo history :P
@@ -57,11 +60,6 @@
     map <cr> ggzz
     " Does anyone actually use single quote?
     map ' `
-
-    " It's awkward for me to type $ ^ if I'm using a command...
-    " if it's regexp my hands don't care, I don't know...
-    map <c-e> $
-    map <c-a> ^
 
     "Cycle error list like a boss
     map <f4> :cp<cr>
@@ -287,6 +285,16 @@
     nmap <silent> <m-N> :call GetPrevBuffer()<cr>
 "}}}
 
+    augroup init
+        autocmd!
+        " autocmd CursorHold * call HighlightOnHold()
+        autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
+        autocmd WinEnter * cal EnterWin()
+        autocmd BufWinLeave * cal LeaveBufWin()
+        autocmd BufWinEnter * cal EnterBufWin()
+        autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])"}}}
+        autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
 function! SuperSexyFoldText() "{{{
     let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
     let lines_count = v:foldend - v:foldstart + 1
@@ -299,12 +307,3 @@ function! SuperSexyFoldText() "{{{
 endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
-
-    augroup init"{{{
-        autocmd!
-        " autocmd CursorHold * call HighlightOnHold()
-        autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
-        autocmd WinEnter * cal EnterWin()
-        autocmd BufWinLeave * cal LeaveBufWin()
-        autocmd BufWinEnter * cal EnterBufWin()
-        autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])"}}}

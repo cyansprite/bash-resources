@@ -4,17 +4,16 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'majutsushi/tagbar'
 
     " Motion stuff
-    Plug 'tpope/vim-surround'
     Plug 'wellle/targets.vim'
     Plug 'thinca/vim-visualstar'
     Plug 'chaoren/vim-wordmotion'
+    Plug 'cyansprite/extract'
 
     " Format
     Plug 'foosoft/vim-argwrap'
     Plug 'godlygeek/tabular'
     Plug 'scrooloose/nerdcommenter'
     Plug 'sbdchd/neoformat'
-    Plug 'flazz/vim-colorschemes'
 
     " Autocompelete
     Plug 'SirVer/ultisnips'
@@ -29,9 +28,6 @@ call plug#end()
 "}}}
 
 " mappings {{{
-    " fzf
-        noremap <c-s> :Ag 
-        noremap <c-p> :Files<cr>
     " Tagbar, nerd tree
         noremap <m-]> :Tagbar<cr>
         noremap <m-\> :NERDTreeToggle<CR>
@@ -51,4 +47,15 @@ call plug#end()
     let g:NERDDefaultAlign = 'left'
 
     let g:targets_nlNL = 'nlNL'
+
+    let g:wordmotion_mappings = {
+                \ 'w' : '<M-w>',
+                \ 'b' : '<M-b>',
+                \ 'e' : '<M-e>',
+                \ 'ge' : 'g<M-e>',
+                \ 'aw' : 'a<M-w>',
+                \ 'iw' : 'i<M-w>',
+                \ '<C-R><C-W>' : '<C-R><M-w>'
+                \ }
+
 "}}}
