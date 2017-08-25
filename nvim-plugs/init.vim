@@ -31,6 +31,8 @@
     set undofile                                       " keep undo history ina file
     set foldmethod=marker                              " fold stuff :)
     set foldopen+=jump                                 " open folds when I jump to things as well but not all...
+    set colorcolumn=80,130                             " color columns
+    set textwidth=80                                   " text width
 
    " Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy

@@ -46,5 +46,6 @@ fi
 cd "$SOURCE/nvim-plugs"
 ln -fv init.vim $configdir/
 ln -fv plug.vim $configdir/
+ln -fv chill.vim $configdir/colors/
 
 echo "Fin installing."
