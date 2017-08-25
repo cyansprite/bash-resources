@@ -1,62 +1,56 @@
 " plugins (Plug.vim) {{{
 call plug#begin('~/.local/share/nvim/plugged')
-    " IDE like shit
-    Plug 'majutsushi/tagbar'
-
     " Motion stuff
     Plug 'wellle/targets.vim'
     Plug 'thinca/vim-visualstar'
     Plug 'chaoren/vim-wordmotion'
     Plug 'cyansprite/extract'
-    Plug 'guns/xterm-color-table.vim'
 
     " Format
     Plug 'foosoft/vim-argwrap'
     Plug 'godlygeek/tabular'
-    Plug 'scrooloose/nerdcommenter'
-    Plug 'sbdchd/neoformat'
+
+    " Syntax
+    Plug 'cyansprite/vim-csharp'
+    Plug 'octol/vim-cpp-enhanced-highlight'
 
     " Autocompelete
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
-    Plug 'cyansprite/CmdlineComplete'
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --omnisharp-completer' }
+    Plug 'cyansprite/CmdlineComplete'
 
     " Source control
     Plug 'airblade/vim-gitgutter'
-    " Plug 'tpope/vim-fugitive'
 call plug#end()
 "}}}
 
 " mappings {{{
-    " Tagbar, nerd tree
-        noremap <m-]> :Tagbar<cr>
-        noremap <m-\> :NERDTreeToggle<CR>
     " Ultisnips activation and movement
-        let g:UltiSnipsJumpForwardTrigger="<c-f>"
-        let g:UltiSnipsExpandTrigger="<c-e>"
-        let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-        let g:UltiSnipsEditSplit="vertical"
+    let g:UltiSnipsJumpForwardTrigger="<c-f>"
+    let g:UltiSnipsExpandTrigger="<c-e>"
+    let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
     let g:ycm_complete_in_comments = 1
     let g:ycm_complete_in_strings  = 1
 
     nnoremap <silent> <leader>A :ArgWrap<CR>
 
-    let g:NERDSpaceDelims = 1
-    let g:NERDCompactSexyComs = 1
-    let g:NERDDefaultAlign = 'left'
-
-    let g:targets_nlNL = 'nlNL'
+    let g:targets_nlNL = 'nN  '
 
     let g:wordmotion_mappings = {
-                \ 'w' : '<M-w>',
-                \ 'b' : '<M-b>',
-                \ 'e' : '<M-e>',
-                \ 'ge' : 'g<M-e>',
-                \ 'aw' : 'a<M-w>',
-                \ 'iw' : 'i<M-w>',
+                \ 'w' : '<leader>w',
+                \ 'b' : '<leader>b',
+                \ 'e' : '<leader>e',
+                \ 'iw' : 'i<leader>w',
                 \ '<C-R><C-W>' : '<C-R><M-w>'
                 \ }
-
 "}}}
+
+" options {{{
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_concepts_highlight = 1
+
+" }}}

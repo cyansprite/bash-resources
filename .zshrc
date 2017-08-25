@@ -84,13 +84,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-#enable adb autocompleter
-if [ -e /bin/adb.txt ] ; then
-    source /bin/adb.txt
-fi
 
 #load colors
 autoload colors && colors
@@ -100,7 +93,28 @@ for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
 done
 eval RESET='%{$reset_color%}'
 
-PS1="${GREEN}%n@${MAGENTA}%m ${BLUE}[%t] ${BLACK} > "
-RPROMPT="${YELLOW}[%~] "
+PS1="${MAGENTA}%B%n@${GREEN}%B%m ${BLUE}%B[%*] ${BLACK} > %b%E"
+RPROMPT="${YELLOW}%B[%~] ${RED}[%?] ${CYAN}[]"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='ag -g ""'
+
+test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+alias ls='ls --color=auto'
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+#enable adb autocompleter
+if [ -e /bin/adb.txt ] ; then
+    source /bin/adb.txt
+fi
+
+# set PATH so it includes user's private bin directories
+PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+PATH="$PATH:~/Android/Sdk/build-tools"
+PATH="$PATH:~/Android/Sdk/platform-tools"
+export PATH="$PATH:~/Android/Sdk/tools"
+
+export PATH="$HOME/.cargo/bin:$PATH"

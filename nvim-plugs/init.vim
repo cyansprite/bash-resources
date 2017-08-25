@@ -6,11 +6,8 @@
         so ~\AppData\Local\nvim\plug.vim
     endif
     set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-                \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-                \,sm:block-blinkwait175-blinkoff150-blinkon175
-    "}}}
     colo chill
-
+    "}}}
 
 "Begin Vim set {{{
     "Those that use macros
@@ -121,7 +118,7 @@
 
 "End Vim Map }}}
 
-"Aucmd{{{
+"Aucmd {{{
     let g:doGoldRatioActive=0
     let g:GoldRatio=1.6
     let g:doAutoNumInActive=0
@@ -285,7 +282,6 @@
     tnoremap <silent> <m-t> <C-\><C-n>:silent call Term_toggle()<cr>
     nmap <silent> <m-n> :call GetNextBuffer()<cr>
     nmap <silent> <m-N> :call GetPrevBuffer()<cr>
-"}}}
 
     augroup init
         autocmd!
@@ -294,8 +290,9 @@
         autocmd WinEnter * cal EnterWin()
         autocmd BufWinLeave * cal LeaveBufWin()
         autocmd BufWinEnter * cal EnterBufWin()
-        autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])"}}}
+        autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
         autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+"}}}
 
 function! SuperSexyFoldText() "{{{
     let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
