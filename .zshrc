@@ -8,7 +8,7 @@ fi
 export ZSH=/home/joj/.oh-my-zsh
 
 
-ZSH_THEME="xiong-chiamiov-plus"
+# ZSH_THEME="gianu"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -52,7 +52,7 @@ ZSH_THEME="xiong-chiamiov-plus"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git colorize colored-man-pages cp npm pip python )
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -91,5 +91,16 @@ fi
 if [ -e /bin/adb.txt ] ; then
     source /bin/adb.txt
 fi
+
+#load colors
+autoload colors && colors
+for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
+    eval $COLOR='%{$fg_no_bold[${(L)COLOR}]%}'  #wrap colours between %{ %} to avoid weird gaps in autocomplete
+    eval BOLD_$COLOR='%{$fg_bold[${(L)COLOR}]%}'
+done
+eval RESET='%{$reset_color%}'
+
+PS1="${GREEN}%n@${MAGENTA}%m ${BLUE}[%t] ${BLACK} > "
+RPROMPT="${YELLOW}[%~] "
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

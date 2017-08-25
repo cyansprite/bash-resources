@@ -31,7 +31,7 @@ hi Statement      ctermfg=33   ctermbg=none cterm=none
 hi Conditional    ctermfg=90   ctermbg=none cterm=none
 hi Label          ctermfg=62   ctermbg=none cterm=none
 hi Operator       ctermfg=131  ctermbg=none cterm=none
-hi Keyword        ctermfg=57   ctermbg=none cterm=none
+hi Keyword        ctermfg=63   ctermbg=none cterm=none
 
 hi PreProc        ctermfg=58   ctermbg=none cterm=none
 
@@ -60,7 +60,7 @@ hi PmenuSbar      ctermfg=none ctermbg=241  cterm=none
 hi PmenuThumb     ctermfg=0    ctermbg=127  cterm=none
 hi WildMenu       ctermfg=236  ctermbg=40   cterm=bold
 
-hi Visual         ctermfg=none ctermbg=8    cterm=bold
+hi Visual         ctermfg=none ctermbg=16    cterm=bold
 
 hi ErrorMsg       ctermfg=160  ctermbg=none cterm=inverse,bold
 hi WarningMsg     ctermfg=184  ctermbg=none cterm=inverse,bold
