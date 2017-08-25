@@ -8,6 +8,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'thinca/vim-visualstar'
     Plug 'chaoren/vim-wordmotion'
     Plug 'cyansprite/extract'
+    Plug 'guns/xterm-color-table.vim'
 
     " Format
     Plug 'foosoft/vim-argwrap'

@@ -16,7 +16,7 @@
     "Those that use macros
     set sol nosol                                      " Moving to the start of the line every jump is stupid
     set cursorline                                     " set cursorline to highlight the current line I'm on
-    set showmode noshowmode                            " don't show mode in cmd line, I hate when it clears an echo
+    " set showmode noshowmode                            " don't show mode in cmd line, I hate when it clears an echo
     set expandtab                                      " Expands tab to spaces
     set splitbelow                                     " when split, split below the window instead of above
     set splitright                                     " when vsplit, splt to the right instead of left
@@ -113,7 +113,7 @@
     nnoremap <silent> <c-l> :wincmd l<CR>
 
     "I like playing with colors (Gives me hi-lo ids)
-    map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+    map <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
                 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
                 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
