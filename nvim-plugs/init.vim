@@ -7,6 +7,8 @@
     endif
     set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
     colo chill
+    " change if you have a light bg for terminal. (don't use a space between =)
+    set bg=dark
     "}}}
 
 "Begin Vim set {{{
@@ -30,6 +32,7 @@
     set foldopen+=jump                                 " open folds when I jump to things as well but not all...
     set colorcolumn=80,130                             " color columns
     set textwidth=80                                   " text width
+    set icm="split"
 
    " Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff: " set fill chars to things that make me happy
@@ -74,10 +77,6 @@
     xmap <c-h> <left>
     xmap <c-l> <right>
     cmap <c-v> <c-r>"
-    cmap <c-j> <down>
-    cmap <c-k> <up>
-    cmap <c-h> <left>
-    cmap <c-l> <right>
     cmap <m-w> \s\+$
 
     "Buffer movement
