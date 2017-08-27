@@ -10,17 +10,16 @@ let g:colors_name = "chill"
 
 " {{{ Main
 hi CursorLine   ctermbg=none ctermbg=none cterm=none
-hi CursorLineNr ctermfg=104  ctermbg=none cterm=inverse,bold
-hi LineNr       ctermfg=107  ctermbg=none cterm=none
+hi CursorLineNr ctermfg=116  ctermbg=none cterm=inverse,bold
 hi MatchParen   ctermfg=none ctermbg=none cterm=bold,underline
-hi Folded       ctermfg=109  ctermbg=none cterm=bold,inverse
+hi Folded       ctermfg=147  ctermbg=none cterm=bold
 
 hi Constant     ctermfg=130  ctermbg=none cterm=none
 hi String       ctermfg=203  ctermbg=none cterm=none
 hi SpecialChar  ctermfg=109  ctermbg=none cterm=none
 hi ignore       ctermfg=109  ctermbg=none cterm=none
 hi Character    ctermfg=201  ctermbg=none cterm=none
-hi Number       ctermfg=143  ctermbg=none cterm=none
+hi Number       ctermfg=142  ctermbg=none cterm=none
 hi Float        ctermfg=106  ctermbg=none cterm=none
 hi Boolean      ctermfg=142  ctermbg=none cterm=none
 hi Identifier   ctermfg=40   ctermbg=none cterm=none
@@ -33,7 +32,7 @@ hi Member       ctermfg=29   ctermbg=none cterm=none
 hi Operator     ctermfg=51   ctermbg=none cterm=bold
 hi Keyword      ctermfg=130  ctermbg=none cterm=none
 
-hi PreProc      ctermfg=121   ctermbg=none cterm=italic
+hi PreProc      ctermfg=156   ctermbg=none cterm=italic
 
 hi Type         ctermfg=30   ctermbg=none cterm=none
 hi StorageClass ctermfg=105  ctermbg=none cterm=none
@@ -44,7 +43,7 @@ hi Error        ctermfg=196  ctermbg=none  cterm=none
 hi Todo         ctermfg=197  ctermbg=none cterm=bold
 hi Whitespace   ctermfg=88   ctermbg=124  cterm=bold
 
-hi VertSplit    ctermfg=46  ctermbg=none cterm=bold
+hi VertSplit    ctermfg=113  ctermbg=none cterm=bold
 
 hi Pmenu        ctermfg=219  ctermbg=232  cterm=inverse
 hi PmenuSel     ctermfg=219  ctermbg=232  cterm=bold
@@ -60,8 +59,8 @@ hi Title        ctermfg=200  ctermbg=none cterm=bold
 
 hi Search       ctermfg=none ctermbg=none cterm=bold,inverse
 
-hi SpecialKey   ctermfg=139  ctermbg=none cterm=none
-hi NonText      ctermfg=139  ctermbg=none cterm=none
+hi SpecialKey   ctermfg=55  ctermbg=none cterm=none
+hi NonText      ctermfg=55  ctermbg=none cterm=none
 hi Directory    ctermfg=148  ctermbg=none cterm=none
 " }}}
 
@@ -72,23 +71,23 @@ if &bg == 'light'
     hi IncSearch    ctermfg=none  ctermbg=232 cterm=none,bold
     hi Comment      ctermfg=249  ctermbg=none cterm=italic
     hi Normal       ctermfg=240  ctermbg=none cterm=none
-    hi LineNr       ctermfg=104  ctermbg=250  cterm=none
+    hi LineNr       ctermfg=108  ctermbg=250  cterm=none
     hi WildMenu     ctermfg=250  ctermbg=143  cterm=bold
     hi StatusLine   ctermfg=143  ctermbg=250  cterm=none
     hi StatusLineNC ctermfg=249  ctermbg=none cterm=italic
 
     hi DiffAdd      ctermfg=232  ctermbg=40   cterm=bold
     hi DiffChange   ctermfg=none ctermbg=232  cterm=none
-    hi DiffText     ctermfg=none ctermbg=231  cterm=bold
+    hi DiffText     ctermfg=none ctermbg=250  cterm=bold
     hi DiffDelete   ctermfg=232  ctermbg=196  cterm=bold
-    hi EndOfBuffer  ctermfg=203  ctermbg=231  cterm=bold
+    hi EndOfBuffer  ctermfg=203  ctermbg=255  cterm=bold
 else
     hi ColorColumn  ctermbg=none ctermbg=232  cterm=none
     hi Visual       ctermfg=none ctermbg=239  cterm=bold
     hi IncSearch    ctermfg=none ctermbg=231  cterm=none
     hi Comment      ctermfg=240  ctermbg=none cterm=italic
     hi Normal       ctermfg=249  ctermbg=none cterm=none
-    hi LineNr       ctermfg=104  ctermbg=237  cterm=none
+    hi LineNr       ctermfg=108  ctermbg=237  cterm=none
     hi WildMenu     ctermfg=237  ctermbg=143  cterm=bold
     hi StatusLine   ctermfg=143  ctermbg=237  cterm=none
     hi StatusLineNC ctermfg=240  ctermbg=none cterm=italic
@@ -97,7 +96,7 @@ else
     hi DiffChange   ctermfg=none ctermbg=231  cterm=none
     hi DiffText     ctermfg=none ctermbg=237  cterm=bold
     hi DiffDelete   ctermfg=231  ctermbg=196  cterm=bold
-    hi EndOfBuffer  ctermfg=203  ctermbg=237  cterm=bold
+    hi EndOfBuffer  ctermfg=203  ctermbg=234  cterm=bold
 endif
 " }}}
 
