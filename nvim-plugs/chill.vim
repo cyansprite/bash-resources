@@ -43,7 +43,7 @@ hi Error        ctermfg=196  ctermbg=none  cterm=none
 hi Todo         ctermfg=197  ctermbg=none cterm=bold
 hi Whitespace   ctermfg=88   ctermbg=124  cterm=bold
 
-hi VertSplit    ctermfg=113  ctermbg=none cterm=bold
+hi VertSplit    ctermfg=112  ctermbg=none cterm=bold
 
 hi Pmenu        ctermfg=219  ctermbg=232  cterm=inverse
 hi PmenuSel     ctermfg=219  ctermbg=232  cterm=bold
@@ -53,7 +53,7 @@ hi PmenuThumb   ctermfg=0    ctermbg=219  cterm=none
 hi ErrorMsg     ctermfg=160  ctermbg=none cterm=inverse,bold
 hi WarningMsg   ctermfg=184  ctermbg=none cterm=inverse,bold
 hi MoreMsg      ctermfg=113  ctermbg=none cterm=inverse,bold
-hi ModeMsg      ctermfg=046  ctermbg=none cterm=bold
+hi ModeMsg      ctermfg=203  ctermbg=none cterm=bold
 hi Question     ctermfg=063  ctermbg=none cterm=inverse,bold
 hi Title        ctermfg=200  ctermbg=none cterm=bold
 
@@ -80,7 +80,7 @@ if &bg == 'light'
     hi DiffChange   ctermfg=none ctermbg=232  cterm=none
     hi DiffText     ctermfg=none ctermbg=250  cterm=bold
     hi DiffDelete   ctermfg=232  ctermbg=196  cterm=bold
-    hi EndOfBuffer  ctermfg=203  ctermbg=255  cterm=bold
+    hi EndOfBuffer  ctermfg=52  ctermbg=255  cterm=bold
 else
     hi ColorColumn  ctermbg=none ctermbg=232  cterm=none
     hi Visual       ctermfg=none ctermbg=239  cterm=bold
@@ -96,7 +96,7 @@ else
     hi DiffChange   ctermfg=none ctermbg=231  cterm=none
     hi DiffText     ctermfg=none ctermbg=237  cterm=bold
     hi DiffDelete   ctermfg=231  ctermbg=196  cterm=bold
-    hi EndOfBuffer  ctermfg=203  ctermbg=234  cterm=bold
+    hi EndOfBuffer  ctermfg=52  ctermbg=234  cterm=bold
 endif
 " }}}
 
