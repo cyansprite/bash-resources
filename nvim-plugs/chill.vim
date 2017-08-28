@@ -80,7 +80,7 @@ if &bg == 'light'
     hi DiffChange   ctermfg=none ctermbg=232  cterm=none
     hi DiffText     ctermfg=none ctermbg=250  cterm=bold
     hi DiffDelete   ctermfg=232  ctermbg=196  cterm=bold
-    hi EndOfBuffer  ctermfg=52  ctermbg=255  cterm=bold
+    hi EndOfBuffer  ctermfg=218  ctermbg=255  cterm=bold
 else
     hi ColorColumn  ctermbg=none ctermbg=232  cterm=none
     hi Visual       ctermfg=none ctermbg=239  cterm=bold
@@ -96,7 +96,7 @@ else
     hi DiffChange   ctermfg=none ctermbg=231  cterm=none
     hi DiffText     ctermfg=none ctermbg=237  cterm=bold
     hi DiffDelete   ctermfg=231  ctermbg=196  cterm=bold
-    hi EndOfBuffer  ctermfg=52  ctermbg=234  cterm=bold
+    hi EndOfBuffer  ctermfg=218  ctermbg=234  cterm=bold
 endif
 " }}}
 
