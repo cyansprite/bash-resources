@@ -93,8 +93,8 @@ for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
 done
 eval RESET='%{$reset_color%}'
 
-PS1="${MAGENTA}%B%n@${GREEN}%B%m ${BLUE}%B[%*] ${BLACK} > %b%E"
-RPROMPT="${YELLOW}%B[%~] ${RED}[%?] ${CYAN}[]"
+PS1="${MAGENTA}%B%n@${GREEN}%B%m ${BLUE}%B[%*] ${BLACK} %#> %b%E"
+RPROMPT="${YELLOW}%B[%~] ${RED}[%?] ${CYAN}[%!]"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='ag -g ""'
