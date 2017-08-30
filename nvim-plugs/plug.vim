@@ -9,6 +9,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Format
     Plug 'foosoft/vim-argwrap'
     Plug 'godlygeek/tabular'
+    Plug 'tpope/vim-commentary'
 
     " Syntax
     Plug 'cyansprite/vim-csharp'

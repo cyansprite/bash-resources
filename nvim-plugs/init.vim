@@ -38,7 +38,7 @@
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>       " Changes listchars to more suitable chars
     set viewoptions=cursor                                   " What to save with mkview
     set foldcolumn=0                                         " foldcolumn... yes
-    set mouse=a                                              " I sometimes jump around with this
+    set mouse=                                               " I prefer having terminal fucntionality.
     set shiftwidth=4                                         " Use indents of 4 spaces
     set cindent                                              " Match c type files
     set tabstop=4                                            " An indentation every four columns
@@ -47,7 +47,7 @@
     set showmatch                                            " Show matching brackets/parentthesis
     set matchtime=1                                          " Show matching time
     set visualbell                                           " Please don't make noises
-    set complete=.,w,b,u,U,i,d,]                             " Complete more...
+    " set complete=.,w,b,u,U,i,d,]                             " Complete more...
     if &modifiable | set number | set relativenumber | endif " If it's modifable, turn on numbers
     set wildmode=longest,full                                " Let's make it nice tab completion
     set undolevels=99999                                     " A lot of undo history :P
