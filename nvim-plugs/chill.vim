@@ -94,9 +94,11 @@ else
     hi StatusLineNC ctermfg=240  ctermbg=none cterm=italic
 
     hi DiffAdd      ctermfg=231  ctermbg=28   cterm=bold
+    hi link diffAdded DiffAdd
     hi DiffText     ctermfg=231  ctermbg=32   cterm=bold
     hi DiffChange   ctermfg=none ctermbg=237  cterm=none
     hi DiffDelete   ctermfg=231  ctermbg=196  cterm=bold
+    hi link diffRemoved DiffDelete
     hi EndOfBuffer  ctermfg=239  ctermbg=none cterm=bold
 endif
 " }}}

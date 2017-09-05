@@ -32,6 +32,8 @@
     set colorcolumn=80,130                                   " color columns
     set textwidth=80                                         " text width
     set icm="split"                                          " inc command split in preview...not sure how it works..
+    set wildignore=*.jar,*.class,**/Sdk/*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
+                \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,**/build/*
 
    " Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff:       " set fill chars to things that make me happy
