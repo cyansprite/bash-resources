@@ -16,17 +16,17 @@ hi MatchParen   ctermfg=none ctermbg=none cterm=bold,underline
 hi Folded       ctermfg=147  ctermbg=none cterm=bold
 
 hi Constant     ctermfg=130  ctermbg=none cterm=none
-hi String       ctermfg=203  ctermbg=none cterm=none
+hi String       ctermfg=107  ctermbg=none cterm=none
 hi SpecialChar  ctermfg=109  ctermbg=none cterm=none
 hi ignore       ctermfg=109  ctermbg=none cterm=none
-hi Character    ctermfg=201  ctermbg=none cterm=none
-hi Number       ctermfg=142  ctermbg=none cterm=none
+hi Character    ctermfg=203  ctermbg=none cterm=none
+hi Number       ctermfg=197  ctermbg=none cterm=none
 hi Float        ctermfg=106  ctermbg=none cterm=none
 hi Boolean      ctermfg=142  ctermbg=none cterm=none
-hi Identifier   ctermfg=40   ctermbg=none cterm=none
-hi Function     ctermfg=107  ctermbg=none cterm=none
+hi Identifier   ctermfg=134   ctermbg=none cterm=none
+hi Function     ctermfg=40  ctermbg=none cterm=none
 
-hi Statement    ctermfg=31   ctermbg=none cterm=bold
+hi Statement    ctermfg=32   ctermbg=none cterm=none
 hi Conditional  ctermfg=177  ctermbg=none cterm=italic
 hi Label        ctermfg=62   ctermbg=none cterm=none
 hi Member       ctermfg=29   ctermbg=none cterm=none
@@ -44,7 +44,7 @@ hi Error        ctermfg=196  ctermbg=none  cterm=none
 hi Todo         ctermfg=197  ctermbg=none cterm=bold
 hi Whitespace   ctermfg=197  ctermbg=none  cterm=bold,inverse
 
-hi VertSplit    ctermfg=112  ctermbg=none cterm=bold
+hi VertSplit    ctermfg=197  ctermbg=none cterm=bold
 
 hi Pmenu        ctermfg=219  ctermbg=232  cterm=inverse
 hi PmenuSel     ctermfg=219  ctermbg=232  cterm=bold
@@ -54,7 +54,7 @@ hi PmenuThumb   ctermfg=0    ctermbg=219  cterm=none
 hi ErrorMsg     ctermfg=160  ctermbg=none cterm=inverse,bold
 hi WarningMsg   ctermfg=184  ctermbg=none cterm=inverse,bold
 hi MoreMsg      ctermfg=113  ctermbg=none cterm=inverse,bold
-hi ModeMsg      ctermfg=203  ctermbg=none cterm=bold
+hi ModeMsg      ctermfg=147  ctermbg=none cterm=bold
 hi Question     ctermfg=063  ctermbg=none cterm=inverse,bold
 hi Title        ctermfg=200  ctermbg=none cterm=bold
 
