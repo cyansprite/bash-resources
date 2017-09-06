@@ -1,4 +1,4 @@
-" plugins (Plug.vim) {{{
+" plugins (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
     " Motion stuff
     Plug 'wellle/targets.vim'
@@ -6,6 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'chaoren/vim-wordmotion'
     Plug 'cyansprite/extract'
     Plug 'cyansprite/automatch'
+    Plug 'dyng/ctrlsf.vim'
 
     " Format
     Plug 'foosoft/vim-argwrap'
@@ -25,14 +26,12 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Source control
     Plug 'airblade/vim-gitgutter'
 call plug#end()
-"}}}
 
-" mappings {{{
+" mappings {{{1
     " Ultisnips activation and movement
     let g:UltiSnipsJumpForwardTrigger="<c-f>"
     let g:UltiSnipsExpandTrigger="<c-e>"
     let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-
 
     nnoremap <silent> <leader>A :ArgWrap<CR>
 
@@ -45,9 +44,8 @@ call plug#end()
                 \ 'iw' : 'i<leader>w',
                 \ '<C-R><C-W>' : '<C-R><M-w>'
                 \ }
-"}}}
 
-" options {{{
+" options {{{1
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1

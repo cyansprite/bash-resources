@@ -27,6 +27,9 @@
     set nowrapscan                                           " I don't like my searches to continue forever
     set list                                                 " list my chars╳│
     set undofile                                             " keep undo history ina file
+
+   " Those that use =
+    set sidescrolloff=5
     set foldmethod=marker                                    " fold stuff :)
     set foldopen+=jump                                       " open folds when I jump to things as well but not all...
     set colorcolumn=80,130                                   " color columns
@@ -34,8 +37,6 @@
     set icm="split"                                          " inc command split in preview...not sure how it works..
     set wildignore=*.jar,*.class,**/Sdk/*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
                 \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,**/build/*
-
-   " Those that use =
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff:       " set fill chars to things that make me happy
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>       " Changes listchars to more suitable chars
     set viewoptions=cursor                                   " What to save with mkview
@@ -67,6 +68,9 @@
 
     " pasting in cmode
     cmap <c-v> <c-r>"
+
+    " I don't know why this isn't default
+    nnoremap Y y$
 
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
