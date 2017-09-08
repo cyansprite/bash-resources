@@ -12,48 +12,68 @@
     "}}}
 
 "Begin Vim set {{{
-    "Those that use macros
-    set sol nosol                                            " Moving to the start of the line every jump is stupid
-    set cursorline                                           " set cursorline to highlight the current line I'm on
-    set expandtab                                            " Expands tab to spaces
-    set splitbelow                                           " when split, split below the window instead of above
-    set splitright                                           " when vsplit, splt to the right instead of left
-    set showcmd                                              " Show cmd while typing in bottom right corner
-    set ignorecase smartcase                                 " in the name
-    set smartcase                                            " makes things a bit better
-    set smartindent                                          " indent things well
-    set smarttab                                             " tab plays nicer
-    set nowrap                                               " I really hate wrap
-    set nowrapscan                                           " I don't like my searches to continue forever
-    set list                                                 " list my chars╳│
-    set undofile                                             " keep undo history ina file
+    " Set: Those that use macros
+    set backup | set writebackup " back it up, the file, I mean.
+    set nocursorline             " set cursorline to highlight NOTHING
+    set expandtab                " Expands tab to spaces
+    set ignorecase smartcase     " in the name
+    set linebreak                " don't cut words on wrap if i DO wrap
+    set list                     " list my chars╳│
+    set nowrap                   " I really hate wrap
+    set nowrapscan               " I don't like my searches to continue forever
+    set shiftround               " indent it by multiples of shiftwidth please:)
+    set showcmd                  " Show cmd while typing in bottom right corner
+    set smartcase                " makes things a bit better
+    set smartindent              " indent things well
+    set smarttab                 " tab plays nicer
+    set sol nosol                " Don't be stupid and move to start of line
+    set splitbelow               " ...split below... what did you think?
+    set splitright               " Oh this one will be different!...cept not.
+    set undofile                 " keep undo history ina file
 
-   " Those that use =
-    set sidescrolloff=5
-    set foldmethod=marker                                    " fold stuff :)
-    set foldopen+=jump                                       " open folds when I jump to things as well but not all...
-    set colorcolumn=80,130                                   " color columns
-    set textwidth=80                                         " text width
-    set icm="split"                                          " inc command split in preview...not sure how it works..
-    set wildignore=*.jar,*.class,**/Sdk/*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
-                \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,**/build/*
-    set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff:       " set fill chars to things that make me happy
-    set listchars=tab:→\ ,trail:·,extends:<,precedes:>       " Changes listchars to more suitable chars
-    set viewoptions=cursor                                   " What to save with mkview
-    set foldcolumn=0                                         " foldcolumn... yes
-    set mouse=                                               " I prefer having terminal fucntionality.
-    set shiftwidth=4                                         " Use indents of 4 spaces
-    set cindent                                              " Match c type files
-    set tabstop=4                                            " An indentation every four columns
-    set softtabstop=4                                        " Let backspace delete indent
-    let &showbreak = '↳ '                                    " Change show break thing (rare occasion I use wrap)
-    set showmatch                                            " Show matching brackets/parentthesis
-    set matchtime=1                                          " Show matching time
-    set visualbell                                           " Please don't make noises
-    " set complete=.,w,b,u,U,i,d,]                             " Complete more...
-    if &modifiable | set number | set relativenumber | endif " If it's modifable, turn on numbers
-    set wildmode=longest,full                                " Let's make it nice tab completion
-    set undolevels=99999                                     " A lot of undo history :P
+   " Set: Those that use =
+    let &showbreak = '↳ '        " Change show break thing (rare occasion)
+    set cinkeys-=0#              " don't force # indentation, ever write python?
+    set colorcolumn=80,130       " color columns
+    set foldcolumn=0             " foldcolumn... yes
+    set foldmethod=marker        " fold stuff :)
+    set foldopen+=jump           " open folds when I jump to things as well
+    set icm="split"              " inc command split in preview, hasn't worked
+    set matchtime=1              " Show matching time
+    set matchpairs+=<:>          " More matches
+    set mouse=                   " I prefer having terminal fucntionality.
+    set shiftwidth=4             " Use indents of 4 spaces
+    set showmatch                " Show matching brackets/parentthesis
+    set sidescrolloff=5          " 5 columns off?, scroll
+    set scrolloff=0              " I want to touch the top...
+    set softtabstop=4            " Let backspace delete indent
+    set tabstop=4                " An indentation every four columns
+    set textwidth=80             " text width
+    set timeoutlen=250           " Best type maps fast
+    set ttimeoutlen=25           " I don't care much for waiting
+    set undolevels=99999         " A lot of undo history :P
+    set updatecount=33           " update swp every 33 chars.
+    set viewoptions=cursor       " What to save with mkview
+    set visualbell               " Please don't make noises
+    set wildmode=longest,full    " Let's make it nice tab completion
+
+    " Set: Those that are complex, or just look stupid
+    " Backup dirrrrrrrrrrr
+    set backupdir-=.
+    " set fill chars to things that make me happy
+    set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff:
+    " Changes listchars to more suitable chars
+    set listchars=tab:→\ ,trail:·,extends:<,precedes:>
+    " If it's modifable, turn on numbers
+    if &modifiable | set number | set relativenumber | endif
+    " If it goes past tw, don't highlight it
+    exe 'set synmaxcol=' . &tw
+    " Ignore this crap :)
+    set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
+                \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build* | "rand
+    set wildignore+=*.bak,*.swp,*.swo | "vim
+    set wildignore+=*.a,*.o,*.so,*.pyc,*.class | "cpp/python/java
+    set wildignore+=*/.git*,*.tar,*.zip | "srctl, compress
 "End Vim set }}}
 
 "Begin Vim map {{{
@@ -83,7 +103,13 @@
     inoremap  
     vnoremap  
 
-    "Search and replace word under cursor
+    " neat things I found from mhinz
+    nmap <expr> n  'Nn'[v:searchforward]
+    nmap <expr> N  'nN'[v:searchforward]
+    nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+
+    " Search and replace word under cursor
+    " Why f6 and f7? I'm not sure...
     nnoremap <F6> :%s/<C-r><C-w>/
     nnoremap <F7> :%s/\<<C-r><C-w>\>/
 
@@ -241,7 +267,6 @@
     nmap <silent> <m-n> :call GetNextBuffer()<cr>
     nmap <silent> <m-N> :call GetPrevBuffer()<cr>
     " }}}
-
     augroup init
         autocmd!
         " autocmd CursorHold * call HighlightOnHold()
