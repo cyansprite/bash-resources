@@ -19,7 +19,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Autocompelete
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --omnisharp-completer' }
+    Plug 'Valloric/YouCompleteMe'
     Plug 'cyansprite/CmdlineComplete'
 
     " Source control
@@ -39,7 +39,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'majutsushi/tagbar'
     Plug 'cyansprite/a.vim'
     Plug 'AndrewRadev/linediff.vim'
-    Plug 'ericpruitt/tmux.vim', {'rtp': 'vim/'}
+    Plug 'ericpruitt/tmux.vim'
 
 
 call plug#end()
@@ -112,7 +112,7 @@ let g:grepper           = {}
 let g:grepper.tools     = ['git', 'ag', 'grep']
 " }}}2
 " autocmds {{{1
-autocmd FileType dirvish Goyo
+" autocmd FileType dirvish Goyo
 autocmd FileType GrepperSide
   \  silent normal! gg
   \  silent execute 'keeppatterns v#'.b:grepper_side.'#>'

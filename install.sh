@@ -17,6 +17,7 @@ echo "Linking bashrc, inputrc, and tmux to home "
 echo "========================================================================="
 cd "$SOURCE"
 ln -fv .bashrc ~/.bashrc
+ln -fv .bash_aliases ~/.bash_aliases
 ln -fv .inputrc ~/.inputrc
 ln -fv .gitconfig ~/.gitconfig
 ln -fv .tmux.conf ~/.tmux.conf
@@ -30,7 +31,7 @@ configdir=~/.config/nvim
 localdir=~/.local/share/nvim
 
 if [ ! -d $configdir/colors ] ; then
-    mkdir $configdir/colors
+    mkdir -p $configdir/colors
 fi
 
 cd "$SOURCE/nvim-plugs"
@@ -46,6 +47,25 @@ if [ ! -d ~/.fzf ] ; then
     echo "========================================================================="
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     yes | ~/.fzf/install
+    echo ""
+fi
+
+if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ] ; then
+    echo "========================================================================="
+    echo "Installing plug.vim"
+    echo "========================================================================="
+    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+if hash nvim 2>/dev/null; then
+    echo "========================================================================="
+    echo "Neovim already installed, run neovim.sh if you need python || xsel."
+    echo "========================================================================="
+    echo ""
+else
+    echo ""
+    dash $SOURCE/neovim.sh
     echo ""
 fi
 
