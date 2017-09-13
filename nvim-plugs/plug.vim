@@ -39,6 +39,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'majutsushi/tagbar'
     Plug 'cyansprite/a.vim'
     Plug 'AndrewRadev/linediff.vim'
+    Plug 'ericpruitt/tmux.vim', {'rtp': 'vim/'}
 
 
 call plug#end()

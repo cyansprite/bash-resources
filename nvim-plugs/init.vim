@@ -41,7 +41,7 @@
     set icm="split"              " inc command split in preview, hasn't worked
     set matchtime=1              " Show matching time
     set matchpairs+=<:>          " More matches
-    set mouse=                   " I prefer having terminal fucntionality.
+    set mouse=                   " I prefer having terminal functionality.
     set shiftwidth=4             " Use indents of 4 spaces
     set showmatch                " Show matching brackets/parentthesis
     set sidescrolloff=5          " 5 columns off?, scroll
@@ -58,8 +58,9 @@
     set wildmode=longest,full    " Let's make it nice tab completion
 
     " Set: Those that are complex, or just look stupid
-    " Backup dirrrrrrrrrrr
+    " Backup dirrrrrrrrrrr, and make the fuckin dir please :)
     set backupdir-=.
+    exe "call mkdir('" . $HOME . "/.local/share/nvim/backup' , 'p')"
     " set fill chars to things that make me happy
     set fillchars=vert:\|,stlnc:-,stl:\ ,fold:-,diff:
     " Changes listchars to more suitable chars
@@ -67,7 +68,7 @@
     " If it's modifable, turn on numbers
     if &modifiable | set number | set relativenumber | endif
     " If it goes past tw, don't highlight it
-    exe 'set synmaxcol=' . &tw
+    exe 'set synmaxcol=' . (&tw + 51)
     " Ignore this crap :)
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
                 \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build* | "rand
