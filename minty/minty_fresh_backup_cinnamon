@@ -65,12 +65,13 @@ double-click=400
 
 [muffin]
 workspace-cycle=true
-button-layout=':minimize,maximize,close'
-tile-maximize=true
-resize-threshold=24
-snap-modifier='Super'
-unredirect-fullscreen-windows=false
 tile-hud-threshold=25
+unredirect-fullscreen-windows=false
+tile-maximize=true
+snap-modifier='Super'
+workspaces-only-on-primary=false
+button-layout=':minimize,maximize,close'
+resize-threshold=24
 
 [desktop/interface]
 cursor-size=24
