@@ -1,11 +1,9 @@
 " plugins (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
     " Motion stuff
-    Plug 'wellle/targets.vim'
-    Plug 'bronson/vim-visual-star-search'
     Plug 'chaoren/vim-wordmotion'
     Plug 'cyansprite/extract'
-    Plug 'cyansprite/automatch'
+    Plug 'thinca/vim-visualstar'
 
     " Format
     Plug 'foosoft/vim-argwrap'
@@ -29,19 +27,16 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'justinmk/vim-dirvish'
 
     " Nice Stuff
-    Plug 'cyansprite/vim-search-pulse'
     Plug 'airblade/vim-rooter'
     Plug 'junegunn/goyo.vim'
-    Plug 'romainl/vim-qf'
-    Plug 'stefandtw/quickfix-reflector.vim'
-    Plug 'mhinz/vim-grepper'
+    " Plug 'romainl/vim-qf'
+    " Plug 'stefandtw/quickfix-reflector.vim'
+    " Plug 'mhinz/vim-grepper'
     Plug 'mhinz/vim-startify'
     Plug 'majutsushi/tagbar'
     Plug 'cyansprite/a.vim'
     Plug 'AndrewRadev/linediff.vim'
-    Plug 'ericpruitt/tmux.vim'
-
-
+    Plug 'keith/tmux.vim'
 call plug#end()
 
 " mappings {{{1
@@ -51,8 +46,6 @@ call plug#end()
     let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
     nnoremap <silent> <leader>A :ArgWrap<CR>
-
-    let g:targets_nlNL = 'nN  '
 
     let g:wordmotion_mappings = {
                 \ 'w' : 'W',
@@ -107,13 +100,20 @@ nnoremap <leader>gg :Grepper -tool git<cr>
 nnoremap <leader>ga :Grepper -tool ag<cr>
 nnoremap <leader>gs :Grepper -tool ag -side<cr>
 nnoremap <leader>*  :Grepper -tool ag -cword -noprompt<cr>
-
 let g:grepper           = {}
 let g:grepper.tools     = ['git', 'ag', 'grep']
-" }}}2
+
 " autocmds {{{1
 " autocmd FileType dirvish Goyo
 autocmd FileType GrepperSide
   \  silent normal! gg
   \  silent execute 'keeppatterns v#'.b:grepper_side.'#>'
   \| silent normal! ggn
+
+" higlighting {{{1
+hi link StartifyPath StorageClass
+hi link StorageClass  Keyword
+hi link cppSTLnamespace  Label
+hi link cCustomMemVar Member
+hi link cCustomClass  Class
+hi link cRepeat       Repeat

@@ -8,107 +8,102 @@ endif
 let g:colors_name = "chill"
 "}}}
 
-"TODO tabline.
+"TODO tabline.... but i hardly ever use tabs...
 " {{{ Main
-hi CursorLine   ctermbg=none ctermbg=none cterm=none
-hi CursorLineNr ctermfg=107  ctermbg=none cterm=bold
+hi CursorLine   ctermbg=none ctermbg=234   cterm=none
+hi CursorLineNr ctermfg=107  ctermbg=none   cterm=bold
 hi MatchParen   ctermfg=none ctermbg=none cterm=bold,underline
 hi Folded       ctermfg=147  ctermbg=none cterm=bold
 
-hi Constant     ctermfg=130  ctermbg=none cterm=none
-hi String       ctermfg=107  ctermbg=none cterm=none
-hi SpecialChar  ctermfg=109  ctermbg=none cterm=none
-hi ignore       ctermfg=109  ctermbg=none cterm=none
-hi Character    ctermfg=203  ctermbg=none cterm=none
-hi Number       ctermfg=197  ctermbg=none cterm=none
-hi Float        ctermfg=106  ctermbg=none cterm=none
-hi Boolean      ctermfg=142  ctermbg=none cterm=none
-hi Identifier   ctermfg=134   ctermbg=none cterm=none
-hi Function     ctermfg=40  ctermbg=none cterm=none
+" Bold, i.e. not modifiable
+hi Boolean      ctermfg=142 ctermbg=none cterm=bold
+hi Statement    ctermfg=200 ctermbg=none cterm=bold
+hi Conditional  ctermfg=177 ctermbg=none cterm=bold
+hi Repeat       ctermfg=177 ctermbg=none cterm=bold,italic
+hi Label        ctermfg=30  ctermbg=none cterm=bold
+hi Type         ctermfg=202 ctermbg=none cterm=bold
+hi StorageClass ctermfg=197 ctermbg=none cterm=bold
+hi Structure    ctermfg=95  ctermbg=none cterm=bold
+hi Operator     ctermfg=60  ctermbg=none cterm=bold
+hi Keyword      ctermfg=32  ctermbg=none cterm=bold
 
-hi Statement    ctermfg=32   ctermbg=none cterm=none
-hi Conditional  ctermfg=177  ctermbg=none cterm=italic
-hi Label        ctermfg=62   ctermbg=none cterm=none
-hi Member       ctermfg=29   ctermbg=none cterm=none
-hi Operator     ctermfg=51   ctermbg=none cterm=bold
-hi Keyword      ctermfg=130  ctermbg=none cterm=none
+" We specify these things
+hi Member       ctermfg=87  ctermbg=none cterm=none
+hi Class        ctermfg=38  ctermbg=none cterm=none
+hi PreProc      ctermfg=156 ctermbg=none cterm=none
+hi Constant     ctermfg=126 ctermbg=none cterm=none
+hi String       ctermfg=217 ctermbg=none cterm=none
+hi SpecialChar  ctermfg=77  ctermbg=none cterm=none
+hi Character    ctermfg=203 ctermbg=none cterm=none
+hi Number       ctermfg=65  ctermbg=none cterm=none
+hi Float        ctermfg=106 ctermbg=none cterm=none
+hi Identifier   ctermfg=70  ctermbg=none cterm=none
+hi Function     ctermfg=34  ctermbg=none cterm=none
 
-hi PreProc      ctermfg=156   ctermbg=none cterm=italic
-
-hi Type         ctermfg=30   ctermbg=none cterm=none
-hi StorageClass ctermfg=105  ctermbg=none cterm=none
-hi Structure    ctermfg=71   ctermbg=none cterm=none
-
-hi Special      ctermfg=69   ctermbg=none cterm=none
-hi Error        ctermfg=196  ctermbg=none  cterm=none
-hi Todo         ctermfg=197  ctermbg=none cterm=bold
-hi Whitespace   ctermfg=197  ctermbg=none  cterm=bold,inverse
-
-hi VertSplit    ctermfg=197  ctermbg=none cterm=bold
-
-hi Pmenu        ctermfg=219  ctermbg=232  cterm=inverse
-hi PmenuSel     ctermfg=219  ctermbg=232  cterm=bold
-hi PmenuSbar    ctermfg=none ctermbg=241  cterm=none
-hi PmenuThumb   ctermfg=0    ctermbg=219  cterm=none
-
-hi ErrorMsg     ctermfg=160  ctermbg=none cterm=inverse,bold
-hi WarningMsg   ctermfg=184  ctermbg=none cterm=inverse,bold
-hi MoreMsg      ctermfg=113  ctermbg=none cterm=inverse,bold
-hi ModeMsg      ctermfg=147  ctermbg=none cterm=bold
-hi Question     ctermfg=063  ctermbg=none cterm=inverse,bold
-hi Title        ctermfg=200  ctermbg=none cterm=bold
-
-hi Search       ctermfg=none ctermbg=none cterm=bold,inverse
-
+" Weird
 hi SpecialKey   ctermfg=33  ctermbg=none cterm=none
 hi NonText      ctermfg=55  ctermbg=none cterm=none
-hi Directory    ctermfg=148  ctermbg=none cterm=none
-" }}}
+hi ignore       ctermfg=109 ctermbg=none cterm=none
 
-" Light dark differences {{{
-if &bg == 'light'
-    hi ColorColumn  ctermbg=none ctermbg=231  cterm=none
-    hi Visual       ctermfg=none ctermbg=250  cterm=bold
-    hi IncSearch    ctermfg=none  ctermbg=232 cterm=none,bold
-    hi Comment      ctermfg=249  ctermbg=none cterm=italic
-    hi Normal       ctermfg=240  ctermbg=none cterm=none
-    hi LineNr       ctermfg=107  ctermbg=250  cterm=none
-    hi WildMenu     ctermfg=250  ctermbg=143  cterm=bold
-    hi StatusLine   ctermfg=143  ctermbg=250  cterm=none
-    hi StatusLineNC ctermfg=249  ctermbg=none cterm=italic
+" Interface
+hi Special      ctermfg=29   ctermbg=none cterm=none
+hi Error        ctermfg=196  ctermbg=none cterm=none
+hi Todo         ctermfg=197  ctermbg=none cterm=bold
+hi Whitespace   ctermfg=197  ctermbg=0    cterm=bold,underline
+hi VertSplit    ctermfg=197  ctermbg=none cterm=bold
 
-    hi DiffAdd      ctermfg=232  ctermbg=40   cterm=bold
-    hi DiffText     ctermfg=232  ctermbg=32   cterm=bold
-    hi DiffChange   ctermfg=none ctermbg=250  cterm=none
-    hi DiffDelete   ctermfg=232  ctermbg=196  cterm=bold
-    hi EndOfBuffer  ctermfg=250  ctermbg=255  cterm=bold
-else
-    hi ColorColumn  ctermbg=none ctermbg=232  cterm=none
-    hi Visual       ctermfg=none ctermbg=239  cterm=bold
-    hi IncSearch    ctermfg=none ctermbg=231  cterm=none
-    hi Comment      ctermfg=240  ctermbg=none cterm=italic
-    hi Normal       ctermfg=249  ctermbg=none cterm=none
-    hi LineNr       ctermfg=65   ctermbg=none cterm=none
-    hi WildMenu     ctermfg=237  ctermbg=143  cterm=bold
-    hi StatusLine   ctermfg=143  ctermbg=237  cterm=none
-    hi StatusLineNC ctermfg=240  ctermbg=none cterm=italic
+" This is thanks to urxvt, if you don't have it, I would change this :)
+hi Pmenu        ctermfg=none ctermbg=none cterm=none
+hi PmenuSel     ctermfg=none ctermbg=235  cterm=bold,underline
+hi PmenuSbar    ctermfg=none ctermbg=241  cterm=none
+hi PmenuThumb   ctermfg=0    ctermbg=13   cterm=none
 
-    hi DiffAdd      ctermfg=231  ctermbg=28   cterm=bold
-    hi link diffAdded DiffAdd
-    hi DiffText     ctermfg=231  ctermbg=32   cterm=bold
-    hi DiffChange   ctermfg=none ctermbg=237  cterm=none
-    hi DiffDelete   ctermfg=231  ctermbg=196  cterm=bold
-    hi link diffRemoved DiffDelete
-    hi EndOfBuffer  ctermfg=239  ctermbg=none cterm=bold
-endif
-" }}}
+hi ErrorMsg     ctermfg=160  ctermbg=16   cterm=inverse,bold
+hi WarningMsg   ctermfg=184  ctermbg=16   cterm=inverse,bold
+hi MoreMsg      ctermfg=113  ctermbg=16   cterm=inverse,bold
+hi ModeMsg      ctermfg=147  ctermbg=16   cterm=bold
+hi Question     ctermfg=063  ctermbg=16   cterm=inverse,bold
+hi Search       ctermfg=none ctermbg=0    cterm=inverse,bold
 
-" Plugins {{{
-hi link cCustomClass  Keyword
-hi link cCustomMemVar Member
-" }}}
+" Terminal {{{1
+hi Title        ctermfg=13  ctermbg=none cterm=bold
+hi Directory    ctermfg=11  ctermbg=none cterm=none
+hi Delimiter    ctermfg=24  ctermbg=none cterm=none
+
+" Dark {{{1
+hi ColorColumn  ctermbg=none ctermbg=232  cterm=none
+hi Visual       ctermfg=none ctermbg=236  cterm=bold
+hi IncSearch    ctermfg=none ctermbg=231  cterm=none
+hi Comment      ctermfg=240  ctermbg=none cterm=italic
+hi LineNr       ctermfg=65   ctermbg=none cterm=none
+
+hi WildMenu     ctermfg=237  ctermbg=143  cterm=bold
+hi StatusLine   ctermfg=143  ctermbg=237  cterm=none
+hi StatusLineNC ctermfg=none ctermbg=none cterm=none
+hi User1        ctermfg=40   ctermbg=none cterm=bold
+hi User2        ctermfg=196  ctermbg=none cterm=bold
+hi User3        ctermfg=177  ctermbg=none cterm=bold
+hi User5        ctermfg=59   ctermbg=none cterm=bold
+hi User4        ctermfg=none ctermbg=none cterm=none
+
+hi TabLineSel   ctermfg=132  ctermbg=16   cterm=bold,inverse
+hi TabLine      ctermfg=132  ctermbg=none cterm=none
+hi TabLineFill  ctermfg=none ctermbg=none cterm=none
+hi User6        ctermfg=40   ctermbg=132  cterm=bold
+
+hi DiffAdd      ctermfg=231  ctermbg=28   cterm=bold
+hi link diffAdded DiffAdd
+hi DiffText     ctermfg=231  ctermbg=32   cterm=bold
+hi DiffChange   ctermfg=none ctermbg=237  cterm=none
+hi DiffDelete   ctermfg=231  ctermbg=196  cterm=bold
+hi link diffRemoved DiffDelete
+hi EndOfBuffer  ctermfg=239  ctermbg=none cterm=bold
+
+
+" }}}1
 
 " Vim Relink... Sometimes I think devs were like, random links!! {{{
 hi link vimCommentTitle Title
 hi link vimIsCommand Constant
+hi link vimHighlight Member
 " }}}

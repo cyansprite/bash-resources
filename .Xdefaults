@@ -1,0 +1,105 @@
+! Term env var and login shell {{{1
+URxvt*termName:                         xterm-256color
+URxvt*loginShell:                       false
+
+! Scrolls {{{1
+URxvt*scrollTtyKeypress:                true
+URxvt*scrollTtyOutput:                  false
+URxvt*scrollWithBuffer:                 false
+URxvt*jumpScroll:                       true
+URxvt*skipScroll:                       false
+URxvt*scrollBar:                        true
+URxvt*scrollBar_right:                  false
+URxvt*scrollBar_floating:               true
+URxvt*scrollstyle:                      rxvt
+URxvt*saveLines:                        65535
+URxvt*scrollColor:                      #aaaaff
+URxvt*thickness:                        8
+
+! Secondary screen and scroll if so {{{1
+URxvt*secondaryScreen:                  true
+URxvt*secondaryScroll:                  true
+
+! Transparent, tint(white no tint), shade(100 no shade), and blur(1~128) of it, and fading when not focused {{{1
+URxvt*transparent:                      1
+URxvt*tintColor:                        #2a2c3f
+! URxvt*shading:                        number
+! URxvt*blurRadius:                     HxV
+URxvt*fading:                           30
+! URxvt*fadeColor:                        #ffaa00
+
+! use the fuckin bell :P {{{1
+URxvt*visualBell:                       true
+URxvt*mapAlert:                         true
+URxvt*urgentOnBell:                     true
+
+! Colors {{{1
+! URxvt*background:                       #0a0c0f
+URxvt*foreground:                       #f0ffc0
+URxvt*underlineColor:                   #00ff00
+URxvt*colorUL:                          #ffc0ff
+URxvt*colorIT:                          #ffc0f0
+URxvt*colorBD:                          #a0f0ff
+URxvt*cursorColor:                      #ffffff
+URxvt*cursorColor2:                     #aa00aa
+!! black dark/light
+*color0:                                #000000
+*color8:                                #808080
+!! red dark/light
+*color1:                                #cc4444
+*color9:                                #ffaaaa
+!! green dark/light
+*color2:                                #aaffaa
+*color10:                               #44cc44
+!! yellow dark/light
+*color3:                                #aa4400
+*color11:                               #ffff00
+!! blue dark/light
+*color4:                                #4444aa
+*color12:                               #4444ff
+!! magenta dark/light
+*color5:                                #ff00ff
+*color13:                               #8877cc
+!! cyan dark/light
+*color6:                                #44cccc
+*color14:                               #44ffff
+!! grey dark/light
+*color7:                                #c4c4c4
+*color15:                               #efefef
+
+! DONT FUCKIN SET THESE!!
+! URxvt*highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis
+! URxvt*highlightTextColor:             BanishYouToTheShadowRealmIfYouSetThis
+! URxvt*colorRV:                        BanishYouToTheShadowRealmIfYouSetThis
+! Mappings {{{1
+URxvt.iso14755:                         false
+URxvt.iso14755_52:                      false
+URxvt.keysym.C-M-c:                     builtin-string:
+URxvt.keysym.C-M-v:                     builtin-string:
+URxvt.keysym.C-S-0x43:                  eval:selection_to_clipboard
+URxvt.keysym.C-S-0x56:                  eval:paste_clipboard
+
+! Feeling mouse-y? {{{1
+URxvt*pointerBlank:                     true
+URxvt*tripleclickwords:                 true
+URxvt*pointerBlankDelay:                9999
+URxvt*pointerColor:                     green
+URxvt*pointerColor2:                    blue
+
+! Fonty Python {{{1
+URxvt*font:                             xft:pt mono:pixelsize=13
+URxvt*boldFont:                         xft:pt mono:bold:pixelsize=13
+URxvt*italicFont:                       xft:pt mono:italic:pixelsize=13:autohint=true
+URxvt*boldItalicFont:                   xft:pt mono:bold:italic:pixelsize=15:autohint=true
+
+! Might use one day but doubt it {{{1
+! Specifies number of lines (pixel height) to insert between each row of the disp1ay [default 0]
+! URxvt*lineSpace:                      number
+! Letter spacing adjustment
+! URxvt*letterSpace:                    number
+! (whitespace delimiting is added automatically if resource is given)
+! URxvt*cutchars:                       string
+! Sets the hotkey that starts the incremental scrollback buffer search (default: "M-s")
+! URxvt*searchable-scrollback:          string
+
+! End uxrvt }}}1

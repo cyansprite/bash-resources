@@ -14,7 +14,7 @@
 "Begin Vim set {{{
     " Set: Those that use macros
     set backup | set writebackup " back it up, the file, I mean.
-    set nocursorline             " set cursorline to highlight NOTHING
+    set cursorline             " set cursorline to highlight NOTHING
     set expandtab                " Expands tab to spaces
     set ignorecase smartcase     " in the name
     set linebreak                " don't cut words on wrap if i DO wrap
@@ -34,6 +34,7 @@
    " Set: Those that use =
     let &showbreak = '↳ '        " Change show break thing (rare occasion)
     set cinkeys-=0#              " don't force # indentation, ever write python?
+    set cmdheight=2              " Pair up
     set colorcolumn=80,130       " color columns
     set foldcolumn=0             " foldcolumn... yes
     set foldmethod=marker        " fold stuff :)
@@ -197,7 +198,7 @@
     " hi holdSearch guifg=none guibg=#4a5f58 gui=none
     " set updatetime=500
     " func! HighlightOnHold()
-    "     try
+    "     tr
     "         "echo expand("<cword>")
     "         exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
     "     catch /.*/
@@ -291,3 +292,78 @@ function! SuperSexyFoldText() "{{{
 endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
+"Sexy status line and tabline{{{1
+" Print the current arg/file, the other args, modified in green, RO in red, then
+" right align linenr, column, ->-> then print line max, and percent of file
+
+func! CurArg()
+    let l:rtn = ''
+    if argc() == 0 || argv(argidx()) !=# @%
+        return @%
+    endif
+
+    let l:curarg = argv(argidx())
+
+    let l:rtn .= '[ ' . l:curarg . ' ] '
+
+    return l:rtn
+endfun
+
+func! OtherArgs()
+    let l:rtn = ''
+    if argc() == 0
+        return ''
+    endif
+
+    let l:curarg = argv(argidx())
+
+    for rg in argv()
+        if rg ==# l:curarg
+            if argv(argidx()) !=# @%
+                let l:rtn .= '  [ ' . l:curarg . ' ] '
+            else
+                continue
+            endif
+        else
+            let l:rtn .= '  ' . rg
+        endif
+    endfor
+
+    return l:rtn
+endfun
+
+function! Tabline()
+    let s = ''
+    for i in range(tabpagenr('$'))
+        let tab = i + 1
+        let winnr = tabpagewinnr(tab)
+        let buflist = tabpagebuflist(tab)
+        let buflistcount = len(tabpagebuflist(tab))
+        let bufnr = buflist[winnr - 1]
+        let bufname = bufname(bufnr)
+        let bufmodified = getbufvar(bufnr, "&mod")
+
+        let s .= '%' . tab . 'T'
+        let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
+        let s .= ' ' . tab . ' | ' . l:buflistcount . ' : '
+        let s .= (bufname != '' ? ''. fnamemodify(bufname, ':t') . ' ' : '[No Name] ')
+
+        if bufmodified
+            if tabpagenr() == l:tab
+                let s .= '%6*[+]%*'
+            else
+                let s .= '%1*[+]%*'
+            endif
+        endif
+    endfor
+
+    let s .= '%#TabLineFill#'
+    return s
+endfunction
+
+function! StatusLine()
+    let statusline='%<%3*%{CurArg()}%*%5*%{OtherArgs()}%1*%m%*%2*%r%*%4*%=%-15.(%#CursorLineNr#%l,%c%4*%)%#LineNr#%L : %p%%'
+    return statusline
+endfunction
+set tabline=%!Tabline()
+set statusline=%!StatusLine()
