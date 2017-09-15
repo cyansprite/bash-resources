@@ -3,18 +3,20 @@ URxvt*termName:                         xterm-256color
 URxvt*loginShell:                       false
 
 ! Scrolls {{{1
+! I want to scroll if I type something, jump (fast scrolling)
 URxvt*scrollTtyKeypress:                true
+URxvt*jumpScroll:                       true
+! Disable everything else
+URxvt*scrollstyle:                      plain
 URxvt*scrollTtyOutput:                  false
 URxvt*scrollWithBuffer:                 false
-URxvt*jumpScroll:                       true
 URxvt*skipScroll:                       false
-URxvt*scrollBar:                        true
+URxvt*scrollBar:                        false
 URxvt*scrollBar_right:                  false
-URxvt*scrollBar_floating:               true
-URxvt*scrollstyle:                      rxvt
-URxvt*saveLines:                        65535
-URxvt*scrollColor:                      #aaaaff
-URxvt*thickness:                        8
+URxvt*scrollBar_floating:               false
+URxvt*saveLines:                        0
+URxvt*scrollColor:                      0
+URxvt*thickness:                        0
 
 ! Secondary screen and scroll if so {{{1
 URxvt*secondaryScreen:                  true
@@ -30,8 +32,8 @@ URxvt*fading:                           30
 
 ! use the fuckin bell :P {{{1
 URxvt*visualBell:                       true
-URxvt*mapAlert:                         true
-URxvt*urgentOnBell:                     true
+URxvt*mapAlert:                         false
+URxvt*urgentOnBell:                     false
 
 ! Colors {{{1
 ! URxvt*background:                       #0a0c0f

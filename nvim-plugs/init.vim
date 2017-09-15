@@ -38,7 +38,7 @@
     set colorcolumn=80,130       " color columns
     set foldcolumn=0             " foldcolumn... yes
     set foldmethod=marker        " fold stuff :)
-    set foldopen+=jump           " open folds when I jump to things as well
+    set foldopen+=jump,search    " open folds when I search/jump to things
     set icm="split"              " inc command split in preview, hasn't worked
     set matchtime=1              " Show matching time
     set matchpairs+=<:>          " More matches
@@ -104,11 +104,6 @@
     "I uh... don't use ESC
     inoremap  
     vnoremap  
-
-    " neat things I found from mhinz
-    nmap <expr> n  'Nn'[v:searchforward]
-    nmap <expr> N  'nN'[v:searchforward]
-    nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
     " Search and replace word under cursor
     " Why f6 and f7? I'm not sure...

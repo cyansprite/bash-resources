@@ -21,6 +21,7 @@ ln -fv .bash_aliases ~/.bash_aliases
 ln -fv .inputrc ~/.inputrc
 ln -fv .gitconfig ~/.gitconfig
 ln -fv .tmux.conf ~/.tmux.conf
+ln -fv .Xdefaults ~/.Xdefaults
 echo ""
 
 # make sure we neovim stuffs
