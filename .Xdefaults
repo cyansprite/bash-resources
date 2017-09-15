@@ -23,8 +23,8 @@ URxvt*secondaryScreen:                  true
 URxvt*secondaryScroll:                  true
 
 ! Transparent, tint(white no tint), shade(100 no shade), and blur(1~128) of it, and fading when not focused {{{1
-URxvt*transparent:                      1
-URxvt*tintColor:                        #2a2c3f
+! URxvt*transparent:                      1
+! URxvt*tintColor:                        #2a2c3f
 ! URxvt*shading:                        number
 ! URxvt*blurRadius:                     HxV
 URxvt*fading:                           30
@@ -32,11 +32,12 @@ URxvt*fading:                           30
 
 ! use the fuckin bell :P {{{1
 URxvt*visualBell:                       true
-URxvt*mapAlert:                         false
-URxvt*urgentOnBell:                     false
+URxvt*mapAlert:                         true
+URxvt*urgentOnBell:                     true
 
 ! Colors {{{1
-! URxvt*background:                       #0a0c0f
+URxvt*depth:                            32
+URxvt*background:                       [95]#0a0a0f
 URxvt*foreground:                       #f0ffc0
 URxvt*underlineColor:                   #00ff00
 URxvt*colorUL:                          #ffc0ff
@@ -94,14 +95,5 @@ URxvt*boldFont:                         xft:pt mono:bold:pixelsize=13
 URxvt*italicFont:                       xft:pt mono:italic:pixelsize=13:autohint=true
 URxvt*boldItalicFont:                   xft:pt mono:bold:italic:pixelsize=15:autohint=true
 
-! Might use one day but doubt it {{{1
-! Specifies number of lines (pixel height) to insert between each row of the disp1ay [default 0]
-! URxvt*lineSpace:                      number
-! Letter spacing adjustment
-! URxvt*letterSpace:                    number
-! (whitespace delimiting is added automatically if resource is given)
-! URxvt*cutchars:                       string
-! Sets the hotkey that starts the incremental scrollback buffer search (default: "M-s")
-! URxvt*searchable-scrollback:          string
-
-! End uxrvt }}}1
+! Extensions {{{1
+Urxvt*perl-ext-common:                         ...,kuake

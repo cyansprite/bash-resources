@@ -25,7 +25,7 @@ hi Type         ctermfg=202 ctermbg=none cterm=bold
 hi StorageClass ctermfg=197 ctermbg=none cterm=bold
 hi Structure    ctermfg=95  ctermbg=none cterm=bold
 hi Operator     ctermfg=60  ctermbg=none cterm=bold
-hi Keyword      ctermfg=32  ctermbg=none cterm=bold
+hi Keyword      ctermfg=75  ctermbg=none cterm=bold
 
 " We specify these things
 hi Member       ctermfg=87  ctermbg=none cterm=none
@@ -35,10 +35,10 @@ hi Constant     ctermfg=126 ctermbg=none cterm=none
 hi String       ctermfg=217 ctermbg=none cterm=none
 hi SpecialChar  ctermfg=77  ctermbg=none cterm=none
 hi Character    ctermfg=203 ctermbg=none cterm=none
-hi Number       ctermfg=65  ctermbg=none cterm=none
+hi Number       ctermfg=77  ctermbg=none cterm=none
 hi Float        ctermfg=106 ctermbg=none cterm=none
-hi Identifier   ctermfg=70  ctermbg=none cterm=none
-hi Function     ctermfg=34  ctermbg=none cterm=none
+hi Identifier   ctermfg=40  ctermbg=none cterm=none
+hi Function     ctermfg=66  ctermbg=none cterm=none
 
 " Weird
 hi SpecialKey   ctermfg=33  ctermbg=none cterm=none
