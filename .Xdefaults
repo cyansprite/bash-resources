@@ -37,9 +37,9 @@ URxvt*urgentOnBell:                     true
 
 ! Colors {{{1
 URxvt*depth:                            32
-URxvt*background:                       [95]#0a0a0f
-URxvt*foreground:                       #f0ffc0
-URxvt*underlineColor:                   #00ff00
+URxvt*background:                       [80]#0a0a0f
+URxvt*foreground:                       #d0ffd0
+URxvt*underlineColor:                   #ff00ff
 URxvt*colorUL:                          #ffc0ff
 URxvt*colorIT:                          #ffc0f0
 URxvt*colorBD:                          #a0f0ff

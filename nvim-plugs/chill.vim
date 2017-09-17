@@ -8,10 +8,9 @@ endif
 let g:colors_name = "chill"
 "}}}
 
-"TODO tabline.... but i hardly ever use tabs...
 " {{{ Main
-hi CursorLine   ctermbg=none ctermbg=234   cterm=none
-hi CursorLineNr ctermfg=107  ctermbg=none   cterm=bold
+hi CursorLine   ctermbg=none ctermbg=234  cterm=none
+hi CursorLineNr ctermfg=156  ctermbg=none cterm=bold
 hi MatchParen   ctermfg=none ctermbg=none cterm=bold,underline
 hi Folded       ctermfg=147  ctermbg=none cterm=bold
 
@@ -21,7 +20,7 @@ hi Statement    ctermfg=200 ctermbg=none cterm=bold
 hi Conditional  ctermfg=177 ctermbg=none cterm=bold
 hi Repeat       ctermfg=177 ctermbg=none cterm=bold,italic
 hi Label        ctermfg=30  ctermbg=none cterm=bold
-hi Type         ctermfg=202 ctermbg=none cterm=bold
+hi Type         ctermfg=130 ctermbg=none cterm=bold
 hi StorageClass ctermfg=197 ctermbg=none cterm=bold
 hi Structure    ctermfg=95  ctermbg=none cterm=bold
 hi Operator     ctermfg=60  ctermbg=none cterm=bold
@@ -82,7 +81,7 @@ hi StatusLine   ctermfg=143  ctermbg=237  cterm=none
 hi StatusLineNC ctermfg=none ctermbg=none cterm=none
 hi User1        ctermfg=40   ctermbg=none cterm=bold
 hi User2        ctermfg=196  ctermbg=none cterm=bold
-hi User3        ctermfg=177  ctermbg=none cterm=bold
+hi User3        ctermfg=99   ctermbg=none cterm=bold
 hi User5        ctermfg=59   ctermbg=none cterm=bold
 hi User4        ctermfg=none ctermbg=none cterm=none
 
@@ -92,12 +91,13 @@ hi TabLineFill  ctermfg=none ctermbg=none cterm=none
 hi User6        ctermfg=40   ctermbg=132  cterm=bold
 
 hi DiffAdd      ctermfg=231  ctermbg=28   cterm=bold
-hi link diffAdded DiffAdd
 hi DiffText     ctermfg=231  ctermbg=32   cterm=bold
 hi DiffChange   ctermfg=none ctermbg=237  cterm=none
 hi DiffDelete   ctermfg=231  ctermbg=196  cterm=bold
-hi link diffRemoved DiffDelete
 hi EndOfBuffer  ctermfg=239  ctermbg=none cterm=bold
+
+hi link diffAdded DiffAdd
+hi link diffRemoved DiffDelete
 
 
 " }}}1

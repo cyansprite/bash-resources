@@ -14,6 +14,7 @@
 "Begin Vim set {{{
     " Set: Those that use macros
     set backup | set writebackup " back it up, the file, I mean.
+    set errorbells               " Please visual beep :)
     set cursorline             " set cursorline to highlight NOTHING
     set expandtab                " Expands tab to spaces
     set ignorecase smartcase     " in the name
@@ -55,7 +56,7 @@
     set undolevels=99999         " A lot of undo history :P
     set updatecount=33           " update swp every 33 chars.
     set viewoptions=cursor       " What to save with mkview
-    set visualbell               " Please don't make noises
+    set belloff=               " Please visual beep :)
     set wildmode=longest,full    " Let's make it nice tab completion
 
     " Set: Those that are complex, or just look stupid
