@@ -71,7 +71,7 @@ hi Delimiter    ctermfg=24  ctermbg=none cterm=none
 
 " Dark {{{1
 hi ColorColumn  ctermbg=none ctermbg=232  cterm=none
-hi Visual       ctermfg=none ctermbg=236  cterm=bold
+hi Visual       ctermfg=none ctermbg=240  cterm=bold
 hi IncSearch    ctermfg=none ctermbg=none cterm=inverse
 hi Comment      ctermfg=240  ctermbg=none cterm=italic
 hi LineNr       ctermfg=65   ctermbg=none cterm=none

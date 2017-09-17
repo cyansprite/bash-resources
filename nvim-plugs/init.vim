@@ -56,7 +56,7 @@
     set undolevels=99999         " A lot of undo history :P
     set updatecount=33           " update swp every 33 chars.
     set viewoptions=cursor       " What to save with mkview
-    set belloff=               " Please visual beep :)
+    set belloff=insertmode,showmatch " Please visual beep :)
     set wildmode=longest,full    " Let's make it nice tab completion
 
     " Set: Those that are complex, or just look stupid

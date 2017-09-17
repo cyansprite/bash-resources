@@ -13,11 +13,12 @@ echo ""
 
 # resources time
 echo "========================================================================="
-echo "Linking bashrc, inputrc, and tmux to home "
+echo "Linking dotfiles to home "
 echo "========================================================================="
 cd "$SOURCE"
 ln -fv .bashrc ~/.bashrc
 ln -fv .bash_aliases ~/.bash_aliases
+ln -fv .dircolors ~/.dircolors
 ln -fv .inputrc ~/.inputrc
 ln -fv .gitconfig ~/.gitconfig
 ln -fv .tmux.conf ~/.tmux.conf
