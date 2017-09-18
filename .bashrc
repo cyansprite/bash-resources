@@ -26,7 +26,7 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Set prompt
-PS1="\[$(tput setab 22)$(tput setaf 46)$(tput bold)\]$ > \[\033[00m\] "
+PS1="\[$(tput setab 13)$(tput setaf 231)$(tput bold)\]$ > \[\033[00m\] "
 # Set title
 PS1="\[\e]0;\w\a\]$PS1"
 
