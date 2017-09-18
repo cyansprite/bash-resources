@@ -46,7 +46,7 @@ URxvt*colorBD:                          #a0f0ff
 URxvt*cursorColor:                      #ffffff
 URxvt*cursorColor2:                     #aa00aa
 !! black
-*color0:                                #000000
+*color0:                                #002233
 *color8:                                #808080
 !! red
 *color1:                                #cc4444
@@ -64,8 +64,8 @@ URxvt*cursorColor2:                     #aa00aa
 *color5:                                #ff00ff
 *color13:                               #8877cc
 !! cyan
-*color6:                                #44cccc
-*color14:                               #44ffff
+*color6:                                #84eaca
+*color14:                               #44cccc
 !! grey
 *color7:                                #c4c4c4
 *color15:                               #efefef

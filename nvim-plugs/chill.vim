@@ -78,7 +78,7 @@ hi LineNr       ctermfg=65   ctermbg=none cterm=none
 
 hi WildMenu     ctermfg=237  ctermbg=143  cterm=bold
 hi StatusLine   ctermfg=143  ctermbg=237  cterm=none
-hi StatusLineNC ctermfg=none ctermbg=none cterm=none
+hi StatusLineNC ctermfg=255 ctermbg=232 cterm=none
 hi User1        ctermfg=40   ctermbg=none cterm=bold
 hi User2        ctermfg=196  ctermbg=none cterm=bold
 hi User3        ctermfg=99   ctermbg=none cterm=bold
