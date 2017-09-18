@@ -48,14 +48,14 @@ hi ignore       ctermfg=109 ctermbg=none cterm=none
 hi Special      ctermfg=29   ctermbg=none cterm=none
 hi Error        ctermfg=196  ctermbg=none cterm=none
 hi Todo         ctermfg=197  ctermbg=none cterm=bold
-hi Whitespace   ctermfg=197  ctermbg=0    cterm=bold,underline
+hi Whitespace   ctermfg=197  ctermbg=none cterm=bold,underline
 hi VertSplit    ctermfg=197  ctermbg=none cterm=bold
 
 " This is thanks to urxvt, if you don't have it, I would change this :)
-hi Pmenu        ctermfg=none ctermbg=none cterm=none
-hi PmenuSel     ctermfg=none ctermbg=235  cterm=bold,underline
-hi PmenuSbar    ctermfg=none ctermbg=241  cterm=none
-hi PmenuThumb   ctermfg=0    ctermbg=13   cterm=none
+hi Pmenu        ctermfg=none ctermbg=0    cterm=none
+hi PmenuSel     ctermfg=none ctermbg=235  cterm=bold
+hi PmenuSbar    ctermfg=none ctermbg=235  cterm=none
+hi PmenuThumb   ctermfg=none ctermbg=13   cterm=none
 
 hi ErrorMsg     ctermfg=160  ctermbg=16   cterm=inverse,bold
 hi WarningMsg   ctermfg=184  ctermbg=16   cterm=inverse,bold
@@ -68,20 +68,20 @@ hi Search       ctermfg=none ctermbg=0    cterm=inverse,bold
 hi Title        ctermfg=13  ctermbg=none cterm=bold
 hi Directory    ctermfg=11  ctermbg=none cterm=none
 hi Delimiter    ctermfg=24  ctermbg=none cterm=none
+hi Visual       ctermfg=none ctermbg=0    cterm=bold
 
 " Dark {{{1
 hi ColorColumn  ctermbg=none ctermbg=232  cterm=none
-hi Visual       ctermfg=none ctermbg=240  cterm=bold
 hi IncSearch    ctermfg=none ctermbg=none cterm=inverse
 hi Comment      ctermfg=240  ctermbg=none cterm=italic
 hi LineNr       ctermfg=65   ctermbg=none cterm=none
 
 hi WildMenu     ctermfg=237  ctermbg=143  cterm=bold
 hi StatusLine   ctermfg=143  ctermbg=237  cterm=none
-hi StatusLineNC ctermfg=255 ctermbg=232 cterm=none
-hi User1        ctermfg=40   ctermbg=none cterm=bold
+hi StatusLineNC ctermfg=255 ctermbg=232   cterm=none
+hi User1        ctermfg=46   ctermbg=none cterm=bold
 hi User2        ctermfg=196  ctermbg=none cterm=bold
-hi User3        ctermfg=99   ctermbg=none cterm=bold
+hi User3        ctermfg=63   ctermbg=none cterm=bold
 hi User5        ctermfg=59   ctermbg=none cterm=bold
 hi User4        ctermfg=none ctermbg=none cterm=none
 

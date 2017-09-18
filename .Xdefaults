@@ -15,20 +15,11 @@ URxvt*scrollBar:                        false
 URxvt*scrollBar_right:                  false
 URxvt*scrollBar_floating:               false
 URxvt*saveLines:                        0
-URxvt*scrollColor:                      0
 URxvt*thickness:                        0
 
 ! Secondary screen and scroll if so {{{1
 URxvt*secondaryScreen:                  true
 URxvt*secondaryScroll:                  true
-
-! Transparent, tint(white no tint), shade(100 no shade), and blur(1~128) of it, and fading when not focused {{{1
-! URxvt*transparent:                      1
-! URxvt*tintColor:                        #2a2c3f
-! URxvt*shading:                        number
-! URxvt*blurRadius:                     HxV
-URxvt*fading:                           30
-! URxvt*fadeColor:                        #ffaa00
 
 ! use the fuckin bell :P {{{1
 URxvt*visualBell:                       true
@@ -36,8 +27,9 @@ URxvt*mapAlert:                         true
 URxvt*urgentOnBell:                     true
 
 ! Colors {{{1
+URxvt*fading:                           30
 URxvt*depth:                            32
-URxvt*background:                       [80]#0a0a0f
+URxvt*background:                       [95]#0a0a0f
 URxvt*foreground:                       #f0ffa0
 URxvt*underlineColor:                   #ff00ff
 URxvt*colorUL:                          #ffc0ff
@@ -46,8 +38,8 @@ URxvt*colorBD:                          #a0f0ff
 URxvt*cursorColor:                      #ffffff
 URxvt*cursorColor2:                     #aa00aa
 !! black
-*color0:                                #002233
-*color8:                                #808080
+*color0:                                #111111
+*color8:                                #112211
 !! red
 *color1:                                #cc4444
 *color9:                                #ffaaaa
@@ -62,7 +54,7 @@ URxvt*cursorColor2:                     #aa00aa
 *color12:                               #8888ff
 !! magenta
 *color5:                                #ff00ff
-*color13:                               #8877cc
+*color13:                               #6a6acc
 !! cyan
 *color6:                                #84eaca
 *color14:                               #44cccc
@@ -79,15 +71,9 @@ URxvt.iso14755:                         false
 URxvt.iso14755_52:                      false
 URxvt.keysym.C-M-c:                     builtin-string:
 URxvt.keysym.C-M-v:                     builtin-string:
+URxvt.keysym.C-s-t:                     builtin-string:
 URxvt.keysym.C-S-0x43:                  eval:selection_to_clipboard
 URxvt.keysym.C-S-0x56:                  eval:paste_clipboard
-
-! Feeling mouse-y? {{{1
-URxvt*pointerBlank:                     true
-URxvt*tripleclickwords:                 true
-URxvt*pointerBlankDelay:                9999
-URxvt*pointerColor:                     green
-URxvt*pointerColor2:                    blue
 
 ! Fonty Python {{{1
 URxvt*font:                             xft:pt mono:pixelsize=13

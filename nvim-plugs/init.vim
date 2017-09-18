@@ -30,13 +30,13 @@
     set splitbelow               " ...split below... what did you think?
     set splitright               " Oh this one will be different!...cept not.
     set title title              " rxvt and tmux make this usable
-    let &titlestring = "(" . getcwd() . ') '. expand("%:t") . ""
+    let &titlestring = "(" . getcwd() . ') '
     set undofile                 " keep undo history ina file
 
    " Set: Those that use =
     let &showbreak = '↳ '        " Change show break thing (rare occasion)
     set cinkeys-=0#              " don't force # indentation, ever write python?
-    set cmdheight=2              " Pair up
+    set cmdheight=1              " Pair up
     set colorcolumn=80,130       " color columns
     set foldcolumn=0             " foldcolumn... yes
     set foldmethod=marker        " fold stuff :)
@@ -81,8 +81,6 @@
 "End Vim set }}}
 
 "Begin Vim map {{{
-    "I don't use space so...here it is
-    map <space> <leader>
     " Does anyone actually use single quote?
     map ' `
 
@@ -92,6 +90,22 @@
 
     " pasting in cmode
     cmap <c-v> <c-r>"
+
+    " next/prev
+    nnoremap <c-n> :next<cr>
+    nnoremap <c-p> :prev<cr>
+
+    " resize window m-cap h less, j less, k more, l more
+    nnoremap <m-H> <c-w><
+    nnoremap <m-L> <c-w>>
+    nnoremap <m-J> <c-w>-
+    nnoremap <m-K> <c-w>+
+
+    " move hjkl with ctrl
+    nnoremap <c-h> <c-w>h
+    nnoremap <c-l> <c-w>l
+    nnoremap <c-j> <c-w>j
+    nnoremap <c-k> <c-w>k
 
     " I don't know why this isn't default
     nnoremap Y y$
@@ -119,82 +133,113 @@
 
 "End Vim Map }}}
 
-    " Status Line {{{1
-    function! StatusLine()
-        " Left Filename/CurArg
-        setl statusline =%<%3*%{CurArg()}%*
-        if &modifiable
-            setl statusline+=%1*%m%*
+" Status Line {{{1
+function! StatusLine()
+    " Left Filename/CurArg
+    setl statusline =%3*%-40{CurArg()}%*
+    if &modifiable
+        setl statusline+=%1*%m%*
+    else
+        setl statusline+=%2*%m%*
+    endif
+    setl statusline+=%2*%r
+
+    " Center: Arglist
+    setl statusline+=%4*%=
+    setl statusline+=%<%5*%-50(%{OtherArgsLeft()}%3*%{OtherArgsMiddle()}%5*%{OtherArgsRight()}%)
+    setl statusline+=%*%4*
+    setl statusline+=%=
+
+    " Right: linenr,column    TotalLines : Percentage Through
+    setl statusline+=%15(%#CursorLineNr#%l,%c%)
+    setl statusline+=\ \ \ \ 
+    setl statusline+=%4*%#LineNr#%L\ :\ %p%%
+endfunction
+
+function! StatusLineNC()
+    setl statusline =%<%#Statuslinenc#%{CurArg()}
+    if &modifiable
+        setl statusline+=%1*%m
+    else
+        setl statusline+=%2*%m
+    endif
+    setl statusline+=%2*%r
+    setl statusline+=%#StatusLineNC#
+    setl statusline+=%*%=
+    setl statusline+=%(%l,%c%)
+    setl statusline+=\ \ \ \ 
+    setl statusline+=%L\ :\ %p%%
+endfunc
+
+func! CurArg()
+    let l:rtn = ''
+    if argc() == 0 || argv(argidx()) !=# @%
+        return @%
+    endif
+
+    let l:curarg = argv(argidx())
+
+    let l:rtn .= '[ ' . l:curarg . ' ] '
+
+    return l:rtn
+endfun
+
+func! OtherArgsMiddle()
+    let l:rtn = ''
+
+    if argc() == 0
+        return ''
+    endif
+
+    let l:curarg = argv(argidx())
+
+    if argv(argidx()) !=# @%
+        let l:rtn .= '  [ ' . l:curarg . ' ] '
+    else
+        if argc() > 1
+            let l:rtn .= '  [ ' . '|' . ' ] '
         else
-            setl statusline+=%2*%m%*
+            let l:rtn = l:rtn
         endif
-        setl statusline+=%2*%r
+    endif
+    return l:rtn
+endfunc
 
-        " Center: Arglist
-        setl statusline+=%4*%=
-        setl statusline+=%5*%{OtherArgs()}
-        setl statusline+=%*%4*
-        setl statusline+=%=
+func! OtherArgsRight()
+    let l:rtn = ''
+    if argc() == 0
+        return ''
+    endif
 
-        " Right: linenr,column    TotalLines : Percentage Through
-        setl statusline+=%(%#CursorLineNr#%l,%c%)
-        setl statusline+=\ \ \ \ 
-        setl statusline+=%4*%#LineNr#%L\ :\ %p%%
-    endfunction
+    let args = argv()
 
-    function! StatusLineNC()
-        setl statusline =%<%#Statuslinenc#%{CurArg()}
-        if &modifiable
-            setl statusline+=%1*%m
-        else
-            setl statusline+=%2*%m
+    for rg in range(0,argc())
+        if rg <= argidx()
+            continue
         endif
-        setl statusline+=%2*%r
-        setl statusline+=%#StatusLineNC#
-        setl statusline+=%*%=
-        setl statusline+=%(%l,%c%)
-        setl statusline+=\ \ \ \ 
-        setl statusline+=%L\ :\ %p%%
-    endfunc
+        let l:rtn .= '  ' . argv(rg)
+    endfor
 
-    func! CurArg()
-        let l:rtn = ''
-        if argc() == 0 || argv(argidx()) !=# @%
-            return @%
+    return l:rtn
+endfunc
+
+func! OtherArgsLeft()
+    let l:rtn = ''
+    if argc() == 0
+        return ''
+    endif
+
+    let args = argv()
+
+    for rg in range(0,argc())
+        if rg == argidx()
+            return l:rtn
         endif
+        let l:rtn .= '  ' . argv(rg)
+    endfor
 
-        let l:curarg = argv(argidx())
-
-        let l:rtn .= '[ ' . l:curarg . ' ] '
-
-        return l:rtn
-    endfun
-
-    func! OtherArgs()
-        let l:rtn = ''
-        if argc() == 0
-            return ''
-        endif
-
-        let l:curarg = argv(argidx())
-        if l:curarg == CurArg()
-            return ''
-        endif
-
-        for rg in argv()
-            if rg ==# l:curarg
-                if argv(argidx()) !=# @%
-                    let l:rtn .= '  [ ' . l:curarg . ' ] '
-                else
-                    continue
-                endif
-            else
-                let l:rtn .= '  ' . rg
-            endif
-        endfor
-
-        return l:rtn
-    endfun " }}}
+    return l:rtn
+endfun " }}}
 
     " Enter/LeaveWin {{{
     function! LeaveWin()
