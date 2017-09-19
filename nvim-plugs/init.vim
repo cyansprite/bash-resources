@@ -1,15 +1,13 @@
 "Plug, colo {{{
-    if(has("unix"))
-        " set termguicolors
-        so ~/.config/nvim/plug.vim
-    else
-        so ~\AppData\Local\nvim\plug.vim
-    endif
-    set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-    colo chill
-    " change if you have a light bg for terminal. (don't use a space between =)
-    set bg=dark
-    "}}}
+if(has("unix"))
+    " set termguicolors
+    so ~/.config/nvim/plug.vim
+else
+    so ~\AppData\Local\nvim\plug.vim
+endif
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+colo chill
+"}}}
 
 "Begin Vim set {{{
     " Set: Those that use macros
@@ -65,13 +63,15 @@
     set backupdir-=.
     exe "call mkdir('" . $HOME . "/.local/share/nvim/backup' , 'p')"
     " set fill chars to things that make me happy
-    set fillchars=vert:\|,stlnc:\ ,stl:\ ,fold:-,diff:
+    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:-,diff:┉
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>
     " If it's modifable, turn on numbers
     if &modifiable | set number | set relativenumber | endif
     " If it goes past tw, don't highlight it
-    exe 'set synmaxcol=' . (&tw + 51)
+    " exe 'set synmaxcol=' . (&tw + 51)
+    " Eh... just do columns
+    exe 'set synmaxcol=' . (&columns)
     " Ignore this crap :)
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
                 \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build* | "rand
@@ -117,7 +117,7 @@
     " undo break for each <cr>
     inoremap <CR> <C-]><C-G>u<CR>
 
-    "I uh... don't use ESC
+    " I uh... don't use ESC
     inoremap  
     vnoremap  
 
@@ -126,7 +126,7 @@
     nnoremap <F6> :%s/<C-r><C-w>/
     nnoremap <F7> :%s/\<<C-r><C-w>\>/
 
-    "I like playing with colors (Gives me hi-lo ids)
+    " I like playing with colors (Gives me hi-lo ids)
     map <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
                 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
                 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
@@ -179,7 +179,7 @@ func! CurArg()
 
     let l:curarg = argv(argidx())
 
-    let l:rtn .= '[ ' . l:curarg . ' ] '
+    let l:rtn .= '[' . l:curarg . ']'
 
     return l:rtn
 endfun
@@ -241,36 +241,36 @@ func! OtherArgsLeft()
     return l:rtn
 endfun " }}}
 
-    " Enter/LeaveWin {{{
-    function! LeaveWin()
-        call StatusLineNC()
-    endfunc
+" Enter/LeaveWin {{{
+function! LeaveWin()
+    call StatusLineNC()
+endfunc
 
-    function! EnterWin()
-        call StatusLine()
-        let curWinIndex = winnr()
-        let windowCount = winnr('$')
+function! EnterWin()
+    call StatusLine()
+    let curWinIndex = winnr()
+    let windowCount = winnr('$')
 
-        exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.3))
+    exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.3))
 
-        for i in range(1,winnr('$'))
-            if( i != curWinIndex )
-                wincmd w
-                setl relativenumber norelativenumber
-                setl cursorline nocursorline
-                setl colorcolumn=0
-            endif
-        endfor
-
-        wincmd w
-
-        if(&modifiable && &buftype != 'terminal')
-            setl cursorline
-            setl relativenumber
-            setl colorcolumn=80,130
+    for i in range(1,winnr('$'))
+        if( i != curWinIndex )
+            wincmd w
+            setl relativenumber norelativenumber
+            setl cursorline nocursorline
+            setl colorcolumn=0
         endif
-    endfunction
-    " }}}
+    endfor
+
+    wincmd w
+
+    if(&modifiable && &buftype != 'terminal')
+        setl cursorline
+        setl relativenumber
+        setl colorcolumn=80,130
+    endif
+endfunction
+" }}}
 
     " Auto viewing {{{
     func! LeaveBufWin()
@@ -341,64 +341,6 @@ endf
 command! -nargs=0 Kws call KillWhitespace()
 " }}}
 
-" Buffer Swappping; Export to a plugin, some people might enjoy this? {{{
-" Get buff that isn't already displayed in a window and isn't unlisted
-function! GetNextBuffer()
-    let l:curbuf = bufnr("")
-    let l:newbuf = 0
-    let l:firstbuf = 0
-    for buf in getbufinfo({'buflisted': 1})
-        if !empty(buf.windows) || l:curbuf == buf.bufnr || buf.hidden
-            continue
-        endif
-
-        if l:firstbuf == 0
-            let l:firstbuf = buf.bufnr
-        endif
-
-        if l:curbuf > buf.bufnr
-            let l:newbuf = buf.bufnr
-            continue
-        else
-            exec "buffer". buf.bufnr
-            return
-        endif
-    endfor
-    if l:firstbuf != 0
-        exec "buffer". firstbuf
-    endif
-endfunction
-
-function! GetPrevBuffer()
-    let l:curbuf = bufnr("")
-    let l:newbuf = 0
-    let l:firstbuf = 0
-    for buf in reverse(getbufinfo({'buflisted': 1}))
-        if !empty(buf.windows) || l:curbuf == buf.bufnr || buf.hidden
-            continue
-        endif
-
-        if l:firstbuf == 0
-            let l:firstbuf = buf.bufnr
-        endif
-
-        if l:curbuf < buf.bufnr
-            let l:newbuf = buf.bufnr
-            continue
-        else
-            exec "buffer". buf.bufnr
-            return
-        endif
-    endfor
-    if l:firstbuf != 0
-        exec "buffer". firstbuf
-    endif
-endfunction
-
-nmap <silent> <m-n> :call GetNextBuffer()<cr>
-nmap <silent> <m-N> :call GetPrevBuffer()<cr>
-" }}}
-
     " Fix this and possibly make a plugin... {{{
     " hi holdSearch guifg=none guibg=#4a5f58 gui=none
     " set updatetime=500
@@ -416,6 +358,5 @@ augroup init
     autocmd!
     autocmd BufWinLeave * cal LeaveBufWin() | call LeaveWin()
     autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
-    autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
     autocmd WinEnter * cal EnterWin()
     autocmd WinLeave * cal LeaveWin()

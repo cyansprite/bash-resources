@@ -1,7 +1,6 @@
 " plugins (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
     " Motion stuff
-    Plug 'chaoren/vim-wordmotion'
     Plug 'cyansprite/extract'
     Plug 'thinca/vim-visualstar'
 
@@ -13,6 +12,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Syntax
     Plug 'cyansprite/vim-csharp'
     Plug 'octol/vim-cpp-enhanced-highlight'
+    Plug 'keith/tmux.vim'
 
     " Autocompelete
     Plug 'SirVer/ultisnips'
@@ -20,23 +20,18 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'Valloric/YouCompleteMe'
     Plug 'cyansprite/CmdlineComplete'
 
-    " Source control
+    " Source control / Organization
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
-    Plug 'junegunn/gv.vim'
-    Plug 'justinmk/vim-dirvish'
+    Plug 'majutsushi/tagbar'
+    Plug 'AndrewRadev/linediff.vim'
+
+    " Navigation
+    Plug 'cyansprite/logicalBuffers'
+    Plug 'mhinz/vim-startify'
+    Plug 'cyansprite/a.vim'
 
     " Nice Stuff
-    Plug 'airblade/vim-rooter'
-    Plug 'junegunn/goyo.vim'
-    " Plug 'romainl/vim-qf'
-    " Plug 'stefandtw/quickfix-reflector.vim'
-    " Plug 'mhinz/vim-grepper'
-    Plug 'mhinz/vim-startify'
-    Plug 'majutsushi/tagbar'
-    Plug 'cyansprite/a.vim'
-    Plug 'AndrewRadev/linediff.vim'
-    Plug 'keith/tmux.vim'
 call plug#end()
 
 " mappings {{{1
