@@ -47,7 +47,7 @@ URxvt*cursorColor2:                     #aa00aa
 *color2:                                #aaffaa
 *color10:                               #44cc44
 !! yellow
-*color3:                                #aaaa00
+*color3:                                #cccc44
 *color11:                               #ffaa00
 !! blue
 *color4:                                #4484aa

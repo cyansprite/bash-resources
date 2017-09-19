@@ -9,7 +9,7 @@ let g:colors_name = "chill"
 "}}}
 
 " {{{ Main
-hi CursorLine   ctermbg=none ctermbg=234  cterm=none
+hi CursorLine   ctermbg=none ctermbg=0    cterm=none
 hi CursorLineNr ctermfg=156  ctermbg=none cterm=bold
 hi MatchParen   ctermfg=none ctermbg=none cterm=bold,underline
 hi Folded       ctermfg=147  ctermbg=none cterm=bold
@@ -71,19 +71,19 @@ hi Delimiter    ctermfg=24  ctermbg=none cterm=none
 hi Visual       ctermfg=none ctermbg=0    cterm=bold
 
 " Dark {{{1
-hi ColorColumn  ctermbg=none ctermbg=232  cterm=none
+hi ColorColumn  ctermbg=none ctermbg=0    cterm=none
 hi IncSearch    ctermfg=none ctermbg=none cterm=inverse
 hi Comment      ctermfg=240  ctermbg=none cterm=italic
-hi LineNr       ctermfg=65   ctermbg=none cterm=none
+hi LineNr       ctermfg=65   ctermbg=0    cterm=none
 
 hi WildMenu     ctermfg=237  ctermbg=143  cterm=bold
 hi StatusLine   ctermfg=143  ctermbg=237  cterm=none
-hi StatusLineNC ctermfg=255 ctermbg=232   cterm=none
+hi StatusLineNC ctermfg=255  ctermbg=232  cterm=none
 hi User1        ctermfg=46   ctermbg=none cterm=bold
 hi User2        ctermfg=196  ctermbg=none cterm=bold
 hi User3        ctermfg=63   ctermbg=none cterm=bold
 hi User5        ctermfg=59   ctermbg=none cterm=bold
-hi User4        ctermfg=none ctermbg=none cterm=none
+hi User4        ctermfg=none ctermbg=0    cterm=none
 
 hi TabLineSel   ctermfg=132  ctermbg=16   cterm=bold,inverse
 hi TabLine      ctermfg=132  ctermbg=none cterm=none

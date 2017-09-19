@@ -31,7 +31,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'mhinz/vim-startify'
     Plug 'cyansprite/a.vim'
 
-    " Nice Stuff
+    " IDE shit
+    Plug 'mhinz/vim-grepper'
+
 call plug#end()
 
 " mappings {{{1
@@ -50,7 +52,29 @@ call plug#end()
                 \ '<C-R><C-W>' : '<C-R><M-w>'
                 \ }
 
+    nmap <leader>a :A<cr>
+
     nmap <leader><leader>] :TagbarToggle<CR>
+
+    nmap gs <plug>(GrepperOperator)
+    xmap gs <plug>(GrepperOperator)
+
+    nnoremap <leader>gg :Grepper -tool git<cr>
+    nnoremap <leader>ga :Grepper -tool ag<cr>
+    nnoremap <leader>gs :Grepper -tool ag -side<cr>
+    nnoremap <leader>*  :Grepper -tool ag -cword -noprompt<cr>
+
+    let g:grepper           = {}
+    let g:grepper.tools     = ['git', 'ag', 'grep']
+    let g:grepper.open      = 0
+    let g:grepper.jump      = 1
+    let g:grepper.next_tool = '<leader>g'
+
+    command! Todo :Grepper
+          \ -noprompt
+          \ -tool git
+          \ -grepprg git grep -nIi '\(TODO\|FIXME\)'
+
 
 " options {{{1
 " Cpp highlight {{{2

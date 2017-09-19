@@ -71,7 +71,8 @@ colo chill
     " If it goes past tw, don't highlight it
     " exe 'set synmaxcol=' . (&tw + 51)
     " Eh... just do columns
-    exe 'set synmaxcol=' . (&columns)
+    " exe 'set synmaxcol=' . (&columns)
+    set synmaxcol=300
     " Ignore this crap :)
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
                 \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build* | "rand
@@ -84,16 +85,15 @@ colo chill
     " Does anyone actually use single quote?
     map ' `
 
-    "Cycle error list like a boss
-    map <f4> :cp<cr>
-    map <f5> :cn<cr>
-
     " pasting in cmode
     cmap <c-v> <c-r>"
 
-    " next/prev
+    " next/prev arglist
     nnoremap <c-n> :next<cr>
     nnoremap <c-p> :prev<cr>
+    " c-list
+    nnoremap <m-c> :cn<cr>
+    nnoremap <m-C> :cp<cr>
 
     " resize window m-cap h less, j less, k more, l more
     nnoremap <m-H> <c-w><
@@ -125,6 +125,10 @@ colo chill
     " Why f6 and f7? I'm not sure...
     nnoremap <F6> :%s/<C-r><C-w>/
     nnoremap <F7> :%s/\<<C-r><C-w>\>/
+
+    nnoremap <leader>cd :noautocmd cfdo \| update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+    nnoremap <leader>bd :noautocmd bufdo \| update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+    nnoremap <leader>ad :noautocmd argdo \| update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
     " I like playing with colors (Gives me hi-lo ids)
     map <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -272,19 +276,19 @@ function! EnterWin()
 endfunction
 " }}}
 
-    " Auto viewing {{{
-    func! LeaveBufWin()
-        if &modifiable && filereadable(expand("%"))
-            mkview
-        endif
-    endfun
+" Auto viewing {{{
+func! LeaveBufWin()
+    if &modifiable && filereadable(expand("%"))
+        mkview
+    endif
+endfun
 
-    func! EnterBufWin()
-        if &modifiable && filereadable(&viewdir .'/~=+.config=+nvim=+'.expand('%:t').'=')
-            loadview
-        endif
-    endfun
-    " }}}
+func! EnterBufWin()
+    if &modifiable && filereadable(&viewdir .'/~=+.config=+nvim=+'.expand('%:t').'=')
+        loadview
+    endif
+endfun
+" }}}
 
 function! SuperSexyFoldText() "{{{
     let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
@@ -299,7 +303,7 @@ endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
 
-"Sexy tab line {{{1
+" Sexy tab line {{{1
 " Print the current arg/file, the other args, modified in green, RO in red, then
 " right align linenr, column, ->-> then print line max, and percent of file
 
@@ -341,17 +345,17 @@ endf
 command! -nargs=0 Kws call KillWhitespace()
 " }}}
 
-    " Fix this and possibly make a plugin... {{{
-    " hi holdSearch guifg=none guibg=#4a5f58 gui=none
-    " set updatetime=500
-    " func! HighlightOnHold()
-    "     tr
-    "         "echo expand("<cword>")
-    "         exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
-    "     catch /.*/
-    "     endtry
-    " endfun
-    " }}}
+" Fix this and possibly make a plugin... {{{
+" hi holdSearch guifg=none guibg=#4a5f58 gui=none
+" set updatetime=500
+" func! HighlightOnHold()
+"     tr
+"         "echo expand("<cword>")
+"         exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
+"     catch /.*/
+"     endtry
+" endfun
+" }}}
 
 " Autocommands {{{1
 augroup init
@@ -360,3 +364,4 @@ augroup init
     autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
     autocmd WinEnter * cal EnterWin()
     autocmd WinLeave * cal LeaveWin()
+augroup END

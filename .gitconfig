@@ -10,7 +10,7 @@
 [mergetool]
   prompt = true
 [mergetool "vimdiff"]
-  cmd = nvim -d $BASE $LOCAL
+  cmd = nvim -d $LOCAL $BASE -c 'wincmd w'
 [color]
     ui = auto
     branch = always
