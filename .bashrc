@@ -26,9 +26,9 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Set prompt
-PS1="\[$(tput setab 13)$(tput setaf 231)$(tput bold)\]$ > \[\033[00m\] "
+PS1="\[$(tput bold)\]$(tput setab 130)$(tput setaf 11)\w$(tput setab 13)$(tput setaf 16)$ > \[\033[00m\] "
 # Set title
-PS1="\[\e]0;\w\a\]$PS1"
+PS1="\[\e]0;HERE\a\]$PS1"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -71,3 +71,4 @@ export VISUAL=nvim
 # FZF_DEFAULT_OPTS="--color light,fg:138,bg+:235,fg+:189,hl:22,hl+:40,prompt:22,pointer:146,marker:182,spinner:197,header:181,info:159"
 # Setting ag as the default source for fzf
 export FZF_DEFAULT_COMMAND='ag -g ""'
+export PROMPT_DIRTRIM=2

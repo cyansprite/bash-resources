@@ -82,6 +82,9 @@ colo chill
 "End Vim set }}}
 
 "Begin Vim map {{{
+    " I use this too much for it to not be a mapping
+    nnoremap <leader>e :e **/*
+    nnoremap <leader>v :vsp **/*
     " Does anyone actually use single quote?
     map ' `
 
@@ -89,8 +92,8 @@ colo chill
     cmap <c-v> <c-r>"
 
     " next/prev arglist
-    nnoremap <c-n> :next<cr>
-    nnoremap <c-p> :prev<cr>
+    nnoremap <m-c> :next<cr>
+    nnoremap <m-C> :prev<cr>
     " c-list
     nnoremap <m-c> :cn<cr>
     nnoremap <m-C> :cp<cr>
@@ -138,30 +141,28 @@ colo chill
 "End Vim Map }}}
 
 " Status Line {{{1
+" TODO cache so don't update everytime unless needed
 function! StatusLine()
     " Left Filename/CurArg
-    setl statusline =%3*%-40{CurArg()}%*
+    setl statusline =%3*%{CurArg()}%*
+    " setl statusline=%<
+
     if &modifiable
         setl statusline+=%1*%m%*
     else
         setl statusline+=%2*%m%*
     endif
-    setl statusline+=%2*%r
 
-    " Center: Arglist
+    setl statusline+=%2*%r
     setl statusline+=%4*%=
-    setl statusline+=%<%5*%-50(%{OtherArgsLeft()}%3*%{OtherArgsMiddle()}%5*%{OtherArgsRight()}%)
-    setl statusline+=%*%4*
-    setl statusline+=%=
 
     " Right: linenr,column    TotalLines : Percentage Through
-    setl statusline+=%15(%#CursorLineNr#%l,%c%)
-    setl statusline+=\ \ \ \ 
-    setl statusline+=%4*%#LineNr#%L\ :\ %p%%
+    setl statusline+=%-10.(%#CursorLineNr#%l,%c%)
+    setl statusline+=%#LineNr#%p%%\ :\ %L
 endfunction
 
 function! StatusLineNC()
-    setl statusline =%<%#Statuslinenc#%{CurArg()}
+    setl statusline =%<%#Statuslinenc#%f
     if &modifiable
         setl statusline+=%1*%m
     else
@@ -177,6 +178,7 @@ endfunc
 
 func! CurArg()
     let l:rtn = ''
+
     if argc() == 0 || argv(argidx()) !=# @%
         return @%
     endif
@@ -187,63 +189,6 @@ func! CurArg()
 
     return l:rtn
 endfun
-
-func! OtherArgsMiddle()
-    let l:rtn = ''
-
-    if argc() == 0
-        return ''
-    endif
-
-    let l:curarg = argv(argidx())
-
-    if argv(argidx()) !=# @%
-        let l:rtn .= '  [ ' . l:curarg . ' ] '
-    else
-        if argc() > 1
-            let l:rtn .= '  [ ' . '|' . ' ] '
-        else
-            let l:rtn = l:rtn
-        endif
-    endif
-    return l:rtn
-endfunc
-
-func! OtherArgsRight()
-    let l:rtn = ''
-    if argc() == 0
-        return ''
-    endif
-
-    let args = argv()
-
-    for rg in range(0,argc())
-        if rg <= argidx()
-            continue
-        endif
-        let l:rtn .= '  ' . argv(rg)
-    endfor
-
-    return l:rtn
-endfunc
-
-func! OtherArgsLeft()
-    let l:rtn = ''
-    if argc() == 0
-        return ''
-    endif
-
-    let args = argv()
-
-    for rg in range(0,argc())
-        if rg == argidx()
-            return l:rtn
-        endif
-        let l:rtn .= '  ' . argv(rg)
-    endfor
-
-    return l:rtn
-endfun " }}}
 
 " Enter/LeaveWin {{{
 function! LeaveWin()
@@ -303,42 +248,6 @@ endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
 
-" Sexy tab line {{{1
-" Print the current arg/file, the other args, modified in green, RO in red, then
-" right align linenr, column, ->-> then print line max, and percent of file
-
-function! Tabline()
-    let s = ''
-    for i in range(tabpagenr('$'))
-        let tab = i + 1
-        let winnr = tabpagewinnr(tab)
-        let buflist = tabpagebuflist(tab)
-        let buflistcount = len(tabpagebuflist(tab))
-        let bufnr = buflist[winnr - 1]
-        let bufname = bufname(bufnr)
-        let bufmodified = getbufvar(bufnr, "&mod")
-
-        let s .= '%' . tab . 'T'
-        let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
-        let s .= ' ' . tab . ' | ' . l:buflistcount . ' : '
-        let s .= (bufname != '' ? ''. fnamemodify(bufname, ':t') . ' ' : '[No Name] ')
-
-        if bufmodified
-            if tabpagenr() == l:tab
-                let s .= '%6*[+]%*'
-            else
-                let s .= '%1*[+]%*'
-            endif
-        endif
-    endfor
-
-    let s .= '%#TabLineFill#'
-    return s
-endfunction
-
-set tabline=%!Tabline()
-"}}}1
-
 func! KillWhitespace() " {{{ -- fuck ws
     exec "%s/\\s\\+$//ge"
 endf
@@ -365,3 +274,5 @@ augroup init
     autocmd WinEnter * cal EnterWin()
     autocmd WinLeave * cal LeaveWin()
 augroup END
+
+" TODO add g= and Opposite of J {{{1

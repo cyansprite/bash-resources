@@ -36,10 +36,15 @@ if [ ! -d $configdir/colors ] ; then
     mkdir -p $configdir/colors
 fi
 
+if [ ! -d $configdir/ftplugin ] ; then
+    mkdir -p $configdir/ftplugin
+fi
+
 cd "$SOURCE/nvim-plugs"
 ln -fv init.vim $configdir/
 ln -fv plug.vim $configdir/
 ln -fv chill.vim $configdir/colors/
+ln -fv qf.vim $configdir/ftplugin/
 echo ""
 
 if [ ! -d ~/.fzf ] ; then
