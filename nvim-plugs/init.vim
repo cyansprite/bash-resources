@@ -28,7 +28,7 @@ colo chill
     set splitbelow               " ...split below... what did you think?
     set splitright               " Oh this one will be different!...cept not.
     set title title              " rxvt and tmux make this usable
-    let &titlestring = "(" . getcwd() . ') '
+    let &titlestring = expand('%') . " - (" . getcwd() . ')'
     set undofile                 " keep undo history ina file
 
    " Set: Those that use =
@@ -83,10 +83,24 @@ colo chill
 
 "Begin Vim map {{{
     " I use this too much for it to not be a mapping
-    nnoremap <leader>e :e **/*
-    nnoremap <leader>v :vsp **/*
+    nnoremap <leader>ee :e **/*
+    nnoremap <leader>vv :vsp **/*
+    nnoremap <leader>ss :sp **/*
+    nnoremap <leader>cc :cfile  \| copen \| cc<left><left><left><left><left><left><left><left><left><left><left><left><left>
+
     " Does anyone actually use single quote?
     map ' `
+
+    " Hls ease
+    nnoremap <space> :set hlsearch!<cr>
+    nnoremap n :set hlsearch<cr>n
+    nnoremap N :set hlsearch<cr>N
+    nnoremap / :set hlsearch<cr>/
+    nnoremap * :set hlsearch<cr>*
+
+    " I never use #||? should I make it into something else?
+    nmap ? :set hlsearch<cr>?
+    nmap # :set hlsearch<cr>#
 
     " pasting in cmode
     cmap <c-v> <c-r>"
@@ -129,10 +143,6 @@ colo chill
     nnoremap <F6> :%s/<C-r><C-w>/
     nnoremap <F7> :%s/\<<C-r><C-w>\>/
 
-    nnoremap <leader>cd :noautocmd cfdo \| update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-    nnoremap <leader>bd :noautocmd bufdo \| update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-    nnoremap <leader>ad :noautocmd argdo \| update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-
     " I like playing with colors (Gives me hi-lo ids)
     map <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
                 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
@@ -140,7 +150,7 @@ colo chill
 
 "End Vim Map }}}
 
-" Status Line {{{1
+" Status Line {{{
 " TODO cache so don't update everytime unless needed
 function! StatusLine()
     " Left Filename/CurArg
@@ -188,7 +198,7 @@ func! CurArg()
     let l:rtn .= '[' . l:curarg . ']'
 
     return l:rtn
-endfun
+endfun "}}}
 
 " Enter/LeaveWin {{{
 function! LeaveWin()
@@ -254,6 +264,17 @@ endf
 command! -nargs=0 Kws call KillWhitespace()
 " }}}
 
+" Autocommands {{{
+augroup init
+    autocmd!
+    autocmd BufWinLeave * cal LeaveBufWin() | call LeaveWin()
+    autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
+    autocmd WinEnter * cal EnterWin()
+    autocmd WinLeave * cal LeaveWin()
+augroup END
+"}}}
+
+" TODO add g= and Opposite of J {{{1
 " Fix this and possibly make a plugin... {{{
 " hi holdSearch guifg=none guibg=#4a5f58 gui=none
 " set updatetime=500
@@ -266,13 +287,3 @@ command! -nargs=0 Kws call KillWhitespace()
 " endfun
 " }}}
 
-" Autocommands {{{1
-augroup init
-    autocmd!
-    autocmd BufWinLeave * cal LeaveBufWin() | call LeaveWin()
-    autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
-    autocmd WinEnter * cal EnterWin()
-    autocmd WinLeave * cal LeaveWin()
-augroup END
-
-" TODO add g= and Opposite of J {{{1

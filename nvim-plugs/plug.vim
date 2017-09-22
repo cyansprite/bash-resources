@@ -7,32 +7,30 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Format
     Plug 'foosoft/vim-argwrap'
     Plug 'godlygeek/tabular'
-    Plug 'scrooloose/nerdcommenter'
 
     " Syntax
     Plug 'cyansprite/vim-csharp'
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'keith/tmux.vim'
 
-    " Autocompelete
+    " Completion Help
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'Valloric/YouCompleteMe'
     Plug 'cyansprite/CmdlineComplete'
 
-    " Source control / Organization
+    " Source control
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
-    Plug 'majutsushi/tagbar'
     Plug 'AndrewRadev/linediff.vim'
 
     " Navigation
     Plug 'cyansprite/logicalBuffers'
-    Plug 'mhinz/vim-startify'
     Plug 'cyansprite/a.vim'
 
-    " IDE shit
+    " IDE-like shit
     Plug 'mhinz/vim-grepper'
+    Plug 'mhinz/vim-startify'
 
 call plug#end()
 

@@ -16,7 +16,7 @@ shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=9999
-HISTFILESIZE=2000
+HISTFILESIZE=9999
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -25,10 +25,14 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# Set prompt
-PS1="\[$(tput bold)\]$(tput setab 130)$(tput setaf 11)\w$(tput setab 13)$(tput setaf 16)$ > \[\033[00m\] "
+# Set prompt if ssh use orange-white, otherwise use magenta-black
+if [ -n "$SSH_CLIENT" ]; then
+    PS1='\[\e[1;30m\] \[\e[7;33m\] \w \[\e[7;34m\] \$ \[\e[7;32m\] > \[\e[m\] '
+else
+    PS1='\[\e[1;30m\] \[\e[7;33m\] \w \[\e[7;36m\] \$ \[\e[7;32m\] > \[\e[m\] '
+fi
 # Set title
-PS1="\[\e]0;HERE\a\]$PS1"
+PS1="\[\e]0;\h:\u \j \!\a\]$PS1"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
