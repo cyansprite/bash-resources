@@ -2,8 +2,8 @@
 Shortcut     | Keys               | Command
 ------------ | ------------------ | --------------------------------------------
 firefox      | ctrl+alt+\         | firefox
-rawrxvt      | shift+ctrl+alt+q   | urxvt -e bash -c 'if [ "`tmux list - clients - t MagicSpell`" ]; then tmux new - session; else tmux new - session - As MagicSpell; fi;'
-rxvtnorm     | alt+q              | urxvt
+rawrxvt      | alt+q              | urxvt -e bash -c 'if [ "`tmux list-clients -t MagicSpell`" ]; then tmux new-session; else tmux new-session -As MagicSpell; fi;'
+rxvtnorm     | shift+ctrl+alt+q   | urxvt
 ================================================================================
 |                                                                              |
 ================================================================================
