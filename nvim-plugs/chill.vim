@@ -66,7 +66,7 @@ hi Search        ctermfg=none  ctermbg=0     cterm=inverse,bold
 hi Title         ctermfg=13    ctermbg=none  cterm=bold
 hi Directory     ctermfg=11    ctermbg=none  cterm=none
 hi Delimiter     ctermfg=24    ctermbg=none  cterm=none
-hi Visual        ctermfg=none  ctermbg=0     cterm=bold
+hi Visual        ctermfg=none  ctermbg=16     cterm=bold
 
 " Dark {{{1
 hi ColorColumn   ctermbg=none  ctermbg=0     cterm=none

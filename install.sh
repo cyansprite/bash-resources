@@ -75,6 +75,13 @@ else
 fi
 echo ""
 
+if hash devilspie 2>/dev/null; then
+    echo ""
+else
+    dash $SOURCE/fun.sh
+fi
+echo ""
+
 echo "========================================================================="
 echo "Fin installing."
 echo "========================================================================="
