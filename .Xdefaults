@@ -27,40 +27,40 @@ URxvt*mapAlert:                         true
 URxvt*urgentOnBell:                     true
 
 ! Colors {{{1
-URxvt*fading:                           30
-URxvt*depth:                            32
-URxvt*background:                       [95]#1a1f2f
-URxvt*foreground:                           #f0ffa0
-URxvt*underlineColor:                       #ff00ff
-URxvt*colorUL:                              #ffc0ff
-URxvt*colorIT:                              #ffc0f0
-URxvt*colorBD:                              #a0f0ff
-URxvt*cursorColor:                          #ffffff
-URxvt*cursorColor2:                         #aa00aa
+URxvt*fading:                 30
+URxvt*depth:                  32
+URxvt*background:    [95]#1a1f2f
+URxvt*foreground:        #f0ffd0
+URxvt*underlineColor:    #ff00ff
+URxvt*colorUL:           #ffc0ff
+URxvt*colorIT:           #ffc0f0
+URxvt*colorBD:           #a0f0ff
+URxvt*cursorColor:       #ffffff
+URxvt*cursorColor2:      #aa00aa
 !! black
-*color0:                                    #000000
-*color8:                                    #808080
+*color0:                 #1a1c2a
+*color8:                 #808a80
 !! red
-*color9:                                    #ff0000
-*color1:                                    #cc4444
+*color1:                 #ff0000
+*color9:                 #cc4444
 !! green
-*color10:                                   #00ff00
-*color2:                                    #44cc44
+*color10:                #00ff00
+*color2:                 #44cc44
 !! yellow
-*color11:                                   #ffac00
-*color3:                                    #cccc44
+*color11:                #ffac00
+*color3:                 #cccc44
 !! blue
-*color12:                                   #0000ff
-*color4:                                    #4444cc
+*color4:                #0000ff
+*color12:                 #4444cc
 !! magenta
-*color13:                                   #ff00ff
-*color5:                                    #cc44cc
+*color5:                #ff00ff
+*color13:                 #cc44cc
 !! cyan
-*color14:                                   #00ffff
-*color6:                                    #44cccc
+*color6:                #00ffff
+*color14:                 #44cccc
 !! grey
-*color15:                                   #aaaaaa
-*color7:                                    #cccccc
+*color7:                #aaaaaa
+*color15:                 #cccccc
 
 ! DONT FUCKIN SET THESE!!
 ! URxvt*highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis

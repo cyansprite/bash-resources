@@ -27,9 +27,9 @@ shopt -s checkwinsize
 
 # Set prompt if ssh use orange-white, otherwise use magenta-black
 if [ -n "$SSH_CLIENT" ]; then
-    PS1='\[\e[1;30m\] \[\e[7;33m\] \w \[\e[7;34m\] \$ \[\e[7;32m\] > \[\e[m\] '
+    PS1='\[\e[1;33m\]\[\e[7;31m\]\$:\w >\[\e[m\] '
 else
-    PS1='\[\e[1;30m\] \[\e[7;33m\] \w \[\e[7;36m\] \$ \[\e[7;32m\] > \[\e[m\] '
+    PS1='\[\e[1;33m\]\[\e[7;32m\]\$:\w >\[\e[m\] '
 fi
 # Set title
 PS1="\[\e]0;\h:\u \j \!\a\]$PS1"

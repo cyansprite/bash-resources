@@ -1,12 +1,14 @@
 " plugins (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
+
     " Motion stuff
     Plug 'cyansprite/extract'
     Plug 'thinca/vim-visualstar'
+    Plug 'junegunn/vim-after-object'
 
     " Format
     Plug 'foosoft/vim-argwrap'
-    Plug 'godlygeek/tabular'
+    Plug 'junegunn/vim-easy-align'
 
     " Syntax
     Plug 'cyansprite/vim-csharp'
@@ -14,10 +16,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'keith/tmux.vim'
 
     " Completion Help
-    Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets'
+    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
     Plug 'Valloric/YouCompleteMe'
-    Plug 'cyansprite/CmdlineComplete'
 
     " Source control
     Plug 'airblade/vim-gitgutter'
@@ -26,11 +26,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Navigation
     Plug 'cyansprite/logicalBuffers'
-    Plug 'cyansprite/a.vim'
 
-    " IDE-like shit
+    " Searching
     Plug 'mhinz/vim-grepper'
-    Plug 'mhinz/vim-startify'
 
 call plug#end()
 
@@ -120,8 +118,16 @@ nnoremap <leader>*  :Grepper -tool ag -cword -noprompt<cr>
 let g:grepper           = {}
 let g:grepper.tools     = ['git', 'ag', 'grep']
 
+" Easy align {{{2
+    let g:easy_align_delimiters = {
+    \ 'c': {
+    \     'pattern':      'cterm',
+    \     'left_margin':  2,
+    \     'right_margin': 0
+    \   }
+    \ }
 " autocmds {{{1
-" autocmd FileType dirvish Goyo
+autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
 autocmd FileType GrepperSide
   \  silent normal! gg
   \  silent execute 'keeppatterns v#'.b:grepper_side.'#>'
@@ -134,3 +140,64 @@ hi link cppSTLnamespace  Label
 hi link cCustomMemVar Member
 hi link cCustomClass  Class
 hi link cRepeat       Repeat
+"}}}1
+
+" Took from junegunn, will change later if I feel the need{{{
+" ----------------------------------------------------------------------------
+" :Root | Change directory to the root of the Git repository
+" ----------------------------------------------------------------------------
+function! s:root()
+  let root = systemlist('git rev-parse --show-toplevel')[0]
+  if v:shell_error
+    echohl ErrorMsg
+    echo "Not in git repo."
+    echohl None
+  else
+    execute 'lcd' root
+    echo 'Changed directory to: '.root
+  endif
+endfunction
+command! Root call s:root()
+
+" ----------------------------------------------------------------------------
+" :A - Adapted from junegunn, get alternate file, probably export to plugin...
+" ----------------------------------------------------------------------------
+function! s:a(cmd)
+  let filename = expand('%:r')
+  let ext = expand('%:e')
+
+  if !has_key(g:, "alt_sources")
+      let g:alt_sources = ['c', 'cpp']
+  endif
+
+  if !has_key(g:, "alt_headers")
+      let g:alt_headers = ['h', 'hpp']
+  endif
+
+  let len = len(g:alt_sources)
+
+  if l:len != len(g:alt_headers)
+      echohl ErrorMsg
+      echo "Why do your sources and headers have different lengths?"
+      echohl None
+      return
+  endif
+
+  for i in range(0, l:len - 2)
+      if l:ext !=? g:alt_sources[i] | continue | endif
+
+      let a = l:filename . '.' . g:alt_headers[i]
+      if filereadable(l:a)
+          execute a:cmd a
+          return
+      end
+  endfor
+
+  " No results throw an error
+  echohl ErrorMsg
+  echo "No alternate file."
+  echohl None
+endfunction
+command! A call s:a('e')
+command! AV call s:a('botright vertical split')
+"}}}

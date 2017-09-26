@@ -84,6 +84,7 @@ colo chill
 "Begin Vim map {{{
     " I use this too much for it to not be a mapping
     nnoremap <leader>ee :e **/*
+    nnoremap <leader>aa :argadd **/*
     nnoremap <leader>vv :vsp **/*
     nnoremap <leader>ss :sp **/*
     nnoremap <leader>cc :cfile  \| copen \| cc<left><left><left><left><left><left><left><left><left><left><left><left><left>
