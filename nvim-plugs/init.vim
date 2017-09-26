@@ -82,6 +82,9 @@ colo chill
 "End Vim set }}}
 
 "Begin Vim map {{{
+    " Refresh my script bitch!
+    nnoremap <F5> :w \| so %<cr>
+
     " I use this too much for it to not be a mapping
     nnoremap <leader>ee :e **/*
     nnoremap <leader>aa :argadd **/*

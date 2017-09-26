@@ -1,4 +1,5 @@
 " {{{ Setup
+set termguicolors
 if exists("syntax_on")
     syntax reset
 endif
@@ -7,7 +8,8 @@ let g:colors_name = "chill"
 "}}}
 
 " {{{ Main
-hi CursorLine    ctermbg=none  ctermbg=0     cterm=none
+hi Normal        guifg=fg      guibg=bg
+hi CursorLine    guifg=none    guibg=#1f1f3f
 hi CursorLineNr  ctermfg=156   ctermbg=none  cterm=bold
 hi MatchParen    ctermfg=none  ctermbg=none  cterm=bold,underline
 hi Folded        ctermfg=147   ctermbg=none  cterm=bold

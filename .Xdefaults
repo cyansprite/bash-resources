@@ -61,6 +61,7 @@ URxvt*cursorColor2:      #aa00aa
 !! grey
 *color7:                #aaaaaa
 *color15:                 #cccccc
+*color16:                 #ffffff
 
 ! DONT FUCKIN SET THESE!!
 ! URxvt*highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis

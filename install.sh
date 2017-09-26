@@ -82,6 +82,13 @@ else
 fi
 echo ""
 
+if rxvt devilspie 2>/dev/null; then
+    echo ""
+else
+    dash $SOURCE/urxvt-plus-ultra.sh*
+fi
+echo ""
+
 echo "========================================================================="
 echo "Fin installing."
 echo "========================================================================="
