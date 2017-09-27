@@ -47,7 +47,7 @@ URxvt*cursorColor2:      #aa00aa
 *color10:                #00ff00
 *color2:                 #44cc44
 !! yellow
-*color11:                #ffac00
+*color11:                #ecc924
 *color3:                 #cccc44
 !! blue
 *color4:                #0000ff
@@ -61,7 +61,12 @@ URxvt*cursorColor2:      #aa00aa
 !! grey
 *color7:                #aaaaaa
 *color15:                 #cccccc
-*color16:                 #ffffff
+
+!! 256/88
+
+!! bg accents
+*color232:                 #2a2f3f
+*color233:                 #3a3f4f
 
 ! DONT FUCKIN SET THESE!!
 ! URxvt*highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis
