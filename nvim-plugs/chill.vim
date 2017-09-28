@@ -1,5 +1,4 @@
 " {{{ Setup
-set termguicolors
 if exists("syntax_on")
     syntax reset
 endif

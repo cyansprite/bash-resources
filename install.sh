@@ -16,6 +16,9 @@ echo "========================================================================="
 echo "Linking dotfiles to home "
 echo "========================================================================="
 cd "$SOURCE"
+if [ ! -d ~/.config/i3] ; then
+    mkdir ~/.config/i3
+fi
 ln -fv .bashrc ~/.bashrc
 ln -fv .bash_aliases ~/.bash_aliases
 ln -fv .dircolors ~/.dircolors
@@ -23,6 +26,8 @@ ln -fv .inputrc ~/.inputrc
 ln -fv .gitconfig ~/.gitconfig
 ln -fv .tmux.conf ~/.tmux.conf
 ln -fv .Xdefaults ~/.Xdefaults
+ln -fv .i3status.conf ~/.i3status.conf
+ln -fv .i3config ~/.config/i3/config
 echo ""
 
 # make sure we neovim stuffs
@@ -72,13 +77,6 @@ if hash nvim 2>/dev/null; then
     echo "========================================================================="
 else
     dash $SOURCE/neovim.sh
-fi
-echo ""
-
-if hash devilspie 2>/dev/null; then
-    echo ""
-else
-    dash $SOURCE/fun.sh
 fi
 echo ""
 
