@@ -50,7 +50,7 @@ colo chill
     set softtabstop=4            " Let backspace delete indent
     set tabstop=4                " An indentation every four columns
     set textwidth=80             " text width
-    set timeoutlen=250           " Best type maps fast
+    set timeoutlen=999           " Best type maps fast
     set ttimeoutlen=25           " I don't care much for waiting
     set undolevels=99999         " A lot of undo history :P
     set updatecount=33           " update swp every 33 chars.

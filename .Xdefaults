@@ -80,6 +80,7 @@ URxvt.keysym.C-M-v:                     builtin-string:
 URxvt.keysym.C-s-t:                     builtin-string:
 URxvt.keysym.C-S-0x43:                  eval:selection_to_clipboard
 URxvt.keysym.C-S-0x56:                  eval:paste_clipboard
+URxvt.tripleclickwords:                 true
 
 ! Fonty Python {{{1
 URxvt*font:                             xft:pt mono:pixelsize=13

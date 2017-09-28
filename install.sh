@@ -16,7 +16,7 @@ echo "========================================================================="
 echo "Linking dotfiles to home "
 echo "========================================================================="
 cd "$SOURCE"
-if [ ! -d ~/.config/i3] ; then
+if [ ! -d ~/.config/i3 ] ; then
     mkdir ~/.config/i3
 fi
 ln -fv .bashrc ~/.bashrc
