@@ -80,7 +80,7 @@ else
 fi
 echo ""
 
-if rxvt devilspie 2>/dev/null; then
+if hash rxvt 2>/dev/null; then
     echo ""
 else
     dash $SOURCE/urxvt-plus-ultra.sh*

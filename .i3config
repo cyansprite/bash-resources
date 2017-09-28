@@ -36,9 +36,11 @@ for_window [class=".*"] border normal
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
-# Start a terminal {{{1
-bindsym $mod+Return exec urxvt
+# Start a terminal/firefox {{{1
+bindsym $mod+T exec urxvt
+bindsym $alt+Return "exec urxvt -title RandomSpell -e tmux new-session -As RandomSpell"
 bindsym $alt+q exec "urxvt -title MagicSpell -e bash -c 'if [ '`tmux list-clients -t MagicSpell`' ]; then tmux new-session; else tmux new-session -As MagicSpell; fi;'"
+bindsym $mod+f exec firefox
 
 # Move/focus/kill {{{1
 bindsym $mod+Shift+q kill
@@ -61,10 +63,10 @@ bindsym $mod+Shift+Right move  right
 
 # Focus my MagicSpell
 bindsym $mod+q [title="MagicSpell"] focus
+bindsym $mod+Return [title="RandomSpell"] focus
 for_window [title="QEMU"] floating enable
 
 # enter fullscreen mode for the focused container {{{ 1
-bindsym $mod+f fullscreen toggle
 bindsym F11 fullscreen toggle
 
 # Toggle/focus tiling/floating {{{1
