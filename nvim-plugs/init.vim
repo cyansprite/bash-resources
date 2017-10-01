@@ -12,7 +12,7 @@ colo chill
 "Begin Vim set {{{
     " Set: Those that use macros
     set backup | set writebackup " back it up, the file, I mean.
-    set cursorline             " set cursorline to highlight NOTHING
+    set cursorline               " set cursorline to highlight NOTHING
     set expandtab                " Expands tab to spaces
     set ignorecase smartcase     " in the name
     set linebreak                " don't cut words on wrap if i DO wrap

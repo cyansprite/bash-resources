@@ -54,7 +54,8 @@ hi Identifier    ctermfg=4  ctermbg=none cterm=none
 " Purple: 5{{{1
 hi Statement     ctermfg=13   ctermbg=none  cterm=bold
 hi Delimeter     ctermfg=5    ctermbg=none  cterm=none
-hi Number ctermfg=5 ctermbg=none cterm=none
+hi Constant      ctermfg=5   ctermbg=none  cterm=none
+hi Number ctermfg=13 ctermbg=none cterm=none
 hi Title ctermfg=5 ctermbg=none cterm=bold
 
 " Cyan:   6{{{1
@@ -92,7 +93,7 @@ hi WildMenu      ctermfg=none  ctermbg=238   cterm=bold
 hi DiffText      ctermfg=7 ctermbg=32 cterm=bold
 
 " Orange
-hi Comment       ctermfg=130   ctermbg=none  cterm=italic
+hi Comment       ctermfg=3   ctermbg=none  cterm=italic
 
 " Green
 hi MoreMsg       ctermfg=113   ctermbg=none  cterm=inverse,bold
@@ -103,13 +104,12 @@ hi CursorLineNr  ctermfg=063   ctermbg=none  cterm=bold
 hi VertSplit     ctermfg=063   ctermbg=none  cterm=bold
 
 " TODO
-hi Conditional   ctermfg=177   ctermbg=none  cterm=bold
 hi Repeat        ctermfg=177   ctermbg=none  cterm=bold,italic
+hi Conditional   ctermfg=177   ctermbg=none  cterm=none
 hi Label         ctermfg=30    ctermbg=none  cterm=bold
 hi Operator      ctermfg=60    ctermbg=none  cterm=bold
 
 hi Class         ctermfg=38    ctermbg=none  cterm=none
-hi Constant      ctermfg=126   ctermbg=none  cterm=none
 hi Character     ctermfg=203   ctermbg=none  cterm=none
 hi Float         ctermfg=106   ctermbg=none  cterm=none
 hi Function      ctermfg=66    ctermbg=none  cterm=none
