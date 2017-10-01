@@ -29,44 +29,45 @@ URxvt*urgentOnBell:                     true
 ! Colors {{{1
 URxvt*fading:                 30
 URxvt*depth:                  32
-URxvt*background:    [95]#1a1f2f
-URxvt*foreground:        #f0ffd0
-URxvt*underlineColor:    #ff00ff
-URxvt*colorUL:           #ffc0ff
+URxvt*background:    [95]#000000
+URxvt*foreground:        #aaaaaa
+URxvt*underlineColor:    #ffffaa
+URxvt*colorUL:           #ffaa00
 URxvt*colorIT:           #ffc0f0
 URxvt*colorBD:           #a0f0ff
-URxvt*cursorColor:       #ffffff
-URxvt*cursorColor2:      #aa00aa
+# URxvt*cursorColor:       #ffffff
+# URxvt*cursorColor2:      #aa00aa
 !! black
-*color0:                 #1a1c2a
-*color8:                 #808a80
+*color0:                 #1f1f1f
+*color8:                 #4f4f4f
 !! red
-*color1:                 #ff0000
+*color1:                 #aa0000
 *color9:                 #cc4444
 !! green
-*color10:                #00ff00
 *color2:                 #44cc44
+*color10:                #00aa00
 !! yellow
-*color11:                #ecc924
 *color3:                 #cccc44
+*color11:                #aaaa00
 !! blue
-*color4:                #0000ff
-*color12:                 #4444cc
+*color4:                 #4444cc
+*color12:                #0000aa
 !! magenta
-*color5:                #ff00ff
-*color13:                 #cc44cc
+*color5:                 #cc44cc
+*color13:                #aa00aa
 !! cyan
-*color6:                #00ffff
-*color14:                 #44cccc
+*color6:                 #44cccc
+*color14:                #00aaaa
 !! grey
-*color7:                #aaaaaa
-*color15:                 #cccccc
+*color7:                 #8a8a8a
+*color15:                #cacaca
 
 !! 256/88
-
 !! bg accents
-*color232:                 #2a2f3f
-*color233:                 #3a3f4f
+! *color232:               #2a2f3f
+! *color233:               #3a3f4f
+! *color234:               #4a4f5f
+! *color235:               #5a5f6f
 
 ! DONT FUCKIN SET THESE!!
 ! URxvt*highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis

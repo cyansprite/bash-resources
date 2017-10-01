@@ -8,7 +8,7 @@ font pango: Oxygen Bold 10
 
 # colors {{{2
 # class                    brdr      bg     txt  indctr
-client.focused          #2f2f3f #2f2f3f #ffffff #000000
+client.focused          #bbb9ff #bbb9ff #000000 #000000
 client.focused_inactive #0f0f0f #0f0f0f #ffffff #484e50
 client.unfocused        #33332f #33332f #bbbbbb #292d2e
 client.urgent           #2f343a #900000 #ffffff #900000
