@@ -7,15 +7,23 @@ echo -ne '\n' | sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt-get update
 
 echo "========================================================================="
-echo "Installing neovim, pythons, xsel, xvkbd, ctags, and tmux"
+echo "Installing neovim, pythons, xsel, tmux, and global(gtags)"
 echo "========================================================================="
 echo ""
 yes | sudo apt-get install neovim
 yes | sudo apt-get install python-dev python-pip python3-dev python3-pip
 yes | sudo apt-get install xsel
-yes | sudo apt-get install xvkbd
-yes | sudo apt-get install exuberant-ctags
 yes | sudo apt-get install tmux
+yes | sudo apt-get install libncurses5-dev
+wget http://tamacom.com/global/global-6.5.7.tar.gz
+tar zxf global-6.5.7.tar.gz
+rm -rf global-6.5.7.tar.gz
+cd global-6.5.7
+./configure
+make
+sudo make install
+cd -
+rm -rf global-6.5.7
 
 echo "========================================================================="
 echo "Installing pip modules for neovim"
@@ -27,6 +35,10 @@ sudo -H pip install setuptools
 sudo -H pip3 install setuptools
 sudo -H pip install neovim
 sudo -H pip3 install neovim
+echo "========================================================================="
+echo "Updating Alternatives"
+echo "========================================================================="
+echo ""
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
 echo -ne 0 | sudo update-alternatives --config vi
 sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60

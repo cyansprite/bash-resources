@@ -28,6 +28,8 @@ ln -fv .tmux.conf ~/.tmux.conf
 ln -fv .Xdefaults ~/.Xdefaults
 ln -fv .i3status.conf ~/.i3status.conf
 ln -fv .i3config ~/.config/i3/config
+ln -fv .settings.ini /home/joj/.config/gtk-3.0/settings.ini
+
 echo ""
 
 # make sure we neovim stuffs
@@ -40,7 +42,9 @@ localdir=~/.local/share/nvim
 if [ ! -d $configdir/colors ] ; then
     mkdir -p $configdir/colors
 fi
-
+if [ ! -d $configdir/plugin ] ; then
+    mkdir -p $configdir/plugin
+fi
 if [ ! -d $configdir/ftplugin ] ; then
     mkdir -p $configdir/ftplugin
 fi
@@ -49,6 +53,8 @@ cd "$SOURCE/nvim-plugs"
 ln -fv init.vim $configdir/
 ln -fv plug.vim $configdir/
 ln -fv chill.vim $configdir/colors/
+ln -fv gtags.vim $configdir/plugin/
+ln -fv gtags-cscope.vim $configdir/plugin/
 ln -fv qf.vim $configdir/ftplugin/
 echo ""
 
@@ -60,6 +66,10 @@ if [ ! -d ~/.fzf ] ; then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     yes | ~/.fzf/install
     echo ""
+else
+    echo "========================================================================="
+    echo "FZF already installed."
+    echo "========================================================================="
 fi
 
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ] ; then
@@ -69,23 +79,29 @@ if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ] ; then
     curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     echo ""
+else
+    echo "========================================================================="
+    echo "Plug already installed."
+    echo "========================================================================="
 fi
 
 if hash nvim 2>/dev/null; then
     echo "========================================================================="
-    echo "Neovim already installed, run neovim.sh if you need python || xsel."
+    echo "Neovim already installed."
     echo "========================================================================="
 else
     dash $SOURCE/neovim.sh
+    echo ""
 fi
-echo ""
 
 if hash rxvt 2>/dev/null; then
-    echo ""
+    echo "========================================================================="
+    echo "Urxvt already installed."
+    echo "========================================================================="
 else
     dash $SOURCE/urxvt-plus-ultra.sh*
+    echo ""
 fi
-echo ""
 
 echo "========================================================================="
 echo "Fin installing."

@@ -33,23 +33,23 @@ bar {
 }
 # print all window titles bold
 for_window [class=".*"] border normal
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
-
 # Start a terminal/firefox {{{1
 bindsym $mod+T exec urxvt
 bindsym $mod+f exec firefox
 
 # Spawn/Focus magic/random
-bindsym $alt+q "exec urxvt -title RandomSpell -e tmux new-session -As RandomSpell"
-bindsym $mod+q [title="RandomSpell"] focus
-
-bindsym $alt+Return "exec urxvt -title RandomSpell -e tmux new-session -As MagicSpell"
-bindsym $mod+Return [title="MagicSpell"] focus
+bindsym $mod+q "exec urxvt -title RandomSpell -e tmux new-session -As RandomSpell"
+bindsym $mod+Return "exec urxvt -title MagicSpell -e tmux new-session -As MagicSpell"
+bindsym $mod+b "exec urxvt -title BuildSpell -e tmux new-session -As BuildSpell"
 
 # I use tmux status bar, I don't need a border
 for_window [title="MagicSpell"] border none
 for_window [title="RandomSpell"] border none
+for_window [title="BuildSpell"] border none
+
+# Start the urxvt kuake terminal and make it float
+exec urxvt -pe kuake title="Kuake"
+for_window [title="Kuake"] floating enable, border none, resize set 800 472
 
 # Move/focus/kill {{{1
 bindsym $mod+Shift+q kill
@@ -70,8 +70,7 @@ bindsym $mod+Shift+Down  move  down
 bindsym $mod+Shift+Up    move  up
 bindsym $mod+Shift+Right move  right
 
-# Focus my MagicSpell
-for_window [title="QEMU"] floating enable
+for_window [title="QEMU"] floating enable, resize set 480 272
 
 # enter fullscreen mode for the focused container {{{ 1
 bindsym F11 fullscreen toggle
@@ -117,9 +116,10 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
-# Reload/restart/quit i3 {{{1
+# Reload/restart/lock/quit i3 {{{1
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
+bindsym $mod+Shift+s exec "i3lock -e -f -i ~/Pictures/tsufate.png -t -c 000000"
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Resize {{{1
@@ -139,7 +139,8 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
 # I don't use {{{1
 # change container layout (stacked, tabbed, toggle split)
 # bindsym $mod+s layout stacking
