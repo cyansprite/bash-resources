@@ -38,10 +38,10 @@ URxvt*colorBD:           #a0f0ff
 # URxvt*cursorColor:       #ffffff
 # URxvt*cursorColor2:      #aa00aa
 !! black
-*color0:                 #1f1f1f
-*color8:                 #4f4f4f
+*color0:                 #0a0f0a
+*color8:                 #5c5f5c
 !! red
-*color1:                 #aa0000
+*color1:                 #ff0000
 *color9:                 #cc4444
 !! green
 *color2:                 #44cc44
@@ -50,17 +50,17 @@ URxvt*colorBD:           #a0f0ff
 *color3:                 #ca5f10
 *color11:                #aaaa00
 !! blue
-*color4:                 #4444cc
-*color12:                #0000aa
+*color4:                 #6968df
+*color12:                #8888ff
 !! magenta
-*color5:                 #ef2089
+*color5:                 #df3a79
 *color13:                #cf00cf
 !! cyan
 *color6:                 #44cccc
 *color14:                #00aaaa
 !! grey
-*color7:                 #8a8a8a
-*color15:                #cacaca
+*color7:                 #7f7a7a
+*color15:                #cacfca
 
 !! 256/88
 !! bg accents
