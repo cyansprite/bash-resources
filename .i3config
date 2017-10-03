@@ -8,7 +8,7 @@ font pango: Oxygen Bold 10
 
 # colors {{{2
 # class                    brdr      bg     txt  indctr
-client.focused          #9f95ac #9f95ac #000000 #000000
+client.focused          #cfc5fc #cfc5fc #000000 #000000
 client.focused_inactive #0f0f0f #0f0f0f #ffffff #484e50
 client.unfocused        #33332f #33332f #bbbbbb #292d2e
 client.urgent           #2f343a #900000 #ffffff #900000
@@ -21,7 +21,7 @@ bar {
         statusline #ffffff
         separator  #4f4f5f
 
-        focused_workspace  #9f95ac #9f95ac #2f2f3f
+        focused_workspace  #cfc5fc #cfc5fc #2f2f3f
         active_workspace   #333333 #444444 #b7b3c3
         inactive_workspace #333333 #888888 #222222
         urgent_workspace   #2f343a #900000 #ffffff

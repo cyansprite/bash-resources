@@ -170,9 +170,9 @@ function! StatusLine()
     setl statusline+=%2*%r
     setl statusline+=%4*%=
 
-    " Right: linenr,column    TotalLines : Percentage Through
+    " Right: linenr,column    PositionBar()
     setl statusline+=%-10.(%#CursorLineNr#\ %l,%c%)
-    setl statusline+=%#LineNr#\ %p%%\ :\ %L
+    setl statusline+=%-22.(%#LineNr#\ [\ %{PositionBar()}%)\ ]\ %*
 endfunction
 
 function! StatusLineNC()
@@ -192,17 +192,30 @@ endfunc
 
 func! CurArg()
     let l:rtn = ''
-
     if argc() == 0 || argv(argidx()) !=# @%
         return @%
     endif
-
     let l:curarg = argv(argidx())
-
     let l:rtn .= '[' . l:curarg . ']'
-
     return l:rtn
-endfun "}}}
+endfun
+
+func! PositionBar()
+    let cnt=line("$") * 1.0
+    let current=line('.') * 1.0
+    let length=20.0
+    let track='·'
+    if l:current == 1
+        let pos = '|=='
+    elseif l:current != l:cnt
+        let pos = '=|='
+    else
+        let pos='==|'
+    endif
+    let ratio=(l:current/l:cnt)*l:length
+    let rratio=l:length-l:ratio
+    return repeat(l:track, float2nr(round(l:ratio))) . l:pos . repeat(l:track, float2nr(round(l:rratio)))
+endfunc  "}}}
 
 " Enter/LeaveWin {{{
 function! LeaveWin()
@@ -214,7 +227,7 @@ function! EnterWin()
     let curWinIndex = winnr()
     let windowCount = winnr('$')
 
-    exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.3))
+    exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.4))
 
     for i in range(1,winnr('$'))
         if( i != curWinIndex )
