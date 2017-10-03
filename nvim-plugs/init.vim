@@ -29,7 +29,6 @@ set bg=dark
     set splitbelow               " ...split below... what did you think?
     set splitright               " Oh this one will be different!...cept not.
     set title title              " rxvt and tmux make this usable
-    let &titlestring = expand('%') . " - (" . getcwd() . ')'
     set undofile                 " keep undo history ina file
 
    " Set: Those that use =
@@ -62,6 +61,9 @@ set bg=dark
     " Set: Those that are complex, or just look stupid
     " Backup dirrrrrrrrrrr, and make the fuckin dir please :)
     set backupdir-=.
+    exe "call mkdir('" . $HOME . "/.local' , 'p')"
+    exe "call mkdir('" . $HOME . "/.local/share' , 'p')"
+    exe "call mkdir('" . $HOME . "/.local/share/nvim' , 'p')"
     exe "call mkdir('" . $HOME . "/.local/share/nvim/backup' , 'p')"
     " set fill chars to things that make me happy
     set fillchars=vert:\|,stlnc:_,stl:\ ,fold:-,diff:┉
@@ -103,10 +105,6 @@ set bg=dark
     nnoremap / :set hlsearch<cr>/
     nnoremap * :set hlsearch<cr>*
 
-    " I never use #||? should I make it into something else?
-    nmap ? :set hlsearch<cr>?
-    nmap # :set hlsearch<cr>#
-
     " pasting in cmode
     cmap <c-v> <c-r>"
 
@@ -117,7 +115,7 @@ set bg=dark
     nnoremap <m-c> :cn<cr>
     nnoremap <m-C> :cp<cr>
 
-    " resize window m-cap h less, j less, k more, l more
+    " resize window m-cap H less, J less, K more, L more
     nnoremap <m-H> <c-w><
     nnoremap <m-L> <c-w>>
     nnoremap <m-J> <c-w>-
@@ -159,7 +157,8 @@ set bg=dark
 " TODO cache so don't update everytime unless needed
 function! StatusLine()
     " Left Filename/CurArg
-    setl statusline =%3*%{CurArg()}%*
+    setl statusline=%#LineNr#\ %{getcwd()}\ %*
+    setl statusline+=%3*\ %{CurArg()}\ %*
     " setl statusline=%<
 
     if &modifiable
@@ -172,8 +171,8 @@ function! StatusLine()
     setl statusline+=%4*%=
 
     " Right: linenr,column    TotalLines : Percentage Through
-    setl statusline+=%-10.(%#CursorLineNr#%l,%c%)
-    setl statusline+=%#LineNr#%p%%\ :\ %L
+    setl statusline+=%-10.(%#CursorLineNr#\ %l,%c%)
+    setl statusline+=%#LineNr#\ %p%%\ :\ %L
 endfunction
 
 function! StatusLineNC()
@@ -187,7 +186,7 @@ function! StatusLineNC()
     setl statusline+=%#StatusLineNC#
     setl statusline+=%*%=
     setl statusline+=%(%l,%c%)
-    setl statusline+=\ \ \ \ 
+    setl statusline+=\ \ \ \ %*
     setl statusline+=%L\ :\ %p%%
 endfunc
 

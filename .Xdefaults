@@ -32,22 +32,22 @@ URxvt*depth:                  32
 
 ! Dark
 URxvt*background:    [95]#1a1a1a
-URxvt*foreground:        #e4f9dd
-URxvt*underlineColor:    #fff0ca
+URxvt*foreground:        #9f95ac
+URxvt*underlineColor:    #c0f0ff
 URxvt*colorUL:           #f0ffca
 URxvt*colorIT:           #f0c0c0
-URxvt*colorBD:           #c0f0ff
+URxvt*colorBD:           #cfc5fc
 
 ! Constants
 !! black
 *color0:                 #000000
-*color8:                 #8a8a8a
+*color8:                 #6f6f6f
 !! red
 *color1:                 #db9090
-*color9:                 #c24343
+*color9:                 #9d6968
 !! green
 *color2:                 #b6db90
-*color10:                #82c243
+*color10:                #829d68
 !! yellow
 *color3:                 #dbcf90
 *color11:                #db9970
@@ -56,29 +56,19 @@ URxvt*colorBD:           #c0f0ff
 *color12:                #90b6db
 !! magenta
 *color5:                 #b690db
-*color13:                #cf6acf
+*color13:                #db90b6
 !! cyan
 *color6:                 #90dbdb
-*color14:                #6acfcf
+*color14:                #689d9d
 !! grey
-! *color7:                 #b6b6b6
-!*color15:                #e7efe2
-*color7:                 #aaaaaa
-*color15:                #dbdbdb
-
-!! 256/88
-!! bg accents
-! *color232:               #2a2f3f
-! *color233:               #3a3f4f
-! *color234:               #4a4f5f
-! *color235:               #5a5f6f
+*color7:                 #909090
+*color15:                #ffffff
 
 ! DONT FUCKIN SET THESE!!
-! URxvt*cursorColor:       #ffffff
-! URxvt*cursorColor2:      #aa00aa
 ! URxvt*highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis
 ! URxvt*highlightTextColor:             BanishYouToTheShadowRealmIfYouSetThis
-! URxvt*colorRV:                        BanishYouToTheShadowRealmIfYouSetThis
+! URxvt*cursorColor:       #9f95ac
+! URxvt*cursorColor2:      #ffffff
 ! Mappings {{{1
 URxvt.iso14755:                         false
 URxvt.iso14755_52:                      false

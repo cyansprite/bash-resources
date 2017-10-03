@@ -1,43 +1,52 @@
-" Setup {{{
+" Vim:          Color file
+" Maintainer:   Jojo Brandon Coffman <https://github.com/cyansprite>
+" Title:        Chill
+" Description:  Theme based on dull colors and espurr.
+" Requirements: Rxvt Colors or GUI colors.
+" Setup   +{{{1
 hi clear
 if exists("syntax_on")
     syntax reset
 endif
 
 let g:colors_name = "chill"
-"}}}
+" Gui:    o{{{1
+let s:fg        = '9595ac'
+let s:bg        = '1a1a1a'
+
+let s:bold      = 'cfc5fc'
+let s:italic    = 'f0c0c0'
+let s:underline = 'f0ffca'
+
+let s:color0    = '000000'
+let s:color8    = '6f6f6f'
+
+let s:color1    = 'db9090'
+let s:color9    = 'c24343'
+
+let s:color2    = 'b6db90'
+let s:color10   = '82c243'
+
+let s:color3    = 'dbcf90'
+let s:color11   = 'db9970'
+
+let s:color4    = '9090db'
+let s:color12   = '90b6db'
+
+let s:color5    = 'b690db'
+let s:color13   = 'db90b6'
+
+let s:color6    = '90dbdb'
+let s:color14   = '6acfcf'
+
+let s:color7    = '909090'
+let s:color15   = 'dbdbdb'
 
 " Nons:   -{{{1
 hi Normal       ctermfg=none ctermbg=none cterm=none
-hi MatchParen   ctermfg=none ctermbg=none cterm=bold,underline
 hi Folded       ctermfg=none ctermbg=none cterm=bold
 hi EndOfBuffer  ctermfg=none ctermbg=none cterm=none
 hi ModeMsg      ctermfg=none ctermbg=none cterm=inverse,bold
-
-" Gui define s:colors {{{1
-let s:color0  = '000000'
-let s:color8  = '8a8a8a'
-
-let s:color1  = 'db9090'
-let s:color9  = 'c24343'
-
-let s:color2  = 'b6db90'
-let s:color10 = '82c243'
-
-let s:color3  = 'dbcf90'
-let s:color11 = 'db9970'
-
-let s:color4  = '9090db'
-let s:color12 = '90b6db'
-
-let s:color5  = 'b690db'
-let s:color13 = 'cf6acf'
-
-let s:color6  = '90dbdb'
-let s:color14 = '6acfcf'
-
-let s:color7  = 'b6b6b6'
-let s:color15 = 'e7efe2'
 
 " Red:    1{{{1
 hi String       ctermfg=1  ctermbg=none cterm=none
@@ -101,26 +110,25 @@ hi Function     ctermfg=6    ctermbg=none cterm=none
 hi DiffText     ctermfg=7    ctermbg=14   cterm=bold
 
 " Grey:   7{{{1
-hi LineNr       ctermfg=7    ctermbg=none cterm=none
 hi ignore       ctermfg=7    ctermbg=none cterm=italic
 hi PreProc      ctermfg=7    ctermbg=none cterm=none
 hi Class        ctermfg=7    ctermbg=none cterm=none
 hi Operator     ctermfg=8    ctermbg=none cterm=bold
-hi Search       ctermfg=none ctermbg=15   cterm=bold,inverse
 
 " Black:  0{{{1
 hi VertSplit    ctermfg=0    ctermbg=none cterm=none
 hi StatusLineNC ctermfg=8    ctermbg=232  cterm=none
 hi Comment      ctermfg=8    ctermbg=none cterm=italic
-hi Visual       ctermfg=7    ctermbg=8 cterm=bold
+hi Search       ctermfg=none ctermbg=none cterm=bold,inverse
 
-" 256 colors , accents {{{1
+" Accent: *{{{1
 if &bg == 'dark'
     " dark
     hi StatusLine   ctermfg=none ctermbg=233  cterm=none
-    hi Pmenu        ctermfg=none ctermbg=234  cterm=none
+    hi LineNr       ctermfg=8    ctermbg=234  cterm=none
+    hi Pmenu        ctermfg=8    ctermbg=234  cterm=none
     hi CursorLine   ctermfg=none ctermbg=235  cterm=none
-    hi CursorLineNr ctermfg=7    ctermbg=235  cterm=bold
+    hi CursorLineNr ctermfg=none ctermbg=235  cterm=bold
     hi PmenuSbar    ctermfg=none ctermbg=236  cterm=none
     hi ColorColumn  ctermbg=none ctermbg=236  cterm=none
     hi DiffChange   ctermfg=236  ctermbg=none cterm=inverse,bold
@@ -128,28 +136,40 @@ if &bg == 'dark'
     hi PmenuSel     ctermfg=none ctermbg=237  cterm=bold
     hi IncSearch    ctermfg=none ctermbg=237  cterm=underline,bold
     hi WildMenu     ctermfg=none ctermbg=238  cterm=bold
+    hi MatchParen   ctermfg=none ctermbg=238  cterm=bold,underline
+
+    hi User6        ctermfg=none ctermbg=234  cterm=none
+    hi User3        ctermfg=none ctermbg=235  cterm=bold
+
+    hi User1        ctermfg=2    ctermbg=235  cterm=bold
+    hi User2        ctermfg=1    ctermbg=235  cterm=bold
+    hi User5        ctermfg=7    ctermbg=235  cterm=bold
+    hi User4        ctermfg=none ctermbg=236  cterm=none
 else
     " light
     hi StatusLine   ctermfg=none ctermbg=255  cterm=none
-    hi Pmenu        ctermfg=none ctermbg=254  cterm=none
+    hi Pmenu        ctermfg=7    ctermbg=254  cterm=none
+    hi LineNr       ctermfg=7    ctermbg=254  cterm=none
     hi CursorLine   ctermfg=none ctermbg=253  cterm=none
-    hi CursorLineNr ctermfg=8    ctermbg=253  cterm=bold
+    hi CursorLineNr ctermfg=none ctermbg=253  cterm=bold
     hi PmenuSbar    ctermfg=none ctermbg=252  cterm=none
     hi ColorColumn  ctermbg=none ctermbg=251  cterm=none
     hi DiffChange   ctermfg=251  ctermbg=none cterm=inverse,bold
     hi PmenuSel     ctermfg=none ctermbg=250  cterm=bold
     hi IncSearch    ctermfg=none ctermbg=250  cterm=underline,bold
     hi WildMenu     ctermfg=none ctermbg=248  cterm=bold
+    hi MatchParen   ctermfg=none ctermbg=248  cterm=bold,underline
+
+    hi User6        ctermfg=none ctermbg=234  cterm=none
+    hi User3        ctermfg=none ctermbg=235  cterm=bold
+
+    hi User1        ctermfg=2    ctermbg=253  cterm=bold
+    hi User2        ctermfg=1    ctermbg=253  cterm=bold
+    hi User5        ctermfg=7    ctermbg=253  cterm=bold
+    hi User4        ctermfg=none ctermbg=254  cterm=none
 endif
 
 
-" User {{{1
-hi User1        ctermfg=2    ctermbg=none cterm=bold
-hi User2        ctermfg=1    ctermbg=none cterm=bold
-hi User3        ctermfg=5    ctermbg=none cterm=bold
-hi User5        ctermfg=7    ctermbg=none cterm=bold
-hi User4        ctermfg=none ctermbg=0    cterm=none
-" }}}1
 
 " Vim Relink {{{
 hi link vimCommentTitle Title

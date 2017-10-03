@@ -3,6 +3,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Motion stuff
     Plug 'cyansprite/extract'
+    Plug 'cyansprite/confine'
     Plug 'thinca/vim-visualstar'
     Plug 'junegunn/vim-after-object'
 

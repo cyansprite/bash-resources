@@ -8,7 +8,7 @@ font pango: Oxygen Bold 10
 
 # colors {{{2
 # class                    brdr      bg     txt  indctr
-client.focused          #bbb9ff #bbb9ff #000000 #000000
+client.focused          #9f95ac #9f95ac #000000 #000000
 client.focused_inactive #0f0f0f #0f0f0f #ffffff #484e50
 client.unfocused        #33332f #33332f #bbbbbb #292d2e
 client.urgent           #2f343a #900000 #ffffff #900000
@@ -17,12 +17,12 @@ client.urgent           #2f343a #900000 #ffffff #900000
 # Status bar {{{2
 bar {
     colors {
-        background #2f2f3f
+        background #1c1c1f
         statusline #ffffff
         separator  #4f4f5f
 
-        focused_workspace  #ffffff #ffffff #2f2f3f
-        active_workspace   #333333 #5f676a #ffffff
+        focused_workspace  #9f95ac #9f95ac #2f2f3f
+        active_workspace   #333333 #444444 #b7b3c3
         inactive_workspace #333333 #888888 #222222
         urgent_workspace   #2f343a #900000 #ffffff
     }
@@ -119,7 +119,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 # Reload/restart/lock/quit i3 {{{1
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+s exec "i3lock -e -f -i ~/Pictures/tsufate.png -t -c 000000"
+bindsym $mod+Shift+s exec "i3lock -e -f -t -c 000000"
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Resize {{{1
