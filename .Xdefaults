@@ -29,15 +29,27 @@ URxvt*urgentOnBell:                     true
 ! Colors {{{1
 URxvt*fading:                 30
 URxvt*depth:                  32
+
+! Dark
 URxvt*background:    [95]#1a1a1a
 URxvt*foreground:        #f4e9dd
 URxvt*underlineColor:    #fff0aa
 URxvt*colorUL:           #f0ffaa
 URxvt*colorIT:           #f0a0a0
 URxvt*colorBD:           #a0f0ff
+
+! Light:
+! URxvt*background:    [95]#fafafa
+! URxvt*foreground:        #0a1105
+! URxvt*underlineColor:    #aaaa00
+! URxvt*colorUL:           #aaaa00
+! URxvt*colorIT:           #aa0000
+! URxvt*colorBD:           #00aaaa
+
+! Constants
 !! black
 *color0:                 #000000
-*color8:                 #4a4a4a
+*color8:                 #8a8a8a
 !! red
 *color1:                 #db9090
 *color9:                 #c24343
@@ -57,8 +69,10 @@ URxvt*colorBD:           #a0f0ff
 *color6:                 #90dbdb
 *color14:                #6acfcf
 !! grey
-*color7:                 #b6b6b6
-*color15:                #e7efe2
+! *color7:                 #b6b6b6
+!*color15:                #e7efe2
+*color7:                 #aaaaaa
+*color15:                #dbdbdb
 
 !! 256/88
 !! bg accents

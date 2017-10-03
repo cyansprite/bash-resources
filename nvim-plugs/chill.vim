@@ -15,17 +15,42 @@ hi EndOfBuffer  ctermfg=none ctermbg=none cterm=none
 hi ModeMsg      ctermfg=none ctermbg=none cterm=inverse,bold
 hi CursorLineNr ctermfg=none ctermbg=none cterm=inverse
 
+" Gui define s:colors {{{1
+let s:color0  = '000000'
+let s:color8  = '8a8a8a'
+
+let s:color1  = 'db9090'
+let s:color9  = 'c24343'
+
+let s:color2  = 'b6db90'
+let s:color10 = '82c243'
+
+let s:color3  = 'dbcf90'
+let s:color11 = 'db9970'
+
+let s:color4  = '9090db'
+let s:color12 = '90b6db'
+
+let s:color5  = 'b690db'
+let s:color13 = 'cf6acf'
+
+let s:color6  = '90dbdb'
+let s:color14 = '6acfcf'
+
+let s:color7  = 'b6b6b6'
+let s:color15 = 'e7efe2'
+
 " Red:    1{{{1
-hi String       ctermfg=1    ctermbg=none cterm=none
-hi Boolean      ctermfg=1    ctermbg=none cterm=none
+hi String       ctermfg=1  ctermbg=none cterm=none
+hi Boolean      ctermfg=1  ctermbg=none cterm=none
 
-hi Keyword      ctermfg=9    ctermbg=none cterm=none
-hi Character    ctermfg=9    ctermbg=none cterm=none
+hi Keyword      ctermfg=9  ctermbg=none cterm=none
+hi Character    ctermfg=9  ctermbg=none cterm=none
 
-hi Error        ctermfg=7    ctermbg=9    cterm=bold
-hi ErrorMsg     ctermfg=7    ctermbg=9    cterm=bold
-hi Whitespace   ctermfg=7    ctermbg=9    cterm=bold
-hi DiffDelete   ctermfg=7    ctermbg=9    cterm=bold
+hi Error        ctermfg=1  ctermbg=9    cterm=none
+hi ErrorMsg     ctermfg=15 ctermbg=9    cterm=bold
+hi Whitespace   ctermfg=15 ctermbg=9    cterm=bold
+hi DiffDelete   ctermfg=15 ctermbg=9    cterm=bold
 
 " Green:  2{{{1
 hi StorageClass ctermfg=2    ctermbg=none cterm=none
@@ -81,26 +106,40 @@ hi LineNr       ctermfg=7    ctermbg=none cterm=none
 hi ignore       ctermfg=7    ctermbg=none cterm=italic
 hi PreProc      ctermfg=7    ctermbg=none cterm=none
 hi Class        ctermfg=7    ctermbg=none cterm=none
-hi Operator     ctermfg=7    ctermbg=none cterm=bold
+hi Operator     ctermfg=8    ctermbg=none cterm=bold
+hi Search       ctermfg=none ctermbg=15   cterm=bold,inverse
 
 " Black:  0{{{1
 hi VertSplit    ctermfg=0    ctermbg=none cterm=none
 hi StatusLineNC ctermfg=8    ctermbg=232  cterm=none
 hi Comment      ctermfg=8    ctermbg=none cterm=italic
-hi Search       ctermfg=15   ctermbg=8    cterm=bold
+hi Visual       ctermfg=7    ctermbg=8 cterm=bold
 
 " 256 colors need converting FIXME {{{1
-" Grey
-hi StatusLine   ctermfg=none ctermbg=233  cterm=none
-hi Pmenu        ctermfg=none ctermbg=234  cterm=none
-hi CursorLine   ctermfg=none ctermbg=235  cterm=none
-hi PmenuSbar    ctermfg=none ctermbg=236  cterm=none
-hi ColorColumn  ctermbg=none ctermbg=236  cterm=none
-hi DiffChange   ctermfg=236  ctermbg=none cterm=inverse,bold
-hi Visual       ctermfg=none ctermbg=237  cterm=bold
-hi PmenuSel     ctermfg=none ctermbg=237  cterm=bold
-hi IncSearch    ctermfg=none ctermbg=237  cterm=underline,bold
-hi WildMenu     ctermfg=none ctermbg=238  cterm=bold
+if &bg == 'dark'
+    " dark
+    hi StatusLine   ctermfg=none ctermbg=233  cterm=none
+    hi Pmenu        ctermfg=none ctermbg=234  cterm=none
+    hi CursorLine   ctermfg=none ctermbg=235  cterm=none
+    hi PmenuSbar    ctermfg=none ctermbg=236  cterm=none
+    hi ColorColumn  ctermbg=none ctermbg=236  cterm=none
+    hi DiffChange   ctermfg=236  ctermbg=none cterm=inverse,bold
+    hi Visual       ctermfg=none ctermbg=237  cterm=bold
+    hi PmenuSel     ctermfg=none ctermbg=237  cterm=bold
+    hi IncSearch    ctermfg=none ctermbg=237  cterm=underline,bold
+    hi WildMenu     ctermfg=none ctermbg=238  cterm=bold
+else
+    " light
+    hi StatusLine   ctermfg=none ctermbg=255  cterm=none
+    hi Pmenu        ctermfg=none ctermbg=254  cterm=none
+    hi CursorLine   ctermfg=none ctermbg=253  cterm=none
+    hi PmenuSbar    ctermfg=none ctermbg=252  cterm=none
+    hi ColorColumn  ctermbg=none ctermbg=251  cterm=none
+    hi DiffChange   ctermfg=251  ctermbg=none cterm=inverse,bold
+    hi PmenuSel     ctermfg=none ctermbg=250  cterm=bold
+    hi IncSearch    ctermfg=none ctermbg=250  cterm=underline,bold
+    hi WildMenu     ctermfg=none ctermbg=248  cterm=bold
+endif
 
 
 " User {{{1
@@ -119,15 +158,3 @@ hi link diffAdded   DiffAdd
 hi link diffRemoved DiffDelete
 hi link QuickFixLine ModeMsg
 " }}}
-
-" Special {{{1
-if &term =~ "xterm\\|rxvt"
-  " use an orange cursor in insert mode
-  let &t_SI = "\<Esc>]12;orange\x7"
-  " use a red cursor otherwise
-  let &t_EI = "\<Esc>]12;red\x7"
-  silent !echo -ne "\033]12;red\007"
-  " reset cursor when vim exits
-  autocmd VimLeave * silent !echo -ne "\033]112\007"
-  " use \003]12;gray\007 for gnome-terminal and rxvt up to version 9.21
-endif
