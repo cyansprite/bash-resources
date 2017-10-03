@@ -13,7 +13,6 @@ hi MatchParen   ctermfg=none ctermbg=none cterm=bold,underline
 hi Folded       ctermfg=none ctermbg=none cterm=bold
 hi EndOfBuffer  ctermfg=none ctermbg=none cterm=none
 hi ModeMsg      ctermfg=none ctermbg=none cterm=inverse,bold
-hi CursorLineNr ctermfg=none ctermbg=none cterm=inverse
 
 " Gui define s:colors {{{1
 let s:color0  = '000000'
@@ -115,12 +114,13 @@ hi StatusLineNC ctermfg=8    ctermbg=232  cterm=none
 hi Comment      ctermfg=8    ctermbg=none cterm=italic
 hi Visual       ctermfg=7    ctermbg=8 cterm=bold
 
-" 256 colors need converting FIXME {{{1
+" 256 colors , accents {{{1
 if &bg == 'dark'
     " dark
     hi StatusLine   ctermfg=none ctermbg=233  cterm=none
     hi Pmenu        ctermfg=none ctermbg=234  cterm=none
     hi CursorLine   ctermfg=none ctermbg=235  cterm=none
+    hi CursorLineNr ctermfg=7    ctermbg=235  cterm=bold
     hi PmenuSbar    ctermfg=none ctermbg=236  cterm=none
     hi ColorColumn  ctermbg=none ctermbg=236  cterm=none
     hi DiffChange   ctermfg=236  ctermbg=none cterm=inverse,bold
@@ -133,6 +133,7 @@ else
     hi StatusLine   ctermfg=none ctermbg=255  cterm=none
     hi Pmenu        ctermfg=none ctermbg=254  cterm=none
     hi CursorLine   ctermfg=none ctermbg=253  cterm=none
+    hi CursorLineNr ctermfg=8    ctermbg=253  cterm=bold
     hi PmenuSbar    ctermfg=none ctermbg=252  cterm=none
     hi ColorColumn  ctermbg=none ctermbg=251  cterm=none
     hi DiffChange   ctermfg=251  ctermbg=none cterm=inverse,bold

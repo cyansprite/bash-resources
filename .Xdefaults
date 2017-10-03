@@ -32,19 +32,11 @@ URxvt*depth:                  32
 
 ! Dark
 URxvt*background:    [95]#1a1a1a
-URxvt*foreground:        #f4e9dd
-URxvt*underlineColor:    #fff0aa
-URxvt*colorUL:           #f0ffaa
-URxvt*colorIT:           #f0a0a0
-URxvt*colorBD:           #a0f0ff
-
-! Light:
-! URxvt*background:    [95]#fafafa
-! URxvt*foreground:        #0a1105
-! URxvt*underlineColor:    #aaaa00
-! URxvt*colorUL:           #aaaa00
-! URxvt*colorIT:           #aa0000
-! URxvt*colorBD:           #00aaaa
+URxvt*foreground:        #e4f9dd
+URxvt*underlineColor:    #fff0ca
+URxvt*colorUL:           #f0ffca
+URxvt*colorIT:           #f0c0c0
+URxvt*colorBD:           #c0f0ff
 
 ! Constants
 !! black

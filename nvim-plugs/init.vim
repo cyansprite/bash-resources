@@ -7,6 +7,7 @@ else
 endif
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 colo chill
+set bg=dark
 "}}}
 
 "Begin Vim set {{{
