@@ -87,9 +87,11 @@ set bg=dark
 "Begin Vim map {{{
     " Refresh my script bitch!
     nnoremap <F5> :w \| so %<cr>
+    nnoremap <F4><F4> :confirm qall<cr>
 
     " I use this too much for it to not be a mapping
     nnoremap <leader>ee :e **/*
+    nnoremap <leader>ea :e <c-r>%<c-w>
     nnoremap <leader>aa :argadd **/*
     nnoremap <leader>vv :vsp **/*
     nnoremap <leader>ss :sp **/*
@@ -99,7 +101,7 @@ set bg=dark
     map ' `
 
     " Hls ease
-    nnoremap <space> :set hlsearch!<cr>
+    nnoremap <silent><space> :silent set hlsearch!<cr>
     nnoremap n :set hlsearch<cr>n
     nnoremap N :set hlsearch<cr>N
     nnoremap / :set hlsearch<cr>/
@@ -130,6 +132,10 @@ set bg=dark
     " I don't know why this isn't default
     nnoremap Y y$
 
+    " Bubbler
+    nnoremap <cr> o<esc>
+    nnoremap <m-cr> O<esc>
+
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
     map <m-i> bi
@@ -151,10 +157,9 @@ set bg=dark
                 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
                 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
-"End Vim Map }}}
+" End Vim Map }}}
 
 " Status Line {{{
-" TODO cache so don't update everytime unless needed
 function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%#LineNr#\ %{getcwd()}\ %*
@@ -172,7 +177,9 @@ function! StatusLine()
 
     " Right: linenr,column    PositionBar()
     setl statusline+=%-10.(%#CursorLineNr#\ %l,%c%)
-    setl statusline+=%-22.(%#LineNr#\ [\ %{PositionBar()}%)\ ]\ %*
+    setl statusline+=%-22.(%#LineNr#\ [\ %{PositionBarLeft()}
+                          \%#CursorLineNr#%{PositionBar()}
+                          \%#LineNr#%{PositionBarRight()}%)\ ]\ %*
 endfunction
 
 function! StatusLineNC()
@@ -200,11 +207,34 @@ func! CurArg()
     return l:rtn
 endfun
 
+func! PositionBarRight()
+     return repeat(s:scrolltrack, float2nr(round(s:scrollrratio)))
+endfunc
+
 func! PositionBar()
+     return s:scrollpos
+endfunc
+
+func! PositionBarLeft()
     let cnt=line("$") * 1.0
     let current=line('.') * 1.0
+    let desiredlength=20.0
     let length=20.0
+    " If we don't have 20 lines don't display 20 dots...
+    if l:cnt < l:length
+        let l:length = l:cnt
+    endif
     let track='·'
+
+    let ratio=(l:current/l:cnt)*l:length
+    let rratio=l:length-l:ratio
+
+    " If we are greater than the length, something is wrong, and if we can never reach the end, something
+    " is also wrong.
+    if (l:ratio >= 0.5 && l:cnt < l:desiredlength * 2) || round(l:ratio) + round(l:rratio) > l:length
+        let l:ratio -= 1
+    endif
+
     if l:current == 1
         let pos = '|=='
     elseif l:current != l:cnt
@@ -212,9 +242,12 @@ func! PositionBar()
     else
         let pos='==|'
     endif
-    let ratio=(l:current/l:cnt)*l:length
-    let rratio=l:length-l:ratio
-    return repeat(l:track, float2nr(round(l:ratio))) . l:pos . repeat(l:track, float2nr(round(l:rratio)))
+
+    let s:scrollrratio = l:rratio
+    let s:scrollpos = l:pos
+    let s:scrolltrack = l:track
+
+    return repeat(l:track, float2nr(round(l:ratio)))
 endfunc  "}}}
 
 " Enter/LeaveWin {{{
@@ -288,19 +321,47 @@ augroup init
     autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
     autocmd WinEnter * cal EnterWin()
     autocmd WinLeave * cal LeaveWin()
+    autocmd CursorHold * call HighlightOnHold()
 augroup END
 "}}}
 
-" TODO add g= and Opposite of J {{{1
-" Fix this and possibly make a plugin... {{{
-" hi holdSearch guifg=none guibg=#4a5f58 gui=none
-" set updatetime=500
-" func! HighlightOnHold()
-"     tr
-"         "echo expand("<cword>")
-"         exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
-"     catch /.*/
-"     endtry
-" endfun
+" Make a plugin.?.?.? {{{
+set updatetime=500
+let g:highlightactive=1
+nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|silent call HighlightOnHold()<cr>
+echo search('\%>'.line('.').'l\%<'.line('.').'l^\V' . escape(split(&commentstring, "%s")[0], '/'))
+func! HighlightOnHold()
+    if g:highlightactive
+        try
+            exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
+        catch /.*/
+        endtry
+    else
+        exec printf("2match holdSearch \/\\<%s\\>\/", "")
+    endif
+endfun
 " }}}
 
+" Let's comment toggle :) gc FIXME {{{
+noremap <silent>gc :call Comment()<cr>
+
+func! Comment()
+    let pos = getcurpos()
+
+    let iscom=search('\%>'.(line('.')-1).
+                \ 'l\%<'.(line('.')+1).'l^\V'  .
+                \ split(&commentstring, "%s")[0], 'w')
+
+    if l:iscom
+        norm! I
+        norm! dw
+    else
+        call setline('.', printf(&commentstring, ' ' . getline('.')))
+    endif
+
+    call setpos('.', l:pos)
+    return ""
+endfunc
+" }}}
+
+" TODO add g= and Opposite of J {{{1

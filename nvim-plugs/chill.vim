@@ -2,7 +2,7 @@
 " Maintainer:   Jojo Brandon Coffman <https://github.com/cyansprite>
 " Title:        Chill
 " Description:  Theme based on dull colors and espurr.
-" Requirements: Rxvt Colors or GUI colors.
+" Requirements: Rxvt Colors or GUI color support.
 " Setup   +{{{1
 hi clear
 if exists("syntax_on")
@@ -87,116 +87,117 @@ let s:xGrey = {
 \}
 
 " Nons:   -{{{1
-  call s:hy('Normal',       'none', 'none', s:fg,           s:bg,           'none')
-  call s:hy('Folded',       'none', 'none', s:bold,         s:bg,           'bold')
-  call s:hy('ModeMsg',      'none', 'none', s:bold,         s:bg,           'bold')
-  call s:hy('Cursor',       'none', 'none', s:color15,      s:bg,           'bold')
-  call s:hy('Search',       'none', 'none', 'none',         'none',         'bold,inverse')
-  call s:hy('EndOfBuffer',  'none', 'none', 'none',         'none',         'none')
+  call s:hy('Normal',       'none', 'none', s:fg,      s:bg,   'none'         )
+  call s:hy('Folded',       'none', 'none', s:bold,    s:bg,   'bold'         )
+  call s:hy('ModeMsg',      'none', 'none', s:bold,    s:bg,   'bold'         )
+  call s:hy('QuickFixLine', 'none', 'none', s:bold,    s:bg,   'bold'         )
+  call s:hy('Cursor',       'none', 'none', s:color15, s:bg,   'bold'         )
+  call s:hy('Search',       'none', 'none', 'none',    'none', 'bold,inverse' )
+  call s:hy('EndOfBuffer',  'none', 'none', 'none',    'none', 'none'         )
 
 " Red:    1{{{1
-  call s:hy('String',       '1',    'none', s:color1,       'bg',           'none')
-  call s:hy('Boolean',      '1',    'none', s:color1,       'bg',           'none')
+  call s:hy('String',     '1',  'none', s:color1,  'bg',     'none')
+  call s:hy('Boolean',    '1',  'none', s:color1,  'bg',     'none')
 
-  call s:hy('Keyword',      '9',    'none', s:color9,       'bg',           'none')
-  call s:hy('Character',    '9',    'none', s:color9,       'bg',           'none')
+  call s:hy('Keyword',    '9',  'none', s:color9,  'bg',     'none')
+  call s:hy('Character',  '9',  'none', s:color9,  'bg',     'none')
 
-  call s:hy('Error',        '1',    '9',    s:color1,       s:color9,       'none')
-  call s:hy('ErrorMsg',     '15',   '9',    s:color15,      s:color9,       'bold')
-  call s:hy('Whitespace',   '15',   '9',    s:color15,      s:color9,       'bold')
-  call s:hy('DiffDelete',   '15',   '9',    s:color15,      s:color9,       'bold')
+  call s:hy('Error',      '1',  '9',    s:color1,  s:color9, 'none')
+  call s:hy('ErrorMsg',   '15', '9',    s:color15, s:color9, 'bold')
+  call s:hy('Whitespace', '15', '9',    s:color15, s:color9, 'bold')
+  call s:hy('DiffDelete', '15', '9',    s:color15, s:color9, 'bold')
 
 " Green:  2{{{1
-  call s:hy('StorageClass', '2',    'none', s:color2,       'bg',           'none')
-  call s:hy('Structure',    '2',    'none', s:color2,       'bg',           'none')
-  call s:hy('Typedef',      '2',    'none', s:color2,       'bg',           'none')
+  call s:hy('StorageClass', '2',  'none', s:color2,  'bg',      'none'         )
+  call s:hy('Structure',    '2',  'none', s:color2,  'bg',      'none'         )
+  call s:hy('Typedef',      '2',  'none', s:color2,  'bg',      'none'         )
 
-  call s:hy('Type',         '10',   'none', s:color10,      'bg',           'none')
+  call s:hy('Type',         '10', 'none', s:color10, 'bg',      'none'         )
 
-  call s:hy('MoreMsg',      '10',   'none', s:color10,      'bg',           'bold,inverse')
-  call s:hy('DiffAdd',      '15',   '10',   s:color15,      s:color10,      'none')
+  call s:hy('MoreMsg',      '10', 'none', s:color10, 'bg',      'bold,inverse' )
+  call s:hy('DiffAdd',      '15', '10',   s:color15, s:color10, 'none'         )
 
 " Yellow: 3{{{1
-  call s:hy('PreCondit',    '3',    'none', s:color3,       'bg',           'none')
-  call s:hy('Structure',    '3',    'none', s:color3,       'bg',           'none')
-  call s:hy('TypeDef',      '3',    'none', s:color3,       'bg',           'none')
+  call s:hy('PreCondit',    '3',  'none', s:color3,  'bg', 'none'         )
+  call s:hy('Structure',    '3',  'none', s:color3,  'bg', 'none'         )
+  call s:hy('TypeDef',      '3',  'none', s:color3,  'bg', 'none'         )
 
-  call s:hy('StorageClass', '11',   'none', s:color11,      'bg',           'none')
-  call s:hy('Directory',    '11',   'none', s:color11,      'bg',           'none')
-  call s:hy('Todo',         '11',   'none', s:color11,      'bg',           'bold')
+  call s:hy('StorageClass', '11', 'none', s:color11, 'bg', 'none'         )
+  call s:hy('Directory',    '11', 'none', s:color11, 'bg', 'none'         )
+  call s:hy('Todo',         '11', 'none', s:color11, 'bg', 'bold'         )
 
-  call s:hy('MoreMsg',      '3',    'none', s:color3,       'bg',           'bold,inverse')
+  call s:hy('MoreMsg',      '3',  'none', s:color3,  'bg', 'bold,inverse' )
 
 
 " Blue:   4{{{1
-  call s:hy('NonText',      '4',    'none', s:color4,       'bg',           'none')
-  call s:hy('Special',      '4',    'none', s:color4,       'bg',           'none')
-  call s:hy('SpecialChar',  '4',    'none', s:color4,       'bg',           'none')
-  call s:hy('SpecialKey',   '4',    'none', s:color4,       'bg',           'none')
-  call s:hy('Label',        '12',   'none', s:color12,      'bg',           'none')
-  call s:hy('Identifier',   '12',   'none', s:color12,      'bg',           'none')
+  call s:hy('NonText',     '4',  'none', s:color4,  'bg', 'none')
+  call s:hy('Special',     '4',  'none', s:color4,  'bg', 'none')
+  call s:hy('SpecialChar', '4',  'none', s:color4,  'bg', 'none')
+  call s:hy('SpecialKey',  '4',  'none', s:color4,  'bg', 'none')
+  call s:hy('Label',       '12', 'none', s:color12, 'bg', 'none')
+  call s:hy('Identifier',  '12', 'none', s:color12, 'bg', 'none')
 
 " Purple: 5{{{1
-  call s:hy('Delimeter',    '5',    'none', s:color5,       'bg',           'none')
-  call s:hy('Constant',     '5',    'none', s:color5,       'bg',           'none')
-  call s:hy('Number',       '5',    'none', s:color5,       'bg',           'none')
-  call s:hy('Statement',    '5',    'none', s:color5,       'bg',           'none')
-  call s:hy('Conditonal',   '5',    'none', s:color5,       'bg',           'none')
+  call s:hy('Delimeter',  '5',  'none', s:color5,  'bg', 'none'         )
+  call s:hy('Constant',   '5',  'none', s:color5,  'bg', 'none'         )
+  call s:hy('Number',     '5',  'none', s:color5,  'bg', 'none'         )
+  call s:hy('Statement',  '5',  'none', s:color5,  'bg', 'none'         )
+  call s:hy('Conditonal', '5',  'none', s:color5,  'bg', 'none'         )
 
-  call s:hy('Repeat',       '13',   'none', s:color13,      'bg',           'none')
-  call s:hy('Float',        '13',   'none', s:color13,      'bg',           'none')
-  call s:hy('Title',        '13',   'none', s:color13,      'bg',           'bold')
+  call s:hy('Repeat',     '13', 'none', s:color13, 'bg', 'none'         )
+  call s:hy('Float',      '13', 'none', s:color13, 'bg', 'none'         )
+  call s:hy('Title',      '13', 'none', s:color13, 'bg', 'bold'         )
 
-  call s:hy('Question',     '13',   'none', s:color13,      'bg',           'bold,inverse')
+  call s:hy('Question',   '13', 'none', s:color13, 'bg', 'bold,inverse' )
 
 " Cyan:   6{{{1
-  call s:hy('Member',       '6',    'none', s:color6,       'bg',           'none')
-  call s:hy('Function',     '6',    'none', s:color6,       'bg',           'none')
-  call s:hy('PMenuThumb',   'none', '6',    'none',         s:color6,       'none')
+  call s:hy('Member',     '6',    'none', s:color6,  'bg',      'none')
+  call s:hy('Function',   '6',    'none', s:color6,  'bg',      'none')
+  call s:hy('PMenuThumb', 'none', '6',    'none',    s:color6,  'none')
 
-  call s:hy('DiffText',     '15',   '14',   s:color15,      s:color14,      'none')
+  call s:hy('DiffText',   '15',   '14',   s:color15, s:color14, 'none')
 
 " Grey:   7{{{1
-  call s:hy('Ignore',       '7',    'none', s:color7,       'bg',           'italic')
-  call s:hy('PreProc',      '7',    'none', s:color7,       'bg',           'none')
-  call s:hy('Class',        '7',    'none', s:color7,       'bg',           'none')
-  call s:hy('Operator',     '7',    'none', s:color7,       'bg',           'none')
+  call s:hy('Ignore',   '7', 'none', s:color7, 'bg', 'italic' )
+  call s:hy('PreProc',  '7', 'none', s:color7, 'bg', 'none'   )
+  call s:hy('Class',    '7', 'none', s:color7, 'bg', 'none'   )
+  call s:hy('Operator', '7', 'none', s:color7, 'bg', 'none'   )
 
 " Black:  0{{{1
-  call s:hy('VertSplit',    '0',    'none', s:color0,       'bg',           'none')
 " TODO discover why gui hates italics.
-  call s:hy('Comment',      '8',    'none', s:color8,       'bg',           'none')
-  call s:hy('StatuslineNc', '8',    '235',  s:color8,       s:xGrey['235'], 'none')
+  call s:hy('VertSplit',    '0', 'none', s:color0, 'bg',           'none')
+  call s:hy('Comment',      '8', 'none', s:color8, 'bg',           'none')
+  call s:hy('StatuslineNc', '8', '235',  s:color8, s:xGrey['235'], 'none')
 
 " Accent: *{{{1
 " dark
-  call s:hy('StatusLine',   'none', '233 ', 'fg',           s:xGrey['233'], 'none')
-  call s:hy('LineNr',       '8   ', '234 ', s:color8,       s:xGrey['234'], 'none')
-  call s:hy('Pmenu',        '8   ', '234 ', s:color8,       s:xGrey['234'], 'none')
-  call s:hy('CursorLine',   'none', '235 ', 'none',         s:xGrey['235'], 'none')
-  call s:hy('CursorLineNr', 'none', '235 ', s:bold,         s:xGrey['235'], 'bold')
-  call s:hy('PmenuSbar',    'none', '236 ', 'none',         s:xGrey['236'], 'none')
-  call s:hy('ColorColumn',  'none', '236 ', 'none',         s:xGrey['236'], 'none')
-  call s:hy('DiffChange',   '236 ', 'none', s:xGrey['236'], 'none',         'bold,inverse')
-  call s:hy('Visual',       'none', '237 ', 'none',         s:xGrey['237'], 'bold')
-  call s:hy('PmenuSel',     'none', '237 ', s:bold,         s:xGrey['237'], 'bold')
-  call s:hy('IncSearch',    'none', '237 ', s:bold,         s:xGrey['237'], 'bold,underline')
-  call s:hy('WildMenu',     'none', '238 ', s:bold,         s:xGrey['238'], 'bold')
-  call s:hy('MatchParen',   'none', '238 ', s:bold,         s:xGrey['238'], 'bold,underline')
+  call s:hy('StatusLine',   'none', '233 ', 'fg',           s:xGrey['233'], 'none'           )
+  call s:hy('LineNr',       '8   ', '234 ', s:color8,       s:xGrey['234'], 'none'           )
+  call s:hy('Pmenu',        '8   ', '234 ', s:color8,       s:xGrey['234'], 'none'           )
+  call s:hy('CursorLine',   'none', '235 ', 'none',         s:xGrey['235'], 'none'           )
+  call s:hy('CursorLineNr', 'none', '235 ', s:bold,         s:xGrey['235'], 'bold'           )
+  call s:hy('PmenuSbar',    'none', '236 ', 'none',         s:xGrey['236'], 'none'           )
+  call s:hy('ColorColumn',  'none', '236 ', 'none',         s:xGrey['236'], 'none'           )
+  call s:hy('DiffChange',   '236 ', 'none', s:xGrey['236'], 'none',         'bold,inverse'   )
+  call s:hy('Visual',       'none', '237 ', 'none',         s:xGrey['237'], 'bold'           )
+  call s:hy('PmenuSel',     'none', '237 ', s:bold,         s:xGrey['237'], 'bold'           )
+  call s:hy('IncSearch',    'none', '237 ', s:bold,         s:xGrey['237'], 'bold,underline' )
+  call s:hy('WildMenu',     'none', '238 ', s:bold,         s:xGrey['238'], 'bold'           )
+  call s:hy('MatchParen',   'none', '238 ', s:bold,         s:xGrey['238'], 'bold,underline' )
 
-  call s:hy('User6',        'none', '234',  'none',         s:xGrey['234'], 'none')
-  call s:hy('User3',        'none', '235',  'none',         s:xGrey['235'], 'bold')
-  call s:hy('User1',        '2   ', '235',  s:color2,       s:xGrey['235'], 'bold')
-  call s:hy('User2',        '1   ', '235',  s:color1,       s:xGrey['235'], 'bold')
-  call s:hy('User5',        '7   ', '235',  s:color7,       s:xGrey['235'], 'bold')
-  call s:hy('User4',        'none', '236',  'none',         s:xGrey['236'], 'none')
+  call s:hy('User6',        'none', '234',  'none',         s:xGrey['234'], 'none'           )
+  call s:hy('User3',        'none', '235',  'none',         s:xGrey['235'], 'bold'           )
+  call s:hy('User1',        '2   ', '235',  s:color2,       s:xGrey['235'], 'bold'           )
+  call s:hy('User2',        '1   ', '235',  s:color1,       s:xGrey['235'], 'bold'           )
+  call s:hy('User5',        '7   ', '235',  s:color7,       s:xGrey['235'], 'bold'           )
+  call s:hy('User4',        'none', '236',  'none',         s:xGrey['236'], 'none'           )
 
+  call s:hy('holdSearch',   'none', '240',  'none',         s:xGrey['240'], 'none'           )
 
-" Vim Relink {{{
+" Relink  >{{{1
 hi link vimCommentTitle Title
-hi link vimIsCommand Constant
-hi link vimHighlight Member
-hi link diffAdded   DiffAdd
-hi link diffRemoved DiffDelete
-hi link QuickFixLine ModeMsg
+hi link vimIsCommand    Constant
+hi link vimHighlight    Member
+hi link diffAdded       DiffAdd
+hi link diffRemoved     DiffDelete
 " }}}

@@ -50,6 +50,7 @@ for_window [title="BuildSpell"] border none
 # Start the urxvt kuake terminal and make it float
 exec urxvt -pe kuake title="Kuake"
 for_window [title="Kuake"] floating enable, border none, resize set 800 472
+for_window [title="Google Hangouts"] floating enable, resize set 420, 200
 
 # Move/focus/kill {{{1
 bindsym $mod+Shift+q kill
