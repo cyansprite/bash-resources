@@ -1,4 +1,4 @@
-" Vim:          Color file
+" Vim:          Color file / Generate Color file
 " Maintainer:   Jojo Brandon Coffman <https://github.com/cyansprite>
 " Title:        Chill
 " Description:  Theme based on dull colors and espurr.
@@ -8,167 +8,188 @@ hi clear
 if exists("syntax_on")
     syntax reset
 endif
-
 let g:colors_name = "chill"
-" Gui:    o{{{1
-let s:fg        = '9595ac'
-let s:bg        = '1a1a1a'
 
-let s:bold      = 'cfc5fc'
-let s:italic    = 'f0c0c0'
-let s:underline = 'f0ffca'
+" If you want it to spit out what's happening/generate a color file.
+let s:debug     = 0
 
-let s:color0    = '000000'
-let s:color8    = '6f6f6f'
+" Function to make life easier.
+func! s:hy(name,cf,cb,gf,gb,t)
+    if s:debug
+        echom 'hi '.a:name.' ctermfg='.a:cf.' ctermbg='.a:cb.' cterm='.a:t.
+                    \    ' guifg='  .a:gf.' guibg='  .a:gb.' gui='   a:t
+    endif
+    exec 'hi '.a:name.' ctermfg='.a:cf.' ctermbg='.a:cb.' cterm='.a:t.
+                 \    ' guifg='  .a:gf.' guibg='  .a:gb.' gui='   a:t
+endfunc
 
-let s:color1    = 'db9090'
-let s:color9    = 'c24343'
+" GuiDef: o{{{1
+" Foreground and Background.
+let s:fg        = '#9595ac'
+let s:bg        = '#1a1a1a'
 
-let s:color2    = 'b6db90'
-let s:color10   = '82c243'
+" Rxvt spoiled me.
+let s:bold      = '#cfc5fc'
+let s:italic    = '#f0c0c0'
+let s:underline = '#f0ffca'
 
-let s:color3    = 'dbcf90'
-let s:color11   = 'db9970'
+" Term colors go here.
+let s:color0    = '#000000'
+let s:color8    = '#6f6f6f'
 
-let s:color4    = '9090db'
-let s:color12   = '90b6db'
+let s:color1    = '#db9090'
+let s:color9    = '#c24343'
 
-let s:color5    = 'b690db'
-let s:color13   = 'db90b6'
+let s:color2    = '#b6db90'
+let s:color10   = '#82c243'
 
-let s:color6    = '90dbdb'
-let s:color14   = '6acfcf'
+let s:color3    = '#dbcf90'
+let s:color11   = '#db9970'
 
-let s:color7    = '909090'
-let s:color15   = 'dbdbdb'
+let s:color4    = '#9090db'
+let s:color12   = '#90b6db'
+
+let s:color5    = '#b690db'
+let s:color13   = '#db90b6'
+
+let s:color6    = '#90dbdb'
+let s:color14   = '#6acfcf'
+
+let s:color7    = '#909090'
+let s:color15   = '#dbdbdb'
+
+" If you don't like grey, change these.
+let s:xGrey = {
+    \'232': '#080808',
+    \'233': '#121212',
+    \'234': '#1c1c1c',
+    \'235': '#262626',
+    \'236': '#303030',
+    \'237': '#3a3a3a',
+    \'238': '#444444',
+    \'239': '#4e4e4e',
+    \'240': '#585858',
+    \'241': '#606060',
+    \'242': '#666666',
+    \'243': '#767676',
+    \'244': '#808080',
+    \'245': '#8a8a8a',
+    \'246': '#949494',
+    \'247': '#9e9e9e',
+    \'248': '#a8a8a8',
+    \'249': '#b2b2b2',
+    \'250': '#bcbcbc',
+    \'251': '#c6c6c6',
+    \'252': '#d0d0d0',
+    \'253': '#dadada',
+    \'254': '#e4e4e4',
+    \'255': '#eeeeee'
+\}
 
 " Nons:   -{{{1
-hi Normal       ctermfg=none ctermbg=none cterm=none
-hi Folded       ctermfg=none ctermbg=none cterm=bold
-hi EndOfBuffer  ctermfg=none ctermbg=none cterm=none
-hi ModeMsg      ctermfg=none ctermbg=none cterm=inverse,bold
+  call s:hy('Normal',       'none', 'none', s:fg,           s:bg,           'none')
+  call s:hy('Folded',       'none', 'none', s:bold,         s:bg,           'bold')
+  call s:hy('ModeMsg',      'none', 'none', s:bold,         s:bg,           'bold')
+  call s:hy('Cursor',       'none', 'none', s:color15,      s:bg,           'bold')
+  call s:hy('Search',       'none', 'none', 'none',         'none',         'bold,inverse')
+  call s:hy('EndOfBuffer',  'none', 'none', 'none',         'none',         'none')
 
 " Red:    1{{{1
-hi String       ctermfg=1  ctermbg=none cterm=none
-hi Boolean      ctermfg=1  ctermbg=none cterm=none
+  call s:hy('String',       '1',    'none', s:color1,       'bg',           'none')
+  call s:hy('Boolean',      '1',    'none', s:color1,       'bg',           'none')
 
-hi Keyword      ctermfg=9  ctermbg=none cterm=none
-hi Character    ctermfg=9  ctermbg=none cterm=none
+  call s:hy('Keyword',      '9',    'none', s:color9,       'bg',           'none')
+  call s:hy('Character',    '9',    'none', s:color9,       'bg',           'none')
 
-hi Error        ctermfg=1  ctermbg=9    cterm=none
-hi ErrorMsg     ctermfg=15 ctermbg=9    cterm=bold
-hi Whitespace   ctermfg=15 ctermbg=9    cterm=bold
-hi DiffDelete   ctermfg=15 ctermbg=9    cterm=bold
+  call s:hy('Error',        '1',    '9',    s:color1,       s:color9,       'none')
+  call s:hy('ErrorMsg',     '15',   '9',    s:color15,      s:color9,       'bold')
+  call s:hy('Whitespace',   '15',   '9',    s:color15,      s:color9,       'bold')
+  call s:hy('DiffDelete',   '15',   '9',    s:color15,      s:color9,       'bold')
 
 " Green:  2{{{1
-hi StorageClass ctermfg=2    ctermbg=none cterm=none
-hi Structure    ctermfg=2    ctermbg=none cterm=none
-hi Typedef      ctermfg=2    ctermbg=none cterm=none
+  call s:hy('StorageClass', '2',    'none', s:color2,       'bg',           'none')
+  call s:hy('Structure',    '2',    'none', s:color2,       'bg',           'none')
+  call s:hy('Typedef',      '2',    'none', s:color2,       'bg',           'none')
 
-hi Type         ctermfg=10   ctermbg=none cterm=none
-hi MoreMsg      ctermfg=10   ctermbg=none cterm=inverse,bold
-hi DiffAdd      ctermfg=15   ctermbg=10   cterm=bold
+  call s:hy('Type',         '10',   'none', s:color10,      'bg',           'none')
+
+  call s:hy('MoreMsg',      '10',   'none', s:color10,      'bg',           'bold,inverse')
+  call s:hy('DiffAdd',      '15',   '10',   s:color15,      s:color10,      'none')
 
 " Yellow: 3{{{1
-hi PreCondit    ctermfg=3    ctermbg=none cterm=none
-hi Structure    ctermfg=3    ctermbg=none cterm=none
-hi TypeDef      ctermfg=3    ctermbg=none cterm=none
+  call s:hy('PreCondit',    '3',    'none', s:color3,       'bg',           'none')
+  call s:hy('Structure',    '3',    'none', s:color3,       'bg',           'none')
+  call s:hy('TypeDef',      '3',    'none', s:color3,       'bg',           'none')
 
-hi StorageClass ctermfg=11   ctermbg=none cterm=none
-hi Directory    ctermfg=11   ctermbg=none cterm=none
-hi Todo         ctermfg=11   ctermbg=none cterm=bold
+  call s:hy('StorageClass', '11',   'none', s:color11,      'bg',           'none')
+  call s:hy('Directory',    '11',   'none', s:color11,      'bg',           'none')
+  call s:hy('Todo',         '11',   'none', s:color11,      'bg',           'bold')
 
-hi WarningMsg   ctermfg=3    ctermbg=none cterm=inverse,bold
+  call s:hy('MoreMsg',      '3',    'none', s:color3,       'bg',           'bold,inverse')
 
 
 " Blue:   4{{{1
-hi NonText      ctermfg=4    ctermbg=none cterm=none
-hi Special      ctermfg=4    ctermbg=none cterm=none
-hi SpecialChar  ctermfg=4    ctermbg=none cterm=none
-hi SpecialKey   ctermfg=4    ctermbg=none cterm=none
-hi Label        ctermfg=12   ctermbg=none cterm=none
-hi Identifier   ctermfg=12   ctermbg=none cterm=none
+  call s:hy('NonText',      '4',    'none', s:color4,       'bg',           'none')
+  call s:hy('Special',      '4',    'none', s:color4,       'bg',           'none')
+  call s:hy('SpecialChar',  '4',    'none', s:color4,       'bg',           'none')
+  call s:hy('SpecialKey',   '4',    'none', s:color4,       'bg',           'none')
+  call s:hy('Label',        '12',   'none', s:color12,      'bg',           'none')
+  call s:hy('Identifier',   '12',   'none', s:color12,      'bg',           'none')
 
 " Purple: 5{{{1
-hi Delimeter    ctermfg=5    ctermbg=none cterm=none
-hi Constant     ctermfg=5    ctermbg=none cterm=none
-hi Number       ctermfg=5    ctermbg=none cterm=none
-hi Statement    ctermfg=5    ctermbg=none cterm=none
-hi Conditional  ctermfg=5    ctermbg=none cterm=none
+  call s:hy('Delimeter',    '5',    'none', s:color5,       'bg',           'none')
+  call s:hy('Constant',     '5',    'none', s:color5,       'bg',           'none')
+  call s:hy('Number',       '5',    'none', s:color5,       'bg',           'none')
+  call s:hy('Statement',    '5',    'none', s:color5,       'bg',           'none')
+  call s:hy('Conditonal',   '5',    'none', s:color5,       'bg',           'none')
 
-hi Repeat       ctermfg=13   ctermbg=none cterm=none
-hi Float        ctermfg=13   ctermbg=none cterm=none
-hi Title        ctermfg=13   ctermbg=none cterm=bold
+  call s:hy('Repeat',       '13',   'none', s:color13,      'bg',           'none')
+  call s:hy('Float',        '13',   'none', s:color13,      'bg',           'none')
+  call s:hy('Title',        '13',   'none', s:color13,      'bg',           'bold')
 
-hi Question     ctermfg=13   ctermbg=none cterm=inverse,bold
+  call s:hy('Question',     '13',   'none', s:color13,      'bg',           'bold,inverse')
 
 " Cyan:   6{{{1
-hi Member       ctermfg=6    ctermbg=none cterm=none
-hi function     ctermfg=6    ctermbg=none cterm=none
-hi PmenuThumb   ctermfg=none ctermbg=6    cterm=none
-hi Function     ctermfg=6    ctermbg=none cterm=none
-hi DiffText     ctermfg=7    ctermbg=14   cterm=bold
+  call s:hy('Member',       '6',    'none', s:color6,       'bg',           'none')
+  call s:hy('Function',     '6',    'none', s:color6,       'bg',           'none')
+  call s:hy('PMenuThumb',   'none', '6',    'none',         s:color6,       'none')
+
+  call s:hy('DiffText',     '15',   '14',   s:color15,      s:color14,      'none')
 
 " Grey:   7{{{1
-hi ignore       ctermfg=7    ctermbg=none cterm=italic
-hi PreProc      ctermfg=7    ctermbg=none cterm=none
-hi Class        ctermfg=7    ctermbg=none cterm=none
-hi Operator     ctermfg=8    ctermbg=none cterm=bold
+  call s:hy('Ignore',       '7',    'none', s:color7,       'bg',           'italic')
+  call s:hy('PreProc',      '7',    'none', s:color7,       'bg',           'none')
+  call s:hy('Class',        '7',    'none', s:color7,       'bg',           'none')
+  call s:hy('Operator',     '7',    'none', s:color7,       'bg',           'none')
 
 " Black:  0{{{1
-hi VertSplit    ctermfg=0    ctermbg=none cterm=none
-hi StatusLineNC ctermfg=8    ctermbg=232  cterm=none
-hi Comment      ctermfg=8    ctermbg=none cterm=italic
-hi Search       ctermfg=none ctermbg=none cterm=bold,inverse
+  call s:hy('VertSplit',    '0',    'none', s:color0,       'bg',           'none')
+" TODO discover why gui hates italics.
+  call s:hy('Comment',      '8',    'none', s:color8,       'bg',           'none')
+  call s:hy('StatuslineNc', '8',    '235',  s:color8,       s:xGrey['235'], 'none')
 
 " Accent: *{{{1
-if &bg == 'dark'
-    " dark
-    hi StatusLine   ctermfg=none ctermbg=233  cterm=none
-    hi LineNr       ctermfg=8    ctermbg=234  cterm=none
-    hi Pmenu        ctermfg=8    ctermbg=234  cterm=none
-    hi CursorLine   ctermfg=none ctermbg=235  cterm=none
-    hi CursorLineNr ctermfg=none ctermbg=235  cterm=bold
-    hi PmenuSbar    ctermfg=none ctermbg=236  cterm=none
-    hi ColorColumn  ctermbg=none ctermbg=236  cterm=none
-    hi DiffChange   ctermfg=236  ctermbg=none cterm=inverse,bold
-    hi Visual       ctermfg=none ctermbg=237  cterm=bold
-    hi PmenuSel     ctermfg=none ctermbg=237  cterm=bold
-    hi IncSearch    ctermfg=none ctermbg=237  cterm=underline,bold
-    hi WildMenu     ctermfg=none ctermbg=238  cterm=bold
-    hi MatchParen   ctermfg=none ctermbg=238  cterm=bold,underline
+" dark
+  call s:hy('StatusLine',   'none', '233 ', 'fg',           s:xGrey['233'], 'none')
+  call s:hy('LineNr',       '8   ', '234 ', s:color8,       s:xGrey['234'], 'none')
+  call s:hy('Pmenu',        '8   ', '234 ', s:color8,       s:xGrey['234'], 'none')
+  call s:hy('CursorLine',   'none', '235 ', 'none',         s:xGrey['235'], 'none')
+  call s:hy('CursorLineNr', 'none', '235 ', s:bold,         s:xGrey['235'], 'bold')
+  call s:hy('PmenuSbar',    'none', '236 ', 'none',         s:xGrey['236'], 'none')
+  call s:hy('ColorColumn',  'none', '236 ', 'none',         s:xGrey['236'], 'none')
+  call s:hy('DiffChange',   '236 ', 'none', s:xGrey['236'], 'none',         'bold,inverse')
+  call s:hy('Visual',       'none', '237 ', 'none',         s:xGrey['237'], 'bold')
+  call s:hy('PmenuSel',     'none', '237 ', s:bold,         s:xGrey['237'], 'bold')
+  call s:hy('IncSearch',    'none', '237 ', s:bold,         s:xGrey['237'], 'bold,underline')
+  call s:hy('WildMenu',     'none', '238 ', s:bold,         s:xGrey['238'], 'bold')
+  call s:hy('MatchParen',   'none', '238 ', s:bold,         s:xGrey['238'], 'bold,underline')
 
-    hi User6        ctermfg=none ctermbg=234  cterm=none
-    hi User3        ctermfg=none ctermbg=235  cterm=bold
-
-    hi User1        ctermfg=2    ctermbg=235  cterm=bold
-    hi User2        ctermfg=1    ctermbg=235  cterm=bold
-    hi User5        ctermfg=7    ctermbg=235  cterm=bold
-    hi User4        ctermfg=none ctermbg=236  cterm=none
-else
-    " light
-    hi StatusLine   ctermfg=none ctermbg=255  cterm=none
-    hi Pmenu        ctermfg=7    ctermbg=254  cterm=none
-    hi LineNr       ctermfg=7    ctermbg=254  cterm=none
-    hi CursorLine   ctermfg=none ctermbg=253  cterm=none
-    hi CursorLineNr ctermfg=none ctermbg=253  cterm=bold
-    hi PmenuSbar    ctermfg=none ctermbg=252  cterm=none
-    hi ColorColumn  ctermbg=none ctermbg=251  cterm=none
-    hi DiffChange   ctermfg=251  ctermbg=none cterm=inverse,bold
-    hi PmenuSel     ctermfg=none ctermbg=250  cterm=bold
-    hi IncSearch    ctermfg=none ctermbg=250  cterm=underline,bold
-    hi WildMenu     ctermfg=none ctermbg=248  cterm=bold
-    hi MatchParen   ctermfg=none ctermbg=248  cterm=bold,underline
-
-    hi User6        ctermfg=none ctermbg=234  cterm=none
-    hi User3        ctermfg=none ctermbg=235  cterm=bold
-
-    hi User1        ctermfg=2    ctermbg=253  cterm=bold
-    hi User2        ctermfg=1    ctermbg=253  cterm=bold
-    hi User5        ctermfg=7    ctermbg=253  cterm=bold
-    hi User4        ctermfg=none ctermbg=254  cterm=none
-endif
-
+  call s:hy('User6',        'none', '234',  'none',         s:xGrey['234'], 'none')
+  call s:hy('User3',        'none', '235',  'none',         s:xGrey['235'], 'bold')
+  call s:hy('User1',        '2   ', '235',  s:color2,       s:xGrey['235'], 'bold')
+  call s:hy('User2',        '1   ', '235',  s:color1,       s:xGrey['235'], 'bold')
+  call s:hy('User5',        '7   ', '235',  s:color7,       s:xGrey['235'], 'bold')
+  call s:hy('User4',        'none', '236',  'none',         s:xGrey['236'], 'none')
 
 
 " Vim Relink {{{
