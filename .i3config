@@ -75,6 +75,7 @@ for_window [title="QEMU"] floating enable, resize set 480 272
 
 # enter fullscreen mode for the focused container {{{ 1
 bindsym F11 fullscreen toggle
+bindsym $mod+z fullscreen toggle
 
 # Toggle/focus tiling/floating {{{1
 bindsym $mod+Shift+space floating toggle

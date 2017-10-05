@@ -29,6 +29,7 @@ set bg=dark
     set splitbelow               " ...split below... what did you think?
     set splitright               " Oh this one will be different!...cept not.
     set title title              " rxvt and tmux make this usable
+    set titlestring=NVIM
     set undofile                 " keep undo history ina file
 
    " Set: Those that use =
@@ -332,6 +333,7 @@ nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|sil
 echo search('\%>'.line('.').'l\%<'.line('.').'l^\V' . escape(split(&commentstring, "%s")[0], '/'))
 func! HighlightOnHold()
     if g:highlightactive
+        let g:curhighword = expand("<cword>")
         try
             exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
         catch /.*/
@@ -342,24 +344,27 @@ func! HighlightOnHold()
 endfun
 " }}}
 
-" Let's comment toggle :) gc FIXME {{{
+" Let's comment toggle :) gc {{{
 noremap <silent>gc :call Comment()<cr>
 
 func! Comment()
-    let pos = getcurpos()
+    " If there is only whitespace, don't comment it
+    if !search('\%>'.(line('.')-1).'l\%<'.(line('.')+1).'l\S', 'nw')
+        return ''
+    endif
 
+    " We need to know if we are a comment or not
     let iscom=search('\%>'.(line('.')-1).
-                \ 'l\%<'.(line('.')+1).'l^\V'  .
-                \ split(&commentstring, "%s")[0], 'w')
+            \ 'l\%<'.(line('.')+1).'l^\V'  .
+            \ split(&commentstring, "%s")[0], 'wn')
 
+    " If it is uncomment it, otherwise uncomment it
     if l:iscom
-        norm! I
-        norm! dw
+        call setline('.', substitute(getline('.'), '^\V'. split(&commentstring, "%s")[0].'\s', '', 'g'))
     else
         call setline('.', printf(&commentstring, ' ' . getline('.')))
     endif
 
-    call setpos('.', l:pos)
     return ""
 endfunc
 " }}}
