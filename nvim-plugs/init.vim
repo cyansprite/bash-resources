@@ -1,11 +1,14 @@
+"TODO
+"Research formatprg and formatoptions
+"Research include and define
+"Remind me that incsearch and c-g/t is awesome
 "Plug, colo {{{
 if(has("unix"))
-    " set termguicolors
     so ~/.config/nvim/plug.vim
 else
     so ~\AppData\Local\nvim\plug.vim
 endif
-set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
 colo chill
 set bg=dark
 "}}}
@@ -14,8 +17,9 @@ set bg=dark
     " Set: Those that use macros
     set backup | set writebackup " back it up, the file, I mean.
     set cursorline               " set cursorline to highlight NOTHING
+    set confirm                  " Don't tell me no
     set expandtab                " Expands tab to spaces
-    set ignorecase smartcase     " in the name
+    set fic                      " Fuck file case
     set linebreak                " don't cut words on wrap if i DO wrap
     set list                     " list my chars╳│
     set nowrap                   " I really hate wrap
@@ -29,18 +33,21 @@ set bg=dark
     set splitbelow               " ...split below... what did you think?
     set splitright               " Oh this one will be different!...cept not.
     set title title              " rxvt and tmux make this usable
-    set titlestring=NVIM
+    set titlestring=NVIM         " Simple title, my statusbar tells the rest
     set undofile                 " keep undo history ina file
 
    " Set: Those that use =
     let &showbreak = '↳ '        " Change show break thing (rare occasion)
     set cinkeys-=0#              " don't force # indentation, ever write python?
     set cmdheight=1              " Pair up
+    set complete=.,w,b,u,U,t     " Complete all buffers,window, current, and tag
     set colorcolumn=80,130       " color columns
+    set diffopt+=context:3       " diff context lines
+    set fcl=all                 " auto close folds
     set foldcolumn=0             " foldcolumn... yes
     set foldmethod=marker        " fold stuff :)
     set foldopen+=jump,search    " open folds when I search/jump to things
-    set icm="split"              " inc command split in preview, hasn't worked
+    set icm="nosplit"              " inc command split in preview, hasn't worked
     set matchtime=1              " Show matching time
     set matchpairs+=<:>          " More matches
     set mouse=                   " I prefer having terminal functionality.
@@ -56,28 +63,20 @@ set bg=dark
     set undolevels=99999         " A lot of undo history :P
     set updatecount=33           " update swp every 33 chars.
     set viewoptions=cursor       " What to save with mkview
-    set belloff=error,ex,insertmode,showmatch " Please visual beep :)
     set wildmode=longest,full    " Let's make it nice tab completion
+    set backupdir-=.             " Don't put backup in current dir please
 
     " Set: Those that are complex, or just look stupid
-    " Backup dirrrrrrrrrrr, and make the fuckin dir please :)
-    set backupdir-=.
-    exe "call mkdir('" . $HOME . "/.local' , 'p')"
-    exe "call mkdir('" . $HOME . "/.local/share' , 'p')"
-    exe "call mkdir('" . $HOME . "/.local/share/nvim' , 'p')"
-    exe "call mkdir('" . $HOME . "/.local/share/nvim/backup' , 'p')"
+    " These are annoying to have on
+    set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy
     set fillchars=vert:\|,stlnc:_,stl:\ ,fold:-,diff:┉
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>
     " If it's modifable, turn on numbers
     if &modifiable | set number | set relativenumber | endif
-    " If it goes past tw, don't highlight it
-    " exe 'set synmaxcol=' . (&tw + 51)
-    " Eh... just do columns
-    " exe 'set synmaxcol=' . (&columns)
     set synmaxcol=300
-    " Ignore this crap :)
+    " Ignore this crap :) Need more..?
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
                 \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build* | "rand
     set wildignore+=*.bak,*.swp,*.swo | "vim
@@ -157,6 +156,16 @@ set bg=dark
     map <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
                 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
                 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+" End Vim Map }}}
+
+" Begin Vim abbrev {{{
+" I have a bad habit here...
+ca W w
+ca Echo echo
+ca Q q
+ca Set set
+ca Let let
 
 " End Vim Map }}}
 
@@ -330,7 +339,6 @@ augroup END
 set updatetime=500
 let g:highlightactive=1
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|silent call HighlightOnHold()<cr>
-echo search('\%>'.line('.').'l\%<'.line('.').'l^\V' . escape(split(&commentstring, "%s")[0], '/'))
 func! HighlightOnHold()
     if g:highlightactive
         let g:curhighword = expand("<cword>")
@@ -342,31 +350,6 @@ func! HighlightOnHold()
         exec printf("2match holdSearch \/\\<%s\\>\/", "")
     endif
 endfun
-" }}}
-
-" Let's comment toggle :) gc {{{
-noremap <silent>gc :call Comment()<cr>
-
-func! Comment()
-    " If there is only whitespace, don't comment it
-    if !search('\%>'.(line('.')-1).'l\%<'.(line('.')+1).'l\S', 'nw')
-        return ''
-    endif
-
-    " We need to know if we are a comment or not
-    let iscom=search('\%>'.(line('.')-1).
-            \ 'l\%<'.(line('.')+1).'l^\V'  .
-            \ split(&commentstring, "%s")[0], 'wn')
-
-    " If it is uncomment it, otherwise uncomment it
-    if l:iscom
-        call setline('.', substitute(getline('.'), '^\V'. split(&commentstring, "%s")[0].'\s', '', 'g'))
-    else
-        call setline('.', printf(&commentstring, ' ' . getline('.')))
-    endif
-
-    return ""
-endfunc
 " }}}
 
 " TODO add g= and Opposite of J {{{1

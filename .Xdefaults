@@ -74,6 +74,8 @@ URxvt.iso14755:                         false
 URxvt.iso14755_52:                      false
 URxvt.keysym.C-M-c:                     builtin-string:
 URxvt.keysym.C-M-v:                     builtin-string:
+URxvt.keysym.M-s:                       builtin-string:
+URxvt.keysym.M-S:                       builtin-string:
 URxvt.keysym.C-s-t:                     builtin-string:
 URxvt.keysym.C-S-0x43:                  eval:selection_to_clipboard
 URxvt.keysym.C-S-0x56:                  eval:paste_clipboard

@@ -6,6 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/confine'
     Plug 'thinca/vim-visualstar'
     Plug 'junegunn/vim-after-object'
+    Plug 'tpope/vim-commentary'
 
     " Format
     Plug 'foosoft/vim-argwrap'
@@ -127,6 +128,10 @@ let g:grepper.tools     = ['git', 'ag', 'grep']
     \     'right_margin': 0
     \   }
     \ }
+" Extract {{{2
+let g:extract_maxCount = 20
+
+
 " autocmds {{{1
 autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
 autocmd FileType GrepperSide
