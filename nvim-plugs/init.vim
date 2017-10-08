@@ -1,8 +1,15 @@
-"TODO
-"Research formatprg and formatoptions
-"Research include and define
-"Remind me that incsearch and c-g/t is awesome
-"Plug, colo {{{
+" TODO
+" Add Opposite of J
+" Research formatprg and formatoptions
+" Research include and define
+" Research g ops
+" Remind me that incsearch and c-g/t is awesome
+" Of [ ops like [I
+" Of ] ops
+" map ]f and [f because gf is the same and I never use it anyways...
+" map arrow keys
+
+" Plug, colo {{{
 if(has("unix"))
     so ~/.config/nvim/plug.vim
 else
@@ -43,7 +50,6 @@ set bg=dark
     set complete=.,w,b,u,U,t     " Complete all buffers,window, current, and tag
     set colorcolumn=80,130       " color columns
     set diffopt+=context:3       " diff context lines
-    set fcl=all                 " auto close folds
     set foldcolumn=0             " foldcolumn... yes
     set foldmethod=marker        " fold stuff :)
     set foldopen+=jump,search    " open folds when I search/jump to things
@@ -133,8 +139,7 @@ set bg=dark
     nnoremap Y y$
 
     " Bubbler
-    nnoremap <cr> o<esc>
-    nnoremap <m-cr> O<esc>
+    nnoremap <cr> i<cr><esc>
 
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
@@ -335,7 +340,7 @@ augroup init
 augroup END
 "}}}
 
-" Make a plugin.?.?.? {{{
+" Make a plugin.?.?.? Figure out why it's not working... {{{
 set updatetime=500
 let g:highlightactive=1
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|silent call HighlightOnHold()<cr>
@@ -352,4 +357,3 @@ func! HighlightOnHold()
 endfun
 " }}}
 
-" TODO add g= and Opposite of J {{{1

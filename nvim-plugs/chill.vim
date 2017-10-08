@@ -194,6 +194,23 @@ let s:xGrey = {
 
   call s:hy('holdSearch',   'none', '240',  'none',         s:xGrey['240'], 'none'           )
 
+" Plugin: X {{{1
+call s:hy('Logical0'  , '1' , '235' , s:color0 , 'none' , 'bold')
+call s:hy('Logical1'  , '2' , '235' , s:color1 , 'none' , 'bold')
+call s:hy('Logical2'  , '3' , '235' , s:color2 , 'none' , 'bold')
+call s:hy('Logical3'  , '4' , '235' , s:color3 , 'none' , 'bold')
+call s:hy('Logical4'  , '5' , '235' , s:color4 , 'none' , 'bold')
+call s:hy('Logical5'  , '6' , '235' , s:color5 , 'none' , 'bold')
+call s:hy('Logical6'  , '1' , '235' , s:color6 , 'none' , 'bold')
+call s:hy('Logical7'  , '2' , '235' , s:color1 , 'none' , 'bold')
+call s:hy('Logical8'  , '3' , '235' , s:color2 , 'none' , 'bold')
+call s:hy('Logical9'  , '4' , '235' , s:color3 , 'none' , 'bold')
+call s:hy('Logical10' , '5' , '235' , s:color4 , 'none' , 'bold')
+call s:hy('Logical11' , '6' , '235' , s:color5 , 'none' , 'bold')
+call s:hy('LogicalBuffer'  , 'none' , 'none' , s:bold , 'none' , 'bold')
+call s:hy('LogicalModified' , '2' , 'none' , s:color2 , 'none' , 'bold')
+call s:hy('LogicalReadOnly' , '1' , 'none' , s:color1 , 'none' , 'bold')
+
 " Relink  >{{{1
 hi link vimCommentTitle Title
 hi link vimIsCommand    Constant
