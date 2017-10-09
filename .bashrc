@@ -68,11 +68,68 @@ if [ -e /bin/adb.txt ] ; then
 fi
 
 export VISUAL=nvim
+export PROMPT_DIRTRIM=2
 
 # I love fzf...
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-# Fzf colors (note neovim is different)
-# FZF_DEFAULT_OPTS="--color light,fg:138,bg+:235,fg+:189,hl:22,hl+:40,prompt:22,pointer:146,marker:182,spinner:197,header:181,info:159"
-# Setting ag as the default source for fzf
-export FZF_DEFAULT_COMMAND='ag -g ""'
-export PROMPT_DIRTRIM=2
+
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+export FZF_CTRL_T_OPTS="--preview-window down:50% --preview '(coderay {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
+# fzf edit
+fvim() {
+  local files
+  IFS=$'\n' files=($(fzf --preview-window down:70% --no-height --no-reverse --preview '(coderay {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200' --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+
+# GIT heart FZF
+# -------------
+
+is_in_git_repo() {
+  git rev-parse HEAD > /dev/null 2>&1
+}
+
+fzf-down() {
+  fzf --height 50% "$@" --border
+}
+
+gf() {
+  is_in_git_repo || return
+  git -c color.status=always status --short |
+  fzf-down -m --ansi --nth 2..,.. \
+    --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
+  cut -c4- | sed 's/.* -> //'
+}
+
+gb() {
+  is_in_git_repo || return
+  git branch -a --color=always | grep -v '/HEAD\s' | sort |
+  fzf-down --ansi --multi --tac --preview-window right:70% \
+    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
+  sed 's/^..//' | cut -d' ' -f1 |
+  sed 's#^remotes/##'
+}
+
+gt() {
+  is_in_git_repo || return
+  git ls-files | fzf-down --multi --no-height --preview-window down:70% --preview '(coderay {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'
+}
+
+gh() {
+  is_in_git_repo || return
+  git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
+  fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
+    --header 'Press CTRL-S to toggle sort' \
+    --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always | head -'$LINES |
+  grep -o "[a-f0-9]\{7,\}"
+}
+
+gr() {
+  is_in_git_repo || return
+  git remote -v | awk '{print $1 "\t" $2}' | uniq |
+  fzf-down --tac \
+    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1} | head -200' |
+  cut -d$'\t' -f1
+}

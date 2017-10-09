@@ -34,6 +34,7 @@ set bg=dark
     set shiftround               " indent it by multiples of shiftwidth please:)
     set showcmd                  " Show cmd while typing in bottom right corner
     set showmode noshowmode      " I just put it in statusbar, don't clear echos
+    set ignorecase smartcase     " ignore case if just using lower
     set smartcase                " makes things a bit better
     set smartindent              " indent things well
     set smarttab                 " tab plays nicer
@@ -146,8 +147,8 @@ set bg=dark
     " I don't know why this isn't default
     nnoremap Y y$
 
-    " Bubbler
-    nnoremap <cr> i<cr><esc>
+    " Opp of j
+    nnoremap g<cr> i<cr><esc>
 
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
@@ -182,12 +183,11 @@ ca Let let
 
 " End Vim Map }}}
 
-" Status Line , vim-airline *shivers* {{{
+" Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ] {{{
 function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%#ModeMsg#\ %{Mode(mode())}\ %*
     setl statusline+=%3*\ %{CurArg()}\ %*
-    " setl statusline=%<
 
     if &modifiable
         setl statusline+=%1*%m%*
@@ -199,12 +199,13 @@ function! StatusLine()
     setl statusline+=%4*%=
 
     " Right: linenr,column    PositionBar()
-    setl statusline+=%-10.(%#CursorLineNr#\ %l,%c%)
+    setl statusline+=%-10.(%#CursorLineNr#\ %l,%c,\ :\ %LG,%p%%\ %)
     setl statusline+=%-22.(%#LineNr#\ [\ %{PositionBarLeft()}
                           \%#CursorLineNr#%{PositionBar()}
                           \%#LineNr#%{PositionBarRight()}%)\ ]\ %*
 endfunction
 
+" Status Line Not current, file [+][-][RO]_______>____<____l,c : maxG,%
 function! StatusLineNC()
     setl statusline =%<%#Statuslinenc#%f
     if &modifiable
@@ -217,7 +218,7 @@ function! StatusLineNC()
     setl statusline+=%*%=
     setl statusline+=%(%l,%c%)
     setl statusline+=\ \ \ \ %*
-    setl statusline+=%L\ :\ %p%%
+    setl statusline+=:\ %LG,%p%%
 endfunc
 
 func! CurArg()
@@ -233,7 +234,7 @@ endfun
 func! Mode(mode)
     if !has_key(s:, "statusmodes")
         let s:statusmodes = {
-                    \ "n"  : "-- NORMAL --",
+                    \ "n"  : "            ",
                     \ "no" : "-- OPERATOR --",
                     \ "i"  : "-- INSERT --",
                     \ "v"  : "-- VISUAL --",
@@ -389,13 +390,17 @@ augroup init
 augroup END
 "}}}
 
-" Make a plugin.?.?.? Figure out why it's not working... {{{
+" Make a plugin.?.?.? {{{
 set updatetime=500
-let g:highlightactive=1
+let g:highlightactive=0
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|silent call HighlightOnHold()<cr>
 func! HighlightOnHold()
     if g:highlightactive
         let g:curhighword = expand("<cword>")
+        if g:curhighword == @/
+            exec printf("2match holdSearch \/\\<%s\\>\/", "")
+            return
+        endif
         try
             exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
         catch /.*/

@@ -9,3 +9,10 @@ set colored-stats
 "\e[F": end-of-line
 "\C-k": history-search-backward
 "\C-j": history-search-forward
+"\C-v": "$(fvim)"
+"\er": redraw-current-line
+"\C-g\C-f": "$(gf)\e\C-e\er"
+"\C-g\C-b": "$(gb)\e\C-e\er"
+"\C-g\C-t": "$(gt)\e\C-e\er"
+"\C-g\C-h": "$(gh)\e\C-e\er"
+"\C-g\C-r": "$(gr)\e\C-e\er"
