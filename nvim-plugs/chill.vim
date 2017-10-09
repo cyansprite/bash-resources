@@ -27,6 +27,7 @@ endfunc
 " Foreground and Background.
 let s:fg        = '#9595ac'
 let s:bg        = '#1a1a1a'
+let s:bgnc      = '#2a2a2a'
 
 " Rxvt spoiled me.
 let s:bold      = '#cfc5fc'
@@ -88,6 +89,7 @@ let s:xGrey = {
 
 " Nons:   -{{{1
   call s:hy('Normal',       'none', 'none', s:fg,      s:bg,   'none'         )
+  call s:hy('NormalNC',     'none', '235',  'none',    s:bgnc  'none'         )
   call s:hy('Folded',       'none', 'none', s:bold,    s:bg,   'bold'         )
   call s:hy('ModeMsg',      'none', 'none', s:bold,    s:bg,   'bold'         )
   call s:hy('QuickFixLine', 'none', 'none', s:bold,    s:bg,   'bold'         )

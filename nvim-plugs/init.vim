@@ -33,6 +33,7 @@ set bg=dark
     set nowrapscan               " I don't like my searches to continue forever
     set shiftround               " indent it by multiples of shiftwidth please:)
     set showcmd                  " Show cmd while typing in bottom right corner
+    set showmode noshowmode      " I just put it in statusbar, don't clear echos
     set smartcase                " makes things a bit better
     set smartindent              " indent things well
     set smarttab                 " tab plays nicer
@@ -72,14 +73,13 @@ set bg=dark
     set updatecount=33           " update swp every 33 chars.
     set viewoptions=folds,cursor " What to save with mkview
     set wildoptions=tagfile      " Wop tags
-    set whichwrap=''             " Don't wrap
     set wildmode=longest,full    " Let's make it nice tab completion
 
     " Set: Those that are complex, or just look stupid
     " These are annoying to have on
     set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy
-    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:-,diff:┉
+    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:·,diff:┉
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>
     " If it's modifable, turn on numbers
@@ -119,10 +119,15 @@ set bg=dark
     " pasting in cmode
     cmap <c-v> <c-r>"
 
-    " next/prev arglist
-    nnoremap <m-c> :next<cr>
-    nnoremap <m-C> :prev<cr>
-    " c-list
+    " You know, fuck those arrow keys
+    cnoremap <expr> <C-j> wildmenumode() ? "\<Down>\<Tab>" : "\<down>"
+    cnoremap <expr> <C-k> wildmenumode() ? "\<Up>\<Tab>" : "\<up>"
+
+    " TODO: next/prev arglist
+    " nnoremap <m-l> :next<cr>
+    " nnoremap <m-L> :prev<cr>
+
+    " c-list ( Quickfix )
     nnoremap <m-c> :cn<cr>
     nnoremap <m-C> :cp<cr>
 
@@ -177,10 +182,10 @@ ca Let let
 
 " End Vim Map }}}
 
-" Status Line {{{
+" Status Line , vim-airline *shivers* {{{
 function! StatusLine()
     " Left Filename/CurArg
-    setl statusline=%#LineNr#\ %{getcwd()}\ %*
+    setl statusline=%#ModeMsg#\ %{Mode(mode())}\ %*
     setl statusline+=%3*\ %{CurArg()}\ %*
     " setl statusline=%<
 
@@ -224,6 +229,39 @@ func! CurArg()
     let l:rtn .= '[' . l:curarg . ']'
     return l:rtn
 endfun
+
+func! Mode(mode)
+    if !has_key(s:, "statusmodes")
+        let s:statusmodes = {
+                    \ "n"  : "-- NORMAL --",
+                    \ "no" : "-- OPERATOR --",
+                    \ "i"  : "-- INSERT --",
+                    \ "v"  : "-- VISUAL --",
+                    \ "V"  : "-- VISUAL LINE --",
+                    \ "" : "-- VISUAL BLOCK --",
+                    \ "R"  : "-- REPLACE --",
+                    \ "Rv" : "-- V REPLACE --",
+                    \ "t"  : "-- TERMINAL --",
+                    \ "s"  : "-- SELECT --",
+                    \ "S"  : "-- SELECT LINE --",
+                    \ "" : "-- SELECT BLOCK--",
+                    \ "c"  : "-- COMMAND --",
+                    \ "cv" : "-- VEX --",
+                    \ "ce" : "-- EX --",
+                    \ "r"  : "-- PROMPT --",
+                    \ "rm" : "-- MORE --",
+                    \ "r?" : "-- CONFIRM --",
+                    \ "!"  : "-- SHELL --",
+       \}
+    endif
+
+    let paste = ""
+    if &paste
+        let paste = " PASTE "
+    endif
+
+    return s:statusmodes[a:mode] . l:paste
+endfunc
 
 func! PositionBarRight()
      return repeat(s:scrolltrack, float2nr(round(s:scrollrratio)))
@@ -315,13 +353,18 @@ endfun
 
 function! SuperSexyFoldText() "{{{
     let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+    let oldline = l:line
+    let line = strpart(l:line, 0, winwidth('.') / 2 - 3)
+    if len(l:line) < len(l:oldline)
+        let l:line .= "···"
+    endif
     let lines_count = v:foldend - v:foldstart + 1
     let lines_count_text = printf("%s", lines_count)
     let foldchar = " "
     let foldtextstart = strpart('' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-    let foldtextend = ' ( ' . repeat(" ", 5 - len(lines_count_text)) . lines_count_text . repeat(" ", 2) . "lines" . '   )  '
+    let foldtextend = ' ( #' . repeat(" ", 4 - len(lines_count_text)) . lines_count_text . " ) "
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-    return '....' . repeat('.', winwidth('.') / 4) . " " . line . repeat(foldchar, winwidth('.') / 3 - len(line)) . foldtextend . repeat(".", winwidth('.'))
+    return '|' . repeat('·', winwidth('.') / 4) . "| " . line . repeat(foldchar, winwidth('.') / 2 - len(line)) . foldtextend . '|'
 endfunction
 set foldtext=SuperSexyFoldText()
 " }}}

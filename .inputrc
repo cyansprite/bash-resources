@@ -7,3 +7,5 @@ set colored-stats
 "\eOF": end-of-line
 "\e[H": beginning-of-line
 "\e[F": end-of-line
+"\C-k": history-search-backward
+"\C-j": history-search-forward
