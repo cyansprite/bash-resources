@@ -39,12 +39,14 @@ set bg=dark
     set sol nosol                " Don't be stupid and move to start of line
     set splitbelow               " ...split below... what did you think?
     set splitright               " Oh this one will be different!...cept not.
+    set tildeop                  " Tilde as oper
     set title title              " rxvt and tmux make this usable
     set titlestring=NVIM         " Simple title, my statusbar tells the rest
     set undofile                 " keep undo history ina file
 
    " Set: Those that use =
     let &showbreak = '↳ '        " Change show break thing (rare occasion)
+    set backupdir-=.             " Don't put backup in current dir please
     set cinkeys-=0#              " don't force # indentation, ever write python?
     set cmdheight=1              " Pair up
     set complete=.,w,b,u,U,t     " Complete all buffers,window, current, and tag
@@ -68,9 +70,10 @@ set bg=dark
     set ttimeoutlen=25           " I don't care much for waiting
     set undolevels=99999         " A lot of undo history :P
     set updatecount=33           " update swp every 33 chars.
-    set viewoptions=cursor       " What to save with mkview
+    set viewoptions=folds,cursor " What to save with mkview
+    set wildoptions=tagfile      " Wop tags
+    set whichwrap=''             " Don't wrap
     set wildmode=longest,full    " Let's make it nice tab completion
-    set backupdir-=.             " Don't put backup in current dir please
 
     " Set: Those that are complex, or just look stupid
     " These are annoying to have on
@@ -337,6 +340,9 @@ augroup init
     autocmd WinEnter * cal EnterWin()
     autocmd WinLeave * cal LeaveWin()
     autocmd CursorHold * call HighlightOnHold()
+    autocmd FileType c,cpp,java,cs set mps+==:;
+    autocmd FileType cs set mps+=region:endregion
+    autocmd FileType cs set foldmarker=region,endregion
 augroup END
 "}}}
 
@@ -356,4 +362,3 @@ func! HighlightOnHold()
     endif
 endfun
 " }}}
-
