@@ -1,5 +1,4 @@
 " TODO
-" Add Opposite of J
 " Research formatprg and formatoptions
 " Research include and define
 " Research g ops
@@ -16,8 +15,13 @@ else
     so ~\AppData\Local\nvim\plug.vim
 endif
 set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
-colo chill
-set bg=dark
+colo restraint
+
+if hostname() == 'demi'
+    set bg=light
+else
+    set bg=dark
+endif
 "}}}
 
 "Begin Vim set {{{
@@ -28,7 +32,7 @@ set bg=dark
     set expandtab                " Expands tab to spaces
     set fic                      " Fuck file case
     set linebreak                " don't cut words on wrap if i DO wrap
-    set list                     " list my chars╳│
+    set list                     " list my chars: ╳│¦|┆
     set nowrap                   " I really hate wrap
     set nowrapscan               " I don't like my searches to continue forever
     set shiftround               " indent it by multiples of shiftwidth please:)
@@ -46,7 +50,7 @@ set bg=dark
     set titlestring=NVIM         " Simple title, my statusbar tells the rest
     set undofile                 " keep undo history ina file
 
-   " Set: Those that use =
+    " Set: Those that use =
     let &showbreak = '↳ '        " Change show break thing (rare occasion)
     set backupdir-=.             " Don't put backup in current dir please
     set cinkeys-=0#              " don't force # indentation, ever write python?
@@ -60,7 +64,7 @@ set bg=dark
     set icm="nosplit"              " inc command split in preview, hasn't worked
     set matchtime=1              " Show matching time
     set matchpairs+=<:>          " More matches
-    set mouse=                   " I prefer having terminal functionality.
+    set mouse=n                   " I prefer having terminal functionality.
     set shiftwidth=4             " Use indents of 4 spaces
     set showmatch                " Show matching brackets/parentthesis
     set sidescrolloff=5          " 5 columns off?, scroll
@@ -82,13 +86,13 @@ set bg=dark
     " set fill chars to things that make me happy
     set fillchars=vert:\|,stlnc:_,stl:\ ,fold:·,diff:┉
     " Changes listchars to more suitable chars
-    set listchars=tab:→\ ,trail:·,extends:<,precedes:>
+    set listchars=tab:→\ ,trail:×,extends:<,precedes:>
     " If it's modifable, turn on numbers
     if &modifiable | set number | set relativenumber | endif
     set synmaxcol=300
     " Ignore this crap :) Need more..?
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
-                \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build* | "rand
+                  \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build* | "rand
     set wildignore+=*.bak,*.swp,*.swo | "vim
     set wildignore+=*.a,*.o,*.so,*.pyc,*.class | "cpp/python/java
     set wildignore+=*/.git*,*.tar,*.zip | "srctl, compress
@@ -112,10 +116,10 @@ set bg=dark
 
     " Hls ease
     nnoremap <silent><space> :silent set hlsearch!<cr>
-    nnoremap n :set hlsearch<cr>n
-    nnoremap N :set hlsearch<cr>N
+    nnoremap n :set hlsearch<cr>nzv
+    nnoremap N :set hlsearch<cr>Nzv
     nnoremap / :set hlsearch<cr>/
-    nnoremap * :set hlsearch<cr>*
+    nnoremap * :set hlsearch<cr>*zv
 
     " pasting in cmode
     cmap <c-v> <c-r>"
@@ -150,12 +154,22 @@ set bg=dark
     " Opp of j
     nnoremap g<cr> i<cr><esc>
 
+    " Bubble
+    nnoremap <silent> zj o<Esc>k
+    nnoremap <silent> zk O<Esc>j
+
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
     map <m-i> bi
 
     " undo break for each <cr>
     inoremap <CR> <C-]><C-G>u<CR>
+
+    " move in insert mode, fuck cursor keys
+    inoremap <c-h> <left>
+    inoremap <c-l> <right>
+    inoremap <c-j> <down>
+    inoremap <c-k> <up>
 
     " I uh... don't use ESC
     inoremap  
@@ -376,6 +390,69 @@ endf
 command! -nargs=0 Kws call KillWhitespace()
 " }}}
 
+" Highlight word, and Hight Scope, I like scope better lol.{{{
+set updatetime=500
+let g:highlightactive=1
+nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|silent call HighlightOnHold()<cr>
+func! HighlightOnHold()
+    if g:highlightactive
+        let g:curhighword = expand("<cword>")
+        if g:curhighword == @/
+            exec printf("match holdSearch \/\\<%s\\>\/", "")
+            return
+        endif
+        try
+            exec printf("match holdSearch \/\\<%s\\>\/", expand("<cword>"))
+        catch /.*/
+        endtry
+    else
+        exec 'match holdSearch \\'
+    endif
+endfun
+
+let g:indenthighlightactive=1
+func! ScopeIndentHighlight()
+    if &filetype == 'help'
+        return
+    endif
+
+    let l:start = line('w0') - 1
+    let l:end = line('w$') + 1
+    let indent = indent('.')
+    if l:indent < &shiftwidth
+        let l:indent = &shiftwidth
+    endif
+    let o_indent = l:indent
+
+    for x in reverse(range(l:start,line('.')))
+        if indent(x) < l:indent && !empty(getline(x))
+            let l:start = x
+            let indent = indent(x) + 1
+            break
+        endif
+    endfor
+
+    for x in range(line('.'), l:end)
+        if indent(x) < l:indent && !empty(getline(x))
+            let l:end = x
+            break
+        endif
+    endfor
+
+    if g:indenthighlightactive
+        if l:indent == l:o_indent
+            let l:indent = l:indent - &shiftwidth + 1
+        endif
+        exec "2match holdSearch /" .
+            \"\\%".l:indent.'c'.
+            \"\\%>".l:start.'l\%<'.l:end.'l'.
+            \"/"
+    else
+        exec '2match holdSearch \\'
+    endif
+endfun
+" }}}
+
 " Autocommands {{{
 augroup init
     autocmd!
@@ -384,29 +461,9 @@ augroup init
     autocmd WinEnter * cal EnterWin()
     autocmd WinLeave * cal LeaveWin()
     autocmd CursorHold * call HighlightOnHold()
-    autocmd FileType c,cpp,java,cs set mps+==:;
+    autocmd CursorMoved * call ScopeIndentHighlight()
+    autocmd FileType c,cpp,java,cs set mps+==:;|set commentstring=//\ %s
     autocmd FileType cs set mps+=region:endregion
     autocmd FileType cs set foldmarker=region,endregion
 augroup END
 "}}}
-
-" Make a plugin.?.?.? {{{
-set updatetime=500
-let g:highlightactive=0
-nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|silent call HighlightOnHold()<cr>
-func! HighlightOnHold()
-    if g:highlightactive
-        let g:curhighword = expand("<cword>")
-        if g:curhighword == @/
-            exec printf("2match holdSearch \/\\<%s\\>\/", "")
-            return
-        endif
-        try
-            exec printf("2match holdSearch \/\\<%s\\>\/", expand("<cword>"))
-        catch /.*/
-        endtry
-    else
-        exec printf("2match holdSearch \/\\<%s\\>\/", "")
-    endif
-endfun
-" }}}

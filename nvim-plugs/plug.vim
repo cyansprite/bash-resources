@@ -1,6 +1,5 @@
 " plugins (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
-
     " Motion stuff
     Plug 'cyansprite/extract'
     Plug 'cyansprite/confine'
@@ -16,6 +15,10 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/vim-csharp'
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'keith/tmux.vim'
+    Plug 'tpope/vim-git'
+    Plug 'Valloric/vim-operator-highlight'
+    Plug 'nathanaelkane/vim-indent-guides'
+    Plug 'cyansprite/Restraint.vim'
 
     " Completion Help
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -30,10 +33,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/logicalBuffers'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
+    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
     " Searching
     Plug 'mhinz/vim-grepper'
 
+    " Output
+    Plug 'AndrewRadev/bufferize.vim'
 call plug#end()
 
 " mappings {{{1
@@ -88,18 +94,17 @@ let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
   \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Type'],
+  \ 'bg+':     ['bg', 'Cursorline', 'CursorColumn'],
   \ 'hl+':     ['fg', 'Statement'],
   \ 'info':    ['fg', 'PreProc'],
   \ 'prompt':  ['fg', 'Conditional'],
   \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
+  \ 'marker':  ['fg', 'Label'],
+  \ 'spinner': ['fg', 'Keyword'],
   \ 'header':  ['fg', 'Comment'] }
 
 " Insert mode completion
-imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
@@ -200,12 +205,20 @@ autocmd FileType GrepperSide
   \| silent normal! ggn
 
 " higlighting {{{1
-hi link StartifyPath StorageClass
-hi link StorageClass  Keyword
-hi link cppSTLnamespace  Label
-hi link cCustomMemVar Member
-hi link cCustomClass  Class
-hi link cRepeat       Repeat
+    let g:ophigh_highlight_link_group = 'Operator'
+    let g:indent_guides_auto_colors = 0
+    let g:indent_guides_start_level = 2
+    let g:indent_guides_guide_size  = 2
+    hi link StartifyPath     StorageClass
+    hi link StorageClass     Keyword
+    hi link cppSTLnamespace  Label
+    hi link cCustomMemVar    Member
+    hi link cCustomClass     Class
+    hi link cRepeat          Repeat
+    let g:ophigh_filetypes_to_ignore = {'jinja': 1, 'help': 1, 'notes': 1,
+                \ 'markdown': 1, 'less': 1, 'sh': 1, 'html': 1, 'diff': 1,
+                \ 'bash': 1, 'qf': 1, 'css': 1, 'vim': 1
+    \}
 "}}}1
 
-" test-zone {{{1
+" test-zone

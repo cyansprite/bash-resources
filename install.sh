@@ -26,9 +26,13 @@ ln -fv .inputrc ~/.inputrc
 ln -fv .gitconfig ~/.gitconfig
 ln -fv .tmux.conf ~/.tmux.conf
 ln -fv .Xdefaults ~/.Xdefaults
+ln -fv .Xresources-demi ~/.Xresources-demi
+ln -fv .Xresources-kitsune ~/.Xresources-kitsune
+ln -fv .Xdefaults ~/.Xdefaults
 ln -fv .i3status.conf ~/.i3status.conf
 ln -fv .i3config ~/.config/i3/config
 ln -fv .settings.ini /home/joj/.config/gtk-3.0/settings.ini
+xrdb .Xresources-$(hostname)
 
 echo ""
 
@@ -52,7 +56,6 @@ fi
 cd "$SOURCE/nvim-plugs"
 ln -fv init.vim $configdir/
 ln -fv plug.vim $configdir/
-ln -fv chill.vim $configdir/colors/
 ln -fv gtags.vim $configdir/plugin/
 ln -fv gtags-cscope.vim $configdir/plugin/
 ln -fv qf.vim $configdir/ftplugin/
