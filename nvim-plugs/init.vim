@@ -1,8 +1,7 @@
 " TODO
-" Research formatprg and formatoptions
+" Research formatprg
 " Research include and define
 " Research g ops
-" Remind me that incsearch and c-g/t is awesome
 " Of [ ops like [I
 " Of ] ops
 " map ]f and [f because gf is the same and I never use it anyways...
@@ -32,7 +31,7 @@ endif
     set expandtab                " Expands tab to spaces
     set fic                      " Fuck file case
     set linebreak                " don't cut words on wrap if i DO wrap
-    set list                     " list my chars: ╳│¦|┆
+    set list                     " list my chars: ╳│¦|┆×•·
     set nowrap                   " I really hate wrap
     set nowrapscan               " I don't like my searches to continue forever
     set shiftround               " indent it by multiples of shiftwidth please:)
@@ -55,16 +54,18 @@ endif
     set backupdir-=.             " Don't put backup in current dir please
     set cinkeys-=0#              " don't force # indentation, ever write python?
     set cmdheight=1              " Pair up
-    set complete=.,w,b,u,U,t     " Complete all buffers,window, current, and tag
+    set complete=.,w,b,u,U       " Complete all buffers,window, current, and tag
     set colorcolumn=80,130       " color columns
+    set concealcursor=inc        " Complete all buffers,window, current, and tag
+    set conceallevel=1           " Complete all buffers,window, current, and tag
     set diffopt+=context:3       " diff context lines
     set foldcolumn=0             " foldcolumn... yes
     set foldmethod=marker        " fold stuff :)
     set foldopen+=jump,search    " open folds when I search/jump to things
-    set icm="nosplit"              " inc command split in preview, hasn't worked
+    set icm="nosplit"            " inc command split in preview, hasn't worked
     set matchtime=1              " Show matching time
     set matchpairs+=<:>          " More matches
-    set mouse=n                   " I prefer having terminal functionality.
+    set mouse=n                  " I prefer having terminal functionality.
     set shiftwidth=4             " Use indents of 4 spaces
     set showmatch                " Show matching brackets/parentthesis
     set sidescrolloff=5          " 5 columns off?, scroll
@@ -84,9 +85,9 @@ endif
     " These are annoying to have on
     set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy
-    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:·,diff:┉
+    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:—,diff:┉
     " Changes listchars to more suitable chars
-    set listchars=tab:→\ ,trail:×,extends:<,precedes:>
+    set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
     if &modifiable | set number | set relativenumber | endif
     set synmaxcol=300
@@ -96,6 +97,22 @@ endif
     set wildignore+=*.bak,*.swp,*.swo | "vim
     set wildignore+=*.a,*.o,*.so,*.pyc,*.class | "cpp/python/java
     set wildignore+=*/.git*,*.tar,*.zip | "srctl, compress
+
+    " I finally set it up >.> happy?
+    set formatoptions=
+    set formatoptions+=l " Don't auto break lines unless I say
+    set formatoptions+=r " Continue comments in insert mode
+    set formatoptions+=q " continue comments with gq
+    set formatoptions+=n " Recognize numbered lists
+    set formatoptions+=2 " Use indent from 2nd line of a paragraph
+    set formatoptions+=j " Destroy comment leader join when valid
+    set formatoptions-=c " Auto-wrap comments using textwidth
+    set formatoptions-=o " do not continue comment using o or O
+    set formatoptions-=t " auto wrap based on textwidth
+    set formatoptions-=a " auto-paragraphing, fuck that.
+    set formatoptions-=v " vi auto wrapping, no.
+    set formatoptions-=b " I just don't like auto
+    set formatoptions-=1 " I don't fuckin care how long it is
 "End Vim set }}}
 
 "Begin Vim map {{{
@@ -367,6 +384,7 @@ endfun
 " }}}
 
 function! SuperSexyFoldText() "{{{
+    let fold = strcharpart(&fillchars, stridx(&fillchars, 'fold') + 5, 1)
     let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
     let oldline = l:line
     let line = strpart(l:line, 0, winwidth('.') / 2 - 3)
@@ -375,11 +393,11 @@ function! SuperSexyFoldText() "{{{
     endif
     let lines_count = v:foldend - v:foldstart + 1
     let lines_count_text = printf("%s", lines_count)
-    let foldchar = " "
-    let foldtextstart = strpart('' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+    let spacechar = " "
+    let foldtextstart = strpart('' . repeat(spacechar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
     let foldtextend = ' ( #' . repeat(" ", 4 - len(lines_count_text)) . lines_count_text . " ) "
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-    return '|' . repeat('·', winwidth('.') / 4) . "| " . line . repeat(foldchar, winwidth('.') / 2 - len(line)) . foldtextend . '|'
+    return '|' . repeat(l:fold, winwidth('.') / 4) . "| " . line . repeat(spacechar, winwidth('.') / 2 - len(line)) . foldtextend . '|'
 endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
@@ -391,37 +409,59 @@ command! -nargs=0 Kws call KillWhitespace()
 " }}}
 
 " Highlight word, and Hight Scope, I like scope better lol.{{{
-set updatetime=500
-let g:highlightactive=1
+set updatetime=1000
+let g:highlightactive=get(g:, 'highlightactive', 1)
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|silent call HighlightOnHold()<cr>
+func! s:skipthis()
+    return len(g:curhighword) < g:smallest || 
+    \ (match(g:curhighword, "\\A") != -1 && match(g:curhighword, "_") == -1)
+endfunc
+
 func! HighlightOnHold()
+    try | call matchdelete(999) | catch *
+    endtry
+    try | call matchdelete(888) | catch *
+    endtry
+
     if g:highlightactive
         let g:curhighword = expand("<cword>")
-        if g:curhighword == @/
-            exec printf("match holdSearch \/\\<%s\\>\/", "")
+        let g:smallest = 2
+
+        if s:skipthis()
             return
         endif
+
         try
-            exec printf("match holdSearch \/\\<%s\\>\/", expand("<cword>"))
-        catch /.*/
+            let col = match(getline('.'), g:curhighword) + 1
+
+            if match(g:curhighword, @/) != -1 && &hlsearch
+                call matchadd('holdSearchC', "\\%".l:col.'c\%'.
+                    \ (line('.')).'l'.@/, 100, 888)
+            else
+                call matchadd('holdSearch', '\<'.g:curhighword.'\>', -100, 999)
+            endif
+        catch *
         endtry
-    else
-        exec 'match holdSearch \\'
     endif
 endfun
 
-let g:indenthighlightactive=1
+let g:indenthighlightactive=get(g:, 'indenthighlightactive', 1)
 func! ScopeIndentHighlight()
-    if &filetype == 'help'
+    try | call matchdelete(666) | catch *
+    endtry
+
+    if &filetype == 'help' || &filetype == 'qf'
         return
     endif
 
     let l:start = line('w0') - 1
     let l:end = line('w$') + 1
     let indent = indent('.')
+
     if l:indent < &shiftwidth
         let l:indent = &shiftwidth
     endif
+
     let o_indent = l:indent
 
     for x in reverse(range(l:start,line('.')))
@@ -443,27 +483,34 @@ func! ScopeIndentHighlight()
         if l:indent == l:o_indent
             let l:indent = l:indent - &shiftwidth + 1
         endif
-        exec "2match holdSearch /" .
-            \"\\%".l:indent.'c'.
-            \"\\%>".l:start.'l\%<'.l:end.'l'.
-            \"/"
-    else
-        exec '2match holdSearch \\'
+        call matchadd('Conceal',"\\%".l:indent."c\\%>".l:start.'l\%<'.l:end.'l\ ',-1000,666)
     endif
 endfun
+
+augroup scope
+    autocmd!
+    " highlight shit, might move to a plugin, probably move to a plugin.
+    autocmd CursorMoved * call ScopeIndentHighlight() | call HighlightOnHold()
+    autocmd InsertEnter * call ScopeIndentHighlight() | call HighlightOnHold()
+augroup END
+
 " }}}
 
 " Autocommands {{{
 augroup init
     autocmd!
+    " me
     autocmd BufWinLeave * cal LeaveBufWin() | call LeaveWin()
     autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
     autocmd WinEnter * cal EnterWin()
     autocmd WinLeave * cal LeaveWin()
-    autocmd CursorHold * call HighlightOnHold()
-    autocmd CursorMoved * call ScopeIndentHighlight()
+
+    " close qf if only
+    autocmd WinEnter * if winnr('$') == 1 && &buftype == 'quickfix' | quit
+
+    " Filetypes
     autocmd FileType c,cpp,java,cs set mps+==:;|set commentstring=//\ %s
-    autocmd FileType cs set mps+=region:endregion
     autocmd FileType cs set foldmarker=region,endregion
+    autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}

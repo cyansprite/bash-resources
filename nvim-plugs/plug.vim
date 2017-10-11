@@ -6,6 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'thinca/vim-visualstar'
     Plug 'junegunn/vim-after-object'
     Plug 'tpope/vim-commentary'
+    Plug 'itchyny/vim-parenmatch'
 
     " Format
     Plug 'foosoft/vim-argwrap'
