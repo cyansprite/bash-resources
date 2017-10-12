@@ -6,6 +6,7 @@
 " Of ] ops
 " map ]f and [f because gf is the same and I never use it anyways...
 " map arrow keys
+" function for cpp  ->  ::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$
 
 " Plug, colo {{{
 if(has("unix"))
@@ -30,6 +31,7 @@ endif
     set confirm                  " Don't tell me no
     set expandtab                " Expands tab to spaces
     set fic                      " Fuck file case
+    set lazyredraw               " Don't draw durning macros
     set linebreak                " don't cut words on wrap if i DO wrap
     set list                     " list my chars: ╳│¦|┆×•·
     set nowrap                   " I really hate wrap
@@ -132,7 +134,7 @@ endif
     map ' `
 
     " Hls ease
-    nnoremap <silent><space> :silent set hlsearch!<cr>
+    nnoremap <silent><space> hl:silent set hlsearch!<cr>
     nnoremap n :set hlsearch<cr>nzv
     nnoremap N :set hlsearch<cr>Nzv
     nnoremap / :set hlsearch<cr>/
@@ -159,12 +161,6 @@ endif
     nnoremap <m-J> <c-w>-
     nnoremap <m-K> <c-w>+
 
-    " move hjkl with ctrl
-    nnoremap <c-h> <c-w>h
-    nnoremap <c-l> <c-w>l
-    nnoremap <c-j> <c-w>j
-    nnoremap <c-k> <c-w>k
-
     " I don't know why this isn't default
     nnoremap Y y$
 
@@ -172,8 +168,8 @@ endif
     nnoremap g<cr> i<cr><esc>
 
     " Bubble
-    nnoremap <silent> zj o<Esc>k
-    nnoremap <silent> zk O<Esc>j
+    nnoremap <silent> gj o<Esc>k
+    nnoremap <silent> gk O<Esc>j
 
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
