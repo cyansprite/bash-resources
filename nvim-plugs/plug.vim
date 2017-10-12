@@ -1,49 +1,55 @@
-" plugins (Plug.vim) {{{1
+" Plugins: (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
-    " Motion stuff
+
+    " Motion:
     Plug 'cyansprite/extract'
     Plug 'cyansprite/confine'
     Plug 'thinca/vim-visualstar'
     Plug 'junegunn/vim-after-object'
     Plug 'tpope/vim-commentary'
-    Plug 'itchyny/vim-parenmatch'
 
-    " Format
+    " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
     Plug 'junegunn/vim-easy-align'
 
-    " Syntax
+    " Syntax: The default is mediocre
     Plug 'cyansprite/vim-csharp'
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'keith/tmux.vim'
-    Plug 'tpope/vim-git'
     Plug 'Valloric/vim-operator-highlight'
-    Plug 'nathanaelkane/vim-indent-guides'
-    Plug 'cyansprite/Restraint.vim'
 
-    " Completion Help
-    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-    Plug 'Valloric/YouCompleteMe'
+    " Completion: This can be painful on certain machines...
+    if hostname() !=? 'kistune' || hostname() !=? 'kuroi' || hostname !=? 'demi'
+        Plug 'Valloric/YouCompleteMe'
+        Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+    endif
 
-    " Source control
+    " Git: Including runtime
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
-    Plug 'AndrewRadev/linediff.vim'
+    Plug 'tpope/vim-git'
 
-    " Navigation (<3 fzf)
+    " IDElike: I am looking into stuff like this, don't know if I will use.
+    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+
+    " Navigation: (<3 fzf) and my own custom that I need to fin.
     Plug 'cyansprite/logicalBuffers'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
-    " Searching
+    " Grep: the context grep sucks; but quickfix is nice, look into others.
     Plug 'mhinz/vim-grepper'
 
-    " Output
+    " Output: Fancy shit kiddo.
     Plug 'AndrewRadev/bufferize.vim'
+    Plug 'AndrewRadev/linediff.vim'
+
+    " Color: My personal theme featuring Espurr
+    Plug 'cyansprite/Restraint.vim'
+
 call plug#end()
 
-" mappings {{{1
+" Mappings: {{{1
     "<3 fzf
     nnoremap <c-t> :Files<cr>
     nnoremap ? :Lines<cr>
@@ -87,7 +93,7 @@ call plug#end()
           \ -grepprg git grep -nIi '\(TODO\|FIXME\)'
 
 
-" options {{{1
+" Options: {{{1
 " FZF {{{2
 let g:fzf_layout = { 'up': '~20%' }
 let g:fzf_history_dir = '~/.local/share/fzf-history'
@@ -198,14 +204,14 @@ let g:grepper.tools     = ['git', 'ag', 'grep']
 let g:extract_maxCount = 20
 
 
-" autocmds {{{1
+" Autocmd: {{{1
 autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
 autocmd FileType GrepperSide
   \  silent normal! gg
   \  silent execute 'keeppatterns v#'.b:grepper_side.'#>'
   \| silent normal! ggn
 
-" higlighting {{{1
+" Highlight: {{{1
     let g:ophigh_highlight_link_group = 'Operator'
     let g:indent_guides_auto_colors = 0
     let g:indent_guides_start_level = 2

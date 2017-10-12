@@ -7,7 +7,7 @@ URxvt*colorUL:           #f0ffca
 URxvt*colorIT:           #f0c0c0
 URxvt*colorBD:           #cfc5fc
 *color0:                 #000000
-*color8:                 #6f8f6f
+*color8:                 #6f6f6f
 *color1:                 #db9090
 *color9:                 #9d6968
 *color2:                 #b6db90
