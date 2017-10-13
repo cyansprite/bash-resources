@@ -5,7 +5,7 @@ URxvt*foreground:        #2f2f2f
 URxvt*underlineColor:    #22aaaa
 URxvt*colorUL:           #505000
 URxvt*colorIT:           #aa4444
-URxvt*colorBD:           #5f557c
+URxvt*colorBD:           #9595ac
 
 *color0:  #000000
 *color1:  #840000
@@ -14,7 +14,7 @@ URxvt*colorBD:           #5f557c
 *color4:  #000084
 *color5:  #420084
 *color6:  #008484
-*color7:  #9595ac
+*color7:  #65659c
 *color8:  #778877
 *color9:  #b70000
 *color10: #428400

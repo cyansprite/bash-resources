@@ -67,7 +67,7 @@ endif
     set icm="nosplit"            " inc command split in preview, hasn't worked
     set matchtime=1              " Show matching time
     set matchpairs+=<:>          " More matches
-    set mouse=n                  " I prefer having terminal functionality.
+    set mouse=                   " I prefer having terminal functionality.
     set shiftwidth=4             " Use indents of 4 spaces
     set showmatch                " Show matching brackets/parentthesis
     set sidescrolloff=5          " 5 columns off?, scroll
@@ -132,6 +132,10 @@ endif
 
     " Does anyone actually use single quote?
     map ' `
+
+    " I don't use tabs so make them useful things I have trouble hitting
+    nmap gt <bar>
+    " TODO nmap gT <bar>
 
     " Hls ease
     nnoremap <silent><space> hl:silent set hlsearch!<cr>
@@ -214,7 +218,7 @@ ca Let let
 function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%#ModeMsg#\ %{Mode(mode())}\ %*
-    setl statusline+=%3*\ %{CurArg()}\ %*
+    setl statusline+=%3*\ %<%{CurArg()}\ %*
 
     if &modifiable
         setl statusline+=%1*%m%*
@@ -510,3 +514,11 @@ augroup init
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}
+
+" Special chars {{{
+" ЛМНОПРСТУФХЧЦШЩЬЪЫЅЭІЇЈЮЯӀӢӮабвгѓдеёжзийкќлмнопрстуфхчцшщьъыѕэіјюяһӣӯΑΒΓΔΕΖΗΘΙ
+" ΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω0123456789⁄⅟½↉⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞⅑⅒*\·•:,…!
+" ‼¡#․.?¿"';/‥_{}[]()—–-«»‹›„“”‘‛’‚¢¤$ƒ£¥≡+−×÷=≠><≥≤±≈~¬∅∞∫∆∏∑√∂µ%‰∴∕∙▁▂▃▄▅▆▇█▀▔
+" ▏▎▍▌▋▊▉▐▕▖▗▘▙▚▛▜▝▞▟░▒▓━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸
+" ┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋╌╍╎╏═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬╭╮╯╰╱╲╳╴╵╶╷╸╹╺╻╼╽╾╿♥@&¶§©®
+" ™°|¦†ℓ‡^̣´˘ˇ¸ˆ¨˙`˝¯˛˚˜

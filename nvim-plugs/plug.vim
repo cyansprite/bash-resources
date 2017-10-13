@@ -19,10 +19,25 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'Valloric/vim-operator-highlight'
 
     " Completion: This can be painful on certain machines...
-    if hostname() !=? 'kistune' || hostname() !=? 'kuroi' || hostname !=? 'demi'
-        Plug 'Valloric/YouCompleteMe'
-        Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-    endif
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'Shougo/neco-vim'
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
+    Plug 'Shougo/neoinclude.vim'
+    Plug 'SirVer/ultisnips'
+    Plug 'zchee/deoplete-jedi'
+    Plug 'tweekmonster/deoplete-clang2'
+    Plug 'wellle/tmux-complete.vim'
+    Plug 'SevereOverfl0w/deoplete-github'
+    Plug 'Robzz/deoplete-omnisharp/'
+    Plug 'Shougo/context_filetype.vim'
+    let g:deoplete#enable_at_startup = 1
+    inoremap <silent><expr> <c-space> deoplete#mappings#manual_complete()
+
+    " if hostname() !=? 'kistune' || hostname() !=? 'kuroi' || hostname !=? 'demi'
+    "     Plug 'Valloric/YouCompleteMe'
+    "     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+    " endif
 
     " Git: Including runtime
     Plug 'airblade/vim-gitgutter'
