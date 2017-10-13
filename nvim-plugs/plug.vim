@@ -11,6 +11,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
     Plug 'junegunn/vim-easy-align'
+    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
     " Syntax: The default is mediocre
     Plug 'cyansprite/vim-csharp'
