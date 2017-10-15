@@ -5,7 +5,7 @@
 " Of [ ops like [I
 " Of ] ops
 " map ]f and [f because gf is the same and I never use it anyways...
-" map arrow keys
+" map arrow keys ??
 " function for cpp  ->  ::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$
 
 " Plug, colo {{{
@@ -79,6 +79,7 @@ endif
     set ttimeoutlen=25           " I don't care much for waiting
     set undolevels=99999         " A lot of undo history :P
     set updatecount=33           " update swp every 33 chars.
+    set updatetime=1000          " Do updates every second
     set viewoptions=folds,cursor " What to save with mkview
     set wildoptions=tagfile      " Wop tags
     set wildmode=longest,full    " Let's make it nice tab completion
@@ -120,7 +121,6 @@ endif
 "Begin Vim map {{{
     " Refresh my script bitch!
     nnoremap <F5> :w \| so %<cr>
-    nnoremap <F4><F4> :confirm qall<cr>
 
     " I use this too much for it to not be a mapping
     nnoremap <leader>ee :e **/*
@@ -292,7 +292,10 @@ func! Mode(mode)
         let paste = " PASTE "
     endif
 
-    return s:statusmodes[a:mode] . l:paste
+    if !&modifiable
+        return '- '. toupper(&filetype) . ' -'
+    else
+        return s:statusmodes[a:mode] . l:paste
 endfunc
 
 func! PositionBarRight()
@@ -408,19 +411,77 @@ endf
 command! -nargs=0 Kws call KillWhitespace()
 " }}}
 
-" Highlight word, and Hight Scope, I like scope better lol.{{{
-set updatetime=1000
+" Autocommands {{{
+augroup init
+    autocmd!
+    " me
+    autocmd BufWinLeave * cal LeaveBufWin() | call LeaveWin()
+    autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
+    autocmd WinEnter * cal EnterWin()
+    autocmd WinLeave * cal LeaveWin()
+
+    " Filetypes
+    autocmd FileType c,cpp,java,cs set mps+==:;|set commentstring=//\ %s
+    autocmd FileType cs set foldmarker=region,endregion
+    autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+augroup END
+"}}}
+
+" New Plugin: Highlight word, and Light Scope, and jump to each other.
 let g:highlightactive=get(g:, 'highlightactive', 1)
-nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|silent call HighlightOnHold()<cr>
-func! s:skipthis()
-    return len(g:curhighword) < g:smallest || 
+" Mapping to alter custom highlighting. "{{{1
+nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|
+    \silent call AutoHighlightCurrentWord()\|
+    \silent call ScopeIndentHighlight()\|
+    \silent call HighlightCurrentMatch()<cr>
+
+func! s:skipthis() "{{{1
+    return len(g:curhighword) < g:smallest ||
     \ (match(g:curhighword, "\\A") != -1 && match(g:curhighword, "_") == -1)
 endfunc
 
-func! HighlightOnHold()
-    try | call matchdelete(999) | catch *
-    endtry
+func! HighlightCurrentMatch() "{{{1
     try | call matchdelete(888) | catch *
+    endtry
+
+    if s:skipthis() || !g:highlightactive
+        return
+    endif
+
+    " "nbc" Gets the first index.
+    " "nec" Gets the last index (last - first + 1 == "len").
+    " "n"   Gets the next instance.
+    let sp = searchpos(@/, "nbc", line('.'))
+    let sp2 = searchpos(@/, "nec", line('.'))
+    let sp3 = searchpos(@/, "n", line('.'))
+    let len = sp2[1] - sp[1] + 1
+
+    if &hlsearch && sp != [0,0] && sp2 != [0,0] && (sp2[1] < sp3[1] || sp3 == [0,0])
+        call matchaddpos('holdSearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
+    else
+        let col = match(getline('.'), g:curhighword, col('.') - len(g:curhighword)) + 1
+        if col('.') >= l:col && col('.') < l:col + len(g:curhighword)
+            call matchaddpos('holdSearchC', [[line('.'), l:col, len(g:curhighword)], ] , -50, 888)
+        endif
+    endif
+endfunc
+
+func! JumpToAuto(forward) "{{{1
+    " let save = @/
+    if a:forward
+        call search(IgnoreCase().'\<'.g:curhighword.'\>', '')
+    else
+        call search(IgnoreCase().'\<'.g:curhighword.'\>', 'b')
+    endif
+    " let @/ = l:save
+endfunc
+
+" Also opens folds "{{{1
+nnoremap <silent> <c-n> :call JumpToAuto(1)<cr>zv
+nnoremap <silent> <c-p> :call JumpToAuto(0)<cr>zv
+
+func! AutoHighlightCurrentWord() "{{{1
+    try | call matchdelete(999) | catch *
     endtry
 
     if g:highlightactive
@@ -431,26 +492,21 @@ func! HighlightOnHold()
             return
         endif
 
-        try
-            let col = match(getline('.'), g:curhighword) + 1
-
-            if match(g:curhighword, @/) != -1 && &hlsearch
-                call matchadd('holdSearchC', "\\%".l:col.'c\%'.
-                    \ (line('.')).'l'.@/, 100, 888)
-            else
-                call matchadd('holdSearch', '\<'.g:curhighword.'\>', -100, 999)
-            endif
-        catch *
-        endtry
+        if !(g:curhighword == @/ && &hlsearch)
+            call matchadd('holdSearch', IgnoreCase().'\<'.g:curhighword.'\>', -100, 999)
+        endif
     endif
 endfun
 
-let g:indenthighlightactive=get(g:, 'indenthighlightactive', 1)
-func! ScopeIndentHighlight()
+func! IgnoreCase() "{{{1
+    return &ignorecase ? '\c' : '\C'
+endfunc
+
+func! ScopeIndentHighlight() "{{{1
     try | call matchdelete(666) | catch *
     endtry
 
-    if &filetype == 'help' || &filetype == 'qf'
+    if &filetype == 'help' || &filetype == 'qf' || !g:highlightactive
         return
     endif
 
@@ -479,41 +535,26 @@ func! ScopeIndentHighlight()
         endif
     endfor
 
-    if g:indenthighlightactive
-        if l:indent == l:o_indent
-            let l:indent = l:indent - &shiftwidth + 1
-        endif
-        call matchadd('Conceal',"\\%".l:indent."c\\%>".l:start.'l\%<'.l:end.'l\ ',-1000,666)
+    if l:indent == l:o_indent
+        let l:indent = l:indent - &shiftwidth + 1
     endif
+    call matchadd('Conceal',"\\%".l:indent."c\\%>".l:start.'l\%<'.l:end.'l\ ',-1000,666)
 endfun
 
-augroup scope
+augroup scope "{{{1
     autocmd!
-    " highlight shit, might move to a plugin, probably move to a plugin.
-    autocmd CursorMoved * call ScopeIndentHighlight() | call HighlightOnHold()
-    autocmd InsertEnter * call ScopeIndentHighlight() | call HighlightOnHold()
+    autocmd CursorMoved * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentMatch()
+    autocmd InsertEnter * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentMatch()
 augroup END
 
-" }}}
-
-" Autocommands {{{
-augroup init
-    autocmd!
-    " me
-    autocmd BufWinLeave * cal LeaveBufWin() | call LeaveWin()
-    autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
-    autocmd WinEnter * cal EnterWin()
-    autocmd WinLeave * cal LeaveWin()
-
-    " close qf if only
-    autocmd WinEnter * if winnr('$') == 1 && &buftype == 'quickfix' | quit
-
-    " Filetypes
-    autocmd FileType c,cpp,java,cs set mps+==:;|set commentstring=//\ %s
-    autocmd FileType cs set foldmarker=region,endregion
-    autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-augroup END
-"}}}
+" Recommendations: {{{
+    " Hls ease
+    " nnoremap <silent><space> hl:silent set hlsearch!<cr>
+    " nnoremap n :set hlsearch<cr>nzv
+    " nnoremap N :set hlsearch<cr>Nzv
+    " nnoremap / :set hlsearch<cr>/
+    " nnoremap * :set hlsearch<cr>*zv
+" }}}1
 
 " Special chars {{{
 " ЛМНОПРСТУФХЧЦШЩЬЪЫЅЭІЇЈЮЯӀӢӮабвгѓдеёжзийкќлмнопрстуфхчцшщьъыѕэіјюяһӣӯΑΒΓΔΕΖΗΘΙ

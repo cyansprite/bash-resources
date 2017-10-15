@@ -45,16 +45,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     " IDElike: I am looking into stuff like this, don't know if I will use.
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
-    Plug 'skywind3000/quickmenu.vim'
-
-
     " Navigation: (<3 fzf) and my own custom that I need to fin.
     Plug 'cyansprite/logicalBuffers'
-    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-    let g:Lf_StlSeparator = { 'left': ' ', 'right': ' ' }
+    " Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+    " let g:Lf_StlSeparator = { 'left': ' ', 'right': ' ' }
 
-    " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    " Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
 
     " Grep: the context grep sucks; but quickfix is nice, look into others.
     Plug 'mhinz/vim-grepper'
@@ -68,47 +65,32 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 call plug#end()
 
-" {{{
+" {{{ Deoplete
     let g:deoplete#enable_at_startup = 1
     inoremap <silent><expr> <c-space> deoplete#mappings#manual_complete()
 " }}}
 
-"{{{
-    noremap <silent><leader>` :call quickmenu#toggle(0)<cr>
-    let g:quickmenu_options = "L"
-    call quickmenu#reset()
+" like the idea hate the plugin {{{
+    " call g:quickmenu#append('# Resource Files', '')
+    " call quickmenu#append("init.vim", 'e ~/.config/nvim/init.vim', "")
+    " call quickmenu#append("plug.vim", 'e ~/.config/nvim/plug.vim', "")
 
-    call g:quickmenu#append('# Resource Files', '')
-    call quickmenu#append("init.vim", 'e ~/.config/nvim/init.vim', "")
-    call quickmenu#append("plug.vim", 'e ~/.config/nvim/plug.vim', "")
-
-    call g:quickmenu#append('# Plugin Files', '')
-    call quickmenu#append("restraint.vim", 'e ~/.local/share/nvim/plugged/Restraint.vim/colors/restraint.vim', "")
-    call quickmenu#append("logicalBuffers.vim", 'e ~/.local/share/nvim/plugged/logicalBuffers/plugin/logicalBuffers.vim', "")
-    call quickmenu#append("extract.vim", 'e ~/.local/share/nvim/plugged/extract/plugin/extract.vim', "")
+    " call g:quickmenu#append('# Plugin Files', '')
+    " call quickmenu#append("restraint.vim", 'e ~/.local/share/nvim/plugged/Restraint.vim/colors/restraint.vim', "")
+    " call quickmenu#append("logicalBuffers.vim", 'e ~/.local/share/nvim/plugged/logicalBuffers/plugin/logicalBuffers.vim', "")
+    " call quickmenu#append("extract.vim", 'e ~/.local/share/nvim/plugged/extract/plugin/extract.vim', "")
 "}}}
 
 " Mappings: {{{1
     "<3 fzf
     nnoremap <c-t> :Files<cr>
     nnoremap ? :Lines<cr>
-    nnoremap <c-p> :Buffers<cr>
 
     let g:UltiSnipsJumpForwardTrigger="<c-f>"
     let g:UltiSnipsExpandTrigger="<tab>"
     let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
     nnoremap <silent> <leader>A :ArgWrap<CR>
-
-    let g:wordmotion_mappings = {
-                \ 'w' : 'W',
-                \ 'b' : 'B',
-                \ 'e' : 'E',
-                \ 'iw' : 'iW',
-                \ '<C-R><C-W>' : '<C-R><M-w>'
-                \ }
-
-    nmap <leader>a :A<cr>
 
     nmap <leader><leader>] :TagbarToggle<CR>
 
@@ -117,8 +99,6 @@ call plug#end()
 
     nnoremap <leader>gg :Grepper -tool git<cr>
     nnoremap <leader>ga :Grepper -tool ag<cr>
-    nnoremap <leader>gs :Grepper -tool ag -side<cr>
-    nnoremap <leader>*  :Grepper -tool ag -cword -noprompt<cr>
 
     let g:grepper           = {}
     let g:grepper.tools     = ['git', 'ag', 'grep']
@@ -245,11 +225,6 @@ let g:extract_maxCount = 20
 
 " Autocmd: {{{1
 autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
-autocmd FileType GrepperSide
-  \  silent normal! gg
-  \  silent execute 'keeppatterns v#'.b:grepper_side.'#>'
-  \| silent normal! ggn
-
 " Highlight: {{{1
     let g:ophigh_highlight_link_group = 'Operator'
     let g:indent_guides_auto_colors = 0
