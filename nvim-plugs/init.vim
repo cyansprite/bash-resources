@@ -430,9 +430,9 @@ augroup END
 " New Plugin: Highlight word, and Light Scope, and jump to each other.
 let g:highlightactive=get(g:, 'highlightactive', 1)
 " Mapping to alter custom highlighting. "{{{1
-nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive\|
-    \silent call AutoHighlightCurrentWord()\|
-    \silent call ScopeIndentHighlight()\|
+nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive<bar>
+    \silent call AutoHighlightCurrentWord()<bar>
+    \silent call ScopeIndentHighlight()<bar>
     \silent call HighlightCurrentMatch()<cr>
 
 func! s:skipthis() "{{{1
