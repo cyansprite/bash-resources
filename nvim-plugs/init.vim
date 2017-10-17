@@ -218,7 +218,7 @@ ca Let let
 function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%#ModeMsg#\ %{Mode(mode())}\ %*
-    setl statusline+=%3*\ %<%{CurArg()}\ %*
+    setl statusline+=%3*\ %{CurArg()}\ %*
 
     if &modifiable
         setl statusline+=%1*%m%*
@@ -227,7 +227,8 @@ function! StatusLine()
     endif
 
     setl statusline+=%2*%r
-    setl statusline+=%4*%=
+    setl statusline+=%#holdScope#\ %{ScopeStart()}%=
+    setl statusline+=%<%-1.(%{ScopeEnd()}%=\ %4*%)
 
     " Right: linenr,column    PositionBar()
     setl statusline+=%-10.(%#CursorLineNr#\ %l,%c,\ :\ %LG,%p%%\ %)
@@ -235,6 +236,24 @@ function! StatusLine()
                           \%#CursorLineNr#%{PositionBar()}
                           \%#LineNr#%{PositionBarRight()}%)\ ]\ %*
 endfunction
+
+function! ScopeStart()
+    if has_key(g:, 'scope_startline')
+        return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
+                    \ 0, winwidth('.')/2)
+    else
+        return ''
+    endif
+endfunc
+
+function! ScopeEnd()
+    if has_key(g:, 'scope_endline')
+        return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"), 
+                    \ 0, winwidth('.')/4)
+    else
+        return ''
+    endif
+endfunc
 
 " Status Line Not current, file [+][-][RO]_______>____<____l,c : maxG,%
 function! StatusLineNC()
@@ -510,8 +529,8 @@ func! ScopeIndentHighlight() "{{{1
         return
     endif
 
-    let l:start = line('w0') - 1
-    let l:end = line('w$') + 1
+    let l:start = line('0')
+    let l:end = line('$')
     let indent = indent('.')
 
     if l:indent < &shiftwidth
@@ -539,6 +558,12 @@ func! ScopeIndentHighlight() "{{{1
         let l:indent = l:indent - &shiftwidth + 1
     endif
     call matchadd('Conceal',"\\%".l:indent."c\\%>".l:start.'l\%<'.l:end.'l\ ',-1000,666)
+    let g:scope_startline = getline(l:start)
+    if l:start != l:end
+        let g:scope_endline = getline(l:end)
+    else
+        let l:scope_endline = ''
+    endif
 endfun
 
 augroup scope "{{{1

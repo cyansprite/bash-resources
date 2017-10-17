@@ -7,7 +7,7 @@ URxvt*colorUL:           #505000
 URxvt*colorIT:           #aa4444
 URxvt*colorBD:           #9595ac
 
-*color0:  #000000
+*color0:  #20202f
 *color1:  #840000
 *color2:  #008400
 *color3:  #846e00
@@ -22,4 +22,4 @@ URxvt*colorBD:           #9595ac
 *color12: #005bb7
 *color13: #b700b7
 *color14: #008463
-*color15: #e5e5e5
+*color15: #afafcc
