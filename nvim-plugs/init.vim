@@ -27,7 +27,7 @@ endif
 "Begin Vim set {{{
     " Set: Those that use macros
     set backup | set writebackup " back it up, the file, I mean.
-    set cursorline               " set cursorline to highlight NOTHING
+    set cursorline               " set cursorline to highlight
     set confirm                  " Don't tell me no
     set expandtab                " Expands tab to spaces
     set fic                      " Fuck file case
@@ -58,8 +58,8 @@ endif
     set cmdheight=1              " Pair up
     set complete=.,w,b,u,U       " Complete all buffers,window, current, and tag
     set colorcolumn=80,130       " color columns
-    set concealcursor=inc        " Complete all buffers,window, current, and tag
-    set conceallevel=1           " Complete all buffers,window, current, and tag
+    " set concealcursor=inc        " Complete all buffers,window, current, and tag
+    set conceallevel=0           " Complete all buffers,window, current, and tag
     set diffopt+=context:3       " diff context lines
     set foldcolumn=0             " foldcolumn... yes
     set foldmethod=marker        " fold stuff :)
@@ -470,17 +470,24 @@ func! HighlightCurrentMatch() "{{{1
     " "nbc" Gets the first index.
     " "nec" Gets the last index (last - first + 1 == "len").
     " "n"   Gets the next instance.
-    let sp = searchpos(@/, "nbc", line('.'))
+    try
+        let sp = searchpos(@/, "nbc", line('.'))
+    catch E871
+        echohl ErrorMsg
+        echom "Invalid Search Pattern"
+        echohl NONE
+        return
+    endtry
     let sp2 = searchpos(@/, "nec", line('.'))
     let sp3 = searchpos(@/, "n", line('.'))
     let len = sp2[1] - sp[1] + 1
 
     if &hlsearch && sp != [0,0] && sp2 != [0,0] && (sp2[1] < sp3[1] || sp3 == [0,0])
-        call matchaddpos('holdSearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
+        call matchaddpos('SearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
     else
         let col = match(getline('.'), g:curhighword, col('.') - len(g:curhighword)) + 1
         if col('.') >= l:col && col('.') < l:col + len(g:curhighword)
-            call matchaddpos('holdSearchC', [[line('.'), l:col, len(g:curhighword)], ] , -50, 888)
+            call matchaddpos('HoldSearchC', [[line('.'), l:col, len(g:curhighword)], ] , -50, 888)
         endif
     endif
 endfunc
@@ -494,10 +501,18 @@ func! JumpToAuto(forward) "{{{1
     endif
     " let @/ = l:save
 endfunc
+func! JumpToStart()
+    exec g:scope_start
+endfunc
+func! JumpToEnd()
+    exec g:scope_end
+endfunc
 
 " Also opens folds "{{{1
 nnoremap <silent> <c-n> :call JumpToAuto(1)<cr>zv
 nnoremap <silent> <c-p> :call JumpToAuto(0)<cr>zv
+nnoremap <silent> <c-k> :call JumpToStart()<cr>zv
+nnoremap <silent> <c-j> :call JumpToEnd()<cr>zv
 
 func! AutoHighlightCurrentWord() "{{{1
     try | call matchdelete(999) | catch *
@@ -512,7 +527,7 @@ func! AutoHighlightCurrentWord() "{{{1
         endif
 
         if !(g:curhighword == @/ && &hlsearch)
-            call matchadd('holdSearch', IgnoreCase().'\<'.g:curhighword.'\>', -100, 999)
+            call matchadd('HoldSearch', IgnoreCase().'\<'.g:curhighword.'\>', -100, 999)
         endif
     endif
 endfun
@@ -523,6 +538,14 @@ endfunc
 
 func! ScopeIndentHighlight() "{{{1
     try | call matchdelete(666) | catch *
+    endtry
+    try | call matchdelete(111) | catch *
+    endtry
+    try | call matchdelete(222) | catch *
+    endtry
+    try | call matchdelete(333) | catch *
+    endtry
+    try | call matchdelete(444) | catch *
     endtry
 
     if &filetype == 'help' || &filetype == 'qf' || !g:highlightactive
@@ -538,32 +561,97 @@ func! ScopeIndentHighlight() "{{{1
     endif
 
     let o_indent = l:indent
+    let passby = 0
 
-    for x in reverse(range(l:start,line('.')))
-        if indent(x) < l:indent && !empty(getline(x))
-            let l:start = x
-            let indent = indent(x) + 1
-            break
-        endif
-    endfor
+    " TODO add more matches example : vim : if, elseif, else, endif
+    if match(getline('.'), '^\s\{'.(l:o_indent).'}{') != -1
+        let l:start = line('.')
+        let l:end = search('^\s\{'.(l:o_indent).'}}', 'n')
+    elseif match(getline('.'), '^\s\{'.l:o_indent.'}}') != -1
+        let l:end = line('.')
+        let l:start = search('^\s\{'.(l:o_indent).'}{', 'bn')
+    else
+        let passby = 1
+        for x in reverse(range(l:start,line('.')))
+            if indent(x) < l:indent && !empty(getline(x))
+                let l:start = x
+                let indent = indent(x) + 1
+                break
+            endif
+        endfor
 
-    for x in range(line('.'), l:end)
-        if indent(x) < l:indent && !empty(getline(x))
-            let l:end = x
-            break
-        endif
-    endfor
+        for x in range(line('.'), l:end)
+            if indent(x) < l:indent && !empty(getline(x))
+                let l:end = x
+                break
+            endif
+        endfor
+    endif
+
+    call matchadd('HoldScope',"\\%".1."c\\%>".l:start.'l\%<'.l:end.'l',-100,666)
 
     if l:indent == l:o_indent
         let l:indent = l:indent - &shiftwidth + 1
     endif
-    call matchadd('Conceal',"\\%".l:indent."c\\%>".l:start.'l\%<'.l:end.'l\ ',-1000,666)
+
+    if !l:passby
+        let o_indent += &shiftwidth
+        let l:indent += &shiftwidth
+    else
+
+    endif
+
     let g:scope_startline = getline(l:start)
+    let l:indentmorestart = 0
+
     if l:start != l:end
         let g:scope_endline = getline(l:end)
     else
-        let l:scope_endline = ''
+        let g:scope_endline = ''
     endif
+
+    " use \{2,} not \+ because what if you have else { or else if {
+    " If curly on new line get above for scope startline and column
+    if match(g:scope_startline,'\s\{2,}{') != -1
+        let l:indentmorestart = 1
+        let g:scope_startline = getline(l:start - l:indentmorestart)
+    endif
+
+    let l:if = -1
+
+    " If else then get if as well
+    if match(g:scope_startline, '\s\+else') != -1
+        let l:if = search('^\s\{'.(l:o_indent-&shiftwidth).'}if', 'bn')
+    endif
+
+    " If case then get switch as well
+    if match(g:scope_startline, '\s\{2,}case') != -1
+        let l:if = search('^\s\{'.(l:o_indent-&shiftwidth).'}switch', 'bn')
+    endif
+
+    " If catch then go with try
+    if match(g:scope_startline, '\s\{2,}catch') != -1
+        let l:if = search('^\s\{'.(l:o_indent-&shiftwidth).'}try', 'bn')
+    endif
+
+    if l:if != -1
+        call matchaddpos('Conceal', [[l:if     , 1    , l:indent - l:passby] ,] , -50, 111)
+        let g:scope_startline = getline(l:if) . g:scope_startline
+        call matchadd('Conceal',"\\%".1."c\\%>".(l:if).'l\%<'.(l:start).'l',-100,444)
+    endif
+
+    let l:indentmoreend = 0
+    if match(g:scope_endline,'\s\{2,}}') != -1
+        let l:indentmoreend = 1
+    endif
+
+    if l:indent != 1
+        call matchaddpos('HoldScope', [[l:start  , 1    , l:indent - 1 + l:indentmorestart] ,] , -50, 222)
+        call matchaddpos('HoldScope', [[l:end    , 1    , l:indent - 1 + l:indentmoreend  ] ,] , -50, 333)
+    endif
+
+    let g:scope_start = l:start
+    let g:scope_end   = l:end
 endfun
 
 augroup scope "{{{1
