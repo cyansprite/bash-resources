@@ -27,7 +27,7 @@ endif
 "Begin Vim set {{{
     " Set: Those that use macros
     set backup | set writebackup " back it up, the file, I mean.
-    set cursorline               " set cursorline to highlight
+    set nocursorline             " set no cursorline
     set confirm                  " Don't tell me no
     set expandtab                " Expands tab to spaces
     set fic                      " Fuck file case
@@ -87,8 +87,8 @@ endif
     " Set: Those that are complex, or just look stupid
     " These are annoying to have on
     set belloff=error,ex,insertmode,showmatch
-    " set fill chars to things that make me happy
-    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:—,diff:┉
+    " set fill chars to things that make me happy—
+    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:┉
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
@@ -376,7 +376,7 @@ function! EnterWin()
         if( i != curWinIndex )
             wincmd w
             setl relativenumber norelativenumber
-            setl cursorline nocursorline
+            " setl cursorline nocursorline
             setl colorcolumn=0
         endif
     endfor
@@ -384,7 +384,7 @@ function! EnterWin()
     wincmd w
 
     if(&modifiable && &buftype != 'terminal')
-        setl cursorline
+        " setl cursorline
         setl relativenumber
         setl colorcolumn=80,130
     endif
@@ -407,6 +407,13 @@ endfun
 
 function! SuperSexyFoldText() "{{{
     let fold = strcharpart(&fillchars, stridx(&fillchars, 'fold') + 5, 1)
+    let foldlevel = match(getline(v:foldstart),'{{' . '{\d')
+    let foldlevelend = matchend(getline(v:foldstart),'{{' . '{\d')
+    if l:foldlevel == -1
+        let l:foldlevel = '|'
+    else
+        let l:foldlevel = strpart(getline(v:foldstart), l:foldlevel + 3, l:foldlevelend)
+    endif
     let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
     let oldline = l:line
     let line = strpart(l:line, 0, winwidth('.') / 2 - 3)
@@ -419,7 +426,7 @@ function! SuperSexyFoldText() "{{{
     let foldtextstart = strpart('' . repeat(spacechar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
     let foldtextend = ' ( #' . repeat(" ", 4 - len(lines_count_text)) . lines_count_text . " ) "
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-    return '|' . repeat(l:fold, winwidth('.') / 4) . "| " . line . repeat(spacechar, winwidth('.') / 2 - len(line)) . foldtextend . '|'
+    return l:foldlevel . repeat(l:fold, winwidth('.') / 4) . l:foldlevel . " " . line . repeat(spacechar, winwidth('.') / 2 - len(line)) . foldtextend . l:foldlevel
 endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
@@ -441,7 +448,6 @@ augroup init
 
     " Filetypes
     autocmd FileType c,cpp,java,cs set mps+==:;|set commentstring=//\ %s
-    autocmd FileType cs set foldmarker=region,endregion
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}
@@ -463,9 +469,9 @@ func! HighlightCurrentMatch() "{{{1
     try | call matchdelete(888) | catch *
     endtry
 
-    if s:skipthis() || !g:highlightactive
-        return
-    endif
+    " if s:skipthis() || !g:highlightactive
+    "     return
+    " endif
 
     " "nbc" Gets the first index.
     " "nec" Gets the last index (last - first + 1 == "len").
@@ -484,11 +490,11 @@ func! HighlightCurrentMatch() "{{{1
 
     if &hlsearch && sp != [0,0] && sp2 != [0,0] && (sp2[1] < sp3[1] || sp3 == [0,0])
         call matchaddpos('SearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
-    else
-        let col = match(getline('.'), g:curhighword, col('.') - len(g:curhighword)) + 1
-        if col('.') >= l:col && col('.') < l:col + len(g:curhighword)
-            call matchaddpos('HoldSearchC', [[line('.'), l:col, len(g:curhighword)], ] , -50, 888)
-        endif
+    " else
+    "     let col = match(getline('.'), g:curhighword, col('.') - len(g:curhighword)) + 1
+    "     if col('.') >= l:col && col('.') < l:col + len(g:curhighword)
+    "         call matchaddpos('HoldSearchC', [[line('.'), l:col, len(g:curhighword)], ] , -50, 888)
+    "     endif
     endif
 endfunc
 
@@ -502,19 +508,20 @@ func! JumpToAuto(forward) "{{{1
     " let @/ = l:save
 endfunc
 func! JumpToStart()
-    exec g:scope_start
+    exec g:scope_start + 1
 endfunc
 func! JumpToEnd()
-    exec g:scope_end
+    exec g:scope_end   - 1
 endfunc
 
 " Also opens folds "{{{1
-nnoremap <silent> <c-n> :call JumpToAuto(1)<cr>zv
-nnoremap <silent> <c-p> :call JumpToAuto(0)<cr>zv
+" nnoremap <silent> <c-n> :call JumpToAuto(1)<cr>zv
+" nnoremap <silent> <c-p> :call JumpToAuto(0)<cr>zv
 nnoremap <silent> <c-k> :call JumpToStart()<cr>zv
 nnoremap <silent> <c-j> :call JumpToEnd()<cr>zv
 
 func! AutoHighlightCurrentWord() "{{{1
+    return ''
     try | call matchdelete(999) | catch *
     endtry
 
@@ -548,7 +555,7 @@ func! ScopeIndentHighlight() "{{{1
     try | call matchdelete(444) | catch *
     endtry
 
-    if &filetype == 'help' || &filetype == 'qf' || !g:highlightactive
+    if &filetype == 'help' || &filetype == 'qf' || !g:highlightactive || mode() != 'n'
         return
     endif
 
@@ -561,32 +568,24 @@ func! ScopeIndentHighlight() "{{{1
     endif
 
     let o_indent = l:indent
-    let passby = 0
+    let passby = 1
+    let lastline = ''
+    for x in reverse(range(l:start,line('.')))
+        if indent(x) < l:indent && !empty(getline(x))
+            let l:start = x
+            let indent = indent(x) + 1
+            break
+        else
+            let lastline = x
+        endif
+    endfor
 
-    " TODO add more matches example : vim : if, elseif, else, endif
-    if match(getline('.'), '^\s\{'.(l:o_indent).'}{') != -1
-        let l:start = line('.')
-        let l:end = search('^\s\{'.(l:o_indent).'}}', 'n')
-    elseif match(getline('.'), '^\s\{'.l:o_indent.'}}') != -1
-        let l:end = line('.')
-        let l:start = search('^\s\{'.(l:o_indent).'}{', 'bn')
-    else
-        let passby = 1
-        for x in reverse(range(l:start,line('.')))
-            if indent(x) < l:indent && !empty(getline(x))
-                let l:start = x
-                let indent = indent(x) + 1
-                break
-            endif
-        endfor
-
-        for x in range(line('.'), l:end)
-            if indent(x) < l:indent && !empty(getline(x))
-                let l:end = x
-                break
-            endif
-        endfor
-    endif
+    for x in range(line('.'), l:end)
+        if indent(x) < l:indent && !empty(getline(x))
+            let l:end = x
+            break
+        endif
+    endfor
 
     call matchadd('HoldScope',"\\%".1."c\\%>".l:start.'l\%<'.l:end.'l',-100,666)
 

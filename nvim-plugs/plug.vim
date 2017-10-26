@@ -3,7 +3,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Motion:
     Plug 'cyansprite/extract'
-    Plug 'cyansprite/confine'
     Plug 'thinca/vim-visualstar'
     Plug 'junegunn/vim-after-object'
     Plug 'tpope/vim-commentary'
@@ -18,20 +17,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'keith/tmux.vim'
     Plug 'Valloric/vim-operator-highlight'
 
-    " Completion: This can be painful on certain machines...
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'Shougo/neco-vim'
-    Plug 'Shougo/neosnippet.vim'
-    Plug 'Shougo/neosnippet-snippets'
-    Plug 'Shougo/neoinclude.vim'
-    Plug 'SirVer/ultisnips'
-    Plug 'zchee/deoplete-jedi'
-    Plug 'tweekmonster/deoplete-clang2'
-    Plug 'wellle/tmux-complete.vim'
-    Plug 'SevereOverfl0w/deoplete-github'
-    Plug 'Robzz/deoplete-omnisharp/'
-    Plug 'Shougo/context_filetype.vim'
-
+    " Trying out deoplete, on windows doesn't work well need more testing...
     " if hostname() !=? 'kistune' || hostname() !=? 'kuroi' || hostname !=? 'demi'
     "     Plug 'Valloric/YouCompleteMe'
     "     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -47,9 +33,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Navigation: (<3 fzf) and my own custom that I need to fin.
     Plug 'cyansprite/logicalBuffers'
-    " Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-    " let g:Lf_StlSeparator = { 'left': ' ', 'right': ' ' }
-
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
 
@@ -65,9 +48,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 call plug#end()
 
-" {{{ Deoplete
-    let g:deoplete#enable_at_startup = 1
-    inoremap <silent><expr> <c-space> deoplete#mappings#manual_complete()
+" {{{ Completion
 " }}}
 
 " like the idea hate the plugin {{{
@@ -92,24 +73,10 @@ call plug#end()
 
     nnoremap <silent> <leader>A :ArgWrap<CR>
 
-    nmap <leader><leader>] :TagbarToggle<CR>
-
-    nmap gs <plug>(GrepperOperator)
-    xmap gs <plug>(GrepperOperator)
+    nmap <leader>] :TagbarToggle<CR>
 
     nnoremap <leader>gg :Grepper -tool git<cr>
     nnoremap <leader>ga :Grepper -tool ag<cr>
-
-    let g:grepper           = {}
-    let g:grepper.tools     = ['git', 'ag', 'grep']
-    let g:grepper.open      = 0
-    let g:grepper.jump      = 1
-    let g:grepper.next_tool = '<leader>g'
-
-    command! Todo :Grepper
-          \ -noprompt
-          \ -tool git
-          \ -grepprg git grep -nIi '\(TODO\|FIXME\)'
 
 
 " Options: {{{1
@@ -167,10 +134,10 @@ endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
 " Cpp highlight {{{2
-let g:cpp_class_scope_highlight = 1
+let g:cpp_class_scope_highlight     = 1
 let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_concepts_highlight = 1
+let g:cpp_class_decl_highlight      = 1
+let g:cpp_concepts_highlight        = 1
 
 "Ycm {{{2
 " I'm not sure if I've ever used this...
@@ -183,62 +150,41 @@ let g:ycm_error_symbol = 'XX'
 " Don't limit strings and comments
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings  = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" let g:ycm_collect_identifiers_from_tags_files = 1
 " Preview.
 let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_autoclose_preview_window_after_insertion = 1
 " Don't you fuckin popup unless I say
-let g:ycm_auto_trigger = 0
+" let g:ycm_auto_trigger = 0
 " I don't actually use these... but I will be damned before I use tab/s-tab
-let g:ycm_key_list_select_completion = ['<Down>']
-let g:ycm_key_list_previous_completion = ['<Up>']
+let g:ycm_key_list_select_completion   = []
+let g:ycm_key_list_previous_completion = []
 
-" Nerd Commenter {{{2
-" Just make it pretty please
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 1
-let g:NERDDefaultAlign = 'left'
-let g:NERDAltDelims_java = 1
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-let g:NERDCommentEmptyLines = 1
-let g:NERDTrimTrailingWhitespace = 1
 "Grepper {{{2
-nnoremap <leader>gg :Grepper -tool git<cr>
-nnoremap <leader>ga :Grepper -tool ag<cr>
-nnoremap <leader>gs :Grepper -tool ag -side<cr>
-nnoremap <leader>*  :Grepper -tool ag -cword -noprompt<cr>
 let g:grepper           = {}
 let g:grepper.tools     = ['git', 'ag', 'grep']
+let g:grepper.open      = 0
+let g:grepper.jump      = 1
+let g:grepper.next_tool = '<leader>g'
 
-" Easy align {{{2
-    let g:easy_align_delimiters = {
-    \ 'c': {
-    \     'pattern':      'cterm',
-    \     'left_margin':  2,
-    \     'right_margin': 0
-    \   }
-    \ }
 " Extract {{{2
 let g:extract_maxCount = 20
-
 
 " Autocmd: {{{1
 autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
 " Highlight: {{{1
-    let g:ophigh_highlight_link_group = 'Operator'
-    let g:indent_guides_auto_colors = 0
-    let g:indent_guides_start_level = 2
-    let g:indent_guides_guide_size  = 2
     hi link StartifyPath     StorageClass
     hi link StorageClass     Keyword
     hi link cppSTLnamespace  Label
     hi link cCustomMemVar    Member
     hi link cCustomClass     Class
     hi link cRepeat          Repeat
+
+    let g:ophigh_highlight_link_group = 'Operator'
     let g:ophigh_filetypes_to_ignore = {'jinja': 1, 'help': 1, 'notes': 1,
                 \ 'markdown': 1, 'less': 1, 'sh': 1, 'html': 1, 'diff': 1,
-                \ 'bash': 1, 'qf': 1, 'css': 1, 'vim': 1
+                \ 'bash': 1, 'qf': 1, 'css': 1, 'vim': 1, 'txt': 1
     \}
 "}}}1
 
