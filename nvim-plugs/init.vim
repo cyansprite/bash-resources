@@ -38,6 +38,7 @@ endif
     set nowrapscan               " I don't like my searches to continue forever
     set shiftround               " indent it by multiples of shiftwidth please
     set showcmd                  " Show cmd while typing in bottom right corner
+    set showmatch                " Show matching brackets/parentthesis
     set showmode noshowmode      " I just put it in statusbar, don't clear echo
     set ignorecase smartcase     " ignore case if just using lower
     set smartcase                " makes things a bit better
@@ -52,34 +53,33 @@ endif
     set undofile                 " keep undo history ina file
 
     " Set: Those that use =
-    let &showbreak = '↳ '        " Change show break thing (rare occasion)
-    set backupdir-=.             " Don't put backup in current dir please
-    set cinkeys-=0#              " don't force # indentation, ever write python
-    set cmdheight=1              " Pair up
-    set complete=.,w,b,u,U       " Complete all buffers,window, current
-    set diffopt+=context:3       " diff context lines
-    set foldcolumn=0             " foldcolumn... yes
-    set foldmethod=marker        " fold stuff :)
-    set foldopen+=jump,search    " open folds when I search/jump to things
-    set icm="nosplit"            " inc command split in preview, hasn't worked
-    set matchtime=1              " Show matching time
-    set matchpairs+=<:>          " More matches
-    set mouse=                   " I prefer having terminal functionality.
-    set shiftwidth=4             " Use indents of 4 spaces
-    set showmatch                " Show matching brackets/parentthesis
-    set sidescrolloff=5          " 5 columns off?, scroll
-    set scrolloff=0              " I want to touch the top...
-    set softtabstop=4            " Let backspace delete indent
-    set tabstop=4                " An indentation every four columns
-    set textwidth=80             " text width
-    set timeoutlen=999           " Best type maps fast
-    set ttimeoutlen=25           " I don't care much for waiting
-    set undolevels=99999         " A lot of undo history :P
-    set updatecount=33           " update swp every 33 chars.
-    set updatetime=1000          " Do updates every second
-    set viewoptions=folds,cursor " What to save with mkview
-    " set wildoptions=tagfile      " Wop tags
-    set wildmode=longest,full    " Let's make it nice tab completion
+    let &showbreak = '↳ '          " Change show break thing (rare occasion)
+    set backupdir-=.               " Don't put backup in current dir please
+    set cinkeys-=0#                " don't force # indentation, ever write python
+    set cmdheight=1                " Pair up
+    set complete=.,w,b,u,U         " Complete all buffers,window, current
+    set diffopt+=context:3         " diff context lines
+    set foldcolumn=0               " foldcolumn... yes
+    set foldmethod=marker          " fold stuff :)
+    set foldopen+=jump,search      " open folds when I search/jump to things
+    set icm="nosplit"              " inc command split in preview, hasn't worked
+    set matchtime=1                " Show matching time
+    set matchpairs+=<:>            " More matches
+    set mouse=                     " I prefer having terminal functionality.
+    set shiftwidth=4               " Use indents of 4 spaces
+    set shortmess+=c               " Insert completions is annoying as hellllllll
+    set sidescrolloff=5            " 5 columns off?, scroll
+    set scrolloff=0                " I want to touch the top...
+    set softtabstop=4              " Let backspace delete indent
+    set tabstop=4                  " An indentation every four columns
+    set textwidth=80               " text width
+    set timeoutlen=999             " Best type maps fast
+    set ttimeoutlen=25             " I don't care much for waiting
+    set undolevels=99999           " A lot of undo history :P
+    set updatecount=33             " update swp every 33 chars.
+    set updatetime=1000            " Do updates every second
+    set viewoptions=folds,cursor   " What to save with mkview
+    set wildmode=longest:list:full " Let's make it nice tab completion
 
     " Set: Those that are complex, or just look stupid
     " These are annoying to have on
@@ -106,13 +106,13 @@ endif
     set formatoptions+=n " Recognize numbered lists
     set formatoptions+=2 " Use indent from 2nd line of a paragraph
     set formatoptions+=j " Destroy comment leader join when valid
-    set formatoptions-=c " Auto-wrap comments using textwidth
-    set formatoptions-=o " do not continue comment using o or O
-    set formatoptions-=t " auto wrap based on textwidth
-    set formatoptions-=a " auto-paragraphing, fuck that.
-    set formatoptions-=v " vi auto wrapping, no.
-    set formatoptions-=b " I just don't like auto
-    set formatoptions-=1 " I don't fuckin care how long it is
+    " set formatoptions-=c " Auto-wrap comments using textwidth
+    " set formatoptions-=t " auto wrap based on textwidth
+    " set formatoptions-=a " auto-paragraphing, fuck that.
+    " set formatoptions-=v " vi auto wrapping, no.
+    " set formatoptions-=b " I just don't like auto
+    " set formatoptions-=1 " I don't fuckin care how long it is
+    " set formatoptions-=o " do not continue comment using o or O
 "End Vim set }}}
 
 "Begin Vim map {{{
@@ -148,19 +148,13 @@ endif
     cnoremap <expr> <C-j> wildmenumode() ? "\<Down>\<Tab>" : "\<down>"
     cnoremap <expr> <C-k> wildmenumode() ? "\<Up>\<Tab>" : "\<up>"
 
-    " TODO: next/prev arglist
+    " TODO: next/prev arglist I never really use the arglist...
     " nnoremap <m-l> :next<cr>
     " nnoremap <m-L> :prev<cr>
 
     " c-list ( Quickfix )
     nnoremap <m-c> :cn<cr>
     nnoremap <m-C> :cp<cr>
-
-    " resize window m-cap H less, J less, K more, L more
-    nnoremap <m-H> <c-w><
-    nnoremap <m-L> <c-w>>
-    nnoremap <m-J> <c-w>-
-    nnoremap <m-K> <c-w>+
 
     " I don't know why this isn't default
     nnoremap Y y$
@@ -197,11 +191,11 @@ endif
 
 " Begin Vim abbrev {{{
 " I have a bad habit here...
-ca W w
-ca Echo echo
-ca Q q
-ca Set set
-ca Let let
+    ca W w
+    ca Echo echo
+    ca Q q
+    ca Set set
+    ca Let let
 
 " End Vim Map }}}
 
@@ -218,7 +212,7 @@ function! StatusLine()
     endif
 
     setl statusline+=%2*%r
-    setl statusline+=%#holdScope#\ %{ScopeStart()}%=
+    setl statusline+=%8*\ %{ScopeStart()}%=
     setl statusline+=%<%-1.(%{ScopeEnd()}%=\ %4*%)
 
     " Right: linenr,column    PositionBar()
@@ -445,70 +439,57 @@ augroup END
 
 " New Plugin: Highlight word, and Light Scope, and jump to each other.
 let g:highlightactive=get(g:, 'highlightactive', 1)
+if !hlexists('HoldScope')
+    hi link HoldScope Folded
+endif
+if !hlexists('HoldScope1')
+    hi link HoldScope1 Folded
+endif
+if !hlexists('SearchC')
+    hi link SearchC Folded
+endif
 " Mapping to alter custom highlighting. "{{{1
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive<bar>
     \silent call AutoHighlightCurrentWord()<bar>
     \silent call ScopeIndentHighlight()<bar>
-    \silent call HighlightCurrentMatch()<cr>
+    \silent call HighlightCurrentSearchWord()<cr>
 
 func! s:skipthis() "{{{1
-    return len(g:curhighword) < g:smallest ||
-    \ (match(g:curhighword, "\\A") != -1 && match(g:curhighword, "_") == -1)
+    if has_key(g:,'curhighword')
+        return len(g:curhighword) < g:smallest ||
+        \ (match(g:curhighword, "\\A") != -1 && match(g:curhighword, "_") == -1)
+    else
+        return 1
+    endif
 endfunc
 
-func! HighlightCurrentMatch() "{{{1
+func! HighlightCurrentSearchWord() "{{{1
     try | call matchdelete(888) | catch *
     endtry
 
-    " if s:skipthis() || !g:highlightactive
-    "     return
-    " endif
+    if !g:highlightactive
+        return
+    endif
 
     " "nbc" Gets the first index.
     " "nec" Gets the last index (last - first + 1 == "len").
     " "n"   Gets the next instance.
     try
         let sp = searchpos(@/, "nbc", line('.'))
+        let sp2 = searchpos(@/, "nec", line('.'))
+        let sp3 = searchpos(@/, "n", line('.'))
+        let len = sp2[1] - sp[1] + 1
+
+        if &hlsearch && sp != [0,0] && sp2 != [0,0] && (sp2[1] < sp3[1] || sp3 == [0,0])
+            call matchaddpos('SearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
+        endif
     catch E871
         echohl ErrorMsg
         echom "Invalid Search Pattern"
         echohl NONE
         return
     endtry
-    let sp2 = searchpos(@/, "nec", line('.'))
-    let sp3 = searchpos(@/, "n", line('.'))
-    let len = sp2[1] - sp[1] + 1
-
-    if &hlsearch && sp != [0,0] && sp2 != [0,0] && (sp2[1] < sp3[1] || sp3 == [0,0])
-        call matchaddpos('SearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
-    " else
-    "     let col = match(getline('.'), g:curhighword, col('.') - len(g:curhighword)) + 1
-    "     if col('.') >= l:col && col('.') < l:col + len(g:curhighword)
-    "         call matchaddpos('HoldSearchC', [[line('.'), l:col, len(g:curhighword)], ] , -50, 888)
-    "     endif
-    endif
 endfunc
-
-func! JumpToAuto(forward) "{{{1
-    " let save = @/
-    if a:forward
-        call search(IgnoreCase().'\<'.g:curhighword.'\>', '')
-    else
-        call search(IgnoreCase().'\<'.g:curhighword.'\>', 'b')
-    endif
-    " let @/ = l:save
-endfunc
-func! JumpToStart()
-    exec g:scope_start + 1
-endfunc
-func! JumpToEnd()
-    exec g:scope_end   - 1
-endfunc
-
-" nnoremap <silent> <c-n> :call JumpToAuto(1)<cr>zv
-" nnoremap <silent> <c-p> :call JumpToAuto(0)<cr>zv
-" nnoremap <silent> <c-k> :call JumpToStart()<cr>zv
-" nnoremap <silent> <c-j> :call JumpToEnd()<cr>zv
 
 func! AutoHighlightCurrentWord() "{{{1
     return ''
@@ -544,6 +525,8 @@ func! ScopeIndentHighlight() "{{{1
     endtry
     try | call matchdelete(111) | catch *
     endtry
+    try | call matchdelete(112) | catch *
+    endtry
     try | call matchdelete(222) | catch *
     endtry
     try | call matchdelete(333) | catch *
@@ -558,7 +541,6 @@ func! ScopeIndentHighlight() "{{{1
     if &filetype == 'help' || &filetype == 'qf' || !g:highlightactive || mode() != 'n'
         return
     endif
-    call matchadd('CursorLine',"\\%>".(split(&cc, ',')[0])."c\\%>".line('w0').'l\%<'.line('w$').'l',-50,101010)
 
     let l:start = line('0')
     let l:end = line('$')
@@ -566,10 +548,6 @@ func! ScopeIndentHighlight() "{{{1
 
     if l:indent < &shiftwidth
         let l:indent = &shiftwidth
-    endif
-
-    if l:indent >= col('.') || col('.') == 1
-        return
     endif
 
     let o_indent = l:indent
@@ -592,8 +570,11 @@ func! ScopeIndentHighlight() "{{{1
         endif
     endfor
 
-    " call matchadd('HoldScope' ,"\\%".indent."c\\%>".l:start.'l\%<'.l:end.'l',-100,666)
-    call matchadd('HoldScope',"\\%".1."c\\%>".l:start.'l\%<'.l:end.'l',-50,666)
+    if len(getline(l:end - 1)) == 0
+        let l:end -= 1
+    endif
+
+    call matchadd('CursorLineNr',"\\%".1."c\\%>".l:start.'l\%<'.l:end.'l',-50,666)
 
     if l:indent == l:o_indent
         let l:indent = l:indent - &shiftwidth + 1
@@ -603,7 +584,6 @@ func! ScopeIndentHighlight() "{{{1
         let o_indent += &shiftwidth
         let l:indent += &shiftwidth
     else
-
     endif
 
     let g:scope_startline = getline(l:start)
@@ -613,6 +593,10 @@ func! ScopeIndentHighlight() "{{{1
         let g:scope_endline = getline(l:end)
     else
         let g:scope_endline = ''
+    endif
+
+    if match(g:scope_endline,'\s\{2,}end\|}') == -1
+        let l:end -= 1
     endif
 
     " use \{2,} not \+ because what if you have else { or else if {
@@ -640,9 +624,8 @@ func! ScopeIndentHighlight() "{{{1
     endif
 
     if l:if != -1
-        call matchaddpos('Conceal', [[l:if     , 1    , l:indent - l:passby] ,] , -50, 111)
-        let g:scope_startline = getline(l:if) . g:scope_startline
-        call matchadd('Conceal',"\\%".1."c\\%>".(l:if).'l\%<'.(l:start).'l',-100,444)
+        call matchaddpos('HoldScope' , [[l:if     , 1    , l:indent - l:passby - 1] ,] , -50, 111)
+        call matchaddpos('HoldScope1', [[l:if     , l:indent - l:passby, 1 ],] , -50, 112)
     endif
 
     let l:indentmoreend = 0
@@ -653,25 +636,26 @@ func! ScopeIndentHighlight() "{{{1
     if l:indent != 1
         call matchaddpos('HoldScope1', [[l:start  , l:indent - 1    , 1] ,] , -50, 222)
         call matchaddpos('HoldScope1', [[l:end    , l:indent - 1    , 1] ,] , -50, 333)
-        call matchaddpos('HoldScope1', [[l:start + 1  , l:indent - 1    , 1] ,] , -50, 223)
-        call matchaddpos('HoldScope', [[l:start + 1  , 2    , l:indent - 3  + l:indentmorestart] ,] , -50, 667)
-        if l:start + 1 != l:end - 1
-            call matchaddpos('HoldScope1', [[l:end - 1    , l:indent - 1    , 1] ,] , -50, 334)
-            call matchaddpos('HoldScope', [[l:end - 1    , 2    , l:indent - 3  + l:indentmoreend  ] ,] , -50, 668)
-        endif
+        " call matchaddpos('HoldScope1', [[l:start + 1  , l:indent - 1    , 1] ,] , -50, 223)
+        " if l:start + 1 != l:end - 1
+            " call matchaddpos('HoldScope1', [[l:end - 1    , l:indent - 1    , 1] ,] , -50, 334)
+            " call matchaddpos('HoldScope', [[l:end - 1    , 2    , l:indent - 3  + l:indentmoreend  ] ,] , -50, 668)
+        " endif
+        " call matchaddpos('HoldScope', [[l:start + 1  , 2    , l:indent - 3  + l:indentmorestart] ,] , -50, 667)
     endif
 
     let g:scope_start = l:start
     let g:scope_end   = l:end
-    try | call matchdelete(010101) | catch *
-    endtry
+    " try | call matchdelete(010101) | catch *
+    " endtry
     " call matchaddpos('HoldScope1', [[line('.'), 80, 50] ,] , -50, 010101)
 endfun
 
 augroup scope "{{{1
     autocmd!
-    autocmd CursorMoved * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentMatch()
-    autocmd InsertEnter * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentMatch()
+    autocmd CursorMoved * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
+    autocmd CursorHold  * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
+    autocmd InsertEnter * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
 augroup END
 
 " Recommendations: {{{

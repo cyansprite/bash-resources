@@ -46,6 +46,7 @@ localdir=~/.local/share/nvim
 cd "$SOURCE/nvim-plugs"
 ln -fv init.vim $configdir/
 ln -fv plug.vim $configdir/
+ln -fv default.vim ~/.local/share/nvim/plugged/LeaderF/autoload/leaderf/colorscheme/default.vim
 echo ""
 
 if [ ! -d ~/.fzf ] ; then

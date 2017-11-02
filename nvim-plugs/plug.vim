@@ -26,15 +26,15 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'dimixar/deoplete-omnisharp'
     Plug 'Shougo/echodoc.vim'
 
-    " Git: Runtime, gutter, and Guse.
+    " Git:
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
-    Plug 'tpope/vim-git'
 
     " IDElike: I am looking into stuff like this, don't know if I will use.
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
     " Navigation:
+    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
     " Interface: My Stuff to look pretty.
     Plug 'cyansprite/logicalBuffers'
@@ -55,80 +55,28 @@ call plug#end()
     let g:deoplete#auto_refresh_delay = 100
     let g:ulti_expand_or_jump_res = 0 "default value, just set once
     let g:UltiSnipsExpandTrigger               = "<tab>"
-    let g:UltiSnipsListSnippets                = "<cr>"
+    let g:UltiSnipsListSnippets                = "<s-tab>"
     let g:UltiSnipsJumpForwardTrigger="<c-n>"
     let g:UltiSnipsExpandTrigger="<tab>"
     let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 " }}}
 
-" Mappings: {{{1
-    "<3 fzf
-    nnoremap <c-t> :Files<cr>
-    nnoremap ? :Lines<cr>
-
-
+" Various Mappings With No Options: {{{1
     nnoremap <silent> <leader>A :ArgWrap<CR>
-
     nmap <leader>] :TagbarToggle<CR>
 
-    nnoremap <leader>gg :Grepper -tool git<cr>
-    nnoremap <leader>ga :Grepper -tool ag<cr>
-
-
 " Options: {{{1
-" FZF {{{2
-let g:fzf_layout = { 'up': '~20%' }
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Type'],
-  \ 'bg+':     ['bg', 'Cursorline', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Label'],
-  \ 'spinner': ['fg', 'Keyword'],
-  \ 'header':  ['fg', 'Comment'] }
+" LeaderF
+    let g:Lf_StlSeparator = { 'left': '', 'right': '' }
+    let g:Lf_ShortcutF = '<Leader>ff'
+    let g:Lf_ShortcutB = '<Leader>fb'
+    nnoremap <silent><Leader>f: :LeaderfHistoryCmd<cr>
+    nnoremap <silent><Leader>f/ :LeaderfLine<cr>
+    nnoremap <silent><Leader>fo :LeaderfMru<cr>
+    nnoremap <silent><Leader>f] :LeaderfTag<cr>
+    nnoremap <silent><Leader>fh :LeaderfHelp<cr>
+    nnoremap <silent><Leader>f :LeaderfSelf<cr>
 
-" Insert mode completion
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
-
-
-" Command for git grep
-" - fzf#vim#grep(command, with_column, [options], [fullscreen])
-command! -bang -nargs=* GGrep
-  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0, <bang>0)
-" Override Colors command. You can safely do this in your .vimrc as fzf.vim
-" will not override existing commands.
-command! -bang Colors
-  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
-" Likewise, Files command with preview window
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-" Augmenting Ag command using fzf#vim#with_preview function
-"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
-"     * For syntax-highlighting, Ruby and any of the following tools are required:
-"       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
-"       - CodeRay: http://coderay.rubychan.de/
-"       - Rouge: https://github.com/jneen/rouge
-"
-"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \                 <bang>0)
-function! s:fzf_statusline()
-  setlocal statusline=%#ModeMsg#\ >\ fzf\ %#User4#
-endfunction
-
-autocmd! User FzfStatusLine call <SID>fzf_statusline()
 " Cpp highlight {{{2
 let g:cpp_class_scope_highlight     = 1
 let g:cpp_member_variable_highlight = 1
@@ -158,11 +106,13 @@ let g:ycm_key_list_select_completion   = []
 let g:ycm_key_list_previous_completion = []
 
 "Grepper {{{2
-let g:grepper           = {}
-let g:grepper.tools     = ['git', 'ag', 'grep']
-let g:grepper.open      = 0
-let g:grepper.jump      = 1
-let g:grepper.next_tool = '<leader>g'
+    let g:grepper           = {}
+    let g:grepper.tools     = ['git', 'ag', 'grep']
+    let g:grepper.open      = 0
+    let g:grepper.jump      = 1
+    let g:grepper.next_tool = '<leader>g'
+    nnoremap <leader>gg :Grepper -tool git<cr>
+    nnoremap <leader>ga :Grepper -tool ag<cr>
 
 " Extract {{{2
 let g:extract_maxCount = 20
@@ -183,15 +133,13 @@ autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
                 \ 'bash': 1, 'qf': 1, 'css': 1, 'vim': 1, 'txt': 1
     \}
 "}}}1
-
-" test-zone
-
 " Remember {{{
     " Leaving here although I'm not currently interested...
     " Plug 'AndrewRadev/bufferize.vim'
     " Plug 'junegunn/vim-after-object'
     " Plug 'AndrewRadev/linediff.vim'
-" like the idea hate the plugin {{{
+
+    " like the idea hate the plugin
     " call g:quickmenu#append('# Resource Files', '')
     " call quickmenu#append("init.vim", 'e ~/.config/nvim/init.vim', "")
     " call quickmenu#append("plug.vim", 'e ~/.config/nvim/plug.vim', "")
@@ -201,3 +149,5 @@ autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
     " call quickmenu#append("logicalBuffers.vim", 'e ~/.local/share/nvim/plugged/logicalBuffers/plugin/logicalBuffers.vim', "")
     " call quickmenu#append("extract.vim", 'e ~/.local/share/nvim/plugged/extract/plugin/extract.vim', "")
 "}}}
+
+" test-zone
