@@ -1,10 +1,9 @@
 " Plugins: (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
 
-    " Motion:
+    " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
     Plug 'thinca/vim-visualstar'
-    Plug 'junegunn/vim-after-object'
     Plug 'tpope/vim-commentary'
 
     " Format: Wrap it and align it.
@@ -17,13 +16,17 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'keith/tmux.vim'
     Plug 'Valloric/vim-operator-highlight'
 
-    " Trying out deoplete, on windows doesn't work well need more testing...
-    " if hostname() !=? 'kistune' || hostname() !=? 'kuroi' || hostname !=? 'demi'
+    " Searching for a completion engine that works well...
     "     Plug 'Valloric/YouCompleteMe'
-    "     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-    " endif
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+    Plug 'Shougo/neoinclude.vim'
+    Plug 'Shougo/neco-syntax'
+    Plug 'tweekmonster/deoplete-clang2'
+    Plug 'dimixar/deoplete-omnisharp'
+    Plug 'Shougo/echodoc.vim'
 
-    " Git: Including runtime
+    " Git: Runtime, gutter, and Guse.
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-git'
@@ -31,17 +34,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     " IDElike: I am looking into stuff like this, don't know if I will use.
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
-    " Navigation: (<3 fzf) and my own custom that I need to fin.
+    " Navigation:
+
+    " Interface: My Stuff to look pretty.
     Plug 'cyansprite/logicalBuffers'
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    Plug 'junegunn/fzf.vim'
 
     " Grep: the context grep sucks; but quickfix is nice, look into others.
     Plug 'mhinz/vim-grepper'
-
-    " Output: Fancy shit kiddo.
-    Plug 'AndrewRadev/bufferize.vim'
-    Plug 'AndrewRadev/linediff.vim'
 
     " Color: My personal theme featuring Espurr
     Plug 'cyansprite/Restraint.vim'
@@ -49,27 +48,24 @@ call plug#begin('~/.local/share/nvim/plugged')
 call plug#end()
 
 " {{{ Completion
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_camel_case = 1
+    inoremap <silent><expr> <c-space> deoplete#mappings#manual_complete()
+    let g:deoplete#delimiters = ['/',',',';','.',':']
+    let g:deoplete#auto_refresh_delay = 100
+    let g:ulti_expand_or_jump_res = 0 "default value, just set once
+    let g:UltiSnipsExpandTrigger               = "<tab>"
+    let g:UltiSnipsListSnippets                = "<cr>"
+    let g:UltiSnipsJumpForwardTrigger="<c-n>"
+    let g:UltiSnipsExpandTrigger="<tab>"
+    let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 " }}}
-
-" like the idea hate the plugin {{{
-    " call g:quickmenu#append('# Resource Files', '')
-    " call quickmenu#append("init.vim", 'e ~/.config/nvim/init.vim', "")
-    " call quickmenu#append("plug.vim", 'e ~/.config/nvim/plug.vim', "")
-
-    " call g:quickmenu#append('# Plugin Files', '')
-    " call quickmenu#append("restraint.vim", 'e ~/.local/share/nvim/plugged/Restraint.vim/colors/restraint.vim', "")
-    " call quickmenu#append("logicalBuffers.vim", 'e ~/.local/share/nvim/plugged/logicalBuffers/plugin/logicalBuffers.vim', "")
-    " call quickmenu#append("extract.vim", 'e ~/.local/share/nvim/plugged/extract/plugin/extract.vim', "")
-"}}}
 
 " Mappings: {{{1
     "<3 fzf
     nnoremap <c-t> :Files<cr>
     nnoremap ? :Lines<cr>
 
-    let g:UltiSnipsJumpForwardTrigger="<c-f>"
-    let g:UltiSnipsExpandTrigger="<tab>"
-    let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
     nnoremap <silent> <leader>A :ArgWrap<CR>
 
@@ -189,3 +185,19 @@ autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
 "}}}1
 
 " test-zone
+
+" Remember {{{
+    " Leaving here although I'm not currently interested...
+    " Plug 'AndrewRadev/bufferize.vim'
+    " Plug 'junegunn/vim-after-object'
+    " Plug 'AndrewRadev/linediff.vim'
+" like the idea hate the plugin {{{
+    " call g:quickmenu#append('# Resource Files', '')
+    " call quickmenu#append("init.vim", 'e ~/.config/nvim/init.vim', "")
+    " call quickmenu#append("plug.vim", 'e ~/.config/nvim/plug.vim', "")
+
+    " call g:quickmenu#append('# Plugin Files', '')
+    " call quickmenu#append("restraint.vim", 'e ~/.local/share/nvim/plugged/Restraint.vim/colors/restraint.vim', "")
+    " call quickmenu#append("logicalBuffers.vim", 'e ~/.local/share/nvim/plugged/logicalBuffers/plugin/logicalBuffers.vim', "")
+    " call quickmenu#append("extract.vim", 'e ~/.local/share/nvim/plugged/extract/plugin/extract.vim', "")
+"}}}

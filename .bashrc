@@ -133,3 +133,33 @@ gr() {
     --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1} | head -200' |
   cut -d$'\t' -f1
 }
+
+# Save my ssh-key, fuck typing it so much :).
+# Stole from Mr. Archer.
+function sshkeys() {
+    set -x
+    AGENT_FILE=$HOME/.ssh-agent-`hostname`
+    NUM_AGENTS_RUNNING=$(ps aux|grep ssh-agent|grep $USER|grep -v grep|wc -l)
+
+    # There can be only one!
+    # If there is more than one ssh-agent running, then kill them all and start a new one
+    if [ $NUM_AGENTS_RUNNING -gt 1 ] ; then
+        echo "WARNING: $NUM_AGENTS_RUNNING ssh-agent processes running.  \nKilling them all and starting a new one."      
+        killall -9 ssh-agent 2>/dev/null
+        rm -f $AGENT_FILE
+    fi
+
+    if [ ! -e $AGENT_FILE ] ; then
+        ssh-agent -s > $AGENT_FILE
+        ssh-add
+    fi
+    . $AGENT_FILE
+
+    if ! kill -0 $SSH_AGENT_PID >/dev/null 2>&1 ; then
+        echo "PID $SSH_AGENT_PID is not running on `hostname`.  restarting ssh-agent"
+        ssh-agent -s > $AGENT_FILE
+        . $AGENT_FILE
+        ssh-add
+    fi
+    set +x
+}

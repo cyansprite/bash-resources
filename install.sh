@@ -43,22 +43,9 @@ echo "========================================================================="
 configdir=~/.config/nvim
 localdir=~/.local/share/nvim
 
-if [ ! -d $configdir/colors ] ; then
-    mkdir -p $configdir/colors
-fi
-if [ ! -d $configdir/plugin ] ; then
-    mkdir -p $configdir/plugin
-fi
-if [ ! -d $configdir/ftplugin ] ; then
-    mkdir -p $configdir/ftplugin
-fi
-
 cd "$SOURCE/nvim-plugs"
 ln -fv init.vim $configdir/
 ln -fv plug.vim $configdir/
-ln -fv gtags.vim $configdir/plugin/
-ln -fv gtags-cscope.vim $configdir/plugin/
-ln -fv qf.vim $configdir/ftplugin/
 echo ""
 
 if [ ! -d ~/.fzf ] ; then

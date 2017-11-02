@@ -17,7 +17,7 @@ endif
 set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
 colo restraint
 
-if hostname() == 'demi'
+if hostname() == 'demi' || $LIGHTFORCE
     set bg=light
 else
     set bg=dark
@@ -28,7 +28,7 @@ endif
     " Set: Those that use macros
     set backup | set writebackup " back it up, the file, I mean.
     set nocursorline             " set no cursorline
-    set confirm                  " Don't tell me no
+    set noconfirm                " I hate the lil mess... I tried, fuck it.
     set expandtab                " Expands tab to spaces
     set fic                      " Fuck file case
     set lazyredraw               " Don't draw durning macros
@@ -36,9 +36,9 @@ endif
     set list                     " list my chars: ╳│¦|┆×•·
     set nowrap                   " I really hate wrap
     set nowrapscan               " I don't like my searches to continue forever
-    set shiftround               " indent it by multiples of shiftwidth please:)
+    set shiftround               " indent it by multiples of shiftwidth please
     set showcmd                  " Show cmd while typing in bottom right corner
-    set showmode noshowmode      " I just put it in statusbar, don't clear echos
+    set showmode noshowmode      " I just put it in statusbar, don't clear echo
     set ignorecase smartcase     " ignore case if just using lower
     set smartcase                " makes things a bit better
     set smartindent              " indent things well
@@ -54,12 +54,9 @@ endif
     " Set: Those that use =
     let &showbreak = '↳ '        " Change show break thing (rare occasion)
     set backupdir-=.             " Don't put backup in current dir please
-    set cinkeys-=0#              " don't force # indentation, ever write python?
+    set cinkeys-=0#              " don't force # indentation, ever write python
     set cmdheight=1              " Pair up
-    set complete=.,w,b,u,U       " Complete all buffers,window, current, and tag
-    set colorcolumn=80,130       " color columns
-    " set concealcursor=inc        " Complete all buffers,window, current, and tag
-    set conceallevel=0           " Complete all buffers,window, current, and tag
+    set complete=.,w,b,u,U       " Complete all buffers,window, current
     set diffopt+=context:3       " diff context lines
     set foldcolumn=0             " foldcolumn... yes
     set foldmethod=marker        " fold stuff :)
@@ -81,7 +78,7 @@ endif
     set updatecount=33           " update swp every 33 chars.
     set updatetime=1000          " Do updates every second
     set viewoptions=folds,cursor " What to save with mkview
-    set wildoptions=tagfile      " Wop tags
+    " set wildoptions=tagfile      " Wop tags
     set wildmode=longest,full    " Let's make it nice tab completion
 
     " Set: Those that are complex, or just look stupid
@@ -96,7 +93,7 @@ endif
     set synmaxcol=300
     " Ignore this crap :) Need more..?
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
-                  \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build* | "rand
+                  \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build*
     set wildignore+=*.bak,*.swp,*.swo | "vim
     set wildignore+=*.a,*.o,*.so,*.pyc,*.class | "cpp/python/java
     set wildignore+=*/.git*,*.tar,*.zip | "srctl, compress
@@ -181,12 +178,6 @@ endif
 
     " undo break for each <cr>
     inoremap <CR> <C-]><C-G>u<CR>
-
-    " move in insert mode, fuck cursor keys
-    inoremap <c-h> <left>
-    inoremap <c-l> <right>
-    inoremap <c-j> <down>
-    inoremap <c-k> <up>
 
     " I uh... don't use ESC
     inoremap  
@@ -514,11 +505,10 @@ func! JumpToEnd()
     exec g:scope_end   - 1
 endfunc
 
-" Also opens folds "{{{1
 " nnoremap <silent> <c-n> :call JumpToAuto(1)<cr>zv
 " nnoremap <silent> <c-p> :call JumpToAuto(0)<cr>zv
-nnoremap <silent> <c-k> :call JumpToStart()<cr>zv
-nnoremap <silent> <c-j> :call JumpToEnd()<cr>zv
+" nnoremap <silent> <c-k> :call JumpToStart()<cr>zv
+" nnoremap <silent> <c-j> :call JumpToEnd()<cr>zv
 
 func! AutoHighlightCurrentWord() "{{{1
     return ''
@@ -544,7 +534,13 @@ func! IgnoreCase() "{{{1
 endfunc
 
 func! ScopeIndentHighlight() "{{{1
-    try | call matchdelete(666) | catch *
+    try | call matchdelete(101010) | catch *
+    endtry
+    try | call matchdelete(666) | catc *
+    endtry
+    try | call matchdelete(667) | catch *
+    endtry
+    try | call matchdelete(668) | catch *
     endtry
     try | call matchdelete(111) | catch *
     endtry
@@ -552,12 +548,17 @@ func! ScopeIndentHighlight() "{{{1
     endtry
     try | call matchdelete(333) | catch *
     endtry
+    try | call matchdelete(223) | catch *
+    endtry
+    try | call matchdelete(334) | catch *
+    endtry
     try | call matchdelete(444) | catch *
     endtry
 
     if &filetype == 'help' || &filetype == 'qf' || !g:highlightactive || mode() != 'n'
         return
     endif
+    call matchadd('CursorLine',"\\%>".(split(&cc, ',')[0])."c\\%>".line('w0').'l\%<'.line('w$').'l',-50,101010)
 
     let l:start = line('0')
     let l:end = line('$')
@@ -565,6 +566,10 @@ func! ScopeIndentHighlight() "{{{1
 
     if l:indent < &shiftwidth
         let l:indent = &shiftwidth
+    endif
+
+    if l:indent >= col('.') || col('.') == 1
+        return
     endif
 
     let o_indent = l:indent
@@ -587,7 +592,8 @@ func! ScopeIndentHighlight() "{{{1
         endif
     endfor
 
-    call matchadd('HoldScope',"\\%".1."c\\%>".l:start.'l\%<'.l:end.'l',-100,666)
+    " call matchadd('HoldScope' ,"\\%".indent."c\\%>".l:start.'l\%<'.l:end.'l',-100,666)
+    call matchadd('HoldScope',"\\%".1."c\\%>".l:start.'l\%<'.l:end.'l',-50,666)
 
     if l:indent == l:o_indent
         let l:indent = l:indent - &shiftwidth + 1
@@ -645,12 +651,21 @@ func! ScopeIndentHighlight() "{{{1
     endif
 
     if l:indent != 1
-        call matchaddpos('HoldScope', [[l:start  , 1    , l:indent - 1 + l:indentmorestart] ,] , -50, 222)
-        call matchaddpos('HoldScope', [[l:end    , 1    , l:indent - 1 + l:indentmoreend  ] ,] , -50, 333)
+        call matchaddpos('HoldScope1', [[l:start  , l:indent - 1    , 1] ,] , -50, 222)
+        call matchaddpos('HoldScope1', [[l:end    , l:indent - 1    , 1] ,] , -50, 333)
+        call matchaddpos('HoldScope1', [[l:start + 1  , l:indent - 1    , 1] ,] , -50, 223)
+        call matchaddpos('HoldScope', [[l:start + 1  , 2    , l:indent - 3  + l:indentmorestart] ,] , -50, 667)
+        if l:start + 1 != l:end - 1
+            call matchaddpos('HoldScope1', [[l:end - 1    , l:indent - 1    , 1] ,] , -50, 334)
+            call matchaddpos('HoldScope', [[l:end - 1    , 2    , l:indent - 3  + l:indentmoreend  ] ,] , -50, 668)
+        endif
     endif
 
     let g:scope_start = l:start
     let g:scope_end   = l:end
+    try | call matchdelete(010101) | catch *
+    endtry
+    " call matchaddpos('HoldScope1', [[line('.'), 80, 50] ,] , -50, 010101)
 endfun
 
 augroup scope "{{{1
