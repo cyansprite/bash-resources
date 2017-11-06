@@ -19,11 +19,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Searching for a completion engine that works well...
     "     Plug 'Valloric/YouCompleteMe'
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+    Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets'
+    " Plug 'honza/vim-snippets'
     Plug 'Shougo/neoinclude.vim'
     Plug 'Shougo/neco-syntax'
+    Plug 'Shougo/neco-vim'
     Plug 'tweekmonster/deoplete-clang2'
-    Plug 'dimixar/deoplete-omnisharp'
+    Plug 'cyansprite/deoplete-omnisharp' , {'do': './install.sh'}
     Plug 'Shougo/echodoc.vim'
 
     " Git:
@@ -44,21 +46,18 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Color: My personal theme featuring Espurr
     Plug 'cyansprite/Restraint.vim'
-
 call plug#end()
 
 " {{{ Completion
     let g:deoplete#enable_at_startup = 1
+    let g:echodoc#enable_at_startup = 1
     let g:deoplete#enable_camel_case = 1
     inoremap <silent><expr> <c-space> deoplete#mappings#manual_complete()
     let g:deoplete#delimiters = ['/',',',';','.',':']
     let g:deoplete#auto_refresh_delay = 100
-    let g:ulti_expand_or_jump_res = 0 "default value, just set once
-    let g:UltiSnipsExpandTrigger               = "<tab>"
-    let g:UltiSnipsListSnippets                = "<s-tab>"
-    let g:UltiSnipsJumpForwardTrigger="<c-n>"
-    let g:UltiSnipsExpandTrigger="<tab>"
-    let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k>     <Plug>(neosnippet_expand_target)
 " }}}
 
 " Various Mappings With No Options: {{{1

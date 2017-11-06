@@ -58,6 +58,7 @@ endif
     set cinkeys-=0#                " don't force # indentation, ever write python
     set cmdheight=1                " Pair up
     set complete=.,w,b,u,U         " Complete all buffers,window, current
+    " set completeopt=noinsert       " Don't automatically complete items, <c-y>
     set diffopt+=context:3         " diff context lines
     set foldcolumn=0               " foldcolumn... yes
     set foldmethod=marker          " fold stuff :)
@@ -129,6 +130,7 @@ endif
 
     " Does anyone actually use single quote?
     map ' `
+    inoremap <cr> <C-R>=pumvisible() ? "\<lt>C-Y>" : "\<lt>CR>"<CR>
 
     " I don't use tabs so make them useful things I have trouble hitting
     nmap gt <bar>
@@ -169,9 +171,6 @@ endif
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
     map <m-i> bi
-
-    " undo break for each <cr>
-    inoremap <CR> <C-]><C-G>u<CR>
 
     " I uh... don't use ESC
     inoremap  
