@@ -439,10 +439,10 @@ augroup END
 " New Plugin: Highlight word, and Light Scope, and jump to each other.
 let g:highlightactive=get(g:, 'highlightactive', 1)
 if !hlexists('HoldScope')
-    hi link HoldScope Folded
+    hi link HoldScope LineNr
 endif
 if !hlexists('HoldScope1')
-    hi link HoldScope1 Folded
+    hi link HoldScope1 LineNr
 endif
 if !hlexists('SearchC')
     hi link SearchC Folded
