@@ -23,11 +23,10 @@ else
     set bg=dark
 endif
 "}}}
-
 "Begin Vim set {{{
     " Set: Those that use macros
     set backup | set writebackup " back it up, the file, I mean.
-    set nocursorline             " set no cursorline
+    set cursorline             " set no cursorline
     set noconfirm                " I hate the lil mess... I tried, fuck it.
     set expandtab                " Expands tab to spaces
     set fic                      " Fuck file case
@@ -90,7 +89,7 @@ endif
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
-    if &modifiable | set number | set relativenumber | endif
+    if &modifiable | set number | endif
     set synmaxcol=300
     " Ignore this crap :) Need more..?
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
@@ -115,7 +114,6 @@ endif
     " set formatoptions-=1 " I don't fuckin care how long it is
     " set formatoptions-=o " do not continue comment using o or O
 "End Vim set }}}
-
 "Begin Vim map {{{
     " Refresh my script bitch!
     nnoremap <F5> :w \| so %<cr>
@@ -187,7 +185,6 @@ endif
                 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " End Vim Map }}}
-
 " Begin Vim abbrev {{{
 " I have a bad habit here...
     ca W w
@@ -197,25 +194,24 @@ endif
     ca Let let
 
 " End Vim Map }}}
-
 " Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ] {{{
 function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%#ModeMsg#\ %{Mode(mode())}\ %*
-    setl statusline+=%3*\ %{CurArg()}\ %*
+    setl statusline+=%#StatusLine#\ %{CurArg()}\ %*
 
     if &modifiable
-        setl statusline+=%1*%m%*
+        setl statusline+=%#diffAdded#%m
     else
-        setl statusline+=%2*%m%*
+        setl statusline+=%#diffRemoved#%m
     endif
 
-    setl statusline+=%2*%r
-    setl statusline+=%8*\ %{ScopeStart()}%=
-    setl statusline+=%<%-1.(%{ScopeEnd()}%=\ %4*%)
+    setl statusline+=%#diffRemoved#%r
+    setl statusline+=%#PMenu#\ %{ScopeStart()}%=
+    setl statusline+=%<%-1.(%{ScopeEnd()}%<%=\ %4*%)
 
     " Right: linenr,column    PositionBar()
-    setl statusline+=%-10.(%#CursorLineNr#\ %l,%c,\ :\ %LG,%p%%\ %)
+    setl statusline+=%-10.(%#CursorLineNr#\ %l,%c\ :\ %LG,%p%%\ %)
     setl statusline+=%-22.(%#LineNr#\ [\ %{PositionBarLeft()}
                           \%#CursorLineNr#%{PositionBar()}
                           \%#LineNr#%{PositionBarRight()}%)\ ]\ %*
@@ -343,7 +339,6 @@ func! PositionBarLeft()
 
     return repeat(l:track, float2nr(round(l:ratio)))
 endfunc  "}}}
-
 " Enter/LeaveWin {{{
 function! LeaveWin()
     call StatusLineNC()
@@ -359,8 +354,8 @@ function! EnterWin()
     for i in range(1,winnr('$'))
         if( i != curWinIndex )
             wincmd w
-            setl relativenumber norelativenumber
-            " setl cursorline nocursorline
+            " setl relativenumber norelativenumber
+            setl cursorline nocursorline
             setl colorcolumn=0
         endif
     endfor
@@ -368,13 +363,12 @@ function! EnterWin()
     wincmd w
 
     if(&modifiable && &buftype != 'terminal')
-        " setl cursorline
-        setl relativenumber
+        setl cursorline
+        " setl relativenumber
         setl colorcolumn=80,130
     endif
 endfunction
 " }}}
-
 " Auto viewing {{{
 func! LeaveBufWin()
     if &modifiable && filereadable(expand("%"))
@@ -388,7 +382,6 @@ func! EnterBufWin()
     endif
 endfun
 " }}}
-
 function! SuperSexyFoldText() "{{{
     let fold = strcharpart(&fillchars, stridx(&fillchars, 'fold') + 5, 1)
     let foldlevel = match(getline(v:foldstart),'{{' . '{\d')
@@ -414,13 +407,11 @@ function! SuperSexyFoldText() "{{{
 endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
-
 func! KillWhitespace() " {{{ -- fuck ws
     exec "%s/\\s\\+$//ge"
 endf
 command! -nargs=0 Kws call KillWhitespace()
 " }}}
-
 " Autocommands {{{
 augroup init
     autocmd!
@@ -435,8 +426,7 @@ augroup init
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}
-
-" New Plugin: Highlight word, and Light Scope, and jump to each other.
+" New Plugin: highlighty stuff... info soon... {{{1
 let g:highlightactive=get(g:, 'highlightactive', 1)
 if !hlexists('HoldScope')
     hi link HoldScope LineNr
@@ -446,6 +436,9 @@ if !hlexists('HoldScope1')
 endif
 if !hlexists('SearchC')
     hi link SearchC Folded
+endif
+if !hlexists('UnderLine')
+    hi Underline ctermfg=none ctermbg=none guibg=none guifg=none gui=underline cterm=underline
 endif
 " Mapping to alter custom highlighting. "{{{1
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive<bar>
@@ -465,6 +458,8 @@ endfunc
 func! HighlightCurrentSearchWord() "{{{1
     try | call matchdelete(888) | catch *
     endtry
+    try | call matchdelete(889) | catch *
+    endtry
 
     if !g:highlightactive
         return
@@ -481,6 +476,8 @@ func! HighlightCurrentSearchWord() "{{{1
 
         if &hlsearch && sp != [0,0] && sp2 != [0,0] && (sp2[1] < sp3[1] || sp3 == [0,0])
             call matchaddpos('SearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
+            call matchaddpos('UnderLine', [[line('.'), 0, winwidth('.')], ] , -888, 889)
+        else
         endif
     catch E871
         echohl ErrorMsg
@@ -643,12 +640,18 @@ func! ScopeIndentHighlight() "{{{1
         " call matchaddpos('HoldScope', [[l:start + 1  , 2    , l:indent - 3  + l:indentmorestart] ,] , -50, 667)
     endif
 
-    let g:scope_start = l:start
-    let g:scope_end   = l:end
+    let s:scope_start = l:start
+    let s:scope_end   = l:end
     " try | call matchdelete(010101) | catch *
     " endtry
     " call matchaddpos('HoldScope1', [[line('.'), 80, 50] ,] , -50, 010101)
 endfun
+
+func! SearchOnlyThisScope() "{{{1
+    return '\%>'.(s:scope_start).'l\%<'.(s:scope_end + 1).'l'
+endfun
+nnoremap <Plug>(ScopeSearchStar) /\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\><cr>
+nmap <leader>* <Plug>(ScopeSearchStar)
 
 augroup scope "{{{1
     autocmd!
@@ -665,7 +668,6 @@ augroup END
     " nnoremap / :set hlsearch<cr>/
     " nnoremap * :set hlsearch<cr>*zv
 " }}}1
-
 " Special chars {{{
 " ЛМНОПРСТУФХЧЦШЩЬЪЫЅЭІЇЈЮЯӀӢӮабвгѓдеёжзийкќлмнопрстуфхчцшщьъыѕэіјюяһӣӯΑΒΓΔΕΖΗΘΙ
 " ΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω0123456789⁄⅟½↉⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞⅑⅒*\·•:,…!

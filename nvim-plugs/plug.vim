@@ -5,6 +5,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/extract'
     Plug 'thinca/vim-visualstar'
     Plug 'tpope/vim-commentary'
+    Plug 'zcodes/vim-surround'
+    Plug 'zcodes/vim-colors-basic'
 
     " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
@@ -16,17 +18,17 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'keith/tmux.vim'
     Plug 'Valloric/vim-operator-highlight'
 
-    " Searching for a completion engine that works well...
-    "     Plug 'Valloric/YouCompleteMe'
+    " Completion: Deoplete is amazing
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets'
-    " Plug 'honza/vim-snippets'
     Plug 'Shougo/neoinclude.vim'
     Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
+
     Plug 'tweekmonster/deoplete-clang2'
     Plug 'cyansprite/deoplete-omnisharp' , {'do': './install.sh'}
     Plug 'Shougo/echodoc.vim'
+    Plug 'wellle/tmux-complete.vim'
 
     " Git:
     Plug 'airblade/vim-gitgutter'
@@ -49,6 +51,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 call plug#end()
 
 " {{{ Completion
+    let g:tmuxcomplete#trigger = ''
     let g:deoplete#enable_at_startup = 1
     let g:echodoc#enable_at_startup = 1
     let g:deoplete#enable_camel_case = 1
@@ -65,6 +68,7 @@ call plug#end()
     nmap <leader>] :TagbarToggle<CR>
 
 " Options: {{{1
+let g:gitgutter_override_sign_column_highlight = 0
 " LeaderF
     let g:Lf_StlSeparator = { 'left': '', 'right': '' }
     let g:Lf_ShortcutF = '<Leader>ff'
@@ -74,6 +78,7 @@ call plug#end()
     nnoremap <silent><Leader>fo :LeaderfMru<cr>
     nnoremap <silent><Leader>f] :LeaderfTag<cr>
     nnoremap <silent><Leader>fh :LeaderfHelp<cr>
+    nnoremap <silent><Leader>fm :LeaderfFunction<cr>
     nnoremap <silent><Leader>f :LeaderfSelf<cr>
 
 " Cpp highlight {{{2
@@ -81,28 +86,6 @@ let g:cpp_class_scope_highlight     = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight      = 1
 let g:cpp_concepts_highlight        = 1
-
-"Ycm {{{2
-" I'm not sure if I've ever used this...
-let g:ycm_always_populate_location_list = 1
-" Please, for the love of all that is vim, do not fuckin highlight my stuff.
-let g:ycm_enable_diagnostic_highlighting = 0
-" I might change these one day to something prettier, but who the fuck knows.
-let g:ycm_warning_symbol = '>>'
-let g:ycm_error_symbol = 'XX'
-" Don't limit strings and comments
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings  = 1
-" let g:ycm_collect_identifiers_from_comments_and_strings = 1
-" let g:ycm_collect_identifiers_from_tags_files = 1
-" Preview.
-let g:ycm_add_preview_to_completeopt = 1
-" let g:ycm_autoclose_preview_window_after_insertion = 1
-" Don't you fuckin popup unless I say
-" let g:ycm_auto_trigger = 0
-" I don't actually use these... but I will be damned before I use tab/s-tab
-let g:ycm_key_list_select_completion   = []
-let g:ycm_key_list_previous_completion = []
 
 "Grepper {{{2
     let g:grepper           = {}
