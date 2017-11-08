@@ -6,8 +6,8 @@ URxvt*underlineColor:    #c0f0ff
 URxvt*colorUL:           #f0ffca
 URxvt*colorIT:           #f0c0c0
 URxvt*colorBD:           #cfc5fc
-*color0:                 #23232f
-*color8:                 #6f8f6f
+*color0:                 #20202f
+*color8:                 #778877
 *color1:                 #db9090
 *color9:                 #9d6968
 *color2:                 #b6db90
@@ -20,5 +20,5 @@ URxvt*colorBD:           #cfc5fc
 *color13:                #db90b6
 *color6:                 #90dbdb
 *color14:                #689d9d
-*color7:                 #909090
-*color15:                #ffffff
+*color7:                 #15152c
+*color15:                #9595ac

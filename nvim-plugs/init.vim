@@ -426,6 +426,7 @@ augroup init
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}
+"
 " New Plugin: highlighty stuff... info soon... {{{1
 let g:highlightactive=get(g:, 'highlightactive', 1)
 if !hlexists('HoldScope')
@@ -476,7 +477,7 @@ func! HighlightCurrentSearchWord() "{{{1
 
         if &hlsearch && sp != [0,0] && sp2 != [0,0] && (sp2[1] < sp3[1] || sp3 == [0,0])
             call matchaddpos('SearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
-            call matchaddpos('UnderLine', [[line('.'), 0, winwidth('.')], ] , -888, 889)
+            " call matchaddpos('UnderLine', [[line('.'), 0, winwidth('.')], ] , -888, 889)
         else
         endif
     catch E871
