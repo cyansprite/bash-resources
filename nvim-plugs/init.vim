@@ -17,11 +17,6 @@ endif
 set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
 colo restraint
 
-if hostname() == 'demi' || $LIGHTFORCE
-    set bg=light
-else
-    set bg=dark
-endif
 "}}}
 "Begin Vim set {{{
     " Set: Those that use macros
@@ -139,7 +134,10 @@ endif
     nnoremap n :set hlsearch<cr>nzv
     nnoremap N :set hlsearch<cr>Nzv
     nnoremap / :set hlsearch<cr>/
-    nnoremap * :set hlsearch<cr>*zv
+    " don't move... please :)
+    nnoremap * :set hlsearch<cr>*zvN
+    " add to the existing search
+    nnoremap [* /<c-r><c-/>\\|\<<c-r><c-w>\><cr>
 
     " pasting in cmode
     cmap <c-v> <c-r>"
@@ -174,11 +172,6 @@ endif
     inoremap  
     vnoremap  
 
-    " Search and replace word under cursor
-    " Why f6 and f7? I'm not sure...
-    nnoremap <F6> :%s/<C-r><C-w>/
-    nnoremap <F7> :%s/\<<C-r><C-w>\>/
-
     " I like playing with colors (Gives me hi-lo ids)
     map <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
                 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
@@ -207,7 +200,7 @@ function! StatusLine()
     endif
 
     setl statusline+=%#diffRemoved#%r
-    setl statusline+=%#PMenu#\ %{ScopeStart()}%=
+    setl statusline+=%#Folded#\ %{ScopeStart()}%=
     setl statusline+=%<%-1.(%{ScopeEnd()}%<%=\ %4*%)
 
     " Right: linenr,column    PositionBar()
@@ -355,18 +348,17 @@ function! EnterWin()
         if( i != curWinIndex )
             wincmd w
             " setl relativenumber norelativenumber
-            setl cursorline nocursorline
+            setl nocursorline
+            setl nocursorcolumn
             setl colorcolumn=0
         endif
     endfor
 
     wincmd w
 
-    if(&modifiable && &buftype != 'terminal')
-        setl cursorline
-        " setl relativenumber
-        setl colorcolumn=80,130
-    endif
+    setl cursorline
+    setl cursorcolumn
+    setl colorcolumn=80,130
 endfunction
 " }}}
 " Auto viewing {{{
@@ -456,6 +448,49 @@ func! s:skipthis() "{{{1
     endif
 endfunc
 
+func! BlinkLineAndColumn() "{{{1
+    " right now I just don't care
+    " let oldc = &cursorcolumn
+    " let oldl = &cursorline
+    let s:distl = &scroll
+    let s:distc = winwidth('.') * 9 / 10
+    let s:colors = [254,253,252,253,254]
+
+    if !has_key(s:, 'lastfile')
+        let s:lastfile = expand('%')
+    endif
+
+    if !has_key(s:, 'lastline')
+        let s:lastline = line('.')
+    endif
+
+    if !has_key(s:, 'lastcol')
+        let s:lastcol = col('.')
+    endif
+
+    if s:lastfile != expand('%') || 
+                \ abs(line('.') - s:lastline) > s:distl ||
+                \ abs(col('.') - s:lastcol)   > s:distc
+        if foldclosed('.') == -1
+            " let s:lastcolor = (s:lastcolor) % 15 + 1
+            " TODO:Figure out a color-thing that works well...
+            for col in s:colors
+                exec 'highlight CursorLine ctermbg=' . col
+                exec 'highlight CursorColumn ctermbg=' . col
+                redraw
+                execute 'sleep 20m'
+            endfor
+            highlight CursorLine ctermbg=none ctermfg=none guibg=none guifg=none cterm=none gui=none
+            highlight CursorColumn ctermbg=none ctermfg=none guibg=none guifg=none cterm=none gui=none
+        endif
+
+    endif
+    " echom s:lastcolor
+    let s:lastfile = expand('%')
+    let s:lastline = line('.')
+    let s:lastcol = col('.')
+endfunc
+
 func! HighlightCurrentSearchWord() "{{{1
     try | call matchdelete(888) | catch *
     endtry
@@ -477,7 +512,6 @@ func! HighlightCurrentSearchWord() "{{{1
 
         if &hlsearch && sp != [0,0] && sp2 != [0,0] && (sp2[1] < sp3[1] || sp3 == [0,0])
             call matchaddpos('SearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
-            " call matchaddpos('UnderLine', [[line('.'), 0, winwidth('.')], ] , -888, 889)
         else
         endif
     catch E871
@@ -651,12 +685,18 @@ endfun
 func! SearchOnlyThisScope() "{{{1
     return '\%>'.(s:scope_start).'l\%<'.(s:scope_end + 1).'l'
 endfun
+nnoremap <Plug>(ScopeSearch) /<c-r>=SearchOnlyThisScope()<cr>
+nnoremap <Plug>(ScopeSearchReplace) :%s/<c-r>=SearchOnlyThisScope()<cr>
 nnoremap <Plug>(ScopeSearchStar) /\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\><cr>
-nmap <leader>* <Plug>(ScopeSearchStar)
+nnoremap <Plug>(ScopeSearchStarReplace) :%s/\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\>/
+nmap <leader>* <Plug>(ScopeSearchStar)N
+nmap <leader>/ <Plug>(ScopeSearch)
+nmap <F7> <Plug>(ScopeSearchStarReplace)
+nmap <F6> <Plug>(ScopeSearchReplace)
 
 augroup scope "{{{1
     autocmd!
-    autocmd CursorMoved * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
+    autocmd CursorMoved * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord() | call BlinkLineAndColumn()
     autocmd CursorHold  * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
     autocmd InsertEnter * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
 augroup END

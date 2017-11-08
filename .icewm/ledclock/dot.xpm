@@ -1,0 +1,28 @@
+/* XPM */
+static char *dot[] = {
+/* columns rows colors chars-per-pixel */
+"6 20 2 1 ",
+"  c black",
+". c #C2ACFF",
+/* pixels */
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"      ",
+"  ..  ",
+"  ..  ",
+"      "
+};

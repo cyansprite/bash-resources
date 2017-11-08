@@ -43,8 +43,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Interface: My Stuff to look pretty.
     Plug 'cyansprite/logicalBuffers'
 
-    " Grep: the context grep sucks; but quickfix is nice, look into others.
-    Plug 'mhinz/vim-grepper'
+    " Grep: the context grep sucks; but quickfix is nice and match is nice...
+    " TODO FIX side issues I have.
+    Plug 'cyansprite/vim-grepper'
 
     " Color: My personal theme featuring Espurr
     Plug 'cyansprite/Restraint.vim'
@@ -74,7 +75,8 @@ let g:gitgutter_override_sign_column_highlight = 0
     let g:Lf_ShortcutF = '<Leader>ff'
     let g:Lf_ShortcutB = '<Leader>fb'
     nnoremap <silent><Leader>f: :LeaderfHistoryCmd<cr>
-    nnoremap <silent><Leader>f/ :LeaderfLine<cr>
+    nnoremap <silent><Leader>f/ :LeaderfHistorySearch<cr>
+    nnoremap <silent><Leader>fl :LeaderfLine<cr>
     nnoremap <silent><Leader>fo :LeaderfMru<cr>
     nnoremap <silent><Leader>f] :LeaderfTag<cr>
     nnoremap <silent><Leader>fh :LeaderfHelp<cr>
@@ -93,6 +95,7 @@ let g:cpp_concepts_highlight        = 1
     let g:grepper.open      = 0
     let g:grepper.jump      = 1
     let g:grepper.next_tool = '<leader>g'
+    let g:grepper.highlight = 1
     nnoremap <leader>gg :Grepper -tool git<cr>
     nnoremap <leader>ga :Grepper -tool ag<cr>
 
