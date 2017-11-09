@@ -112,6 +112,7 @@ colo restraint
 "Begin Vim map {{{
     " Refresh my script bitch!
     nnoremap <F5> :w \| so %<cr>
+    set mps-=<,>
 
     " I use this too much for it to not be a mapping
     nnoremap <leader>ee :e **/*
@@ -135,7 +136,7 @@ colo restraint
     nnoremap N :set hlsearch<cr>Nzv
     nnoremap / :set hlsearch<cr>/
     " don't move... please :)
-    nnoremap * :set hlsearch<cr>*zvN
+    nnoremap * :set hlsearch \| let @/='\<<c-r><c-w>\>'<cr>
     " add to the existing search
     nnoremap [* /<c-r><c-/>\\|\<<c-r><c-w>\><cr>
 

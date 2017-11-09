@@ -25,7 +25,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
 
-    Plug 'tweekmonster/deoplete-clang2'
     Plug 'cyansprite/deoplete-omnisharp' , {'do': './install.sh'}
     Plug 'Shougo/echodoc.vim'
     Plug 'wellle/tmux-complete.vim'
