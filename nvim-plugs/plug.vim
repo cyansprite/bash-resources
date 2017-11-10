@@ -22,6 +22,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets'
     Plug 'Shougo/neoinclude.vim'
+    Plug 'zchee/deoplete-jedi'
     Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
 
