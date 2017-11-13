@@ -56,6 +56,7 @@ class HighlightUnmatched(object):
         self.lastUpdate = 0;
         self.updateInterval = .15;
         self.lasttick = 0;
+        self.currentTick = -1;
 
     @neovim.autocmd('VimEnter', pattern='*', eval='', sync=True)
     def on_vim(self):
@@ -84,11 +85,10 @@ class HighlightUnmatched(object):
             self.change_happened(tick);
 
     def single_loop(self):
-        mytick = 0;
         while not self.gtfo:
             self.nvim.out_write('');
-            if (time.time() - self.lastUpdate) > self.updateInterval and mytick < self.lasttick:
-                mytick = self.lasttick;
+            if (time.time() - self.lastUpdate) > self.updateInterval and self.currentTick < self.lasttick:
+                self.currentTick = self.lasttick;
                 self.nvim.current.buffer.clear_highlight(self.unmatchedID, 0, -1);
                 self.handle_unmatched();
                 self.match = None;
@@ -103,6 +103,7 @@ class HighlightUnmatched(object):
     @neovim.autocmd('BufWinEnter', pattern='*', eval='&filetype', sync=False)
     def on_enter(self,filetype):
         self.filetype = filetype;
+        self.currentTick = -1;
 
         if self.filetype in self.ignoreFileTypes:
             return
@@ -126,9 +127,9 @@ class HighlightUnmatched(object):
             self.noComplexComments = True;
             self.comment = '#'
         elif filetype == "c" or filetype == "java" or filetype == "cs" or filetype == "cpp" or filetype == "othersIamtoolazytotyperightnow":
-            self.ignoreComplexCommentStart = re.compile('/*');
-            self.ignoreComplexCommentEnd = re.compile('*/');
-            self.noComplexComments = False;
+            # self.ignoreComplexCommentStart = re.compile('/*');
+            # self.ignoreComplexCommentEnd = re.compile('*/');
+            # self.noComplexComments = False;
             self.comment = "//"
 
         for g in self.groups:
@@ -164,7 +165,7 @@ class HighlightUnmatched(object):
         self.lastUpdate = time.time();
 
     def get_current_match(self,cur):
-        if (self.filetype in self.ignoreFileTypes) or (self.match is not None and self.am_i_in_scope(self.match)):
+        if (self.filetype in self.ignoreFileTypes):
             return;
 
         self.cur = [cur[1] - 1,cur[2] - 1];

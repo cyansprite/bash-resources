@@ -17,7 +17,7 @@ else
 endif
 set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
 colo restraint
-set bg=dark
+" set bg=dark
 
 "}}}
 "Begin Vim set {{{
@@ -421,29 +421,30 @@ augroup init
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}
+"
 " New Plugin: highlighty stuff... info soon... {{{1
 let g:highlightactive=get(g:, 'highlightactive', 1)
-if !hlexists('InnerScope')
+" if !hlexists('InnerScope')
     if &bg=='dark'
         hi InnerScope ctermbg=237 ctermfg=none cterm=none
     else
-        hi InnerScope ctermbg=252 ctermfg=none cterm=none
+        hi InnerScope ctermbg=254 ctermfg=none cterm=none
     endif
-endif
-if !hlexists('OuterScope')
+" endif
+" if !hlexists('OuterScope')
     if &bg=='dark'
         hi OuterScope ctermbg=237 ctermfg=none cterm=none
     else
         hi OuterScope ctermbg=252 ctermfg=none cterm=none
     endif
-endif
-if !hlexists('LinkScope')
+" endif
+" if !hlexists('LinkScope')
     if &bg=='dark'
         hi LinkScope ctermbg=239 ctermfg=none cterm=none
     else
         hi LinkScope ctermbg=250 ctermfg=none cterm=none
     endif
-endif
+" endif
 if !hlexists('SearchC')
     hi link SearchC Folded
 endif
@@ -556,7 +557,7 @@ func! AutoHighlightCurrentWord() "{{{1
         endif
 
         if !(g:curhighword == @/ && &hlsearch)
-            call matchadd('VertSplit', IgnoreCase().'\<'.g:curhighword.'\>', -100, 999)
+            call matchadd('InnerScope', IgnoreCase().'\<'.g:curhighword.'\>', -100, 999)
         endif
     endif
 endfun
