@@ -34,7 +34,7 @@ set bg=dark
     set nowrapscan                 " I don't like my searches to continue forever
     set shiftround                 " indent it by multiples of shiftwidth please
     set showcmd                    " Show cmd while typing in bottom right corner
-    set showmatch                  " Show matching brackets/parentthesis
+    set noshowmatch                " Plugin does this Show matching brackets/parentthesis
     set showmode noshowmode        " I just put it in statusbar, don't clear echo
     set ignorecase smartcase       " ignore case if just using lower
     set smartcase                  " makes things a bit better
@@ -45,7 +45,7 @@ set bg=dark
     set splitright                 " Oh this one will be different!...cept not.
     set tildeop                    " Tilde as oper
     set title title                " rxvt and tmux make this usable
-    set titlestring=NVIM           " Simple title, my statusbar tells the rest
+    set title titlestring=%<%F%=%y titlelen=30
     set undofile                   " keep undo history ina file
 
     " Set: Those that use =
@@ -59,7 +59,7 @@ set bg=dark
     set foldmethod=marker          " fold stuff :)
     set foldopen+=jump,search      " open folds when I search/jump to things
     set icm="nosplit"              " inc command split in preview, hasn't worked
-    set matchtime=1                " Show matching time
+    set matchtime=0                " Show matching time
     set matchpairs+=<:>            " More matches
     set mouse=                     " I prefer having terminal functionality.
     set shiftwidth=4               " Use indents of 4 spaces
@@ -102,13 +102,13 @@ set bg=dark
     set formatoptions+=n " Recognize numbered lists
     set formatoptions+=2 " Use indent from 2nd line of a paragraph
     set formatoptions+=j " Destroy comment leader join when valid
-    " set formatoptions-=c Auto-wrap comments using textwidth
-    " set formatoptions-=t auto wrap based on textwidth
-    " set formatoptions-=a auto-paragraphing, fuck that.
-    " set formatoptions-=v vi auto wrapping, no.
-    " set formatoptions-=b I just don't like auto
-    " set formatoptions-=1 I don't fuckin care how long it is
-    " set formatoptions-=o do not continue comment using o or O
+    " set formatoptions-=c " Auto-wrap comments using textwidth
+    " set formatoptions-=t " auto wrap based on textwidth
+    " set formatoptions-=a " auto-paragraphing, fuck that.
+    " set formatoptions-=v " vi auto wrapping, no.
+    " set formatoptions-=b " I just don't like auto
+    " set formatoptions-=1 " I don't fuckin care how long it is
+    " set formatoptions-=o " do not continue comment using o or O
 "End Vim set }}}
 "Begin Vim map {{{
     " Refresh my script bitch!

@@ -24,8 +24,8 @@ class HighlightUnmatched(object):
 
         self.defstring = (r'(\()|(\))|(\{)|(\})|(\[)|(\])|')
         # make quotes and singlue quotes work
-        self.defstring = (r"'")
-        self.defstring = (r'"')
+        self.defstring += (r"(')")
+        self.defstring += (r'|(")')
 
         self.regexstring = ""
         self.regex = None
@@ -54,7 +54,7 @@ class HighlightUnmatched(object):
         self.locked = False;
         self.lockedi = False;
         self.lastUpdate = 0;
-        self.updateInterval = .5;
+        self.updateInterval = .15;
         self.lasttick = 0;
 
     @neovim.autocmd('VimEnter', pattern='*', eval='', sync=True)
@@ -84,13 +84,12 @@ class HighlightUnmatched(object):
             self.change_happened(tick);
 
     def single_loop(self):
+        mytick = 0;
         while not self.gtfo:
-            mytick = 0;
-            # this keeps the connection alive? I don't fuckin know man...
-            # but if i remove it, it hangs
             self.nvim.out_write('');
             if (time.time() - self.lastUpdate) > self.updateInterval and mytick < self.lasttick:
                 mytick = self.lasttick;
+                self.nvim.current.buffer.clear_highlight(self.unmatchedID, 0, -1);
                 self.handle_unmatched();
                 self.match = None;
                 cur = self.nvim.eval("getcurpos()")
@@ -122,8 +121,8 @@ class HighlightUnmatched(object):
             self.groups.append([r'(?<=\s)if(?=\s)|^if(?=\s)|(?<=\s)if$|^if$'                                         , r'(?<=\s)en[dif]*(?=\s)|^en[dif]*(?=\s)|(?<=\s)en[dif]*$|^en[dif]*$']                         )
             self.groups.append([r'(?<=\s)try(?=\s)|^try(?=\s)|(?<=\s)try$|^try$'                                     , r'(?<=\s)endt[ry]*(?=\s)|^endt[ry]*(?=\s)|(?<=\s)endt[ry]*$|^endt[ry]*$']                     )
             self.groups.append([r'\baug[roup]*\b\s(?!END)\w+'                                                        , r'\bau[group]*(?=\b)\s\bEND\b']                                                               )
-            self.comment = r'"|.*map'
-        elif filetype == "python":
+            self.comment = r'"'
+        elif filetype == "python" or filetype == "sh":
             self.noComplexComments = True;
             self.comment = '#'
         elif filetype == "c" or filetype == "java" or filetype == "cs" or filetype == "cpp" or filetype == "othersIamtoolazytotyperightnow":
@@ -137,7 +136,6 @@ class HighlightUnmatched(object):
         self.regexstring += self.defstring + "|(" + self.comment + ")";
         self.groups += self.defgroups;
         self.regex = re.compile(self.regexstring)
-        self.nvim.out_write("{}\n".format(self.regexstring))
 
         if self.init:
             self.handle_unmatched();
