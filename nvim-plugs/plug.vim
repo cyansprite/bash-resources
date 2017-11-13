@@ -6,7 +6,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'thinca/vim-visualstar'
     Plug 'tpope/vim-commentary'
     Plug 'zcodes/vim-surround'
-    Plug 'zcodes/vim-colors-basic'
 
     " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
@@ -16,7 +15,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/vim-csharp'
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'keith/tmux.vim'
-    Plug 'Valloric/vim-operator-highlight'
+    " Plug 'Valloric/vim-operator-highlight'
 
     " Completion: Deoplete is amazing
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -34,14 +33,14 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
 
-    " IDElike: I am looking into stuff like this, don't know if I will use.
-    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-
     " Navigation:
-    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+    " Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
     " Interface: My Stuff to look pretty.
     Plug 'cyansprite/logicalBuffers'
+    Plug 'vim-scripts/undofile_warn.vim'
+    Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
     " Grep: the context grep sucks; but quickfix is nice and match is nice...
     " TODO FIX side issues I have.
@@ -65,8 +64,10 @@ call plug#end()
 " }}}
 
 " Various Mappings With No Options: {{{1
-    nnoremap <silent> <leader>A :ArgWrap<CR>
-    nmap <leader>] :TagbarToggle<CR>
+    nnoremap <silent> <leader>A :ArgWrap<cr>
+    nmap <leader>] :TagbarToggle<cr>
+    nmap <leader>u :UndotreeToggle<cr>
+    let g:undotree_WindowLayout = 2
 
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0

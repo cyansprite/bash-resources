@@ -9,42 +9,44 @@
 " function for cpp  ->  ::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$
 
 " Plug, colo {{{
-if(has("unix"))
+
+if has("unix")
     so ~/.config/nvim/plug.vim
 else
     so ~\AppData\Local\nvim\plug.vim
 endif
 set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
 colo restraint
+set bg=dark
 
 "}}}
 "Begin Vim set {{{
     " Set: Those that use macros
-    set backup | set writebackup " back it up, the file, I mean.
-    set cursorline             " set no cursorline
-    set noconfirm                " I hate the lil mess... I tried, fuck it.
-    set expandtab                " Expands tab to spaces
-    set fic                      " Fuck file case
-    set lazyredraw               " Don't draw durning macros
-    set linebreak                " don't cut words on wrap if i DO wrap
-    set list                     " list my chars: ╳│¦|┆×•·
-    set nowrap                   " I really hate wrap
-    set nowrapscan               " I don't like my searches to continue forever
-    set shiftround               " indent it by multiples of shiftwidth please
-    set showcmd                  " Show cmd while typing in bottom right corner
-    set showmatch                " Show matching brackets/parentthesis
-    set showmode noshowmode      " I just put it in statusbar, don't clear echo
-    set ignorecase smartcase     " ignore case if just using lower
-    set smartcase                " makes things a bit better
-    set smartindent              " indent things well
-    set smarttab                 " tab plays nicer
-    set sol nosol                " Don't be stupid and move to start of line
-    set splitbelow               " ...split below... what did you think?
-    set splitright               " Oh this one will be different!...cept not.
-    set tildeop                  " Tilde as oper
-    set title title              " rxvt and tmux make this usable
-    set titlestring=NVIM         " Simple title, my statusbar tells the rest
-    set undofile                 " keep undo history ina file
+    set backup | set writebackup   " back it up, the file, I mean.
+    set cursorline                 " set cursorline, just make sure highlight is none
+    set noconfirm                  " I hate the lil mess... I tried, fuck it.
+    set expandtab                  " Expands tab to spaces
+    set fic                        " Fuck file case
+    set lazyredraw                 " Don't draw durning macros
+    set linebreak                  " don't cut words on wrap if i DO wrap
+    set list                       " list my chars: ╳│¦|┆×•·
+    set nowrap                     " I really hate wrap
+    set nowrapscan                 " I don't like my searches to continue forever
+    set shiftround                 " indent it by multiples of shiftwidth please
+    set showcmd                    " Show cmd while typing in bottom right corner
+    set showmatch                  " Show matching brackets/parentthesis
+    set showmode noshowmode        " I just put it in statusbar, don't clear echo
+    set ignorecase smartcase       " ignore case if just using lower
+    set smartcase                  " makes things a bit better
+    set smartindent                " indent things well
+    set smarttab                   " tab plays nicer
+    set sol nosol                  " Don't be stupid and move to start of line
+    set splitbelow                 " ...split below... what did you think?
+    set splitright                 " Oh this one will be different!...cept not.
+    set tildeop                    " Tilde as oper
+    set title title                " rxvt and tmux make this usable
+    set titlestring=NVIM           " Simple title, my statusbar tells the rest
+    set undofile                   " keep undo history ina file
 
     " Set: Those that use =
     let &showbreak = '↳ '          " Change show break thing (rare occasion)
@@ -52,7 +54,6 @@ colo restraint
     set cinkeys-=0#                " don't force # indentation, ever write python
     set cmdheight=1                " Pair up
     set complete=.,w,b,u,U         " Complete all buffers,window, current
-    " set completeopt=noinsert       " Don't automatically complete items, <c-y>
     set diffopt+=context:3         " diff context lines
     set foldcolumn=0               " foldcolumn... yes
     set foldmethod=marker          " fold stuff :)
@@ -101,18 +102,19 @@ colo restraint
     set formatoptions+=n " Recognize numbered lists
     set formatoptions+=2 " Use indent from 2nd line of a paragraph
     set formatoptions+=j " Destroy comment leader join when valid
-    " set formatoptions-=c " Auto-wrap comments using textwidth
-    " set formatoptions-=t " auto wrap based on textwidth
-    " set formatoptions-=a " auto-paragraphing, fuck that.
-    " set formatoptions-=v " vi auto wrapping, no.
-    " set formatoptions-=b " I just don't like auto
-    " set formatoptions-=1 " I don't fuckin care how long it is
-    " set formatoptions-=o " do not continue comment using o or O
+    " set formatoptions-=c Auto-wrap comments using textwidth
+    " set formatoptions-=t auto wrap based on textwidth
+    " set formatoptions-=a auto-paragraphing, fuck that.
+    " set formatoptions-=v vi auto wrapping, no.
+    " set formatoptions-=b I just don't like auto
+    " set formatoptions-=1 I don't fuckin care how long it is
+    " set formatoptions-=o do not continue comment using o or O
 "End Vim set }}}
 "Begin Vim map {{{
     " Refresh my script bitch!
     nnoremap <F5> :w \| so %<cr>
-    set mps-=<,>
+    nnoremap <c-p> g;
+    nnoremap <c-n> g,
 
     " I use this too much for it to not be a mapping
     nnoremap <leader>ee :e **/*
@@ -124,21 +126,20 @@ colo restraint
 
     " Does anyone actually use single quote?
     map ' `
-    inoremap <cr> <C-R>=pumvisible() ? "\<lt>C-Y>" : "\<lt>CR>"<CR>
 
     " I don't use tabs so make them useful things I have trouble hitting
     nmap gt <bar>
     " TODO nmap gT <bar>
 
     " Hls ease
-    nnoremap <silent><space> hl:silent set hlsearch!<cr>
+    nnoremap <silent><space>h hl:silent set hlsearch!<cr>
     nnoremap n :set hlsearch<cr>nzv
     nnoremap N :set hlsearch<cr>Nzv
     nnoremap / :set hlsearch<cr>/
     " don't move... please :)
     nnoremap * :set hlsearch \| let @/='\<<c-r><c-w>\>'<cr>
-    " add to the existing search
-    nnoremap [* /<c-r><c-/>\\|\<<c-r><c-w>\><cr>
+    " add to the existing search if it doesn't already match
+    nnoremap <silent># :set hlsearch \| if match(@/, '<c-r><c-w>') == -1 \| let @/='\<<c-r><c-/>\\|<c-r><c-w>\>' \| endif<cr>
 
     " pasting in cmode
     cmap <c-v> <c-r>"
@@ -289,6 +290,7 @@ func! Mode(mode)
         return '- '. toupper(&filetype) . ' -'
     else
         return s:statusmodes[a:mode] . l:paste
+    endif
 endfunc
 
 func! PositionBarRight()
@@ -402,7 +404,7 @@ set foldtext=SuperSexyFoldText()
 " }}}
 func! KillWhitespace() " {{{ -- fuck ws
     exec "%s/\\s\\+$//ge"
-endf
+endfu
 command! -nargs=0 Kws call KillWhitespace()
 " }}}
 " Autocommands {{{
@@ -419,14 +421,28 @@ augroup init
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}
-"
 " New Plugin: highlighty stuff... info soon... {{{1
 let g:highlightactive=get(g:, 'highlightactive', 1)
-if !hlexists('HoldScope')
-    hi link HoldScope LineNr
+if !hlexists('InnerScope')
+    if &bg=='dark'
+        hi InnerScope ctermbg=237 ctermfg=none cterm=none
+    else
+        hi InnerScope ctermbg=252 ctermfg=none cterm=none
+    endif
 endif
-if !hlexists('HoldScope1')
-    hi link HoldScope1 LineNr
+if !hlexists('OuterScope')
+    if &bg=='dark'
+        hi OuterScope ctermbg=237 ctermfg=none cterm=none
+    else
+        hi OuterScope ctermbg=252 ctermfg=none cterm=none
+    endif
+endif
+if !hlexists('LinkScope')
+    if &bg=='dark'
+        hi LinkScope ctermbg=239 ctermfg=none cterm=none
+    else
+        hi LinkScope ctermbg=250 ctermfg=none cterm=none
+    endif
 endif
 if !hlexists('SearchC')
     hi link SearchC Folded
@@ -434,7 +450,8 @@ endif
 if !hlexists('UnderLine')
     hi Underline ctermfg=none ctermbg=none guibg=none guifg=none gui=underline cterm=underline
 endif
-" Mapping to alter custom highlighting. "{{{1
+
+" Mapping to alter custom highlighting. {{{1
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive<bar>
     \silent call AutoHighlightCurrentWord()<bar>
     \silent call ScopeIndentHighlight()<bar>
@@ -455,7 +472,11 @@ func! BlinkLineAndColumn() "{{{1
     " let oldl = &cursorline
     let s:distl = &scroll
     let s:distc = winwidth('.') * 9 / 10
-    let s:colors = [254,253,252,253,254]
+    if &bg=="light"
+        let s:colors = [254,253,252,253,254]
+    else
+        let s:colors = [235,237,239,237,235]
+    endif
 
     if !has_key(s:, 'lastfile')
         let s:lastfile = expand('%')
@@ -479,7 +500,6 @@ func! BlinkLineAndColumn() "{{{1
                 exec 'highlight CursorLine ctermbg=' . col
                 exec 'highlight CursorColumn ctermbg=' . col
                 redraw
-                execute 'sleep 20m'
             endfor
             highlight CursorLine ctermbg=none ctermfg=none guibg=none guifg=none cterm=none gui=none
             highlight CursorColumn ctermbg=none ctermfg=none guibg=none guifg=none cterm=none gui=none
@@ -524,7 +544,6 @@ func! HighlightCurrentSearchWord() "{{{1
 endfunc
 
 func! AutoHighlightCurrentWord() "{{{1
-    return ''
     try | call matchdelete(999) | catch *
     endtry
 
@@ -537,10 +556,18 @@ func! AutoHighlightCurrentWord() "{{{1
         endif
 
         if !(g:curhighword == @/ && &hlsearch)
-            call matchadd('HoldSearch', IgnoreCase().'\<'.g:curhighword.'\>', -100, 999)
+            call matchadd('VertSplit', IgnoreCase().'\<'.g:curhighword.'\>', -100, 999)
         endif
     endif
 endfun
+
+func! NextCurrentWord(back)
+  norm! m`
+  call search('\c' . g:curhighword, a:back)
+endfunc
+nnoremap <silent>m :call NextCurrentWord('')<cr>zv
+nnoremap <silent>M :call NextCurrentWord('b')<cr>zv
+
 
 func! IgnoreCase() "{{{1
     return &ignorecase ? '\c' : '\C'
@@ -606,7 +633,7 @@ func! ScopeIndentHighlight() "{{{1
         let l:end -= 1
     endif
 
-    call matchadd('CursorLineNr',"\\%".1."c\\%>".l:start.'l\%<'.l:end.'l',-50,666)
+    call matchadd('OuterScope',"\\%".1."c\\%>".l:start.'l\%<'.l:end.'l',-50,666)
 
     if l:indent == l:o_indent
         let l:indent = l:indent - &shiftwidth + 1
@@ -656,8 +683,8 @@ func! ScopeIndentHighlight() "{{{1
     endif
 
     if l:if != -1
-        call matchaddpos('HoldScope' , [[l:if     , 1    , l:indent - l:passby - 1] ,] , -50, 111)
-        call matchaddpos('HoldScope1', [[l:if     , l:indent - l:passby, 1 ],] , -50, 112)
+        call matchaddpos('LinkScope' , [[l:if     , 1    , l:indent - l:passby - 1] ,] , -50, 111)
+        call matchaddpos('LinkScope' , [[l:if     , l:indent - l:passby, 1 ],] , -50, 112)
     endif
 
     let l:indentmoreend = 0
@@ -666,8 +693,8 @@ func! ScopeIndentHighlight() "{{{1
     endif
 
     if l:indent != 1
-        call matchaddpos('HoldScope1', [[l:start  , l:indent - 1    , 1] ,] , -50, 222)
-        call matchaddpos('HoldScope1', [[l:end    , l:indent - 1    , 1] ,] , -50, 333)
+        call matchaddpos('InnerScope', [[l:start  , l:indent - 1    , 1] ,] , -50, 222)
+        call matchaddpos('InnerScope', [[l:end    , l:indent - 1    , 1] ,] , -50, 333)
         " call matchaddpos('HoldScope1', [[l:start + 1  , l:indent - 1    , 1] ,] , -50, 223)
         " if l:start + 1 != l:end - 1
             " call matchaddpos('HoldScope1', [[l:end - 1    , l:indent - 1    , 1] ,] , -50, 334)
@@ -702,13 +729,6 @@ augroup scope "{{{1
     autocmd InsertEnter * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
 augroup END
 
-" Recommendations: {{{
-    " Hls ease
-    " nnoremap <silent><space> hl:silent set hlsearch!<cr>
-    " nnoremap n :set hlsearch<cr>nzv
-    " nnoremap N :set hlsearch<cr>Nzv
-    " nnoremap / :set hlsearch<cr>/
-    " nnoremap * :set hlsearch<cr>*zv
 " }}}1
 " Special chars {{{
 " ЛМНОПРСТУФХЧЦШЩЬЪЫЅЭІЇЈЮЯӀӢӮабвгѓдеёжзийкќлмнопрстуфхчцшщьъыѕэіјюяһӣӯΑΒΓΔΕΖΗΘΙ
