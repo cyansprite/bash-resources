@@ -34,7 +34,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-fugitive'
 
     " Navigation:
-    " Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
     " Interface: My Stuff to look pretty.
     Plug 'cyansprite/logicalBuffers'

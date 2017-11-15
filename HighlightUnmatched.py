@@ -16,11 +16,12 @@ class HighlightUnmatched(object):
         self.lighters = []
         self.currentlighter = None;
 
-    @neovim.autocmd('VimEnter', pattern='*', eval='', sync=True)
-    def on_vim(self):
+    @neovim.autocmd('VimEnter', pattern='*', eval='&filetype', sync=True)
+    def on_vim(self, filetype):
         self.alwaysMatchID = self.nvim.new_highlight_source();
         self.unmatchedID   = self.nvim.new_highlight_source();
         self.init = True;
+        self.nvim.async_call(lambda:[self.entrance(filetype)]);
 
     @neovim.autocmd('VimLeave', pattern='*', eval='', sync=True)
     def exit(self):
@@ -29,49 +30,44 @@ class HighlightUnmatched(object):
 
     @neovim.autocmd('InsertLeave', pattern='*', eval='b:changedtick', sync=False)
     def on_leave(self,tick):
-        if not self.updateInInsert:
-            self.currentlighter.update(tick);
+        if self.currentlighter is not None:
+            if not self.updateInInsert:
+                self.currentlighter.update(tick);
 
     @neovim.autocmd('TextChangedI', pattern='*', eval='b:changedtick', sync=False)
     def on_change_i(self,tick):
-        if self.updateInInsert:
-            self.currentlighter.update(tick);
+        if self.currentlighter is not None:
+            if self.updateInInsert:
+                self.currentlighter.update(tick);
 
     @neovim.autocmd('TextChanged', pattern='*', eval='b:changedtick', sync=False)
     def on_change(self,tick):
-        for l in self.lighters:
-            self.currentlighter.update(tick);
-
-    @neovim.autocmd('BufWinEnter', pattern='*', eval='&filetype', sync=True)
-    def on_buf_win_enter(self,filetype):
-        self.nvim.async_call(lambda:[self.entrance(filetype)]);
+        if self.currentlighter is not None:
+            for l in self.lighters:
+                self.currentlighter.update(tick);
 
     @neovim.autocmd('BufEnter', pattern='*', eval='&filetype', sync=True)
     def on_buf_enter(self,filetype):
         self.nvim.async_call(lambda:[self.entrance(filetype)]);
 
     def entrance(self,filetype):
-        self.nvim.out_write("this \n")
         if filetype in self.ignoreFileTypes:
             return
 
-        self.nvim.out_write("snf this \n")
         hl = None;
         for l in self.lighters:
-            self.nvim.out_write("loop this \n")
             if l.filetype == filetype:
                 hl = l;
                 break;
 
         if self.init:
             if hl is None:
-                self.nvim.out_write("Does this happen?\n");
                 hl = Highlighter(self.nvim, filetype, self.init, self.alwaysMatchID, self.unmatchedID);
                 self.lighters.append(hl);
             else:
                 hl.reset_tick();
 
-            self.currentlighter = hl;
+        self.currentlighter = hl;
 
     @neovim.autocmd('CursorHold', pattern='*', eval='getcurpos()', sync=False)
     def on_hold(self,cur):
@@ -99,8 +95,7 @@ class Highlighter():
         self.alwaysMatchID = alwaysMatchID;
         self.unmatchedID = unmatchedID;
 
-        self.regexstring = (r'(\()|(\))|(\{)|(\})|(\[)|(\])|')
-        self.regexstring += (r"(')|")
+        self.regexstring = (r"(')|")
 
         self.noComplexComments = True;
         self.allmatched = [];
@@ -115,6 +110,9 @@ class Highlighter():
         self.lastfile    = "";
         self.filetype    = filetype;
         self.buffer      = self.nvim.current.buffer;
+        self.comment = False;
+        self.commentIsDoubQuote = False;
+        self.commentIsSingQuote = False;
 
         self.regex = None
         self.groups = [
@@ -125,36 +123,76 @@ class Highlighter():
 
         # True Boundary : (?<=\s)m(?=\s)|^m(?=\s)|(?<=\s)m$|^m$
         if filetype == 'vim':
-            self.noComplexComments = True;
             self.groups.append([r'(?<=\s)fu[nction!]*(?=\s)|^fu[nction!]*(?=\s)|(?<=\s)fu[nction!]*$|^fu[nction!]*$' , r'(?<=\s)endf[unction]*(?=\s)|^endf[unction]*(?=\s)|(?<=\s)endf[unction]*$|^endf[unction]*$'] )
             self.groups.append([r'(?<=\s)whi[ile]*(?=\s)|^whi[ile]*(?=\s)|(?<=\s)whi[ile]*$|^whi[ile]*$'             , r'(?<=\s)endwhi[le]*(?=\s)|^endwhi[le]*(?=\s)|(?<=\s)endwhi[le]*$|^endwhi[le]*$']             )
             self.groups.append([r'(?<=\s)for(?=\s)|^for(?=\s)|(?<=\s)for$|^for$'                                     , r'(?<=\s)endfo[r]*(?=\s)|^endfo[r]*(?=\s)|(?<=\s)endfo[r]*$|^endfo[r]*$']                     )
             self.groups.append([r'(?<=\s)if(?=\s)|^if(?=\s)|(?<=\s)if$|^if$'                                         , r'(?<=\s)en[dif]*(?=\s)|^en[dif]*(?=\s)|(?<=\s)en[dif]*$|^en[dif]*$']                         )
             self.groups.append([r'(?<=\s)try(?=\s)|^try(?=\s)|(?<=\s)try$|^try$'                                     , r'(?<=\s)endt[ry]*(?=\s)|^endt[ry]*(?=\s)|(?<=\s)endt[ry]*$|^endt[ry]*$']                     )
             self.groups.append([r'\baug[roup]*\b\s(?!END)\w+'                                                        , r'\bau[group]*(?=\b)\s\bEND\b']                                                               )
-            self.comment = r'"'
-        elif filetype == "python" or filetype == "sh":
-            self.noComplexComments = True;
+            self.commentIsDoubQuote = True;
+        elif filetype == "python" or filetype == "sh" or filetype == "perl":
             self.comment = '#'
-        elif filetype == "c" or filetype == "java" or filetype == "cs" or filetype == "cpp" or filetype == "othersIamtoolazytotyperightnow":
+        elif filetype == 'ruby':
+            start = r'=begin'
+            end = r'=end'
+            self.ignoreComplexCommentStart = re.compile(start);
+            self.ignoreComplexCommentEnd = re.compile(end);
+            self.noComplexComments = False;
+            self.comment = '#'
+        elif filetype == 'html' or filetype == 'xhtml' or filetype == 'xml':
+            start = r'<!--'
+            end = r'-->'
+            self.ignoreComplexCommentStart = re.compile(start);
+            self.ignoreComplexCommentEnd = re.compile(end);
+            self.noComplexComments = False;
+        elif filetype == 'python':
+            start = r'"""'
+            end = r'"""'
+            self.ignoreComplexCommentStart = re.compile(start);
+            self.ignoreComplexCommentEnd = re.compile(end);
+            self.noComplexComments = False;
+            self.comment = '#'
+        elif filetype == "c" or filetype == "java" or filetype == "cs" or filetype == "cpp" or filetype == "php" or filetype =='swift':
             start = r'/\*'
             end = r'\*/'
             self.ignoreComplexCommentStart = re.compile(start);
             self.ignoreComplexCommentEnd = re.compile(end);
             self.noComplexComments = False;
             self.comment = "//"
+            if filetype == 'php':
+                self.comment += r'|#'
+        elif filetype == "javascript":
+            self.comment = '//'
+        elif filetype == 'ada' or filetype == 'sql':
+            self.comment = '--'
+        elif filetype == 'matlab':
+            self.comment = '%'
+            start = r'%{'
+            end = r'%}'
+            self.ignoreComplexCommentStart = re.compile(start);
+            self.ignoreComplexCommentEnd = re.compile(end);
+        elif filetype == 'basic':
+            self.comment = '(?<=\s)REM(?=\s)|^REM(?=\s)|(?<=\s)REM$|^REM$'
+        elif filetype == 'vb':
+            self.commentIsSingQuote = True;
+        elif filetype == 'lua':
+            start = r'--[['
+            end = r'--]]'
+            self.ignoreComplexCommentStart = re.compile(start);
+            self.ignoreComplexCommentEnd = re.compile(end);
+            self.noComplexComments = False;
+            self.comment = "--"
 
-        if filetype != "vim":
-            self.regexstring += (r'(")|')
-
-        for g in self.groups:
-            self.regexstring += "("+g[0] + ")|(" + g[1] + ")" + "|";
-        self.regexstring += "(" + self.comment + ")";
+        # The order of these actually matter, quite a lot in fact.
         if not self.noComplexComments:
-            self.regexstring += "|(" + start + ")" + "|(" + end + ")"
-        self.regex = re.compile(self.regexstring)
+            self.regexstring += "(" + start + ")" + "|(" + end + ")|"
+        self.regexstring += (r'(")|')
+        if self.comment:
+            self.regexstring += "(" + self.comment + ")|";
+        for g in self.groups:
+            self.regexstring += "("+g[0] + ")|(" + g[1] + ")|";
 
-        self.nvim.out_write("{}\n".format(self.regexstring))
+        self.regex = re.compile(self.regexstring)
 
         if init:
             self.handle_unmatched();
@@ -260,12 +298,36 @@ class Highlighter():
         match = [];
 
         ignoreComplex = False;
+        ignoreDoub = False;
         cont = True
+        badQuoteCount = 0;
 
         for b in buffer:
             col = 0;
             # If there is a programming language that does quotes on more than one line
             # we will need to handle that here...
+            if self.commentIsDoubQuote and ignoreDoub:
+                # If we get an exception it means the buffer changed while looping
+                # therefore, we just return because we will get a new update.
+                # only ever reproduced by rapidly doing ddu
+                try:
+                    if quote[badQuoteCount][1] != 0 and re.match(r"\s", buffer[quote[badQuoteCount][0]][quote[badQuoteCount][1] - 1]) is None:
+                        badQuoteCount += 1;
+                    else:
+                        quote.pop();
+                except:
+                    return;
+            if self.commentIsSingQuote and ignoreDoub:
+                # If we get an exception it means the buffer changed while looping
+                # therefore, we just return because we will get a new update.
+                # only ever reproduced by rapidly doing ddu
+                try:
+                    if quote[badQuoteCount][1] != 0 and re.match(r"\s", buffer[quote[badQuoteCount][0]][quote[badQuoteCount][1] - 1]) is None:
+                        badQuoteCount += 1;
+                    else:
+                        quote.pop();
+                except:
+                    return;
             ignoreDoub = False;
             ignoreSing = False;
 
@@ -274,18 +336,17 @@ class Highlighter():
                     if not re.match(self.ignoreComplexCommentEnd,(x.group())):
                         continue;
                     else:
-                        match.append([complexCom.pop(), [line,x.start(),2]])
+                        match.append([complexCom.pop(), [line,x.start(),len(x.group())]])
                         ignoreComplex = False;
+                        continue;
 
                 # quick hack to get it working... double quotes won't be recognized.
-                if self.filetype != 'vim':
-                    self.nvim.out_write("filetype : {}\n".format(self.filetype))
-                    if x.group() == '"' and not ignoreSing:
-                        if ignoreDoub:
-                            match.append([[line,x.start(), 1], quote.pop()]);
-                        else:
-                            quote.append([line,x.start(), 1]);
-                        ignoreDoub = not ignoreDoub;
+                if x.group() == '"' and not ignoreSing:
+                    if ignoreDoub:
+                        match.append([[line,x.start(), 1], quote.pop()]);
+                    else:
+                        quote.append([line,x.start(), 1]);
+                    ignoreDoub = not ignoreDoub;
 
                 if x.group() == "'" and not ignoreDoub:
                     if ignoreSing:
@@ -297,16 +358,16 @@ class Highlighter():
                 if ignoreSing or ignoreDoub:
                     continue;
 
+                # if not (self.filetype == 'vim' or beenquoted):
+                if self.comment and re.match(self.comment ,x.group()):
+                    break;
+
+
                 if not self.noComplexComments:
                     if re.match(self.ignoreComplexCommentStart,(x.group())):
                         ignoreComplex = True;
-                        complexCom.append([line,x.start(),2])
+                        complexCom.append([line,x.start(),len(x.group())])
                         continue;
-
-                # if not (self.filetype == 'vim' or beenquoted):
-                if re.match(self.comment ,x.group()):
-                    self.nvim.out_write("{} - {}\n".format(x.group(),x.start()))
-                    break;
 
                 idx = 0;
                 for group in self.groups:
@@ -339,15 +400,11 @@ class Highlighter():
                 self.buffer.add_highlight("Error" , r[0], r[1], r[1] + r[2], self.unmatchedID);
 
         # Unmatched quotes
-        self.nvim.out_write("Checked-- \n")
         for r in sinquote:
             self.buffer.add_highlight("Error" , r[0], r[1], r[1] + r[2], self.unmatchedID);
         for r in quote:
             self.buffer.add_highlight("Error" , r[0], r[1], r[1] + r[2], self.unmatchedID);
         for r in complexCom:
-            self.nvim.out_write("Complex coms :: \n")
-            self.nvim.out_write("{} {} {} \n".format(r[0], r[1], r[2]))
             self.buffer.add_highlight("Error" , r[0], r[1], r[1] + r[2], self.unmatchedID);
 
         self.allmatched = match;
-
