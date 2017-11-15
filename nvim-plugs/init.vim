@@ -669,7 +669,7 @@ func! ScopeIndentHighlight() "{{{1
     let l:if = -1
 
     " If else then get if as well
-    if match(g:scope_startline, '\s\+else') != -1
+    if match(g:scope_startline, '\s\+else\|elif') != -1
         let l:if = search('^\s\{'.(l:o_indent-&shiftwidth).'}if', 'bn')
     endif
 

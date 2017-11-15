@@ -8,55 +8,13 @@ class HighlightUnmatched(object):
 
     def __init__(self, nvim):
         self.nvim = nvim;
-
-        self.noComplexComments = True;
-
-        self.high = { "-1" : 'Logical5',
-            "-2" : 'Logical4',
-            "0" : 'Logical2',
-            "1" : 'Logical3',
-            "2" : 'Logical1',
-            "3" : 'Logical2',
-        };
-
-        self.allmatched = [];
-        self.nonmatched = [];
-
-        self.defstring = (r'(\()|(\))|(\{)|(\})|(\[)|(\])|')
-        # make quotes and singlue quotes work
-        self.defstring += (r"(')")
-        self.defstring += (r'|(")')
-
-        self.regexstring = ""
-        self.regex = None
-
-        self.defgroups = [
-            ['\(','\)'],
-            ['\[','\]'],
-            ['\{','\}'],
-        ]
-        self.groups = []
-
-        self.ignoreFileTypes = [
-            'jinja',
-            'help',
-            'notes',
-            'diff',
-            'qf',
-            'txt',
-            '',
-        ]
-
-        self.match = None;
         self.init = False;
-        self.gtfo = False;
-        self.scoping = False;
-        self.locked = False;
-        self.lockedi = False;
-        self.lastUpdate = 0;
-        self.updateInterval = .15;
-        self.lasttick = 0;
-        self.currentTick = -1;
+
+        # user options...
+        self.updateInInsert = False;
+        self.ignoreFileTypes = ['jinja', 'help', 'notes', 'diff', 'qf', 'txt', '']
+        self.lighters = []
+        self.currentlighter = None;
 
     @neovim.autocmd('VimEnter', pattern='*', eval='', sync=True)
     def on_vim(self):
@@ -66,56 +24,108 @@ class HighlightUnmatched(object):
 
     @neovim.autocmd('VimLeave', pattern='*', eval='', sync=True)
     def exit(self):
-        self.gtfo = True;
+        for l in self.lighters:
+            l.go_the_fuck_away()
+
+    @neovim.autocmd('InsertLeave', pattern='*', eval='b:changedtick', sync=False)
+    def on_leave(self,tick):
+        if not self.updateInInsert:
+            self.currentlighter.update(tick);
 
     @neovim.autocmd('TextChangedI', pattern='*', eval='b:changedtick', sync=False)
     def on_change_i(self,tick):
-        if not self.lockedi:
-            self.lockedi = True;
-            self.single_loop();
-        else:
-            self.change_happened(tick);
+        if self.updateInInsert:
+            self.currentlighter.update(tick);
 
     @neovim.autocmd('TextChanged', pattern='*', eval='b:changedtick', sync=False)
     def on_change(self,tick):
-        if not self.locked:
-            self.locked = True;
-            self.single_loop();
-        else:
-            self.change_happened(tick);
+        for l in self.lighters:
+            self.currentlighter.update(tick);
 
-    def single_loop(self):
-        while not self.gtfo:
-            self.nvim.out_write('');
-            if (time.time() - self.lastUpdate) > self.updateInterval and self.currentTick < self.lasttick:
-                self.currentTick = self.lasttick;
-                self.nvim.current.buffer.clear_highlight(self.unmatchedID, 0, -1);
-                self.handle_unmatched();
-                self.match = None;
-                cur = self.nvim.eval("getcurpos()")
-                self.get_current_match(cur);
+    @neovim.autocmd('BufWinEnter', pattern='*', eval='&filetype', sync=True)
+    def on_buf_win_enter(self,filetype):
+        self.nvim.async_call(lambda:[self.entrance(filetype)]);
 
-    def change_happened(self,tick):
-        self.lasttick = tick;
-        self.lastUpdate = time.time();
-        self.nvim.current.buffer.clear_highlight(self.unmatchedID, 0, -1);
+    @neovim.autocmd('BufEnter', pattern='*', eval='&filetype', sync=True)
+    def on_buf_enter(self,filetype):
+        self.nvim.async_call(lambda:[self.entrance(filetype)]);
 
-    @neovim.autocmd('BufWinEnter', pattern='*', eval='&filetype', sync=False)
-    def on_enter(self,filetype):
-        self.filetype = filetype;
-        self.currentTick = -1;
-
-        if self.filetype in self.ignoreFileTypes:
+    def entrance(self,filetype):
+        self.nvim.out_write("this \n")
+        if filetype in self.ignoreFileTypes:
             return
 
-        self.regexstring = ""
+        self.nvim.out_write("snf this \n")
+        hl = None;
+        for l in self.lighters:
+            self.nvim.out_write("loop this \n")
+            if l.filetype == filetype:
+                hl = l;
+                break;
+
+        if self.init:
+            if hl is None:
+                self.nvim.out_write("Does this happen?\n");
+                hl = Highlighter(self.nvim, filetype, self.init, self.alwaysMatchID, self.unmatchedID);
+                self.lighters.append(hl);
+            else:
+                hl.reset_tick();
+
+            self.currentlighter = hl;
+
+    @neovim.autocmd('CursorHold', pattern='*', eval='getcurpos()', sync=False)
+    def on_hold(self,cur):
+        if self.currentlighter is not None:
+            self.currentlighter.current(cur);
+
+    @neovim.autocmd('CursorHoldI', pattern='*', eval='getcurpos()', sync=False)
+    def on_hold_i(self,cur):
+        if self.currentlighter is not None:
+            self.currentlighter.current(cur);
+
+    @neovim.autocmd('CursorMoved', pattern='*', eval='getcurpos()', sync=False)
+    def on_move(self,cur):
+        if self.currentlighter is not None:
+            self.currentlighter.current(cur);
+
+    @neovim.autocmd('CursorMovedI', pattern='*', eval='getcurpos()', sync=False)
+    def on_move_i(self,cur):
+        if self.currentlighter is not None:
+            self.currentlighter.current(cur);
+
+class Highlighter():
+    def __init__(self,nvim,filetype,init,alwaysMatchID, unmatchedID):
+        self.nvim = nvim;
+        self.alwaysMatchID = alwaysMatchID;
+        self.unmatchedID = unmatchedID;
+
+        self.regexstring = (r'(\()|(\))|(\{)|(\})|(\[)|(\])|')
+        self.regexstring += (r"(')|")
+
+        self.noComplexComments = True;
+        self.allmatched = [];
+
+        self.gtfo        = False;
+        self.scoping     = False;
+        self.locked      = False;
+        self.lastUpdate  = 0;
+        self.lasttick    = 0;
+        self.currentTick = -1;
+        self.updateInterval = .15;
+        self.lastfile    = "";
+        self.filetype    = filetype;
+        self.buffer      = self.nvim.current.buffer;
+
         self.regex = None
-        self.groups = []
+        self.groups = [
+            ['\(','\)'],
+            ['\[','\]'],
+            ['\{','\}'],
+        ]
 
         # True Boundary : (?<=\s)m(?=\s)|^m(?=\s)|(?<=\s)m$|^m$
         if filetype == 'vim':
             self.noComplexComments = True;
-            # Vim and it's complicated shit...
             self.groups.append([r'(?<=\s)fu[nction!]*(?=\s)|^fu[nction!]*(?=\s)|(?<=\s)fu[nction!]*$|^fu[nction!]*$' , r'(?<=\s)endf[unction]*(?=\s)|^endf[unction]*(?=\s)|(?<=\s)endf[unction]*$|^endf[unction]*$'] )
             self.groups.append([r'(?<=\s)whi[ile]*(?=\s)|^whi[ile]*(?=\s)|(?<=\s)whi[ile]*$|^whi[ile]*$'             , r'(?<=\s)endwhi[le]*(?=\s)|^endwhi[le]*(?=\s)|(?<=\s)endwhi[le]*$|^endwhi[le]*$']             )
             self.groups.append([r'(?<=\s)for(?=\s)|^for(?=\s)|(?<=\s)for$|^for$'                                     , r'(?<=\s)endfo[r]*(?=\s)|^endfo[r]*(?=\s)|(?<=\s)endfo[r]*$|^endfo[r]*$']                     )
@@ -127,56 +137,82 @@ class HighlightUnmatched(object):
             self.noComplexComments = True;
             self.comment = '#'
         elif filetype == "c" or filetype == "java" or filetype == "cs" or filetype == "cpp" or filetype == "othersIamtoolazytotyperightnow":
-            # self.ignoreComplexCommentStart = re.compile('/*');
-            # self.ignoreComplexCommentEnd = re.compile('*/');
-            # self.noComplexComments = False;
+            start = r'/\*'
+            end = r'\*/'
+            self.ignoreComplexCommentStart = re.compile(start);
+            self.ignoreComplexCommentEnd = re.compile(end);
+            self.noComplexComments = False;
             self.comment = "//"
+
+        if filetype != "vim":
+            self.regexstring += (r'(")|')
 
         for g in self.groups:
             self.regexstring += "("+g[0] + ")|(" + g[1] + ")" + "|";
-        self.regexstring += self.defstring + "|(" + self.comment + ")";
-        self.groups += self.defgroups;
+        self.regexstring += "(" + self.comment + ")";
+        if not self.noComplexComments:
+            self.regexstring += "|(" + start + ")" + "|(" + end + ")"
         self.regex = re.compile(self.regexstring)
 
-        if self.init:
+        self.nvim.out_write("{}\n".format(self.regexstring))
+
+        if init:
             self.handle_unmatched();
+            self.get_current_match(self.nvim.eval("getcurpos()"))
 
-    @neovim.autocmd('CursorHold', pattern='*', eval='getcurpos()', sync=False)
-    def on_hold(self,cur):
+    def go_the_fuck_away(self):
+        self.gtfo = True;
+
+    def my_filetype(self):
+        return self.filetype;
+
+    def reset_tick(self):
+        self.currentTick = -1;
+        self.lasttick = 0;
+        self.buffer.clear_highlight(self.alwaysMatchID, 0 -1);
+        self.buffer = self.nvim.current.buffer;
+        self.handle_unmatched();
+        self.get_current_match(self.nvim.eval("getcurpos()"));
+
+    def current(self,cur):
         self.get_current_match(cur);
 
-    @neovim.autocmd('CursorHoldI', pattern='*', eval='getcurpos()', sync=False)
-    def on_hold_i(self,cur):
-        self.get_current_match(cur);
+    def change(self,tick):
+        self.lasttick = tick;
+        self.lastUpdate = time.time();
+        self.buffer.clear_highlight(self.unmatchedID, 0, -1);
 
-    @neovim.autocmd('CursorMoved', pattern='*', eval='getcurpos()', sync=False)
-    def on_move(self,cur):
-        self.get_current_match(cur);
+    def update(self,tick):
+        if not self.locked:
+            self.locked = True;
+            self.single_loop();
+        else:
+            self.change(tick);
 
-    @neovim.autocmd('CursorMovedI', pattern='*', eval='getcurpos()', sync=False)
-    def on_move_i(self,cur):
-        self.get_current_match(cur);
+    def single_loop(self):
+        while not self.gtfo:
+            self.nvim.out_write('');
+            if (time.time() - self.lastUpdate) > self.updateInterval and self.currentTick < self.lasttick:
+                self.currentTick = self.lasttick;
+                self.buffer.clear_highlight(self.unmatchedID, 0, -1);
+                self.handle_unmatched();
+                self.get_current_match(self.nvim.eval("getcurpos()"));
 
     def handle_unmatched(self):
-        if self.filetype in self.ignoreFileTypes:
-            return
         self.allmatched = [];
-        self.get_unmatched();
+        self.get_unmatched(self.buffer);
         self.lastUpdate = time.time();
 
     def get_current_match(self,cur):
-        if (self.filetype in self.ignoreFileTypes):
-            return;
-
         self.cur = [cur[1] - 1,cur[2] - 1];
-        self.nvim.current.buffer.clear_highlight(self.alwaysMatchID, 0, -1);
+        self.buffer.clear_highlight(self.alwaysMatchID, 0, -1);
         self.match = None;
 
         for m in self.allmatched:
             self.match = self.am_i_in_scope(m);
             if self.match is not None:
-                self.nvim.current.buffer.add_highlight("MatchParen", m[0][0], m[0][1], m[0][1] + m[0][2], self.alwaysMatchID);
-                self.nvim.current.buffer.add_highlight("MatchParen", m[1][0], m[1][1], m[1][1] + m[1][2], self.alwaysMatchID);
+                self.buffer.add_highlight("MatchParen", m[0][0], m[0][1], m[0][1] + m[0][2], self.alwaysMatchID);
+                self.buffer.add_highlight("MatchParen", m[1][0], m[1][1], m[1][1] + m[1][2], self.alwaysMatchID);
                 break;
 
     def am_i_in_scope(self,m):
@@ -200,7 +236,7 @@ class HighlightUnmatched(object):
         else:
             return None;
 
-    def get_unmatched(self):
+    def get_unmatched(self,buffer):
         line = 0;
 
         l = len(self.groups);
@@ -213,6 +249,7 @@ class HighlightUnmatched(object):
 
         quote = [];
         sinquote = [];
+        complexCom = [];
 
         left  = [];
         right = [];
@@ -225,34 +262,34 @@ class HighlightUnmatched(object):
         ignoreComplex = False;
         cont = True
 
-        for b in self.nvim.current.buffer:
+        for b in buffer:
             col = 0;
             # If there is a programming language that does quotes on more than one line
             # we will need to handle that here...
             ignoreDoub = False;
             ignoreSing = False;
-            beenquoted = False;
 
             for x in self.regex.finditer(b):
-                # if not self.noComplexComments and ignoreComplex:
-                #     if self.ignoreComplexCommentEnd.search(b) is None:
-                #         continue;
-                #     else:
-                #         ignoreComplex = False;
-
-                # search = self.quote.search(b)
-
-                if x.group() == '"' and not ignoreSing:
-                    beenquoted = True;
-                    if ignoreDoub:
-                        match.append([[line,x.start(), 1], quote.pop(), -2]);
+                if not self.noComplexComments and ignoreComplex:
+                    if not re.match(self.ignoreComplexCommentEnd,(x.group())):
+                        continue;
                     else:
-                        quote.append([line,x.start(), 1]);
-                    ignoreDoub = not ignoreDoub;
+                        match.append([complexCom.pop(), [line,x.start(),2]])
+                        ignoreComplex = False;
+
+                # quick hack to get it working... double quotes won't be recognized.
+                if self.filetype != 'vim':
+                    self.nvim.out_write("filetype : {}\n".format(self.filetype))
+                    if x.group() == '"' and not ignoreSing:
+                        if ignoreDoub:
+                            match.append([[line,x.start(), 1], quote.pop()]);
+                        else:
+                            quote.append([line,x.start(), 1]);
+                        ignoreDoub = not ignoreDoub;
 
                 if x.group() == "'" and not ignoreDoub:
                     if ignoreSing:
-                        match.append([[line,x.start(), 1], sinquote.pop(), -1]);
+                        match.append([[line,x.start(), 1], sinquote.pop()]);
                     else:
                         sinquote.append([line,x.start(), 1]);
                     ignoreSing = not ignoreSing;
@@ -260,18 +297,16 @@ class HighlightUnmatched(object):
                 if ignoreSing or ignoreDoub:
                     continue;
 
-                # if not self.noComplexComments:
-                #     if self.ignoreComplexCommentStart.search(b) is not None:
-                #         ignoreComplex = True;
-                #         col += 1;
-                #         continue;
+                if not self.noComplexComments:
+                    if re.match(self.ignoreComplexCommentStart,(x.group())):
+                        ignoreComplex = True;
+                        complexCom.append([line,x.start(),2])
+                        continue;
 
-                # if there is a comment we don't care about the reset
-                # however since vim uses quotes for strings AND comments ...
-                # I need to make sure that is handled
-                if not (self.filetype == 'vim' or beenquoted):
-                    if re.match(self.comment ,x.group()):
-                        break;
+                # if not (self.filetype == 'vim' or beenquoted):
+                if re.match(self.comment ,x.group()):
+                    self.nvim.out_write("{} - {}\n".format(x.group(),x.start()))
+                    break;
 
                 idx = 0;
                 for group in self.groups:
@@ -286,7 +321,7 @@ class HighlightUnmatched(object):
                         ridx[idx] += 1;
                         right[idx].append([line,x.start(),len(x.group())]);
                         if lall[idx] > 0:
-                            match.append([left[idx].pop(), right[idx].pop(),idx]);
+                            match.append([left[idx].pop(), right[idx].pop()]);
                             lall[idx] -= 1;
 
                     if ridx[idx] > lidx[idx] + rall[idx]:
@@ -294,26 +329,25 @@ class HighlightUnmatched(object):
                     if lidx[idx] > ridx[idx] + lall[idx]:
                         lall[idx] += 1;
                     idx += 1;
-                col += 1;
             line += 1;
 
         # Unmatch Highlights
         for x in range(l):
             for l in left[x]:
-                self.nvim.current.buffer.add_highlight("Error" , l[0], l[1], l[1] + l[2], self.unmatchedID);
+                self.buffer.add_highlight("Error" , l[0], l[1], l[1] + l[2], self.unmatchedID);
             for r in right[x]:
-                self.nvim.current.buffer.add_highlight("Error" , r[0], r[1], r[1] + r[2], self.unmatchedID);
+                self.buffer.add_highlight("Error" , r[0], r[1], r[1] + r[2], self.unmatchedID);
 
-        # Unmatched quotes, i don't know how to fix vim yet...
+        # Unmatched quotes
+        self.nvim.out_write("Checked-- \n")
         for r in sinquote:
-            self.nvim.current.buffer.add_highlight("Error" , r[0], r[1], r[1] + 1, self.unmatchedID);
-        if self.filetype != "vim":
-            for r in quote:
-                self.nvim.current.buffer.add_highlight("Error" , r[0], r[1], r[1] + 1, self.unmatchedID);
-
-        # Match highlights ? No Let Syntax take care of this vim-operator-highlight
-        # for m in match:
-        #     self.nvim.current.buffer.add_highlight(self.high[str(m[2])], m[0][0], m[0][1], m[0][1] + m[0][2], self.unmatchedID);
-        #     self.nvim.current.buffer.add_highlight(self.high[str(m[2])], m[1][0], m[1][1], m[1][1] + m[1][2], self.unmatchedID);
+            self.buffer.add_highlight("Error" , r[0], r[1], r[1] + r[2], self.unmatchedID);
+        for r in quote:
+            self.buffer.add_highlight("Error" , r[0], r[1], r[1] + r[2], self.unmatchedID);
+        for r in complexCom:
+            self.nvim.out_write("Complex coms :: \n")
+            self.nvim.out_write("{} {} {} \n".format(r[0], r[1], r[2]))
+            self.buffer.add_highlight("Error" , r[0], r[1], r[1] + r[2], self.unmatchedID);
 
         self.allmatched = match;
+
