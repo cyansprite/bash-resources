@@ -1,6 +1,6 @@
 URxvt*fading:                 30
 URxvt*depth:                  32
-URxvt*background:        #1a1a1a
+URxvt*background:        #000000
 URxvt*foreground:        #9f95ac
 URxvt*underlineColor:    #95acac
 URxvt*colorUL:           #f0ffca
@@ -23,3 +23,5 @@ URxvt*colorBD:           #cfc5fc
 *color14:                #689d9d
 *color7:                 #8585ac
 *color15:                #a5a5cc
+
+TERMDARK:1

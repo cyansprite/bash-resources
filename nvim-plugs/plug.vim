@@ -44,6 +44,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Grep: the context grep sucks; but quickfix is nice and match is nice...
     " TODO FIX side issues I have.
+    " TODO FIX match issues ( turns off in hlsearch is off? I think... idr )
     Plug 'cyansprite/vim-grepper'
 
     " Color: My personal theme featuring Espurr
@@ -119,21 +120,4 @@ autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
                 \ 'bash': 1, 'qf': 1, 'css': 1, 'vim': 1, 'txt': 1
     \}
 "}}}1
-" Remember {{{
-    " Leaving here although I'm not currently interested...
-    " Plug 'AndrewRadev/bufferize.vim'
-    " Plug 'junegunn/vim-after-object'
-    " Plug 'AndrewRadev/linediff.vim'
-
-    " like the idea hate the plugin
-    " call g:quickmenu#append('# Resource Files', '')
-    " call quickmenu#append("init.vim", 'e ~/.config/nvim/init.vim', "")
-    " call quickmenu#append("plug.vim", 'e ~/.config/nvim/plug.vim', "")
-
-    " call g:quickmenu#append('# Plugin Files', '')
-    " call quickmenu#append("restraint.vim", 'e ~/.local/share/nvim/plugged/Restraint.vim/colors/restraint.vim', "")
-    " call quickmenu#append("logicalBuffers.vim", 'e ~/.local/share/nvim/plugged/logicalBuffers/plugin/logicalBuffers.vim', "")
-    " call quickmenu#append("extract.vim", 'e ~/.local/share/nvim/plugged/extract/plugin/extract.vim', "")
-"}}}
-
 " test-zone

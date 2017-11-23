@@ -17,7 +17,9 @@ else
 endif
 set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
 colo restraint
-" set bg=dark
+if $TERMDARK
+    set bg=dark
+endif
 
 "}}}
 "Begin Vim set {{{
@@ -139,7 +141,7 @@ colo restraint
     " don't move... please :)
     nnoremap * :set hlsearch \| let @/='\<<c-r><c-w>\>'<cr>
     " add to the existing search if it doesn't already match
-    nnoremap <silent># :set hlsearch \| if match(@/, '<c-r><c-w>') == -1 \| let @/='\<<c-r><c-/>\\|<c-r><c-w>\>' \| endif<cr>
+    nnoremap <silent># :set hlsearch \| if match('\<'.@/.'\>', '\<<c-r><c-w>\>') == -1 \| let @/='<c-r><c-/>\\|\<<c-r><c-w>\>' \| endif<cr>
 
     " pasting in cmode
     cmap <c-v> <c-r>"
@@ -423,7 +425,7 @@ augroup init
     autocmd WinLeave * cal LeaveWin()
 
     " Filetypes
-    autocmd FileType c,cpp,java,cs set mps+==:;|set commentstring=//\ %s
+    autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}
@@ -563,14 +565,14 @@ func! AutoHighlightCurrentWord() "{{{1
         endif
 
         if !(g:curhighword == @/ && &hlsearch)
-            call matchadd('InnerScope', IgnoreCase().'\<'.g:curhighword.'\>', -100, 999)
+            call matchadd('InnerScope', IgnoreCase().'\<'.g:curhighword.'\>', -999999, 999)
         endif
     endif
 endfun
 
 func! NextCurrentWord(back)
   norm! m`
-  call search('\c' . g:curhighword, a:back)
+  call search('\c' . IgnoreCase().'\<'.g:curhighword.'\>', a:back)
 endfunc
 nnoremap <silent>m :call NextCurrentWord('')<cr>zv
 nnoremap <silent>M :call NextCurrentWord('b')<cr>zv
@@ -723,8 +725,10 @@ endfun
 nnoremap <Plug>(ScopeSearch) /<c-r>=SearchOnlyThisScope()<cr>
 nnoremap <Plug>(ScopeSearchReplace) :%s/<c-r>=SearchOnlyThisScope()<cr>
 nnoremap <Plug>(ScopeSearchStar) /\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\><cr>
+nnoremap <Plug>(ScopeSearchStarAppend) /<c-r><c-/>\\|\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\><cr>
 nnoremap <Plug>(ScopeSearchStarReplace) :%s/\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\>/
 nmap <leader>* <Plug>(ScopeSearchStar)N
+nmap <leader># <Plug>(ScopeSearchStarAppend)N
 nmap <leader>/ <Plug>(ScopeSearch)
 nmap <F7> <Plug>(ScopeSearchStarReplace)
 nmap <F6> <Plug>(ScopeSearchReplace)

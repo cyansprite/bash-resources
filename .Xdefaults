@@ -46,10 +46,9 @@ URxvt.keysym.C-S-0x56:                  eval:paste_clipboard
 URxvt.tripleclickwords:                 true
 
 ! Fonty Python {{{1
-URxvt*font:                             xft:Anonymous Pro-Regular:size=11
-URxvt*boldFont:                         xft:Anonymous Pro-Bold:bold:size=11
-URxvt*italicFont:                       xft:Anonymous Pro-Italic:italic:size=11
-URxvt*boldItalicFont:                   xft:Anonymous Pro-BoldItalic:bold:italic:size=11
-
+URxvt*font:                             xft:PT Mono:size=10
+URxvt*boldFont:                         xft:Anonymous Pro:bold
+URxvt*italicFont:                       xft:PT Mono:italic
+URxvt*boldItalicFont:                   xft:UbuntuMono:bold:italic
 ! Extensions {{{1
 Urxvt*perl-ext-common:                         ...,kuake

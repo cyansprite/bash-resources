@@ -1,5 +1,6 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 export TERM=xterm-256color
+export TERMDARK=1
 
 # If not running interactively, don't do anything
 case $- in
