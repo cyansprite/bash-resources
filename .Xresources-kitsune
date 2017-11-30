@@ -1,11 +1,11 @@
 URxvt*fading:                 30
 URxvt*depth:                  32
-URxvt*background:        #000000
-URxvt*foreground:        #9f95ac
-URxvt*underlineColor:    #95acac
+URxvt*background:        #1a1f1f
+URxvt*foreground:        #99aaaa
+URxvt*underlineColor:    #75acac
 URxvt*colorUL:           #f0ffca
 URxvt*colorIT:           #f0c0c0
-URxvt*colorBD:           #cfc5fc
+URxvt*colorBD:           #afa5cc
 
 *color0:                 #20202f
 *color8:                 #778877
@@ -15,13 +15,13 @@ URxvt*colorBD:           #cfc5fc
 *color10:                #829d68
 *color3:                 #dbcf90
 *color11:                #dba990
-*color4:                 #4466aa
+*color4:                 #525797
 *color12:                #90b6db
-*color5:                 #b690db
-*color13:                #db90b6
+*color5:                 #9595cc
+*color13:                #a595dc
 *color6:                 #90dbdb
 *color14:                #689d9d
 *color7:                 #8585ac
-*color15:                #a5a5cc
+*color15:                #deffff
 
 TERMDARK:1

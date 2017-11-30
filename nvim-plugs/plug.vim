@@ -15,11 +15,10 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/vim-csharp'
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'keith/tmux.vim'
-    " Plug 'Valloric/vim-operator-highlight'
+    Plug 'cyansprite/vim-operator-highlight'
 
     " Completion: Deoplete is amazing
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets'
     Plug 'Shougo/neoinclude.vim'
     Plug 'zchee/deoplete-jedi'
     Plug 'Shougo/neco-syntax'
@@ -34,7 +33,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-fugitive'
 
     " Navigation:
-    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+    Plug 'Yggdroot/LeaderF', { 'on': 'LeaderF', 'do': './install.sh' }
 
     " Interface: My Stuff to look pretty.
     Plug 'cyansprite/logicalBuffers'
@@ -113,11 +112,4 @@ autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
     hi link cCustomMemVar    Member
     hi link cCustomClass     Class
     hi link cRepeat          Repeat
-
-    let g:ophigh_highlight_link_group = 'Operator'
-    let g:ophigh_filetypes_to_ignore = {'jinja': 1, 'help': 1, 'notes': 1,
-                \ 'markdown': 1, 'less': 1, 'sh': 1, 'html': 1, 'diff': 1,
-                \ 'bash': 1, 'qf': 1, 'css': 1, 'vim': 1, 'txt': 1
-    \}
 "}}}1
-" test-zone

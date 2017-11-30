@@ -30,7 +30,7 @@ shopt -s checkwinsize
 if [ -n "$SSH_CLIENT" ]; then
     PS1='\[\e[1;34m\]\[\e[7;33m\]\$:\w >\[\e[m\] '
 else
-    PS1='\[\e[1;34m\]\[\e[7;37m\]\$:\w >\[\e[m\] '
+    PS1='\[\e[1;30m\]\$:\[\e[1;33m\]\w \[\e[1;30m\]\>\[\e[m\] '
 fi
 # Set title
 PS1="\[\e]0;\h:\u \j \!\a\]$PS1"

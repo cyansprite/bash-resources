@@ -56,6 +56,7 @@ endif
     set cinkeys-=0#                " don't force # indentation, ever write python
     set cmdheight=1                " Pair up
     set complete=.,w,b,u,U         " Complete all buffers,window, current
+    set completeopt=menu           " I'm not a fan of auto documentation.
     set diffopt+=context:3         " diff context lines
     set foldcolumn=0               " foldcolumn... yes
     set foldmethod=marker          " fold stuff :)
