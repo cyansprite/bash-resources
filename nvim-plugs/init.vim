@@ -42,8 +42,7 @@ endif
     set splitbelow                 " ...split below... what did you think?
     set splitright                 " Oh this one will be different!...cept not.
     set title title                " rxvt and tmux make this usable
-    set title titlestring=%<%F%=%y " title, and tiltestring
-                \ titlelen=30      " title length.
+    set titlestring=%<%F\ \ %y     " title, and titlestring
     set undofile                   " keep undo history ina file
 
     " Set: Those that use =
@@ -79,9 +78,9 @@ endif
     " These are annoying to have on
     set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy—
-    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:┉
+    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:-
     " Changes listchars to more suitable chars
-    set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
+    set listchars=tab:→\ ,trail:•,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
     if &modifiable | set number | endif
     set synmaxcol=300
@@ -135,8 +134,8 @@ endif
     cmap <c-v> <c-r>"
 
     " You know, fuck those arrow keys
-    cnoremap <expr> <C-j> wildmenumode() ? "\<Down>\<Tab>" : "\<down>"
-    cnoremap <expr> <C-k> wildmenumode() ? "\<Up>\<Tab>" : "\<up>"
+    cnoremap <C-j> <down>
+    cnoremap <C-k> <up>
 
     " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
     nnoremap <m-c> :cn<cr>
@@ -298,7 +297,7 @@ func! PositionBarLeft()
     if l:cnt < l:length
         let l:length = l:cnt
     endif
-    let track='·'
+    let track='+'
 
     let ratio=(l:current/l:cnt)*l:length
     let rratio=l:length-l:ratio
@@ -412,33 +411,20 @@ augroup END
 "
 " New Plugin: highlighty stuff... info soon... {{{1
 let g:highlightactive=get(g:, 'highlightactive', 1)
-if !hlexists('InnerScope')
-    if &bg=='dark'
-        hi InnerScope ctermbg=237 ctermfg=none cterm=none
-    else
-        hi InnerScope ctermbg=254 ctermfg=none cterm=none guibg=#eeeeee
-    endif
-endif
-if !hlexists('OuterScope')
-    if &bg=='dark'
-        hi OuterScope ctermbg=237 ctermfg=none cterm=none
-    else
-        hi OuterScope ctermbg=252 ctermfg=none cterm=none guibg=#dddddd
-    endif
-endif
-if !hlexists('LinkScope')
-    if &bg=='dark'
-        hi LinkScope ctermbg=239 ctermfg=none cterm=none
-    else
-        hi LinkScope ctermbg=250 ctermfg=none cterm=none guibg=#cccccc
-    endif
-endif
-if !hlexists('SearchC')
-    hi link SearchC Folded
-endif
-if !hlexists('UnderLine')
+" if !hlexists('InnerScope')
+    hi InnerScope ctermbg=6 ctermfg=none cterm=bold guibg=#eeeeee
+" endif
+" if !hlexists('OuterScope')
+    hi OuterScope ctermbg=14 ctermfg=none cterm=none guibg=#dddddd
+" endif
+" if !hlexists('LinkScope')
+    hi LinkScope ctermbg=4 ctermfg=none cterm=none
+" endif
+" if !hlexists('SearchC')
+" endif
+" if !hlexists('UnderLine')
     hi Underline ctermfg=none ctermbg=none guibg=none guifg=none gui=underline cterm=underline
-endif
+" endif
 
 " Mapping to alter custom highlighting. {{{1
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive<bar>
