@@ -19,20 +19,16 @@ cd "$SOURCE"
 if [ ! -d ~/.config/i3 ] ; then
     mkdir ~/.config/i3
 fi
-ln -fv .bashrc ~/.bashrc
-ln -fv .bash_aliases ~/.bash_aliases
-ln -fv .dircolors ~/.dircolors
-ln -fv .inputrc ~/.inputrc
-ln -fv .gitconfig ~/.gitconfig
-ln -fv .tmux.conf ~/.tmux.conf
-ln -fv .Xdefaults ~/.Xdefaults
-ln -fv .Xresources-demi ~/.Xresources-demi
-ln -fv .Xresources-kitsune ~/.Xresources-kitsune
-ln -fv .Xdefaults ~/.Xdefaults
-ln -fv .i3status.conf ~/.i3status.conf
-ln -fv .i3config ~/.config/i3/config
-ln -fv .settings.ini /home/joj/.config/gtk-3.0/settings.ini
-xrdb .Xresources-$(hostname)
+cp -v .bashrc ~/.bashrc
+cp -v .bash_aliases ~/.bash_aliases
+cp -v .dircolors ~/.dircolors
+cp -v .inputrc ~/.inputrc
+cp -v .gitconfig ~/.gitconfig
+cp -v .tmux.conf ~/.tmux.conf
+cp -v .Xdefaults ~/.Xdefaults
+cp -v .Xresources-demi ~/.Xresources-demi
+cp -v .Xresources-kitsune ~/.Xresources-kitsune
+cp -v .Xdefaults ~/.Xdefaults
 
 echo ""
 
@@ -44,9 +40,8 @@ configdir=~/.config/nvim
 localdir=~/.local/share/nvim
 
 cd "$SOURCE/nvim-plugs"
-ln -fv init.vim $configdir/
-ln -fv plug.vim $configdir/
-ln -fv default.vim ~/.local/share/nvim/plugged/LeaderF/autoload/leaderf/colorscheme/default.vim
+cp -v init.vim $configdir/
+cp -v plug.vim $configdir/
 echo ""
 
 if [ ! -d ~/.fzf ] ; then

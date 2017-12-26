@@ -1,6 +1,18 @@
 " Plugins: (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
 
+    " Markdown crap.
+    function! BuildComposer(info)
+        if a:info.status != 'unchanged' || a:info.force
+            if has('nvim')
+                !cargo build --release
+            else
+                !cargo build --release --no-default-features --features json-rpc
+            endif
+        endif
+    endfunction
+
+    Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
     " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
     Plug 'thinca/vim-visualstar'
@@ -28,12 +40,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'Shougo/echodoc.vim'
     Plug 'wellle/tmux-complete.vim'
 
-    " Git:
+    " Git: git...GIT
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
 
     " Navigation:
-    Plug 'Yggdroot/LeaderF', { 'on': 'LeaderF', 'do': './install.sh' }
+    Plug '~/.fzf'
+    Plug 'junegunn/fzf.vim'
 
     " Interface: My Stuff to look pretty.
     Plug 'cyansprite/logicalBuffers'
@@ -51,7 +64,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 call plug#end()
 
 " {{{ Completion
-    let g:tmuxcomplete#trigger = ''
+    " let g:tmuxcomplete#trigger = ''
     let g:deoplete#enable_at_startup = 1
     let g:echodoc#enable_at_startup = 1
     let g:deoplete#enable_camel_case = 1
@@ -71,18 +84,17 @@ call plug#end()
 
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0
-" LeaderF
-    let g:Lf_StlSeparator = { 'left': '', 'right': '' }
-    let g:Lf_ShortcutF = '<Leader>ff'
-    let g:Lf_ShortcutB = '<Leader>fb'
-    nnoremap <silent><Leader>f: :LeaderfHistoryCmd<cr>
-    nnoremap <silent><Leader>f/ :LeaderfHistorySearch<cr>
-    nnoremap <silent><Leader>fl :LeaderfLine<cr>
-    nnoremap <silent><Leader>fo :LeaderfMru<cr>
-    nnoremap <silent><Leader>f] :LeaderfTag<cr>
-    nnoremap <silent><Leader>fh :LeaderfHelp<cr>
-    nnoremap <silent><Leader>fm :LeaderfFunction<cr>
-    nnoremap <silent><Leader>f :LeaderfSelf<cr>
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+nmap <leader>ff :Files<cr>
+nmap <leader>fl :BLines<cr>
+nmap <leader>fa :Ag<space>
+nmap <leader>fo :History<cr>
+nmap <leader>fh :Helptags<cr>
+nmap <leader>f] :BTags<cr>
 
 " Cpp highlight {{{2
 let g:cpp_class_scope_highlight     = 1

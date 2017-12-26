@@ -24,12 +24,8 @@ endif
 "}}}
 "Begin Vim set {{{
     " Set: Those that use macros
-    set backup | set writebackup   " back it up, the file, I mean.
     set cursorline                 " set cursorline, just make sure highlight is none
-    set noconfirm                  " I hate the lil mess... I tried, fuck it.
     set expandtab                  " Expands tab to spaces
-    set fic                        " Fuck file case
-    set lazyredraw                 " Don't draw durning macros
     set linebreak                  " don't cut words on wrap if i DO wrap
     set list                       " list my chars: ╳│¦|┆×•·
     set nowrap                     " I really hate wrap
@@ -37,37 +33,36 @@ endif
     set shiftround                 " indent it by multiples of shiftwidth please
     set showcmd                    " Show cmd while typing in bottom right corner
     set noshowmatch                " Plugin does this Show matching brackets/parentthesis
-    set showmode noshowmode        " I just put it in statusbar, don't clear echo
+    set noshowmode                 " I just put it in statusbar, don't clear echo
     set ignorecase smartcase       " ignore case if just using lower
     set smartcase                  " makes things a bit better
     set smartindent                " indent things well
     set smarttab                   " tab plays nicer
-    set sol nosol                  " Don't be stupid and move to start of line
+    set nosol                      " Don't be stupid and move to start of line
     set splitbelow                 " ...split below... what did you think?
     set splitright                 " Oh this one will be different!...cept not.
-    set tildeop                    " Tilde as oper
     set title title                " rxvt and tmux make this usable
-    set title titlestring=%<%F%=%y titlelen=30
+    set title titlestring=%<%F%=%y " title, and tiltestring
+                \ titlelen=30      " title length.
     set undofile                   " keep undo history ina file
 
     " Set: Those that use =
     let &showbreak = '↳ '          " Change show break thing (rare occasion)
-    set backupdir-=.               " Don't put backup in current dir please
-    set cinkeys-=0#                " don't force # indentation, ever write python
+    set cinkeys-=0#                " don't force # indentation, ever write python?
     set cmdheight=1                " Pair up
     set complete=.,w,b,u,U         " Complete all buffers,window, current
     set completeopt=menu           " I'm not a fan of auto documentation.
     set diffopt+=context:3         " diff context lines
-    set foldcolumn=0               " foldcolumn... yes
+    set foldcolumn=1               " foldcolumn... yes
     set foldmethod=marker          " fold stuff :)
     set foldopen+=jump,search      " open folds when I search/jump to things
     set icm="nosplit"              " inc command split in preview, hasn't worked
     set matchtime=0                " Show matching time
     set matchpairs+=<:>            " More matches
-    set mouse=                     " I prefer having terminal functionality.
+    set mouse=a                    " Shame... but terminal functionality isn't always present.
     set shiftwidth=4               " Use indents of 4 spaces
-    set shortmess+=c               " Insert completions is annoying as hellllllll
-    set sidescrolloff=5            " 5 columns off?, scroll
+    set shortmess+=c               " Insert completions is annoying as hellllll
+    set sidescrolloff=10           " 10 columns off?, scroll
     set scrolloff=0                " I want to touch the top...
     set softtabstop=4              " Let backspace delete indent
     set tabstop=4                  " An indentation every four columns
@@ -78,7 +73,7 @@ endif
     set updatecount=33             " update swp every 33 chars.
     set updatetime=1000            " Do updates every second
     set viewoptions=folds,cursor   " What to save with mkview
-    set wildmode=longest:list:full " Let's make it nice tab completion
+    set wildmode=full              " Let's make it nice tab completion
 
     " Set: Those that are complex, or just look stupid
     " These are annoying to have on
@@ -119,20 +114,12 @@ endif
     nnoremap <c-p> g;
     nnoremap <c-n> g,
 
-    " I use this too much for it to not be a mapping
-    nnoremap <leader>ee :e **/*
+    " TODO: make a set or something?
     nnoremap <leader>ea :e <c-r>%<c-w>
-    nnoremap <leader>aa :argadd **/*
-    nnoremap <leader>vv :vsp **/*
-    nnoremap <leader>ss :sp **/*
     nnoremap <leader>cc :cfile  \| copen \| cc<left><left><left><left><left><left><left><left><left><left><left><left><left>
 
     " Does anyone actually use single quote?
     map ' `
-
-    " I don't use tabs so make them useful things I have trouble hitting
-    nmap gt <bar>
-    " TODO nmap gT <bar>
 
     " Hls ease
     nnoremap <silent><space>h hl:silent set hlsearch!<cr>
@@ -144,18 +131,14 @@ endif
     " add to the existing search if it doesn't already match
     nnoremap <silent># :set hlsearch \| if match('\<'.@/.'\>', '\<<c-r><c-w>\>') == -1 \| let @/='<c-r><c-/>\\|\<<c-r><c-w>\>' \| endif<cr>
 
-    " pasting in cmode
+    " pasting in cmode, maybe get extract up in here.
     cmap <c-v> <c-r>"
 
     " You know, fuck those arrow keys
     cnoremap <expr> <C-j> wildmenumode() ? "\<Down>\<Tab>" : "\<down>"
     cnoremap <expr> <C-k> wildmenumode() ? "\<Up>\<Tab>" : "\<up>"
 
-    " TODO: next/prev arglist I never really use the arglist...
-    " nnoremap <m-l> :next<cr>
-    " nnoremap <m-L> :prev<cr>
-
-    " c-list ( Quickfix )
+    " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
     nnoremap <m-c> :cn<cr>
     nnoremap <m-C> :cp<cr>
 
@@ -164,10 +147,6 @@ endif
 
     " Opp of j
     nnoremap g<cr> i<cr><esc>
-
-    " Bubble
-    nnoremap <silent> gj o<Esc>k
-    nnoremap <silent> gk O<Esc>j
 
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
@@ -433,27 +412,27 @@ augroup END
 "
 " New Plugin: highlighty stuff... info soon... {{{1
 let g:highlightactive=get(g:, 'highlightactive', 1)
-" if !hlexists('InnerScope')
+if !hlexists('InnerScope')
     if &bg=='dark'
         hi InnerScope ctermbg=237 ctermfg=none cterm=none
     else
-        hi InnerScope ctermbg=254 ctermfg=none cterm=none
+        hi InnerScope ctermbg=254 ctermfg=none cterm=none guibg=#eeeeee
     endif
-" endif
-" if !hlexists('OuterScope')
+endif
+if !hlexists('OuterScope')
     if &bg=='dark'
         hi OuterScope ctermbg=237 ctermfg=none cterm=none
     else
-        hi OuterScope ctermbg=252 ctermfg=none cterm=none
+        hi OuterScope ctermbg=252 ctermfg=none cterm=none guibg=#dddddd
     endif
-" endif
-" if !hlexists('LinkScope')
+endif
+if !hlexists('LinkScope')
     if &bg=='dark'
         hi LinkScope ctermbg=239 ctermfg=none cterm=none
     else
-        hi LinkScope ctermbg=250 ctermfg=none cterm=none
+        hi LinkScope ctermbg=250 ctermfg=none cterm=none guibg=#cccccc
     endif
-" endif
+endif
 if !hlexists('SearchC')
     hi link SearchC Folded
 endif
@@ -566,7 +545,10 @@ func! AutoHighlightCurrentWord() "{{{1
         endif
 
         if !(g:curhighword == @/ && &hlsearch)
-            call matchadd('InnerScope', IgnoreCase().'\<'.g:curhighword.'\>', -999999, 999)
+            try
+                call matchadd('InnerScope', IgnoreCase().'\<'.g:curhighword.'\>', -999999, 999)
+            catch E874
+            endtry
         endif
     endif
 endfun
