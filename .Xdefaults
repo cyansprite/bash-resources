@@ -46,9 +46,37 @@ URxvt.keysym.C-S-0x56:                  eval:paste_clipboard
 URxvt.tripleclickwords:                 true
 
 ! Fonty Python {{{1
-URxvt*font:                             xft:PT Mono:size=10
+URxvt*font:                             xft:PT Mono:size=8
 URxvt*boldFont:                         xft:Anonymous Pro:bold
 URxvt*italicFont:                       xft:PT Mono:italic
 URxvt*boldItalicFont:                   xft:UbuntuMono:bold:italic
 ! Extensions {{{1
 Urxvt*perl-ext-common:                         ...,kuake
+
+! Colors {{{1
+
+URxvt*fading:                 30
+URxvt*depth:                  32
+URxvt*background:        #1a1a1a
+URxvt*foreground:        #99aaaa
+URxvt*underlineColor:    #75acac
+URxvt*colorUL:           #f0ffca
+URxvt*colorIT:           #f0c0c0
+URxvt*colorBD:           #afa5cc
+
+*color0:                 #202020
+*color8:                 #777777
+*color1:                 #9d6968
+*color9:                 #db9090
+*color2:                 #728d58
+*color10:                #b6db90
+*color3:                 #a87660
+*color11:                #dbc080
+*color4:                 #40769b
+*color12:                #90b6db
+*color5:                 #75507b
+*color13:                #ad7fa8
+*color6:                 #588d8d
+*color14:                #90dbdb
+*color7:                 #8585ac
+*color15:                #deffff

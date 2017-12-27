@@ -83,3 +83,4 @@ export FZF_CTRL_T_OPTS="--preview-window down:50% --preview '(coderay {} 2> /dev
 export FZF_DEFAULT_OPTS="--color 16"
 export FZF_COMPLETION_TRIGGER='\\'
 export FZF_DEFAULT_COMMAND='ag -l'
+export DISPLAY=localhost:0.0

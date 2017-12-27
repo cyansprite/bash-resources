@@ -412,10 +412,10 @@ augroup END
 " New Plugin: highlighty stuff... info soon... {{{1
 let g:highlightactive=get(g:, 'highlightactive', 1)
 " if !hlexists('InnerScope')
-    hi InnerScope ctermbg=6 ctermfg=none cterm=bold guibg=#eeeeee
+    hi InnerScope ctermbg=14 ctermfg=none cterm=bold guibg=#eeeeee
 " endif
 " if !hlexists('OuterScope')
-    hi OuterScope ctermbg=14 ctermfg=none cterm=none guibg=#dddddd
+    hi OuterScope ctermbg=6 ctermfg=none cterm=none guibg=#dddddd
 " endif
 " if !hlexists('LinkScope')
     hi LinkScope ctermbg=4 ctermfg=none cterm=none

@@ -8,7 +8,7 @@ echo "========================================================================="
 if [ ! -d ~/.local/share/fonts ] ; then
     mkdir ~/.local/share/fonts
 fi
-cp * ~/.local/share/fonts
+    cp * ~/.local/share/fonts
 echo ""
 
 # resources time
@@ -16,19 +16,16 @@ echo "========================================================================="
 echo "Linking dotfiles to home "
 echo "========================================================================="
 cd "$SOURCE"
-if [ ! -d ~/.config/i3 ] ; then
-    mkdir ~/.config/i3
-fi
-cp -v .bashrc ~/.bashrc
-cp -v .bash_aliases ~/.bash_aliases
-cp -v .dircolors ~/.dircolors
-cp -v .inputrc ~/.inputrc
-cp -v .gitconfig ~/.gitconfig
-cp -v .tmux.conf ~/.tmux.conf
-cp -v .Xdefaults ~/.Xdefaults
-cp -v .Xresources-demi ~/.Xresources-demi
-cp -v .Xresources-kitsune ~/.Xresources-kitsune
-cp -v .Xdefaults ~/.Xdefaults
+ln -fv .bashrc ~/.bashrc
+ln -fv .bash_aliases ~/.bash_aliases
+ln -fv .dircolors ~/.dircolors
+ln -fv .inputrc ~/.inputrc
+ln -fv .gitconfig ~/.gitconfig
+ln -fv .tmux.conf ~/.tmux.conf
+ln -fv .Xdefaults ~/.Xdefaults
+ln -fv .Xresources-demi ~/.Xresources-demi
+ln -fv .Xresources-kitsune ~/.Xresources-kitsune
+ln -fv .Xdefaults ~/.Xdefaults
 
 echo ""
 
@@ -36,12 +33,15 @@ echo ""
 echo "========================================================================="
 echo "Linking nvim"
 echo "========================================================================="
-configdir=~/.config/nvim
-localdir=~/.local/share/nvim
+
+if [ ! -d ~/.config/nvim ] ; then
+    mkdir -p ~/.config/nvim
+fi
 
 cd "$SOURCE/nvim-plugs"
-cp -v init.vim $configdir/
-cp -v plug.vim $configdir/
+ln -fv init.vim ~/.config/nvim/
+ln -fv plug.vim ~/.config/nvim/
+
 echo ""
 
 if [ ! -d ~/.fzf ] ; then
