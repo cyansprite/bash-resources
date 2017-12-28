@@ -80,7 +80,7 @@ endif
     " set fill chars to things that make me happy—
     set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:-
     " Changes listchars to more suitable chars
-    set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
+    set listchars=tab:>\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
     if &modifiable | set number | endif
     set synmaxcol=300

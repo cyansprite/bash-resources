@@ -1,82 +1,84 @@
 ! Term env var and login shell {{{1
-URxvt*termName:                         xterm-256color
-URxvt*loginShell:                       false
+Rxvt*termName:                         xterm-256color
+Rxvt*loginShell:                       true
 
 ! Scrolls {{{1
 ! I want to scroll if I type something, jump (fast scrolling)
-URxvt*scrollTtyKeypress:                true
-URxvt*jumpScroll:                       true
+Rxvt*scrollTtyKeypress:                true
+Rxvt*jumpScroll:                       true
 ! Disable everything else
-URxvt*scrollstyle:                      plain
-URxvt*scrollTtyOutput:                  false
-URxvt*scrollWithBuffer:                 false
-URxvt*skipScroll:                       false
-URxvt*scrollBar:                        false
-URxvt*scrollBar_right:                  false
-URxvt*scrollBar_floating:               false
-URxvt*saveLines:                        0
-URxvt*thickness:                        0
+Rxvt*scrollstyle:                      plain
+Rxvt*scrollTtyOutput:                  false
+Rxvt*scrollWithBuffer:                 false
+Rxvt*skipScroll:                       false
+Rxvt*scrollBar:                        false
+Rxvt*scrollBar_right:                  false
+Rxvt*scrollBar_floating:               false
+Rxvt*saveLines:                        0
+Rxvt*thickness:                        0
 
 ! Secondary screen and scroll if so {{{1
-URxvt*secondaryScreen:                  true
-URxvt*secondaryScroll:                  true
+Rxvt*secondaryScreen:                  true
+Rxvt*secondaryScroll:                  true
 
 ! use the fuckin bell :P {{{1
-URxvt*visualBell:                       true
-URxvt*mapAlert:                         true
-URxvt*urgentOnBell:                     true
+Rxvt*visualBell:                       true
+Rxvt*mapAlert:                         true
+Rxvt*urgentOnBell:                     true
 
 ! Colors {{{1
 
 ! DONT FUCKIN SET THESE!!
-! URxvt*highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis
-! URxvt*highlightTextColor:             BanishYouToTheShadowRealmIfYouSetThis
-! URxvt*cursorColor:       #9f95ac
-! URxvt*cursorColor2:      #ffffff
+! Rxvt*highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis
+! Rxvt*highlightTextColor:             BanishYouToTheShadowRealmIfYouSetThis
+Rxvt*cursorColor:       #9f95ac
+Rxvt*cursorColor2:      #ffffff
 ! Mappings {{{1
-URxvt.iso14755:                         false
-URxvt.iso14755_52:                      false
-URxvt.keysym.C-M-c:                     builtin-string:
-URxvt.keysym.C-M-v:                     builtin-string:
-URxvt.keysym.M-s:                       builtin-string:
-URxvt.keysym.M-S:                       builtin-string:
-URxvt.keysym.C-s-t:                     builtin-string:
-URxvt.keysym.C-S-0x43:                  eval:selection_to_clipboard
-URxvt.keysym.C-S-0x56:                  eval:paste_clipboard
-URxvt.tripleclickwords:                 true
+Rxvt.iso14755:                         false
+Rxvt.iso14755_52:                      false
+Rxvt.keysym.C-M-c:                     builtin-string:
+Rxvt.keysym.C-M-v:                     builtin-string:
+Rxvt.keysym.M-s:                       builtin-string:
+Rxvt.keysym.M-S:                       builtin-string:
+Rxvt.keysym.C-s-t:                     builtin-string:
+
+Rxvt.keysym.C-S-0x43:                  eval:selection_to_clipboard
+Rxvt.keysym.C-S-0x56:                  eval:paste_primary
+Rxvt.tripleclickwords:                 true
 
 ! Fonty Python {{{1
-URxvt*font:                             xft:PT Mono:size=8
-URxvt*boldFont:                         xft:Anonymous Pro:bold
-URxvt*italicFont:                       xft:PT Mono:italic
-URxvt*boldItalicFont:                   xft:UbuntuMono:bold:italic
+! Rxvt*font:                             xft:PT Mono:size=8
+! Rxvt*boldFont:                         xft:Anonymous Pro:bold
+! Rxvt*italicFont:                       xft:PT Mono:italic
+! Rxvt*boldItalicFont:                   xft:UbuntuMono:bold:italic
 ! Extensions {{{1
-Urxvt*perl-ext-common:                         ...,kuake
-
 ! Colors {{{1
 
-URxvt*fading:                 30
-URxvt*depth:                  32
-URxvt*background:        #1a1a1a
-URxvt*foreground:        #99aaaa
-URxvt*underlineColor:    #75acac
-URxvt*colorUL:           #f0ffca
-URxvt*colorIT:           #f0c0c0
-URxvt*colorBD:           #afa5cc
+*background:        #1a1a1a
+*foreground:        #99aaaa
+*underlineColor:    #75acac
+*colorUL:           #f0ffca
+*colorIT:           #f0c0c0
+*colorBD:           #afa5cc
 
 *color0:                 #202020
-*color8:                 #777777
 *color1:                 #9d6968
-*color9:                 #db9090
 *color2:                 #728d58
-*color10:                #b6db90
 *color3:                 #a87660
-*color11:                #dbc080
 *color4:                 #40769b
-*color12:                #90b6db
 *color5:                 #75507b
-*color13:                #ad7fa8
 *color6:                 #588d8d
-*color14:                #90dbdb
 *color7:                 #8585ac
+*color8:                 #777777
+*color9:                 #db9090
+*color10:                #b6db90
+*color11:                #dbc080
+*color12:                #90b6db
+*color13:                #ad7fa8
+*color14:                #90dbdb
 *color15:                #deffff
+
+URxvt.perl-ext: default,url-select
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.url-select.launcher: /usr/bin/xdg-open
+URxvt.url-select.underline: true

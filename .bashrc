@@ -1,7 +1,6 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 export TERM=xterm-256color
-export TERMDARK=1
-export WINHOME=/mnt/c/Users/bcoffman
+export H=/mnt/c/Users/bcoffman
 
 alias l='ls -CF'
 
