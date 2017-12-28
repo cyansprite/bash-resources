@@ -58,7 +58,7 @@ endif
     set icm="nosplit"              " inc command split in preview, hasn't worked
     set matchtime=0                " Show matching time
     set matchpairs+=<:>            " More matches
-    set mouse=a                    " Shame... but terminal functionality isn't always present.
+    set mouse=                     " Shame... but terminal functionality isn't always present.
     set shiftwidth=4               " Use indents of 4 spaces
     set shortmess+=c               " Insert completions is annoying as hellllll
     set sidescrolloff=10           " 10 columns off?, scroll

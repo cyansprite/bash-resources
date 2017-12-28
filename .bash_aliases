@@ -11,3 +11,4 @@ alias gentags='ctags-exuberant --fields=+l+a+K+m+n+S+z --excmd=number --format=2
 alias gencoretags='gentags --exclude="ui-glue-classic" --exclude="mock" --exclude="tests" --exclude="test" --exclude="automation" --exclude="testharness"'
 alias fag='ag --nobreak --nonumbers --noheading . | fzf'
 alias apt='sudo apt'
+alias magic='tmux new-session -As MagicSpell'

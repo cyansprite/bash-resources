@@ -36,8 +36,6 @@ Rxvt*cursorColor2:      #ffffff
 ! Mappings {{{1
 Rxvt.iso14755:                         false
 Rxvt.iso14755_52:                      false
-Rxvt.keysym.C-M-c:                     builtin-string:
-Rxvt.keysym.C-M-v:                     builtin-string:
 Rxvt.keysym.M-s:                       builtin-string:
 Rxvt.keysym.M-S:                       builtin-string:
 Rxvt.keysym.C-s-t:                     builtin-string:
@@ -51,7 +49,6 @@ Rxvt.tripleclickwords:                 true
 ! Rxvt*boldFont:                         xft:Anonymous Pro:bold
 ! Rxvt*italicFont:                       xft:PT Mono:italic
 ! Rxvt*boldItalicFont:                   xft:UbuntuMono:bold:italic
-! Extensions {{{1
 ! Colors {{{1
 
 *background:        #1a1a1a
@@ -67,7 +64,7 @@ Rxvt.tripleclickwords:                 true
 *color3:                 #a87660
 *color4:                 #40769b
 *color5:                 #75507b
-*color6:                 #588d8d
+*color6:                 #386d6d
 *color7:                 #8585ac
 *color8:                 #777777
 *color9:                 #db9090
@@ -78,7 +75,11 @@ Rxvt.tripleclickwords:                 true
 *color14:                #90dbdb
 *color15:                #deffff
 
-URxvt.perl-ext: default,url-select
-URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.url-select.launcher: /usr/bin/xdg-open
-URxvt.url-select.underline: true
+! Extensions {{{1
+URxvt.perl-ext:           default,matcher
+URxvt.url-launcher:       sensible-browser
+URxvt.keysym.C-Delete:    matcher:last
+URxvt.keysym.M-Delete:    matcher:list
+URxvt.keysym.M-u:         matcher:select
+URxvt.matcher.button:     1
+URxvt.matcher.pattern.1:  \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
