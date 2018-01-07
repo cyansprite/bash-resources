@@ -14,6 +14,7 @@ yes | sudo apt-get install neovim
 yes | sudo apt-get install python-dev python-pip python3-dev python3-pip
 yes | sudo apt-get install xsel
 yes | sudo apt-get install tmux
+yes | sudo apt-get install rxvt-unicode
 yes | sudo apt-get install libncurses5-dev
 tar zxf global-6.5.7.tar.gz
 rm -rf global-6.5.7.tar.gz
