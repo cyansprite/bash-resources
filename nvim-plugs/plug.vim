@@ -41,6 +41,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+    Plug 'dodie/vim-disapprove-deep-indentation'
 
     " Grep: the context grep sucks; but quickfix is nice and match is nice...
     " TODO FIX side issues I have.

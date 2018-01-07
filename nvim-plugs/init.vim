@@ -415,7 +415,7 @@ let g:highlightactive=get(g:, 'highlightactive', 1)
     hi InnerScope ctermbg=14 ctermfg=none cterm=bold guibg=#eeeeee
 " endif
 " if !hlexists('OuterScope')
-    hi OuterScope ctermbg=6 ctermfg=none cterm=none guibg=#dddddd
+    hi OuterScope ctermbg=0 ctermfg=none cterm=none guibg=#dddddd
 " endif
 " if !hlexists('LinkScope')
     hi LinkScope ctermbg=4 ctermfg=none cterm=none

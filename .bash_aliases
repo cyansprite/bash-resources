@@ -12,3 +12,5 @@ alias gencoretags='gentags --exclude="ui-glue-classic" --exclude="mock" --exclud
 alias fag='ag --nobreak --nonumbers --noheading . | fzf'
 alias apt='sudo apt'
 alias magic='tmux new-session -As MagicSpell'
+alias v:='cd /mnt/v/'
+alias c:='cd /mnt/c/'
