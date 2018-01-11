@@ -6,6 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'thinca/vim-visualstar'
     Plug 'tpope/vim-commentary'
     Plug 'zcodes/vim-surround'
+    Plug 'cyansprite/cmdlinecomplete'
 
     " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
@@ -16,6 +17,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'keith/tmux.vim'
     Plug 'cyansprite/vim-operator-highlight'
+    Plug 'leafgarland/typescript-vim'
 
     " Completion: Deoplete is amazing
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }

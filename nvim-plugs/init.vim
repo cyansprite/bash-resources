@@ -15,7 +15,8 @@ if has("unix")
 else
     so ~\AppData\Local\nvim\plug.vim
 endif
-set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
+" set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
+set termguicolors
 colo restraint
 if $TERMDARK
     set bg=dark
@@ -42,7 +43,8 @@ endif
     set splitbelow                 " ...split below... what did you think?
     set splitright                 " Oh this one will be different!...cept not.
     set title title                " rxvt and tmux make this usable
-    set titlestring=%<%F\ \ %y     " title, and titlestring
+    set title titlestring=%<%F%=%y " title, and tiltestring
+                \ titlelen=30      " title length.
     set undofile                   " keep undo history ina file
 
     " Set: Those that use =
@@ -78,7 +80,7 @@ endif
     " These are annoying to have on
     set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy—
-    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:-
+    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:┉
     " Changes listchars to more suitable chars
     set listchars=tab:>\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
@@ -134,8 +136,8 @@ endif
     cmap <c-v> <c-r>"
 
     " You know, fuck those arrow keys
-    cnoremap <C-j> <down>
-    cnoremap <C-k> <up>
+    cnoremap <expr> <C-j> wildmenumode() ? "\<Down>\<Tab>" : "\<down>"
+    cnoremap <expr> <C-k> wildmenumode() ? "\<Up>\<Tab>" : "\<up>"
 
     " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
     nnoremap <m-c> :cn<cr>
@@ -297,7 +299,7 @@ func! PositionBarLeft()
     if l:cnt < l:length
         let l:length = l:cnt
     endif
-    let track='+'
+    let track='·'
 
     let ratio=(l:current/l:cnt)*l:length
     let rratio=l:length-l:ratio
@@ -411,20 +413,12 @@ augroup END
 "
 " New Plugin: highlighty stuff... info soon... {{{1
 let g:highlightactive=get(g:, 'highlightactive', 1)
-" if !hlexists('InnerScope')
-    hi InnerScope ctermbg=14 ctermfg=none cterm=bold guibg=#eeeeee
-" endif
-" if !hlexists('OuterScope')
-    hi OuterScope ctermbg=0 ctermfg=none cterm=none guibg=#dddddd
-" endif
-" if !hlexists('LinkScope')
-    hi LinkScope ctermbg=4 ctermfg=none cterm=none
-" endif
-" if !hlexists('SearchC')
-" endif
-" if !hlexists('UnderLine')
-    hi Underline ctermfg=none ctermbg=none guibg=none guifg=none gui=underline cterm=underline
-" endif
+hi InnerScope ctermbg=none ctermfg=none cterm=none guibg=#333311
+hi OuterScope ctermbg=none ctermfg=none cterm=none guibg=#113333
+hi LinkScope  ctermbg=none ctermfg=none cterm=none guibg=#331133
+if !hlexists('SearchC')
+    hi link SearchC Folded
+endif
 
 " Mapping to alter custom highlighting. {{{1
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive<bar>
@@ -532,7 +526,7 @@ func! AutoHighlightCurrentWord() "{{{1
 
         if !(g:curhighword == @/ && &hlsearch)
             try
-                call matchadd('OuterScope', IgnoreCase().'\<'.g:curhighword.'\>', -999999, 999)
+                call matchadd('InnerScope', IgnoreCase().'\<'.g:curhighword.'\>', -999999, 999)
             catch E874
             endtry
         endif
@@ -716,3 +710,31 @@ augroup END
 " ▏▎▍▌▋▊▉▐▕▖▗▘▙▚▛▜▝▞▟░▒▓━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸
 " ┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋╌╍╎╏═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬╭╮╯╰╱╲╳╴╵╶╷╸╹╺╻╼╽╾╿♥@¶§©®
 "" ™°|¦†ℓ‡^̣´˘ˇ¸ˆ¨˙`˝¯˛˚˜
+
+
+func! HexToRgbPercent(hex)
+    let dex = 0
+    if a:hex[0] == '#'
+        let l:dex = 1
+    endif
+
+    let r = string(str2float('0x'.a:hex[dex].a:hex[dex+1]) / 255.0) | let dex += 2
+    let g = string(str2float('0x'.a:hex[dex].a:hex[dex+1]) / 255.0) | let dex += 2
+    let b = string(str2float('0x'.a:hex[dex].a:hex[dex+1]) / 255.0)
+
+    call setreg('r', l:r, 'c')
+    call setreg('g', l:g, 'c')
+    call setreg('b', l:b, 'c')
+
+    if exists("g:extract_loaded")
+        call extract#YankHappened({'regname': 'r', 'regcontents': [l:r], 'regtype' : 'v'})
+        call extract#YankHappened({'regname': 'g', 'regcontents': [l:g], 'regtype' : 'v'})
+        call extract#YankHappened({'regname': 'b', 'regcontents': [l:b], 'regtype' : 'v'})
+    endif
+
+    return '' .
+                \ 'B '. l:b . '   ' .
+                \ 'G '. l:g . '   ' .
+                \ 'R '. l:r . '   ' .
+                \ ''
+endfunc
