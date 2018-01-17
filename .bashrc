@@ -71,14 +71,14 @@ if [ -e /bin/adb.txt ] ; then
 fi
 
 export VISUAL=nvim
-export PROMPT_DIRTRIM=2
+# export PROMPT_DIRTRIM=2
 
 # I love fzf...
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export FZF_CTRL_T_OPTS="--preview-window down:50% --preview '(coderay {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+export FZF_CTRL_T_OPTS="--preview-window down:50% --preview '(cat {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_DEFAULT_OPTS="--color 16"
 export FZF_COMPLETION_TRIGGER='\\'
 export FZF_DEFAULT_COMMAND='ag -l'

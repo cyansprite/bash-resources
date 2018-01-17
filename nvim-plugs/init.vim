@@ -60,7 +60,7 @@ endif
     set icm="nosplit"              " inc command split in preview, hasn't worked
     set matchtime=0                " Show matching time
     set matchpairs+=<:>            " More matches
-    set mouse=                     " Shame... but terminal functionality isn't always present.
+    set mouse=                     " I like terminal func
     set shiftwidth=4               " Use indents of 4 spaces
     set shortmess+=c               " Insert completions is annoying as hellllll
     set sidescrolloff=10           " 10 columns off?, scroll
@@ -82,7 +82,7 @@ endif
     " set fill chars to things that make me happy—
     set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:┉
     " Changes listchars to more suitable chars
-    set listchars=tab:>\ ,trail:·,extends:<,precedes:>,conceal:¦
+    set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
     if &modifiable | set number | endif
     set synmaxcol=300
@@ -134,10 +134,6 @@ endif
 
     " pasting in cmode, maybe get extract up in here.
     cmap <c-v> <c-r>"
-
-    " You know, fuck those arrow keys
-    cnoremap <expr> <C-j> wildmenumode() ? "\<Down>\<Tab>" : "\<down>"
-    cnoremap <expr> <C-k> wildmenumode() ? "\<Up>\<Tab>" : "\<up>"
 
     " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
     nnoremap <m-c> :cn<cr>
@@ -419,6 +415,12 @@ hi LinkScope  ctermbg=none ctermfg=none cterm=none guibg=#331133
 if !hlexists('SearchC')
     hi link SearchC Folded
 endif
+<<<<<<< 140f02aacb0cacb105ebc5c1e5b41f9eb948c179
+=======
+if !hlexists('UnderLine')
+    hi Underline ctermfg=none ctermbg=none guibg=none guifg=none gui=underline cterm=underline
+endif
+>>>>>>> Updates
 
 " Mapping to alter custom highlighting. {{{1
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive<bar>

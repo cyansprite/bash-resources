@@ -6,7 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'thinca/vim-visualstar'
     Plug 'tpope/vim-commentary'
     Plug 'zcodes/vim-surround'
-    Plug 'cyansprite/cmdlinecomplete'
+    Plug 'vim-scripts/cmdlinecomplete'
 
     " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
