@@ -7,6 +7,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-commentary'
     Plug 'zcodes/vim-surround'
     Plug 'vim-scripts/cmdlinecomplete'
+    Plug 'dunstontc/YUNOcommit.vim'
 
     " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
