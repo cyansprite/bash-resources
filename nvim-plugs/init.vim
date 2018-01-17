@@ -415,12 +415,9 @@ hi LinkScope  ctermbg=none ctermfg=none cterm=none guibg=#331133
 if !hlexists('SearchC')
     hi link SearchC Folded
 endif
-<<<<<<< 140f02aacb0cacb105ebc5c1e5b41f9eb948c179
-=======
 if !hlexists('UnderLine')
     hi Underline ctermfg=none ctermbg=none guibg=none guifg=none gui=underline cterm=underline
 endif
->>>>>>> Updates
 
 " Mapping to alter custom highlighting. {{{1
 nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive<bar>
