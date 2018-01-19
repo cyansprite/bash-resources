@@ -388,9 +388,10 @@ endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
 func! KillWhitespace() " {{{ -- fuck ws
+    exec 'norm! gg=G'
     exec "%s/\\s\\+$//ge"
 endfu
-command! -nargs=0 Kws call KillWhitespace()
+command! -nargs=0 Kws silent! call KillWhitespace()
 " }}}
 " Autocommands {{{
 augroup init
