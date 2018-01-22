@@ -7,7 +7,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-commentary'
     Plug 'zcodes/vim-surround'
     Plug 'vim-scripts/cmdlinecomplete'
-    Plug 'dunstontc/YUNOcommit.vim'
 
     " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
@@ -21,15 +20,16 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'leafgarland/typescript-vim'
 
     " Completion: Deoplete is amazing
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'Shougo/neoinclude.vim'
-    Plug 'zchee/deoplete-jedi'
-    Plug 'Shougo/neco-syntax'
-    Plug 'Shougo/neco-vim'
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'Shougo/neoinclude.vim'
+    " Plug 'zchee/deoplete-jedi'
+    " Plug 'Shougo/neco-syntax'
+    " Plug 'Shougo/neco-vim'
 
     Plug 'cyansprite/deoplete-omnisharp' , {'do': './install.sh'}
-    Plug 'Shougo/echodoc.vim'
-    Plug 'wellle/tmux-complete.vim'
+    Plug 'roxma/nvim-completion-manager'
+    " Plug 'Shougo/echodoc.vim'
+    " Plug 'wellle/tmux-complete.vim'
 
     " Git: git...GIT
     Plug 'airblade/vim-gitgutter'
@@ -44,6 +44,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+    Plug 'ipod825/vim-netranger'
     Plug 'dodie/vim-disapprove-deep-indentation'
 
     " Grep: the context grep sucks; but quickfix is nice and match is nice...
@@ -55,6 +56,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/Restraint.vim'
 call plug#end()
 
+let $NVIM_PYTHON_LOG_FILE="/tmp/nvim_log"
+let $NVIM_NCM_LOG_LEVEL="DEBUG"
+let $NVIM_NCM_MULTI_THREAD=0
 " {{{ Completion
     " let g:tmuxcomplete#trigger = ''
     let g:deoplete#enable_at_startup = 1
