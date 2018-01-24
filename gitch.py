@@ -5,16 +5,16 @@ import re
 import sys
 from subprocess import Popen, PIPE
 
-
 class Gitch():
     def __init__(self):
         # TODO setup user vars
-        self.bases = ['C:\\Users\\bcoffman', 'V:\\'];
+        self.bases = ['C:\\Users\\bcoffman'];
 
-        self.excludes = ['.local', '.fzf'] # for dirs and files;
+        self.excludes = ['AppData', '.local', '.fzf', '.\w'] # for dirs and files;
         self.excludes = r'|'.join([fnmatch.translate(x) for x in self.excludes]) or r'$.';
 
         self.gitRepos = [];
+        self.get_paths();
 
 
     def get_paths(self):
@@ -43,5 +43,4 @@ class Gitch():
         os.chdir(orig)
 
 x = Gitch()
-x.get_paths()
 x.git_check()

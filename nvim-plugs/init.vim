@@ -15,12 +15,23 @@ if has("unix")
 else
     so ~\AppData\Local\nvim\plug.vim
 endif
+" doesn't work on windows... says it does but I'm pretty sure that's only for
+" the nvim-qt shit and fuck that...
 " set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
-set termguicolors
-colo restraint
-if $TERMDARK
-    set bg=dark
-endif
+
+try
+    set termguicolors
+    colo restraint
+catch E185
+    colo desert
+endtry
+
+hi cursorcolumn guifg=none guibg=none
+hi cursorline   guifg=none guibg=none
+hi colorcolumn  guifg=none guibg=none
+
+let g:python3_host_prog='C:\Users\bcoffman\AppData\Local\Programs\Python\Python36-32\python.exe'
+let g:python_host_prog='C:\Python27\python.exe'
 
 "}}}
 "Begin Vim set {{{
@@ -388,7 +399,7 @@ endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
 func! KillWhitespace() " {{{ -- fuck ws
-    exec 'norm! gg=G'
+    retab
     exec "%s/\\s\\+$//ge"
 endfu
 command! -nargs=0 Kws silent! call KillWhitespace()

@@ -20,16 +20,17 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'leafgarland/typescript-vim'
 
     " Completion: Deoplete is amazing
-    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'Shougo/neoinclude.vim'
-    " Plug 'zchee/deoplete-jedi'
-    " Plug 'Shougo/neco-syntax'
-    " Plug 'Shougo/neco-vim'
-
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'Shougo/neoinclude.vim'
+    Plug 'zchee/deoplete-jedi'
+    Plug 'Shougo/neco-syntax'
+    Plug 'Shougo/neco-vim'
     Plug 'cyansprite/deoplete-omnisharp' , {'do': './install.sh'}
-    Plug 'roxma/nvim-completion-manager'
-    " Plug 'Shougo/echodoc.vim'
-    " Plug 'wellle/tmux-complete.vim'
+    Plug 'Shougo/echodoc.vim'
+    if has('unix')
+        Plug 'wellle/tmux-complete.vim'
+    endif
+    " Plug 'roxma/nvim-completion-manager'
 
     " Git: git...GIT
     Plug 'airblade/vim-gitgutter'
@@ -44,7 +45,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-    Plug 'ipod825/vim-netranger'
     Plug 'dodie/vim-disapprove-deep-indentation'
 
     " Grep: the context grep sucks; but quickfix is nice and match is nice...
