@@ -686,15 +686,15 @@ func! SearchOnlyThisScope() "{{{1
     return '\%>'.(s:scope_start).'l\%<'.(s:scope_end + 1).'l'
 endfun
 nnoremap <Plug>(ScopeSearch) /<c-r>=SearchOnlyThisScope()<cr>
-nnoremap <Plug>(ScopeSearchReplace) :%s/<c-r>=SearchOnlyThisScope()<cr>
+nnoremap <Plug>(SearchReplace) :%s/<c-r><c-w>/
 nnoremap <Plug>(ScopeSearchStar) /\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\><cr>
 nnoremap <Plug>(ScopeSearchStarAppend) /<c-r><c-/>\\|\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\><cr>
-nnoremap <Plug>(ScopeSearchStarReplace) :%s/\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\>/
+nnoremap <Plug>(ScopeSearchStarReplace) :%s/\<<c-r><c-w>\>/
 nmap <leader>* <Plug>(ScopeSearchStar)N
 nmap <leader># <Plug>(ScopeSearchStarAppend)N
 nmap <leader>/ <Plug>(ScopeSearch)
 nmap <F7> <Plug>(ScopeSearchStarReplace)
-nmap <F6> <Plug>(ScopeSearchReplace)
+nmap <F6> <Plug>(SearchReplace)
 
 augroup scope "{{{1
     autocmd!
