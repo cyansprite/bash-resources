@@ -12,8 +12,12 @@
 
 if has("unix")
     so ~/.config/nvim/plug.vim
+    command! -nargs=0 INIT :e ~/.config/nvim/init.vim
+    command! -nargs=0 PLUG :e ~/.config/nvim/plug.vim
 else
     so ~\AppData\Local\nvim\plug.vim
+    command! -nargs=0 INIT :e c:/Users/bcoffman/AppData/Local/nvim/init.vim
+    command! -nargs=0 PLUG :e c:/Users/bcoffman/AppData/Local/nvim/plug.vim
 endif
 " doesn't work on windows... says it does but I'm pretty sure that's only for
 " the nvim-qt shit and fuck that...
@@ -22,9 +26,22 @@ endif
 try
     set termguicolors
     colo restraint
+    command! -nargs=0 COLO :e ~/.local/share/nvim/plugged/Restraint.vim/colors/restraint.vim
 catch E185
     colo desert
 endtry
+
+func Colors()
+    hi cursorcolumn guifg=none guibg=none
+    hi cursorline   guifg=none guibg=none
+    hi colorcolumn  guifg=none guibg=none
+    hi InnerScope ctermbg=none ctermfg=none cterm=none guibg=#333311
+    hi OuterScope ctermbg=none ctermfg=none cterm=none guibg=#113333
+    hi LinkScope  ctermbg=none ctermfg=none cterm=none guibg=#331133
+endfunc
+
+call Colors()
+
 
 hi cursorcolumn guifg=none guibg=none
 hi cursorline   guifg=none guibg=none

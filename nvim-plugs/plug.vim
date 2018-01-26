@@ -3,6 +3,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
+    Plug '~/.local/share/nvim/plugged/gitch'
     Plug 'thinca/vim-visualstar'
     Plug 'vim-scripts/cmdlinecomplete'
 
