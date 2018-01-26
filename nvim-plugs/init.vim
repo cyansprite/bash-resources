@@ -421,7 +421,7 @@ augroup END
 "
 " New Plugin: highlighty stuff... info soon... {{{1
 let g:highlightactive=get(g:, 'highlightactive', 1)
-hi InnerScope ctermbg=none ctermfg=none cterm=none guibg=#333311
+hi InnerScope ctermbg=none ctermfg=none cterm=none guibg=#113311
 hi OuterScope ctermbg=none ctermfg=none cterm=none guibg=#113333
 hi LinkScope  ctermbg=none ctermfg=none cterm=none guibg=#331133
 if !hlexists('SearchC')
@@ -452,11 +452,7 @@ func! BlinkLineAndColumn() "{{{1
     " let oldl = &cursorline
     let s:distl = &scroll
     let s:distc = winwidth('.') * 9 / 10
-    if &bg=="light"
-        let s:colors = [254,253,252,253,254]
-    else
-        let s:colors = [235,237,239,237,235]
-    endif
+    let s:colors = ['#223333', '#112222', '#001111']
 
     if !has_key(s:, 'lastfile')
         let s:lastfile = expand('%')
@@ -477,9 +473,10 @@ func! BlinkLineAndColumn() "{{{1
             " let s:lastcolor = (s:lastcolor) % 15 + 1
             " TODO:Figure out a color-thing that works well...
             for col in s:colors
-                exec 'highlight CursorLine ctermbg=' . col
-                exec 'highlight CursorColumn ctermbg=' . col
+                exec 'highlight CursorLine guibg=' . col
+                exec 'highlight CursorColumn guibg=' . col
                 redraw
+                sleep 50m
             endfor
             highlight CursorLine ctermbg=none ctermfg=none guibg=none guifg=none cterm=none gui=none
             highlight CursorColumn ctermbg=none ctermfg=none guibg=none guifg=none cterm=none gui=none

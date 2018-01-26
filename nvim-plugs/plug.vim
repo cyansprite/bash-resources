@@ -4,8 +4,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
     Plug 'thinca/vim-visualstar'
-    Plug 'tpope/vim-commentary'
-    Plug 'zcodes/vim-surround'
     Plug 'vim-scripts/cmdlinecomplete'
 
     " Format: Wrap it and align it.
@@ -25,28 +23,24 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'zchee/deoplete-jedi'
     Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
-    Plug 'cyansprite/deoplete-omnisharp' , {'do': './install.sh'}
+    Plug 'cyansprite/deoplete-omnisharp'
     Plug 'Shougo/echodoc.vim'
     if has('unix')
         Plug 'wellle/tmux-complete.vim'
     endif
-    " Plug 'roxma/nvim-completion-manager'
 
     " Git: git...GIT
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
 
-    " Navigation:
-    Plug '~/.fzf'
-    Plug 'junegunn/fzf.vim'
-
-    " Interface: My Stuff to look pretty.
+    " Interface:
     Plug 'cyansprite/logicalBuffers'
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-    Plug 'dodie/vim-disapprove-deep-indentation'
-
+    Plug '~/.fzf'
+    Plug 'junegunn/fzf.vim'
+    " Plug 'dodie/vim-disapprove-deep-indentation'
     " Grep: the context grep sucks; but quickfix is nice and match is nice...
     " TODO FIX side issues I have.
     " TODO FIX match issues ( turns off in hlsearch is off? I think... idr )
@@ -56,9 +50,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/Restraint.vim'
 call plug#end()
 
-let $NVIM_PYTHON_LOG_FILE="/tmp/nvim_log"
-let $NVIM_NCM_LOG_LEVEL="DEBUG"
-let $NVIM_NCM_MULTI_THREAD=0
+" let $NVIM_PYTHON_LOG_FILE="/tmp/nvim_log"
+" let $NVIM_NCM_LOG_LEVEL="DEBUG"
+" let $NVIM_NCM_MULTI_THREAD=0
 " {{{ Completion
     " let g:tmuxcomplete#trigger = ''
     let g:deoplete#enable_at_startup = 1
@@ -71,7 +65,6 @@ let $NVIM_NCM_MULTI_THREAD=0
     smap <C-k>     <Plug>(neosnippet_expand_or_jump)
     xmap <C-k>     <Plug>(neosnippet_expand_target)
 " }}}
-
 " Various Mappings With No Options: {{{1
     nnoremap <silent> <leader>A :ArgWrap<cr>
     nmap <leader>] :TagbarToggle<cr>
