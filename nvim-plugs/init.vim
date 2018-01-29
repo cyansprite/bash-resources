@@ -31,7 +31,7 @@ catch E185
     colo desert
 endtry
 
-func Colors()
+func! Colors()
     hi cursorcolumn guifg=none guibg=none
     hi cursorline   guifg=none guibg=none
     hi colorcolumn  guifg=none guibg=none
@@ -42,13 +42,21 @@ endfunc
 
 call Colors()
 
-
 hi cursorcolumn guifg=none guibg=none
 hi cursorline   guifg=none guibg=none
 hi colorcolumn  guifg=none guibg=none
 
-let g:python3_host_prog='C:\Users\bcoffman\AppData\Local\Programs\Python\Python36-32\python.exe'
-let g:python_host_prog='C:\Python27\python.exe'
+" I typically want dark, but I CAN use light if I want/need
+set bg=dark
+
+if hostname() == 'QSR0505'
+    let g:python3_host_prog='C:\Users\bcoffman\AppData\Local\Programs\Python\Python36-32\python.exe'
+    let g:python_host_prog='C:\Python27\python.exe'
+else
+    " I was smart when I installed it
+    let g:python3_host_prog='V:\Python3\python.exe'
+    let g:python_host_prog='V:\Python2\python.exe'
+endif
 
 "}}}
 "Begin Vim set {{{
@@ -215,8 +223,6 @@ function! StatusLine()
     endif
 
     setl statusline+=%#diffRemoved#%r
-    setl statusline+=%#Folded#\ %{ScopeStart()}%=
-    setl statusline+=%<%-1.(%{ScopeEnd()}%<%=\ %4*%)
 
     " Right: linenr,column    PositionBar()
     setl statusline+=%-10.(%#CursorLineNr#\ %l,%c\ :\ %LG,%p%%\ %)
@@ -236,7 +242,7 @@ endfunc
 
 function! ScopeEnd()
     if has_key(g:, 'scope_endline')
-        return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"), 
+        return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
                     \ 0, winwidth('.')/4)
     else
         return ''
@@ -438,9 +444,15 @@ augroup END
 "
 " New Plugin: highlighty stuff... info soon... {{{1
 let g:highlightactive=get(g:, 'highlightactive', 1)
-hi InnerScope ctermbg=none ctermfg=none cterm=none guibg=#113311
-hi OuterScope ctermbg=none ctermfg=none cterm=none guibg=#113333
-hi LinkScope  ctermbg=none ctermfg=none cterm=none guibg=#331133
+if &bg=='light'
+    hi InnerScope ctermbg=none ctermfg=none cterm=none guibg=#eeccee
+    hi OuterScope ctermbg=none ctermfg=none cterm=none guibg=#eecccc
+    hi LinkScope  ctermbg=none ctermfg=none cterm=none guibg=#cceecc
+else
+    hi InnerScope ctermbg=none ctermfg=none cterm=none guibg=#113311
+    hi OuterScope ctermbg=none ctermfg=none cterm=none guibg=#113333
+    hi LinkScope  ctermbg=none ctermfg=none cterm=none guibg=#331133
+endif
 if !hlexists('SearchC')
     hi link SearchC Folded
 endif
@@ -463,13 +475,20 @@ func! s:skipthis() "{{{1
     endif
 endfunc
 
+func! GetAllClosedFolds()
+    let ll = 0
+    for l in range(line('w0'), line('w$'))
+        if l > ll && foldclosed(l) != -1
+            echom l
+            let ll=foldclosedend(l)
+        endif
+    endfor
+endfunc
+
 func! BlinkLineAndColumn() "{{{1
     " right now I just don't care
     " let oldc = &cursorcolumn
     " let oldl = &cursorline
-    let s:distl = &scroll
-    let s:distc = winwidth('.') * 9 / 10
-    let s:colors = ['#223333', '#112222', '#001111']
 
     if !has_key(s:, 'lastfile')
         let s:lastfile = expand('%')
@@ -483,7 +502,15 @@ func! BlinkLineAndColumn() "{{{1
         let s:lastcol = col('.')
     endif
 
-    if s:lastfile != expand('%') || 
+    if foldclosed(s:lastline) != -1
+        return
+    endif
+
+    let s:distl = &scroll
+    let s:distc = winwidth('.') * 9 / 10
+    let s:colors = ['#223333', '#112222', '#001111']
+
+    if s:lastfile != expand('%') ||
                 \ abs(line('.') - s:lastline) > s:distl ||
                 \ abs(col('.') - s:lastcol)   > s:distc
         if foldclosed('.') == -1
@@ -538,6 +565,10 @@ func! HighlightCurrentSearchWord() "{{{1
 endfunc
 
 func! AutoHighlightCurrentWord() "{{{1
+    if 1
+        return
+    endif
+
     try | call matchdelete(999) | catch *
     endtry
 
@@ -735,6 +766,7 @@ augroup END
 " ▏▎▍▌▋▊▉▐▕▖▗▘▙▚▛▜▝▞▟░▒▓━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸
 " ┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋╌╍╎╏═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬╭╮╯╰╱╲╳╴╵╶╷╸╹╺╻╼╽╾╿♥@¶§©®
 "" ™°|¦†ℓ‡^̣´˘ˇ¸ˆ¨˙`˝¯˛˚˜
+" Don't delete this...
 
 
 func! HexToRgbPercent(hex)
@@ -743,23 +775,27 @@ func! HexToRgbPercent(hex)
         let l:dex = 1
     endif
 
-    let r = string(str2float('0x'.a:hex[dex].a:hex[dex+1]) / 255.0) | let dex += 2
-    let g = string(str2float('0x'.a:hex[dex].a:hex[dex+1]) / 255.0) | let dex += 2
-    let b = string(str2float('0x'.a:hex[dex].a:hex[dex+1]) / 255.0)
+    let r = string(str2float('0x'.a:hex[dex].a:hex[dex+1])) | let dex += 2
+    let g = string(str2float('0x'.a:hex[dex].a:hex[dex+1])) | let dex += 2
+    let b = string(str2float('0x'.a:hex[dex].a:hex[dex+1]))
 
-    call setreg('r', l:r, 'c')
-    call setreg('g', l:g, 'c')
-    call setreg('b', l:b, 'c')
+    let pr = r / 255.0
+    let pg = g / 255.0
+    let pb = b / 255.0
 
-    if exists("g:extract_loaded")
-        call extract#YankHappened({'regname': 'r', 'regcontents': [l:r], 'regtype' : 'v'})
-        call extract#YankHappened({'regname': 'g', 'regcontents': [l:g], 'regtype' : 'v'})
-        call extract#YankHappened({'regname': 'b', 'regcontents': [l:b], 'regtype' : 'v'})
-    endif
+    " call setreg('r', l:r, 'c')
+    " call setreg('g', l:g, 'c')
+    " call setreg('b', l:b, 'c')
+
+    " if exists("g:extract_loaded")
+    "     call extract#YankHappened({'regname': 'r', 'regcontents': [l:r], 'regtype' : 'v'})
+    "     call extract#YankHappened({'regname': 'g', 'regcontents': [l:g], 'regtype' : 'v'})
+    "     call extract#YankHappened({'regname': 'b', 'regcontents': [l:b], 'regtype' : 'v'})
+    " endif
 
     return '' .
-                \ 'B '. l:b . '   ' .
-                \ 'G '. l:g . '   ' .
-                \ 'R '. l:r . '   ' .
+                \ 'B '. l:b . l:pb . '   ' .
+                \ 'G '. l:g . l:pg . '   ' .
+                \ 'R '. l:r . l:pr . '   ' .
                 \ ''
 endfunc
