@@ -222,7 +222,7 @@ function! StatusLine()
         setl statusline+=%#diffRemoved#%m
     endif
 
-    setl statusline+=%#diffRemoved#%r
+    setl statusline+=%#diffRemoved#%r%#LineNr#%=
 
     " Right: linenr,column    PositionBar()
     setl statusline+=%-10.(%#CursorLineNr#\ %l,%c\ :\ %LG,%p%%\ %)
@@ -487,8 +487,8 @@ endfunc
 
 func! BlinkLineAndColumn() "{{{1
     " right now I just don't care
-    " let oldc = &cursorcolumn
-    " let oldl = &cursorline
+    let oldc = &cursorcolumn
+    let oldl = &cursorline
 
     if !has_key(s:, 'lastfile')
         let s:lastfile = expand('%')
@@ -508,25 +508,35 @@ func! BlinkLineAndColumn() "{{{1
 
     let s:distl = &scroll
     let s:distc = winwidth('.') * 9 / 10
-    let s:colors = ['#223333', '#112222', '#001111']
+    let s:colors = ['#36362c', '#303029', '#29291f']
 
     if s:lastfile != expand('%') ||
                 \ abs(line('.') - s:lastline) > s:distl ||
                 \ abs(col('.') - s:lastcol)   > s:distc
         if foldclosed('.') == -1
-            " let s:lastcolor = (s:lastcolor) % 15 + 1
-            " TODO:Figure out a color-thing that works well...
+            redir => s:com
+            silent! hi CursorLine
+            silent! hi CursorColumn
+            redir END
+            let his = split(s:com,"\n")
+
             for col in s:colors
                 exec 'highlight CursorLine guibg=' . col
                 exec 'highlight CursorColumn guibg=' . col
                 redraw
                 sleep 50m
             endfor
-            highlight CursorLine ctermbg=none ctermfg=none guibg=none guifg=none cterm=none gui=none
-            highlight CursorColumn ctermbg=none ctermfg=none guibg=none guifg=none cterm=none gui=none
+
+            " restore there shite
+            exec " highlight " . substitute(his[0], "xxx", "", "")
+            exec " highlight " . substitute(his[1], 'xxx', "", "")
+
+            exec 'set ' . (oldc ? 'cursorcolumn' : 'nocursorcolumn')
+            exec 'set ' . (oldl ? 'cursorline'   : 'nocursorline')
         endif
 
     endif
+
     " echom s:lastcolor
     let s:lastfile = expand('%')
     let s:lastline = line('.')
