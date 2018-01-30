@@ -12,11 +12,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/vim-easy-align'
 
     " Syntax: The default is mediocre
-    Plug 'cyansprite/vim-csharp'
-    Plug 'octol/vim-cpp-enhanced-highlight'
-    Plug 'keith/tmux.vim'
-    Plug 'cyansprite/vim-operator-highlight'
-    Plug 'leafgarland/typescript-vim'
+    " Plug 'cyansprite/vim-csharp'
+    " Plug 'octol/vim-cpp-enhanced-highlight'
+    " Plug 'keith/tmux.vim'
+    " Plug 'cyansprite/vim-operator-highlight'
+    " Plug 'leafgarland/typescript-vim'
 
     " Completion: Deoplete is amazing
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -26,9 +26,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'Shougo/neco-vim'
     Plug 'cyansprite/deoplete-omnisharp'
     Plug 'Shougo/echodoc.vim'
+
     if has('unix')
         Plug 'wellle/tmux-complete.vim'
     endif
+    Plug 'cyansprite/automatch-deprecated'
 
     " Git: git...GIT
     Plug 'airblade/vim-gitgutter'

@@ -188,6 +188,7 @@ endif
     " I uh... don't use ESC
     inoremap  
     vnoremap  
+    nnoremap ? /\c
 
     " I like playing with colors (Gives me hi-trans-lo ids)
     map <leader>1 :call HiLoBro()<cr>
@@ -523,8 +524,6 @@ func! BlinkLineAndColumn() "{{{1
             for col in s:colors
                 exec 'highlight CursorLine guibg=' . col
                 exec 'highlight CursorColumn guibg=' . col
-                redraw
-                sleep 50m
             endfor
 
             " restore there shite
