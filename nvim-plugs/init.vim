@@ -223,7 +223,7 @@ function! StatusLine()
         setl statusline+=%#diffRemoved#%m
     endif
 
-    setl statusline+=%#diffRemoved#%r%#LineNr#%=
+    setl statusline+=%#diffRemoved#%r%#CursorLineNr#%=
 
     " Right: linenr,column    PositionBar()
     setl statusline+=%-10.(%#CursorLineNr#\ %l,%c\ :\ %LG,%p%%\ %)
@@ -267,13 +267,22 @@ function! StatusLineNC()
 endfunc
 
 func! CurArg()
-    let l:rtn = ''
-    if argc() == 0 || argv(argidx()) !=# @%
-        return @%
+    let f = @%
+
+    if len(@%) == 0
+        return 'None'
     endif
-    let l:curarg = argv(argidx())
-    let l:rtn .= '[' . l:curarg . ']'
-    return l:rtn
+
+    " Breadcrumb that shit
+    let pa = split(@%, '/\|\\')
+    if len(pa) > 0
+        for i in range(0, len(pa) - 2)
+            let pa[i] = strcharpart(pa[i], 0,1)
+        endfor
+        return join(pa, '/')
+    endif
+
+    return f
 endfun
 
 func! Mode(mode)
