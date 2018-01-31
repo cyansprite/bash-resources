@@ -252,7 +252,7 @@ endfunc
 
 " Status Line Not current, file [+][-][RO]_______>____<____l,c : maxG,%
 function! StatusLineNC()
-    setl statusline =%<%#Statuslinenc#%f
+    setl statusline =%<%#Statuslinenc#%{CurArg()}
     if &modifiable
         setl statusline+=%1*%m
     else
