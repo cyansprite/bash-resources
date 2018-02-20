@@ -30,7 +30,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     if has('unix')
         Plug 'wellle/tmux-complete.vim'
     endif
-    Plug 'cyansprite/automatch-deprecated'
 
     " Git: git...GIT
     Plug 'airblade/vim-gitgutter'

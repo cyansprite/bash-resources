@@ -42,20 +42,15 @@ endfunc
 
 call Colors()
 
-hi cursorcolumn guifg=none guibg=none
-hi cursorline   guifg=none guibg=none
-hi colorcolumn  guifg=none guibg=none
+hi cursorcolumn guifg=none guibg=none ctermfg=none ctermbg=none cterm=none
+hi cursorline   guifg=none guibg=none ctermfg=none ctermbg=none cterm=none
+hi colorcolumn  guifg=none guibg=none ctermfg=none ctermbg=none cterm=none
 
 " I typically want dark, but I CAN use light if I want/need
-set bg=dark
-
-if hostname() == 'QSR0505'
-    let g:python3_host_prog='C:\Users\bcoffman\AppData\Local\Programs\Python\Python36-32\python.exe'
-    let g:python_host_prog='C:\Python27\python.exe'
+if hostname() == "mojajojo" || hostname() == "captainJojo"
+    set bg=dark
 else
-    " I was smart when I installed it
-    let g:python3_host_prog='V:\Python3\python.exe'
-    let g:python_host_prog='V:\Python2\python.exe'
+    set bg=dark
 endif
 
 "}}}
@@ -78,9 +73,6 @@ endif
     set nosol                      " Don't be stupid and move to start of line
     set splitbelow                 " ...split below... what did you think?
     set splitright                 " Oh this one will be different!...cept not.
-    set title title                " rxvt and tmux make this usable
-    set title titlestring=%<%F%=%y " title, and tiltestring
-                \ titlelen=30      " title length.
     set undofile                   " keep undo history ina file
 
     " Set: Those that use =
@@ -93,12 +85,11 @@ endif
     set foldcolumn=1               " foldcolumn... yes
     set foldmethod=marker          " fold stuff :)
     set foldopen+=jump,search      " open folds when I search/jump to things
-    set icm="nosplit"              " inc command split in preview, hasn't worked
     set matchtime=0                " Show matching time
     set matchpairs+=<:>            " More matches
     set mouse=                     " I like terminal func
     set shiftwidth=4               " Use indents of 4 spaces
-    set shortmess+=c               " Insert completions is annoying as hellllll
+    set shortmess+=c
     set sidescrolloff=10           " 10 columns off?, scroll
     set scrolloff=0                " I want to touch the top...
     set softtabstop=4              " Let backspace delete indent
@@ -113,8 +104,6 @@ endif
     set wildmode=full              " Let's make it nice tab completion
 
     " Set: Those that are complex, or just look stupid
-    " These are annoying to have on
-    set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy—
     set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:┉
     " Changes listchars to more suitable chars
@@ -136,7 +125,6 @@ endif
     set formatoptions+=q " continue comments with gq
     set formatoptions+=n " Recognize numbered lists
     set formatoptions+=2 " Use indent from 2nd line of a paragraph
-    set formatoptions+=j " Destroy comment leader join when valid
     " set formatoptions-=c " Auto-wrap comments using textwidth
     " set formatoptions-=t " auto wrap based on textwidth
     " set formatoptions-=a " auto-paragraphing, fuck that.
@@ -451,369 +439,3 @@ augroup init
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}
-"
-" New Plugin: highlighty stuff... info soon... {{{1
-let g:highlightactive=get(g:, 'highlightactive', 1)
-if &bg=='light'
-    hi InnerScope ctermbg=none ctermfg=none cterm=none guibg=#eeccee
-    hi OuterScope ctermbg=none ctermfg=none cterm=none guibg=#eecccc
-    hi LinkScope  ctermbg=none ctermfg=none cterm=none guibg=#cceecc
-else
-    hi InnerScope ctermbg=none ctermfg=none cterm=none guibg=#113311
-    hi OuterScope ctermbg=none ctermfg=none cterm=none guibg=#113333
-    hi LinkScope  ctermbg=none ctermfg=none cterm=none guibg=#331133
-endif
-if !hlexists('SearchC')
-    hi link SearchC Folded
-endif
-if !hlexists('UnderLine')
-    hi Underline ctermfg=none ctermbg=none guibg=none guifg=none gui=underline cterm=underline
-endif
-
-" Mapping to alter custom highlighting. {{{1
-nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive<bar>
-    \silent call AutoHighlightCurrentWord()<bar>
-    \silent call ScopeIndentHighlight()<bar>
-    \silent call HighlightCurrentSearchWord()<cr>
-
-func! s:skipthis() "{{{1
-    if has_key(g:,'curhighword')
-        return len(g:curhighword) < g:smallest ||
-        \ (match(g:curhighword, "\\A") != -1 && match(g:curhighword, "_") == -1)
-    else
-        return 1
-    endif
-endfunc
-
-func! GetAllClosedFolds()
-    let ll = 0
-    for l in range(line('w0'), line('w$'))
-        if l > ll && foldclosed(l) != -1
-            echom l
-            let ll=foldclosedend(l)
-        endif
-    endfor
-endfunc
-
-func! BlinkLineAndColumn() "{{{1
-    " right now I just don't care
-    let oldc = &cursorcolumn
-    let oldl = &cursorline
-
-    if !has_key(s:, 'lastfile')
-        let s:lastfile = expand('%')
-    endif
-
-    if !has_key(s:, 'lastline')
-        let s:lastline = line('.')
-    endif
-
-    if !has_key(s:, 'lastcol')
-        let s:lastcol = col('.')
-    endif
-
-    if foldclosed(s:lastline) != -1
-        return
-    endif
-
-    let s:distl = &scroll
-    let s:distc = winwidth('.') * 9 / 10
-    let s:colors = ['#36362c', '#303029', '#29291f']
-
-    if s:lastfile != expand('%') ||
-                \ abs(line('.') - s:lastline) > s:distl ||
-                \ abs(col('.') - s:lastcol)   > s:distc
-        if foldclosed('.') == -1
-            redir => s:com
-            silent! hi CursorLine
-            silent! hi CursorColumn
-            redir END
-            let his = split(s:com,"\n")
-
-            for col in s:colors
-                exec 'highlight CursorLine guibg=' . col
-                exec 'highlight CursorColumn guibg=' . col
-            endfor
-
-            " restore there shite
-            exec " highlight " . substitute(his[0], "xxx", "", "")
-            exec " highlight " . substitute(his[1], 'xxx', "", "")
-
-            exec 'set ' . (oldc ? 'cursorcolumn' : 'nocursorcolumn')
-            exec 'set ' . (oldl ? 'cursorline'   : 'nocursorline')
-        endif
-
-    endif
-
-    " echom s:lastcolor
-    let s:lastfile = expand('%')
-    let s:lastline = line('.')
-    let s:lastcol = col('.')
-endfunc
-
-func! HighlightCurrentSearchWord() "{{{1
-    try | call matchdelete(888) | catch *
-    endtry
-    try | call matchdelete(889) | catch *
-    endtry
-
-    if !g:highlightactive
-        return
-    endif
-
-    " nbc Gets the first index.
-    " nec Gets the last index (last - first + 1 == len).
-    " n   Gets the next instance.
-    try
-        let sp = searchpos(@/, "nbc", line('.'))
-        let sp2 = searchpos(@/, "nec", line('.'))
-        let sp3 = searchpos(@/, "n", line('.'))
-        let len = sp2[1] - sp[1] + 1
-
-        if &hlsearch && sp != [0,0] && sp2 != [0,0] && (sp2[1] < sp3[1] || sp3 == [0,0])
-            call matchaddpos('SearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
-        else
-        endif
-    catch E871
-        echohl ErrorMsg
-        echom "Invalid Search Pattern"
-        echohl NONE
-        return
-    endtry
-endfunc
-
-func! AutoHighlightCurrentWord() "{{{1
-    if 1
-        return
-    endif
-
-    try | call matchdelete(999) | catch *
-    endtry
-
-    if g:highlightactive
-        let g:curhighword = expand("<cword>")
-        let g:smallest = 2
-
-        if s:skipthis()
-            return
-        endif
-
-        if !(g:curhighword == @/ && &hlsearch)
-            try
-                call matchadd('InnerScope', IgnoreCase().'\<'.g:curhighword.'\>', -999999, 999)
-            catch E874
-            endtry
-        endif
-    endif
-endfun
-
-func! NextCurrentWord(back)
-  norm! m`
-  call search('\c' . IgnoreCase().'\<'.g:curhighword.'\>', a:back)
-endfunc
-nnoremap <silent>m :call NextCurrentWord('')<cr>zv
-nnoremap <silent>M :call NextCurrentWord('b')<cr>zv
-
-
-func! IgnoreCase() "{{{1
-    return &ignorecase ? '\c' : '\C'
-endfunc
-
-func! ScopeIndentHighlight() "{{{1
-    try | call matchdelete(101010) | catch *
-    endtry
-    try | call matchdelete(666) | catc *
-    endtry
-    try | call matchdelete(667) | catch *
-    endtry
-    try | call matchdelete(668) | catch *
-    endtry
-    try | call matchdelete(111) | catch *
-    endtry
-    try | call matchdelete(112) | catch *
-    endtry
-    try | call matchdelete(222) | catch *
-    endtry
-    try | call matchdelete(333) | catch *
-    endtry
-    try | call matchdelete(223) | catch *
-    endtry
-    try | call matchdelete(334) | catch *
-    endtry
-    try | call matchdelete(444) | catch *
-    endtry
-
-    if &filetype == 'help' || &filetype == 'qf' || !g:highlightactive || mode() != 'n'
-        return
-    endif
-
-    let l:start = line('0')
-    let l:end = line('$')
-    let indent = indent('.')
-
-    if l:indent < &shiftwidth
-        let l:indent = &shiftwidth
-    endif
-
-    let o_indent = l:indent
-    let passby = 1
-    let lastline = ''
-    for x in reverse(range(l:start,line('.')))
-        if indent(x) < l:indent && !empty(getline(x))
-            let l:start = x
-            let indent = indent(x) + 1
-            break
-        else
-            let lastline = x
-        endif
-    endfor
-
-    for x in range(line('.'), l:end)
-        if indent(x) < l:indent && !empty(getline(x))
-            let l:end = x
-            break
-        endif
-    endfor
-
-    if len(getline(l:end - 1)) == 0
-        let l:end -= 1
-    endif
-
-    call matchadd('OuterScope',"\\%".1."c\\%>".l:start.'l\%<'.l:end.'l',-50,666)
-
-    if l:indent == l:o_indent
-        let l:indent = l:indent - &shiftwidth + 1
-    endif
-
-    if !l:passby
-        let o_indent += &shiftwidth
-        let l:indent += &shiftwidth
-    else
-    endif
-
-    let g:scope_startline = getline(l:start)
-    let l:indentmorestart = 0
-
-    if l:start != l:end
-        let g:scope_endline = getline(l:end)
-    else
-        let g:scope_endline = ''
-    endif
-
-    if match(g:scope_endline,'\s\{2,}end\|}') == -1
-        let l:end -= 1
-    endif
-
-    " use \{2,} not \+ because what if you have else { or else if {
-    " If curly on new line get above for scope startline and column
-    if match(g:scope_startline,'\s\{2,}{') != -1
-        let l:indentmorestart = 1
-        let g:scope_startline = getline(l:start - l:indentmorestart)
-    endif
-
-    let l:if = -1
-
-    " If else then get if as well
-    if match(g:scope_startline, '\s\+else\|elif') != -1
-        let l:if = search('^\s\{'.(l:o_indent-&shiftwidth).'}if', 'bn')
-    endif
-
-    " If case then get switch as well
-    if match(g:scope_startline, '\s\{2,}case') != -1
-        let l:if = search('^\s\{'.(l:o_indent-&shiftwidth).'}switch', 'bn')
-    endif
-
-    " If catch then go with try
-    if match(g:scope_startline, '\s\{2,}catch') != -1
-        let l:if = search('^\s\{'.(l:o_indent-&shiftwidth).'}try', 'bn')
-    endif
-
-    if l:if != -1
-        call matchaddpos('LinkScope' , [[l:if     , 1    , l:indent - l:passby - 1] ,] , -50, 111)
-        call matchaddpos('LinkScope' , [[l:if     , l:indent - l:passby, 1 ],] , -50, 112)
-    endif
-
-    let l:indentmoreend = 0
-    if match(g:scope_endline,'\s\{2,}}') != -1
-        let l:indentmoreend = 1
-    endif
-
-    if l:indent != 1
-        call matchaddpos('InnerScope', [[l:start  , l:indent - 1    , 1] ,] , -50, 222)
-        call matchaddpos('InnerScope', [[l:end    , l:indent - 1    , 1] ,] , -50, 333)
-        " call matchaddpos('HoldScope1', [[l:start + 1  , l:indent - 1    , 1] ,] , -50, 223)
-        " if l:start + 1 != l:end - 1
-            " call matchaddpos('HoldScope1', [[l:end - 1    , l:indent - 1    , 1] ,] , -50, 334)
-            " call matchaddpos('HoldScope', [[l:end - 1    , 2    , l:indent - 3  + l:indentmoreend  ] ,] , -50, 668)
-        " endif
-        " call matchaddpos('HoldScope', [[l:start + 1  , 2    , l:indent - 3  + l:indentmorestart] ,] , -50, 667)
-    endif
-
-    let s:scope_start = l:start
-    let s:scope_end   = l:end
-    " try | call matchdelete(010101) | catch *
-    " endtry
-    " call matchaddpos('HoldScope1', [[line('.'), 80, 50] ,] , -50, 010101)
-endfun
-
-func! SearchOnlyThisScope() "{{{1
-    return '\%>'.(s:scope_start).'l\%<'.(s:scope_end + 1).'l'
-endfun
-nnoremap <Plug>(ScopeSearch) /<c-r>=SearchOnlyThisScope()<cr>
-nnoremap <Plug>(SearchReplace) :%s/<c-r><c-w>/
-nnoremap <Plug>(ScopeSearchStar) /\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\><cr>
-nnoremap <Plug>(ScopeSearchStarAppend) /<c-r><c-/>\\|\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\><cr>
-nnoremap <Plug>(ScopeSearchStarReplace) :%s/\<<c-r><c-w>\>/
-nmap <leader>* <Plug>(ScopeSearchStar)N
-nmap <leader># <Plug>(ScopeSearchStarAppend)N
-nmap <leader>/ <Plug>(ScopeSearch)
-nmap <F7> <Plug>(ScopeSearchStarReplace)
-nmap <F6> <Plug>(SearchReplace)
-
-augroup scope "{{{1
-    autocmd!
-    autocmd CursorMoved * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord() | call BlinkLineAndColumn()
-    autocmd CursorHold  * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
-    autocmd InsertEnter * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
-augroup END
-
-" }}}1
-" Special chars {{{
-" *\·•:,…!
-" #․.‥—–-«»‹›¢¤ƒ£¥≡+−×÷=≠><≥≤±≈~¬∅∞∫∆∏∑√∂µ%‰∴∕∙▁▂▃▄▅▆▇█▀▔
-" ▏▎▍▌▋▊▉▐▕▖▗▘▙▚▛▜▝▞▟░▒▓━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸
-" ┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋╌╍╎╏═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬╭╮╯╰╱╲╳╴╵╶╷╸╹╺╻╼╽╾╿♥@¶§©®
-"" ™°|¦†ℓ‡^̣´˘ˇ¸ˆ¨˙`˝¯˛˚˜
-" Don't delete this...
-
-
-func! HexToRgbPercent(hex)
-    let dex = 0
-    if a:hex[0] == '#'
-        let l:dex = 1
-    endif
-
-    let r = string(str2float('0x'.a:hex[dex].a:hex[dex+1])) | let dex += 2
-    let g = string(str2float('0x'.a:hex[dex].a:hex[dex+1])) | let dex += 2
-    let b = string(str2float('0x'.a:hex[dex].a:hex[dex+1]))
-
-    let pr = r / 255.0
-    let pg = g / 255.0
-    let pb = b / 255.0
-
-    " call setreg('r', l:r, 'c')
-    " call setreg('g', l:g, 'c')
-    " call setreg('b', l:b, 'c')
-
-    " if exists("g:extract_loaded")
-    "     call extract#YankHappened({'regname': 'r', 'regcontents': [l:r], 'regtype' : 'v'})
-    "     call extract#YankHappened({'regname': 'g', 'regcontents': [l:g], 'regtype' : 'v'})
-    "     call extract#YankHappened({'regname': 'b', 'regcontents': [l:b], 'regtype' : 'v'})
-    " endif
-
-    return '' .
-                \ 'B '. l:b . l:pb . '   ' .
-                \ 'G '. l:g . l:pg . '   ' .
-                \ 'R '. l:r . l:pr . '   ' .
-                \ ''
-endfunc
