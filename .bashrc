@@ -2,6 +2,7 @@
 export TERM=xterm-256color
 export H=/mnt/c/Users/bcoffman
 
+alias ls='ls -G'
 alias l='ls -CF'
 
 # If not running interactively, don't do anything
@@ -32,7 +33,7 @@ shopt -s checkwinsize
 if [ -n "$SSH_CLIENT" ]; then
     PS1='\[\e[1;34m\]\[\e[7;33m\]\$:\w >\[\e[m\] '
 else
-    PS1='\[\e[1;30m\]\$:\[\e[1;33m\]\w \[\e[1;30m\]\>\[\e[m\] '
+    PS1='\[\e[1;36m\]\$:\[\e[1;35m\]\w \[\e[1;36m\]\>\[\e[m\] '
 fi
 # Set title
 PS1="\[\e]0;\h:\u \j \!\a\]$PS1"

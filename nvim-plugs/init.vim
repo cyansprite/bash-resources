@@ -24,7 +24,7 @@ endif
 " set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
 
 try
-    set termguicolors
+    " set termguicolors
     colo restraint
     command! -nargs=0 COLO :e ~/.local/share/nvim/plugged/Restraint.vim/colors/restraint.vim
 catch E185
