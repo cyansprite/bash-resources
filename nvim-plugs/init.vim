@@ -211,10 +211,10 @@ function! StatusLine()
         setl statusline+=%#diffRemoved#%m
     endif
 
-    setl statusline+=%#diffRemoved#%r%#CursorLineNr#%=
+    setl statusline+=%#diffRemoved#%r%#StatusLine#%=
 
     " Right: linenr,column    PositionBar()
-    setl statusline+=%-10.(%#CursorLineNr#\ %l,%c\ :\ %LG,%p%%\ %)
+    setl statusline+=%-10.(%#LineNr#\ %l,%c\ :\ %LG,%p%%\ %)
     setl statusline+=%-22.(%#LineNr#\ [\ %{PositionBarLeft()}
                           \%#CursorLineNr#%{PositionBar()}
                           \%#LineNr#%{PositionBarRight()}%)\ ]\ %*

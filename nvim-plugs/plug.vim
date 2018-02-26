@@ -12,11 +12,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/vim-easy-align'
 
     " Syntax: The default is mediocre
-    " Plug 'cyansprite/vim-csharp'
-    " Plug 'octol/vim-cpp-enhanced-highlight'
-    " Plug 'keith/tmux.vim'
-    " Plug 'cyansprite/vim-operator-highlight'
-    " Plug 'leafgarland/typescript-vim'
+    Plug 'cyansprite/vim-csharp'
+    Plug 'octol/vim-cpp-enhanced-highlight'
+    Plug 'keith/tmux.vim'
+    Plug 'cyansprite/vim-operator-highlight'
+    Plug 'leafgarland/typescript-vim'
 
     " Completion: Deoplete is amazing
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
