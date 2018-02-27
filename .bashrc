@@ -31,7 +31,7 @@ shopt -s checkwinsize
 
 # Set prompt if ssh use orange-white, otherwise use magenta-black
 if [ -n "$SSH_CLIENT" ]; then
-    PS1='\[\e[1;34m\]\[\e[7;33m\]\$:\w >\[\e[m\] '
+    PS1='\[\e[1;36m\]\$:\[\e[1;33m\]\[\e[1;35m\]\w \[\e[7;33m\]\[\e[1;36m\]\>\[\e[m\] '
 else
     PS1='\[\e[1;36m\]\$:\[\e[1;35m\]\w \[\e[1;36m\]\>\[\e[m\] '
 fi
@@ -77,10 +77,10 @@ export VISUAL=nvim
 # I love fzf...
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export FZF_CTRL_T_OPTS="--preview-window down:50% --preview '(cat {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-export FZF_DEFAULT_OPTS="--color 16"
-export FZF_COMPLETION_TRIGGER='\\'
-export FZF_DEFAULT_COMMAND='ag -l'
-export DISPLAY=:0
+# export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+# export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+# export FZF_CTRL_T_OPTS="--preview-window down:50% --preview '(cat {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+# export FZF_DEFAULT_OPTS="--color 16"
+# export FZF_COMPLETION_TRIGGER='\\'
+# export FZF_DEFAULT_COMMAND='ag -l'
+# export DISPLAY=:0
