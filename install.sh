@@ -17,6 +17,7 @@ echo "Linking dotfiles to home "
 echo "========================================================================="
 cd "$SOURCE"
 ln -fv .bashrc ~/.bashrc
+ln -fv .Xdefaults ~/.Xdefaults
 ln -fv .bash_aliases ~/.bash_aliases
 ln -fv .dircolors ~/.dircolors
 ln -fv .inputrc ~/.inputrc

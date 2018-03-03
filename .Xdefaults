@@ -48,15 +48,15 @@ Rxvt*font:                             xft:PT Mono:size=10
 ! Rxvt*italicFont:                       xft:PT Mono:italic
 ! Rxvt*boldItalicFont:                   xft:UbuntuMono:bold:italic
 ! Colors {{{1
-
 *background:             #000000
-*foreground:             #99aaaa
-*underlineColor:         #75acac
+*foreground:             #9595ac
+*underlineColor:         #aaaa00
 *cursorColor:            #ff00ff
 *cursorColor2:           #000000
-*colorUL:                #f0ffca
-*colorIT:                #f0c0c0
-*colorBD:                #afa5cc
+*colorUL:                #ffff00
+*colorIT:                #aaffff
+*colorBD:                #9595ff
+*fading:                 75
 
 *color0:                 #202020
 *color1:                 #9d2928
