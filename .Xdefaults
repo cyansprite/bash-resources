@@ -79,8 +79,8 @@ Rxvt*font:                             xft:PT Mono:size=10
 ! Extensions {{{1
 URxvt.perl-ext:           default,matcher
 URxvt.url-launcher:       sensible-browser
-URxvt.keysym.C-Delete:    matcher:last
-URxvt.keysym.M-Delete:    matcher:list
+URxvt.keysym.M-u:    matcher:first
+URxvt.keysym.M-d:    matcher:last
+URxvt.keysym.M-l:    matcher:list
 URxvt.keysym.M-u:         matcher:select
 URxvt.matcher.button:     1
-URxvt.matcher.pattern.1:  \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
