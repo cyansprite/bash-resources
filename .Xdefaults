@@ -26,12 +26,7 @@ Rxvt*visualBell:                       true
 Rxvt*mapAlert:                         true
 Rxvt*urgentOnBell:                     true
 
-! Colors {{{1
-
-! DONT FUCKIN SET THESE!!
-! Rxvt*highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis
-! Rxvt*highlightTextColor:             BanishYouToTheShadowRealmIfYouSetThis
-! Mappings {{{1
+! Key Mappings {{{1
 Rxvt.iso14755:                         false
 Rxvt.iso14755_52:                      false
 Rxvt.keysym.M-s:                       builtin-string:
@@ -49,32 +44,52 @@ Rxvt*font:                             xft:PT Mono:size=10
 ! Rxvt*boldItalicFont:                   xft:UbuntuMono:bold:italic
 ! Colors {{{1
 *background:             #000000
-*foreground:             #9595ac
+*foreground:             #88aaaa
+
 *underlineColor:         #aaaa00
-*cursorColor:            #ff00ff
-*cursorColor2:           #000000
+
 *colorUL:                #ffff00
 *colorIT:                #aaffff
 *colorBD:                #9595ff
-*fading:                 75
 
-*color0:                 #202020
-*color1:                 #9d2928
-*color2:                 #328d28
-*color3:                 #a8a660
-*color4:                 #40409b
-*color5:                 #aa32aa
-*color6:                 #329d9d
-*color7:                 #aaaaaa
-*color8:                 #666666
+*cursorColor:            #ff00ff
+*cursorColor2:           #000000
 
-*color9:                 #ff0000
-*color10:                #00ff00
-*color11:                #ffaa00
-*color12:                #00aaff
-*color13:                #ff00ff
-*color14:                #00ffff
-*color15:                #ffffff
+*fading:                 35
+*fadeColor:              #884400
+
+! Black : Dark Grey and Mid-Dark Grey
+*color0 :  #222222
+*color8 :  #555555
+
+! Red   : Light Red and Red
+*color1 :  #ff5555
+*color9 :  #ff0000
+
+! Green : Green and Chartreuse
+*color2 :  #00ff00
+*color10:  #7FFF00
+
+! Yellow: Orange and Yellow
+*color3 :  #ffaa00
+*color11:  #ffff00
+
+! Blue  : Blue and Electric Indigo
+*color4 :  #00aaff
+*color12:  #6F00FF
+
+! Purple: Hot Pink and Magenta
+*color5 :  #ff00aa
+*color13:  #ff00ff
+
+! Cyan  : Cyan and Verdigris
+*color6 :  #00ffff
+*color14:  #43b3ae
+
+! Grey  : Grey and White
+*color7 :  #cccccc
+*color15:  #ffffff
+
 
 ! Extensions {{{1
 URxvt.perl-ext:           default,matcher
