@@ -44,7 +44,7 @@ Rxvt*font:                             xft:PT Mono:size=10
 ! Rxvt*boldItalicFont:                   xft:UbuntuMono:bold:italic
 ! Colors {{{1
 *background:             #000000
-*foreground:             #88aaaa
+*foreground:             #ff00ff
 
 *underlineColor:         #aaaa00
 
@@ -62,28 +62,28 @@ Rxvt*font:                             xft:PT Mono:size=10
 *color0 :  #222222
 *color8 :  #555555
 
-! Red   : Light Red and Red
-*color1 :  #ff5555
-*color9 :  #ff0000
+! Red   : Cinnabar and Scarlet
+*color1 :  #E44D2E
+*color9 :  #FF2400
 
-! Green : Green and Chartreuse
-*color2 :  #00ff00
-*color10:  #7FFF00
+! Green : Harlequin and Dark Pastel Green
+*color2 :  #3FFF00
+*color10:  #03C03C
 
-! Yellow: Orange and Yellow
-*color3 :  #ffaa00
-*color11:  #ffff00
+! Yellow: Persimmon and Chartreuse
+*color3 :  #EC5800
+*color11:  #7FFF00
 
-! Blue  : Blue and Electric Indigo
-*color4 :  #00aaff
+! Blue  : Ice Blue and Electric Indigo
+*color4 :  #99FFFF
 *color12:  #6F00FF
 
-! Purple: Hot Pink and Magenta
-*color5 :  #ff00aa
-*color13:  #ff00ff
+! Purple: Amaranth and Amethyst
+*color5 :  #AB274F
+*color13:  #9966CC
 
 ! Cyan  : Cyan and Verdigris
-*color6 :  #00ffff
+*color6 :  #15F4EE
 *color14:  #43b3ae
 
 ! Grey  : Grey and White
