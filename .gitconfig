@@ -6,11 +6,11 @@
 [difftool]
     prompt = true
 [merge]
-  tool = vimdiff
+    tool = vimdiff
 [mergetool]
-  prompt = true
+    prompt = true
 [mergetool "vimdiff"]
-  cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+    cmd = nvim -d $LOCAL $REMOTE -c '$wincmd w'
 [color]
     ui = auto
     branch = always
@@ -20,4 +20,4 @@
     s = status --short --branch
     l = whatchanged --date=format:'%Y-%m-%d %H:%M' --graph --decorate
 [core]
-	excludesfile = ~/.gitignore
+    excludesfile = ~/.gitignore

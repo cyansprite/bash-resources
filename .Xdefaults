@@ -1,6 +1,8 @@
 ! Term env var and login shell {{{1
 Rxvt*termName:                         xterm-256color
 Rxvt*loginShell:                       true
+Rxvt*iconFile:                         Pictures/espurr.png
+Rxvt*depth:                            32
 
 ! Scrolls {{{1
 ! I want to scroll if I type something, jump (fast scrolling)
@@ -38,19 +40,21 @@ Rxvt.keysym.C-S-0x56:                  eval:paste_primary
 Rxvt.tripleclickwords:                 true
 
 ! Fonty Python {{{1
-Rxvt*font:                             xft:PT Mono:size=10
+Rxvt*font:                               xft:PT Mono:size=8
 ! Rxvt*boldFont:                         xft:Anonymous Pro:bold
 ! Rxvt*italicFont:                       xft:PT Mono:italic
 ! Rxvt*boldItalicFont:                   xft:UbuntuMono:bold:italic
 ! Colors {{{1
-*background:             #000000
-*foreground:             #ff00ff
+! BG : Black transparent
+*background:             [87]#000000
+! FG :
+*foreground:             #aaaaaa
 
-*underlineColor:         #aaaa00
+*underlineColor:         #ffff00
 
 *colorUL:                #ffff00
 *colorIT:                #aaffff
-*colorBD:                #9595ff
+*colorBD:                #ff33ff
 
 *cursorColor:            #ff00ff
 *cursorColor2:           #000000
@@ -62,40 +66,34 @@ Rxvt*font:                             xft:PT Mono:size=10
 *color0 :  #222222
 *color8 :  #555555
 
-! Red   : Cinnabar and Scarlet
-*color1 :  #E44D2E
+! Red   : Cinnabared and Scarlet
+*color1 :  #F44D2E
 *color9 :  #FF2400
 
-! Green : Harlequin and Dark Pastel Green
-*color2 :  #3FFF00
-*color10:  #03C03C
+! Green : Harlequin and Dark Green
+*color2 :  #3fff00
+*color10:  #00cc00
 
-! Yellow: Persimmon and Chartreuse
-*color3 :  #EC5800
-*color11:  #7FFF00
+! Yellow: Yellow Persimmon and Chartreuse
+*color3 :  #EC8800
+*color11:  #57ff00
 
-! Blue  : Ice Blue and Electric Indigo
-*color4 :  #99FFFF
-*color12:  #6F00FF
+! Blue  : Purple Ice and Electric Indigo Lite
+*color4 :  #9999FF
+*color12:  #6F33FF
 
-! Purple: Amaranth and Amethyst
+! Purple: Amaranth and Hot Pink
 *color5 :  #AB274F
-*color13:  #9966CC
+*color13:  #ff00aa
 
-! Cyan  : Cyan and Verdigris
-*color6 :  #15F4EE
-*color14:  #43b3ae
+! Cyan  : Electric Blue and Verdigris
+*color6 :  #43b3ae
+*color14:  #15F4EE
 
-! Grey  : Grey and White
-*color7 :  #cccccc
+! Grey  : PaleTurquoise and White
+*color7 :  #afffff
 *color15:  #ffffff
 
 
 ! Extensions {{{1
-URxvt.perl-ext:           default,matcher
-URxvt.url-launcher:       sensible-browser
-URxvt.keysym.M-u:    matcher:first
-URxvt.keysym.M-d:    matcher:last
-URxvt.keysym.M-l:    matcher:list
-URxvt.keysym.M-u:         matcher:select
-URxvt.matcher.button:     1
+URxvt.perl-ext:           default

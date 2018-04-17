@@ -76,6 +76,12 @@ export VISUAL=nvim
 
 # I love fzf...
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Setting fd as the default source for fzf
+
+if hash ag 2>/dev/null; then
+    export FZF_DEFAULT_COMMAND='ag -l'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
 
 # export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 # export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
