@@ -21,3 +21,14 @@
     l = whatchanged --date=format:'%Y-%m-%d %H:%M' --graph --decorate
 [core]
     excludesfile = ~/.gitignore
+    editor = nvim
+[push]
+    default = matching
+[alias]
+    unstage = reset -q HEAD --
+    amend = commit --amend
+    precommit = diff --cached --diff-algorithm=minimal -w
+    unmerged = diff --name-only --diff-filter=U
+    stashes = stash list --pretty=format:'%C(bold magenta)%gd%C(bold yellow): %C(cyan)%s'
+    relative = log --decorate --graph --abbrev-commit --date=relative
+    graph = log --graph --date=short --pretty=format:'%C(white)%h%C(reset) %C(bold magenta)%ad %C(bold yellow)|%C(reset) %C(yellow) %s %C(bold cyan)[%an]%C(reset)%C(blue)%d%C(reset)'
