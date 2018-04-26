@@ -32,3 +32,4 @@
     stashes = stash list --pretty=format:'%C(bold magenta)%gd%C(bold yellow): %C(cyan)%s'
     relative = log --decorate --graph --abbrev-commit --date=relative
     graph = log --graph --date=short --pretty=format:'%C(white)%h%C(reset) %C(bold magenta)%ad %C(bold yellow)|%C(reset) %C(yellow) %s %C(bold cyan)[%an]%C(reset)%C(blue)%d%C(reset)'
+    branches = log --color --graph --oneline --decorate --simplify-by-decoration --all
