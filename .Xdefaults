@@ -1,99 +1,360 @@
 ! Term env var and login shell {{{1
-Rxvt*termName:                         xterm-256color
-Rxvt*loginShell:                       true
-Rxvt*iconFile:                         Pictures/espurr.png
-Rxvt*depth:                            32
+*termName:                         xterm-256color
+*loginShell:                       true
 
 ! Scrolls {{{1
 ! I want to scroll if I type something, jump (fast scrolling)
-Rxvt*scrollTtyKeypress:                true
-Rxvt*jumpScroll:                       true
+*scrollTtyKeypress:                true
+*jumpScroll:                       true
 ! Disable everything else
-Rxvt*scrollstyle:                      plain
-Rxvt*scrollTtyOutput:                  false
-Rxvt*scrollWithBuffer:                 false
-Rxvt*skipScroll:                       false
-Rxvt*scrollBar:                        false
-Rxvt*scrollBar_right:                  false
-Rxvt*scrollBar_floating:               false
-Rxvt*saveLines:                        0
-Rxvt*thickness:                        0
+*scrollstyle:                      plain
+*scrollTtyOutput:                  false
+*scrollWithBuffer:                 false
+*skipScroll:                       false
+*scrollBar:                        false
+*scrollBar_right:                  false
+*scrollBar_floating:               false
+*saveLines:                        0
+*thickness:                        0
 
 ! Secondary screen and scroll if so {{{1
-Rxvt*secondaryScreen:                  true
-Rxvt*secondaryScroll:                  true
+*secondaryScreen:                  true
+*secondaryScroll:                  true
 
 ! use the fuckin bell :P {{{1
-Rxvt*visualBell:                       true
-Rxvt*mapAlert:                         true
-Rxvt*urgentOnBell:                     true
+*visualBell:                       true
+*mapAlert:                         true
+*urgentOnBell:                     true
 
-! Key Mappings {{{1
-Rxvt.iso14755:                         false
-Rxvt.iso14755_52:                      false
-Rxvt.keysym.M-s:                       builtin-string:
-Rxvt.keysym.M-S:                       builtin-string:
-Rxvt.keysym.C-s-t:                     builtin-string:
+! Colors {{{1
 
-Rxvt.keysym.C-S-0x43:                  eval:selection_to_clipboard
-Rxvt.keysym.C-S-0x56:                  eval:paste_primary
-Rxvt.tripleclickwords:                 true
+! DONT FUCKIN SET THESE!!
+! *highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis
+! *highlightTextColor:             BanishYouToTheShadowRealmIfYouSetThis
+! *cursorColor:       #ffffff
+! *altIsNotMeta:false
+xterm*metaSendsEscape:  true
+!*cursorColor2:      #ffffff
+! Mappings {{{1
+.iso14755:                         false
+.iso14755_52:                      false
+.keysym.M-s:                       builtin-string:
+.keysym.M-S:                       builtin-string:
+.keysym.C-s-t:                     builtin-string:
+
+.keysym.C-S-0x43:                  eval:selection_to_clipboard
+.keysym.C-S-0x56:                  eval:paste_primary
+.tripleclickwords:                 true
+xterm*VT100.Translations: #override \
+    Ctrl Meta <Key>V: insert-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>C:    copy-selection(CLIPBOARD) \n\
+    Ctrl <Key> minus: smaller-vt-font() \n\
+    Ctrl <Key> plus: larger-vt-font() \n\
+    Ctrl <Key> 0: set-vt-font(d)
 
 ! Fonty Python {{{1
-Rxvt*font:                               xft:PT Mono:size=8
-! Rxvt*boldFont:                         xft:Anonymous Pro:bold
-! Rxvt*italicFont:                       xft:PT Mono:italic
-! Rxvt*boldItalicFont:                   xft:UbuntuMono:bold:italic
+! *font:                               xft:Novemeber:size=10
+xterm*faceName: Pt Mono
+xterm*faceSize: 10
+xterm*renderFont: true
+! *boldFont:                         xft:Anonymous Pro:bold
+! *italicFont:                       xft:PT Mono:italic
+! *boldItalicFont:                   xft:UbuntuMono:bold:italic
 ! Colors {{{1
-! BG : Black transparent
-*background:             [87]#000000
-! FG :
-*foreground:             #aaaaaa
 
-*underlineColor:         #ffff00
+! *background:        #eeffff
+! *foreground:        #000000
+! *underlineColor:    #75acac
+! *colorUL:           #f0ffca
+! *colorIT:           #f0c0c0
+! *colorBD:           #afa5cc
 
-*colorUL:                #ffff00
-*colorIT:                #aaffff
-*colorBD:                #ff33ff
-
-*cursorColor:            #ff00ff
-*cursorColor2:           #000000
-
-*fading:                 35
-*fadeColor:              #884400
-
-! Black : Dark Grey and Mid-Dark Grey
-*color0 :  #222222
-*color8 :  #555555
-
-! Red   : Cinnabared and Scarlet
-*color1 :  #F44D2E
-*color9 :  #FF2400
-
-! Green : Harlequin and Dark Green
-*color2 :  #3fff00
-*color10:  #00cc00
-
-! Yellow: Yellow Persimmon and Chartreuse
-*color3 :  #EC8800
-*color11:  #57ff00
-
-! Blue  : Purple Ice and Electric Indigo Lite
-*color4 :  #9999FF
-*color12:  #6F33FF
-
-! Purple: Amaranth and Hot Pink
-*color5 :  #AB274F
-*color13:  #ff00aa
-
-! Cyan  : Electric Blue and Verdigris
-*color6 :  #43b3ae
-*color14:  #15F4EE
-
-! Grey  : PaleTurquoise and White
-*color7 :  #afffff
-*color15:  #ffffff
+! Apprentice
+! *foreground: #BCBCBC
+! *background: #262626
+! *color0:     #1C1C1C
+! *color8:     #444444
+! *color1:     #AF5F5F
+! *color9:     #FF8700
+! *color2:     #5F875F
+! *color10:    #87AF87
+! *color3:     #87875F
+! *color11:    #FFFFAF
+! *color4:     #5F87AF
+! *color12:    #8FAFD7
+! *color5:     #5F5F87
+! *color13:    #8787AF
+! *color6:     #5F8787
+! *color14:    #5FAFAF
+! *color7:     #6C6C6C
+! *color15:    #FFFFFF
 
 
-! Extensions {{{1
-URxvt.perl-ext:           default
+!! mythos
+!! special
+!*.foreground:   #8a9193
+!*.background:   #202d31
+!*.cursorColor:  #8a9193
+!
+!! black
+!*.color0:       #151d20
+!*.color8:       #202d31
+!
+!! red
+!*.color1:       #875a61
+!*.color9:       #9c6b61
+!
+!! green
+!*.color2:       #4b725e
+!*.color10:      #657f5e
+!
+!! yellow
+!*.color3:       #766c45
+!*.color11:      #9b996c
+!
+!! blue
+!*.color4:       #526a87
+!*.color12:      #5b859e
+!
+!! magenta
+!*.color5:       #775671
+!*.color13:      #7d7294
+!
+!! cyan
+!*.color6:       #4e6c72
+!*.color14:      #6e8f84
+!
+!! white
+!*.color7:       #485356
+!*.color15: #8a9193
+
+
+! My Green
+! special
+*.foreground:   #4ff200
+*.background:   #001f00
+*.cursorColor:  #4ff200
+
+! black
+*.color0:       #000f00
+*.color8:       #1b5200
+
+! red
+*.color1:       #2a7d00
+*.color9:       #3bb000
+
+! green
+*.color2:       #308f00
+*.color10:      #41c200
+
+! yellow
+*.color3:       #36a100
+*.color11:      #4ad400
+
+! blue
+*.color4:       #236900
+*.color12:      #349c00
+
+! magenta
+*.color5:       #267300
+*.color13:      #37a600
+
+! cyan
+*.color6:       #2d8700
+*.color14:      #3eba00
+
+! white
+*.color7:       #3eba00
+*.color15:      #52f700
+
+! Twilight
+! special
+! *.foreground:   #00bb00
+! *.background:   #001100
+! *.cursorColor:  #00bb00
+! 
+! ! black
+! *.color0:       #001100
+! *.color8:       #007700
+! 
+! ! red
+! *.color1:       #007700
+! *.color9:       #007700
+! 
+! ! green
+! *.color2:       #00bb00
+! *.color10:      #00bb00
+! 
+! ! yellow
+! *.color3:       #007700
+! *.color11:      #007700
+! 
+! ! blue
+! *.color4:       #009900
+! *.color12:      #009900
+! 
+! ! magenta
+! *.color5:       #00bb00
+! *.color13:      #00bb00
+! 
+! ! cyan
+! *.color6:       #005500
+! *.color14:      #005500
+! 
+! ! white
+! *.color7:       #00bb00
+! *.color15:      #00ff00
+
+! Constant pain ( Red Screen )
+! special
+*.foreground:   #f20000
+*.background:   #0f0000
+*.cursorColor:  #f20000
+
+! black
+*.color0:       #0f0000
+*.color8:       #520000
+
+! red
+*.color1:       #7d0000
+*.color9:       #b00000
+
+! green
+*.color2:       #8f0000
+*.color10:      #c20000
+
+! yellow
+*.color3:       #a10000
+*.color11:      #d40000
+
+! blue
+*.color4:       #690000
+*.color12:      #9c0000
+
+! magenta
+*.color5:       #730000
+*.color13:      #a60000
+
+! cyan
+*.color6:       #870000
+*.color14:      #ba0000
+
+! white
+*.color7:       #ba0000
+*.color15:      #f70000
+
+! Cyan sprite
+! special
+*.foreground:   #00ffff
+*.background:   #000f0f
+*.cursorColor:  #00ffff
+
+! black
+*.color0:       #000f0f
+*.color8:       #005252
+
+! red
+*.color1:       #007d7d
+*.color9:       #00b0b0
+
+! green
+*.color2:       #008f8f
+*.color10:      #00c2c2
+
+! yellow
+*.color3:       #00a1a1
+*.color11:      #00d4d4
+
+! blue
+*.color4:       #006969
+*.color12:      #009c9c
+
+! magenta
+*.color5:       #007373
+*.color13:      #00a6a6
+
+! cyan
+*.color6:       #008787
+*.color14:      #00baba
+
+! white
+*.color7:       #00baba
+*.color15:      #00f7f7
+
+! Magenta
+! special
+*.foreground:   #ff00ff
+*.background:   #0f000f
+*.cursorColor:  #ff00ff
+
+! black
+*.color0:       #0f000f
+*.color8:       #520052
+
+! red
+*.color1:       #7d007d
+*.color9:       #b000b0
+
+! green
+*.color2:       #8f008f
+*.color10:      #c200c2
+
+! yellow
+*.color3:       #a100a1
+*.color11:      #d400d4
+
+! blue
+*.color4:       #690069
+*.color12:      #9c009c
+
+! magenta
+*.color5:       #730073
+*.color13:      #a600a6
+
+! cyan
+*.color6:       #870087
+*.color14:      #ba00ba
+
+! white
+*.color7:       #ba00ba
+*.color15:      #f700f7
+
+
+! Magic
+! special
+*.foreground:   #a39a90
+*.background:   #16130f
+*.cursorColor:  #a39a90
+
+! black
+*.color0:       #000000
+*.color8:       #5a5047
+
+! red
+*.color1:       #824d4d
+*.color9:       #991f47
+
+! green
+*.color2:       #62824d
+*.color10:      #47991f
+
+! yellow
+*.color3:       #77824d
+*.color11:      #99701f
+
+! blue
+*.color4:       #574d82
+*.color12:      #5c1f99
+
+! magenta
+*.color5:       #824d82
+*.color13:      #991f99
+
+! cyan
+*.color6:       #4d8282
+*.color14:      #1f9999
+
+! white
+*.color7:       #82786f
+*.color15:      #999999
