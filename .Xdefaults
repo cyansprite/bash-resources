@@ -328,12 +328,12 @@ xterm*renderFont: true
 *.cursorColor:  #a39a90
 
 ! black
-*.color0:       #000000
+*.color0:       #2a2a2a
 *.color8:       #5a5047
 
 ! red
 *.color1:       #824d4d
-*.color9:       #991f47
+*.color9:       #cc295f
 
 ! green
 *.color2:       #62824d
@@ -344,8 +344,8 @@ xterm*renderFont: true
 *.color11:      #99701f
 
 ! blue
-*.color4:       #574d82
-*.color12:      #5c1f99
+*.color4:       #6e6eb5
+*.color12:      #1f7099
 
 ! magenta
 *.color5:       #824d82
