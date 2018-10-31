@@ -54,10 +54,11 @@ xterm*VT100.Translations: #override \
     Ctrl <Key> 0: set-vt-font(d)
 
 ! Fonty Python {{{1
-! *font:                               xft:Novemeber:size=10
-xterm*faceName: Pt Mono
-xterm*faceSize: 10
+*font:                               xft:Pt Mono:size=11
+xterm*faceName: PT Mono
+xterm*faceSize: 11
 xterm*renderFont: true
+! xterm*font: -bitstream-courier 10 pitch-medium-r-*-*-*-*-*-*-*-*-*-*
 ! *boldFont:                         xft:Anonymous Pro:bold
 ! *italicFont:                       xft:PT Mono:italic
 ! *boldItalicFont:                   xft:UbuntuMono:bold:italic
@@ -65,10 +66,6 @@ xterm*renderFont: true
 
 ! *background:        #eeffff
 ! *foreground:        #000000
-! *underlineColor:    #75acac
-! *colorUL:           #f0ffca
-! *colorIT:           #f0c0c0
-! *colorBD:           #afa5cc
 
 ! Apprentice
 ! *foreground: #BCBCBC
@@ -132,41 +129,41 @@ xterm*renderFont: true
 
 ! My Green
 ! special
-*.foreground:   #4ff200
-*.background:   #001f00
-*.cursorColor:  #4ff200
-
-! black
-*.color0:       #000f00
-*.color8:       #1b5200
-
-! red
-*.color1:       #2a7d00
-*.color9:       #3bb000
-
-! green
-*.color2:       #308f00
-*.color10:      #41c200
-
-! yellow
-*.color3:       #36a100
-*.color11:      #4ad400
-
-! blue
-*.color4:       #236900
-*.color12:      #349c00
-
-! magenta
-*.color5:       #267300
-*.color13:      #37a600
-
-! cyan
-*.color6:       #2d8700
-*.color14:      #3eba00
-
-! white
-*.color7:       #3eba00
-*.color15:      #52f700
+!*.foreground:   #4ff200
+!*.background:   #001f00
+!*.cursorColor:  #4ff200
+!
+!! black
+!*.color0:       #000f00
+!*.color8:       #1b5200
+!
+!! red
+!*.color1:       #2a7d00
+!*.color9:       #3bb000
+!
+!! green
+!*.color2:       #308f00
+!*.color10:      #41c200
+!
+!! yellow
+!*.color3:       #36a100
+!*.color11:      #4ad400
+!
+!! blue
+!*.color4:       #236900
+!*.color12:      #349c00
+!
+!! magenta
+!*.color5:       #267300
+!*.color13:      #37a600
+!
+!! cyan
+!*.color6:       #2d8700
+!*.color14:      #3eba00
+!
+!! white
+!*.color7:       #3eba00
+!*.color15:      #52f700
 
 ! Twilight
 ! special
@@ -208,153 +205,202 @@ xterm*renderFont: true
 
 ! Constant pain ( Red Screen )
 ! special
-*.foreground:   #f20000
-*.background:   #0f0000
-*.cursorColor:  #f20000
+!*.foreground:   #f20000
+!*.background:   #0f0000
+!*.cursorColor:  #f20000
+!
+!! black
+!*.color0:       #0f0000
+!*.color8:       #520000
+!
+!! red
+!*.color1:       #7d0000
+!*.color9:       #b00000
+!
+!! green
+!*.color2:       #8f0000
+!*.color10:      #c20000
+!
+!! yellow
+!*.color3:       #a10000
+!*.color11:      #d40000
+!
+!! blue
+!*.color4:       #690000
+!*.color12:      #9c0000
+!
+!! magenta
+!*.color5:       #730000
+!*.color13:      #a60000
+!
+!! cyan
+!*.color6:       #870000
+!*.color14:      #ba0000
+!
+!! white
+!*.color7:       #ba0000
+!*.color15:      #f70000
+!
+!! Cyan sprite
+!! special
+!*.foreground:   #00ffff
+!*.background:   #000f0f
+!*.cursorColor:  #00ffff
+!
+!! black
+!*.color0:       #000f0f
+!*.color8:       #005252
+!
+!! red
+!*.color1:       #007d7d
+!*.color9:       #00b0b0
+!
+!! green
+!*.color2:       #008f8f
+!*.color10:      #00c2c2
+!
+!! yellow
+!*.color3:       #00a1a1
+!*.color11:      #00d4d4
+!
+!! blue
+!*.color4:       #006969
+!*.color12:      #009c9c
+!
+!! magenta
+!*.color5:       #007373
+!*.color13:      #00a6a6
+!
+!! cyan
+!*.color6:       #008787
+!*.color14:      #00baba
+!
+!! white
+!*.color7:       #00baba
+!*.color15:      #00f7f7
+!
+!! Magenta
+!! special
+!*.foreground:   #ff00ff
+!*.background:   #0f000f
+!*.cursorColor:  #ff00ff
+!
+!! black
+!*.color0:       #0f000f
+!*.color8:       #520052
+!
+!! red
+!*.color1:       #7d007d
+!*.color9:       #b000b0
+!
+!! green
+!*.color2:       #8f008f
+!*.color10:      #c200c2
+!
+!! yellow
+!*.color3:       #a100a1
+!*.color11:      #d400d4
+!
+!! blue
+!*.color4:       #690069
+!*.color12:      #9c009c
+!
+!! magenta
+!*.color5:       #730073
+!*.color13:      #a600a6
+!
+!! cyan
+!*.color6:       #870087
+!*.color14:      #ba00ba
+!
+!! white
+!*.color7:       #ba00ba
+!*.color15:      #f700f7
+!
+!
+!! Magic
+!! special
+!*.foreground:   #a39a90
+!*.background:   #16130f
+!*.cursorColor:  #a39a90
+!
+!! black
+!*.color0:       #2a2a2a
+!*.color8:       #5a5047
+!
+!! red
+!*.color1:       #824d4d
+!*.color9:       #cc295f
+!
+!! green
+!*.color2:       #62824d
+!*.color10:      #47991f
+!
+!! yellow
+!*.color3:       #77824d
+!*.color11:      #99701f
+!
+!! blue
+!*.color4:       #6e6eb5
+!*.color12:      #1f7099
+!
+!! magenta
+!*.color5:       #824d82
+!*.color13:      #991f99
+!
+!! cyan
+!*.color6:       #4d8282
+!*.color14:      #1f9999
+!
+!! white
+!*.color7:       #82786f
+!*.color15:      #999999
 
-! black
-*.color0:       #0f0000
-*.color8:       #520000
 
-! red
-*.color1:       #7d0000
-*.color9:       #b00000
 
-! green
-*.color2:       #8f0000
-*.color10:      #c20000
+! ::     Rules       ::
+! Dim          : 33 99 ff
+! Bright       : 66 ff ff
+! BrightBright : 00 ff ff
 
-! yellow
-*.color3:       #a10000
-*.color11:      #d40000
-
-! blue
-*.color4:       #690000
-*.color12:      #9c0000
-
-! magenta
-*.color5:       #730000
-*.color13:      #a60000
-
-! cyan
-*.color6:       #870000
-*.color14:      #ba0000
-
-! white
-*.color7:       #ba0000
-*.color15:      #f70000
-
-! Cyan sprite
-! special
-*.foreground:   #00ffff
-*.background:   #000f0f
-*.cursorColor:  #00ffff
-
-! black
-*.color0:       #000f0f
-*.color8:       #005252
-
-! red
-*.color1:       #007d7d
-*.color9:       #00b0b0
-
-! green
-*.color2:       #008f8f
-*.color10:      #00c2c2
-
-! yellow
-*.color3:       #00a1a1
-*.color11:      #00d4d4
-
-! blue
-*.color4:       #006969
-*.color12:      #009c9c
-
-! magenta
-*.color5:       #007373
-*.color13:      #00a6a6
-
-! cyan
-*.color6:       #008787
-*.color14:      #00baba
-
-! white
-*.color7:       #00baba
-*.color15:      #00f7f7
-
-! Magenta
-! special
-*.foreground:   #ff00ff
-*.background:   #0f000f
+*.foreground:   #aaaaaa
+*.background:   #000000
 *.cursorColor:  #ff00ff
+*.cursorColor2: #000000
 
 ! black
-*.color0:       #0f000f
-*.color8:       #520052
+*.color0:       #333322
+*.color8:       #666655
 
 ! red
-*.color1:       #7d007d
-*.color9:       #b000b0
+*.color1:       #ff3399
+*.color9:       #ff6666
 
 ! green
-*.color2:       #8f008f
-*.color10:      #c200c2
+*.color2:       #99ff33
+*.color10:      #66ff66
 
 ! yellow
-*.color3:       #a100a1
-*.color11:      #d400d4
+*.color3:       #ff9933
+*.color11:      #ffff66
 
 ! blue
-*.color4:       #690069
-*.color12:      #9c009c
+*.color4:       #3399ff
+*.color12:      #6666ff
 
 ! magenta
-*.color5:       #730073
-*.color13:      #a600a6
+*.color5:       #9933ff
+*.color13:      #ff00ff
 
 ! cyan
-*.color6:       #870087
-*.color14:      #ba00ba
+*.color6:       #33ff99
+*.color14:      #00ffff
 
 ! white
-*.color7:       #ba00ba
-*.color15:      #f700f7
+*.color7:       #ddffff
+*.color15:      #ffffff
 
-
-! Magic
-! special
-*.foreground:   #a39a90
-*.background:   #16130f
-*.cursorColor:  #a39a90
-
-! black
-*.color0:       #2a2a2a
-*.color8:       #5a5047
-
-! red
-*.color1:       #824d4d
-*.color9:       #cc295f
-
-! green
-*.color2:       #62824d
-*.color10:      #47991f
-
-! yellow
-*.color3:       #77824d
-*.color11:      #99701f
-
-! blue
-*.color4:       #6e6eb5
-*.color12:      #1f7099
-
-! magenta
-*.color5:       #824d82
-*.color13:      #991f99
-
-! cyan
-*.color6:       #4d8282
-*.color14:      #1f9999
-
-! white
-*.color7:       #82786f
-*.color15:      #999999
+*underlineColor:    #3399ff
+*colorUL:           #5599ff
+*colorIT:           #00ff00
+*colorBD:           #ff33ff

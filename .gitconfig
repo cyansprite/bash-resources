@@ -10,7 +10,7 @@
 [mergetool]
     prompt = true
 [mergetool "vimdiff"]
-    cmd = nvim -d $LOCAL $REMOTE -c '$wincmd w'
+    cmd = /users/brcoffman/bin/nvim -d $LOCAL $REMOTE -c '$wincmd w'
 [color]
     ui = auto
     branch = always
@@ -19,9 +19,10 @@
 [alias]
     s = status --short --branch
     l = whatchanged --date=format:'%Y-%m-%d %H:%M' --graph --decorate
+    d = diff
 [core]
     excludesfile = ~/.gitignore
-    editor = nvim
+    editor = /users/brcoffman/bin/nvim
 [push]
     default = matching
 [alias]
@@ -33,3 +34,9 @@
     relative = log --decorate --graph --abbrev-commit --date=relative
     graph = log --graph --date=short --pretty=format:'%C(white)%h%C(reset) %C(bold magenta)%ad %C(bold yellow)|%C(reset) %C(yellow) %s %C(bold cyan)[%an]%C(reset)%C(blue)%d%C(reset)'
     branches = log --color --graph --oneline --decorate --simplify-by-decoration --all
+
+[color "diff"]
+    meta = magenta bold
+    frag = blue bold
+    old = red bold
+    new = green bold
