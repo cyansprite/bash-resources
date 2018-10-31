@@ -68,7 +68,8 @@ endif
 
 "Begin Vim set
     " Set: Those that use macros
-    set cursorline                 " set cursorline, just make sure highlight is none
+    set nocursorline               " set no cursor line
+    set nocursorcolumn             " set no cursor column
     set expandtab                  " Expands tab to spaces
     set linebreak                  " don't cut words on wrap if i DO wrap
     set list                       " list my chars: ╳│¦|┆×•·
@@ -390,26 +391,31 @@ endfunc
 
 function! EnterWin()
     call StatusLine()
-    let curWinIndex = winnr()
-    let windowCount = winnr('$')
 
-    exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.4))
+    try
+        let curWinIndex = winnr()
+        let windowCount = winnr('$')
 
-    for i in range(1,winnr('$'))
-        if( i != curWinIndex )
-            wincmd w
-            " setl relativenumber norelativenumber
-            setl nocursorline
-            setl nocursorcolumn
-            setl colorcolumn=0
-        endif
-    endfor
+        exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.4))
 
-    wincmd w
+        for i in range(1,winnr('$'))
+            if( i != curWinIndex )
+                wincmd w
+                " setl relativenumber norelativenumber
+                setl nocursorline
+                setl nocursorcolumn
+                setl colorcolumn=0
+            endif
+        endfor
 
-    setl cursorline
-    setl cursorcolumn
-    setl colorcolumn=80,130
+        wincmd w
+
+        setl nocursorline
+        setl nocursorcolumn
+        setl colorcolumn=80,130
+    catch /.*/
+
+    endtry
 endfunction
 "
 " }}}
@@ -435,10 +441,10 @@ command! -nargs=0 Kws silent! call KillWhitespace()
 augroup init
     autocmd!
     " me
-    autocmd WinEnter * cal EnterWin()
-    autocmd WinLeave * cal LeaveWin()
-    autocmd BufWinEnter * cal EnterWin()
-    autocmd BufWinLeave * cal LeaveWin()
+    autocmd WinEnter * silent cal EnterWin()
+    autocmd WinLeave * silent cal LeaveWin()
+    autocmd BufWinEnter * silent cal EnterWin()
+    autocmd BufWinLeave * silent cal LeaveWin()
 
     " Filetypes
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
