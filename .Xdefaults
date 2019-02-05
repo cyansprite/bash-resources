@@ -1,6 +1,8 @@
 ! Term env var and login shell {{{1
 *termName:                         xterm-256color
 *loginShell:                       true
+urxvt*depth: 32
+urxvt*background: rgba:0000/0000/0000/8888
 
 ! Scrolls {{{1
 ! I want to scroll if I type something, jump (fast scrolling)
