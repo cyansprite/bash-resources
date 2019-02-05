@@ -27,6 +27,13 @@
 *urgentOnBell:                     true
 
 ! Colors {{{1
+URxvt.perl-ext:           default,matcher
+URxvt.url-launcher:       sensible-browser
+URxvt.keysym.M-u:    matcher:first
+URxvt.keysym.M-d:    matcher:last
+URxvt.keysym.M-l:    matcher:list
+URxvt.keysym.M-u:         matcher:select
+URxvt.matcher.button:     1
 
 ! DONT FUCKIN SET THESE!!
 ! *highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis
@@ -36,22 +43,32 @@
 xterm*metaSendsEscape:  true
 !*cursorColor2:      #ffffff
 ! Mappings {{{1
-.iso14755:                         false
-.iso14755_52:                      false
-.keysym.M-s:                       builtin-string:
-.keysym.M-S:                       builtin-string:
-.keysym.C-s-t:                     builtin-string:
+Rxvt.iso14755:                         false
+Rxvt.iso14755_52:                      false
+Rxvt.keysym.M-s:                       builtin-string:
+Rxvt.keysym.M-S:                       builtin-string:
+Rxvt.keysym.C-s-t:                     builtin-string:
 
-.keysym.C-S-0x43:                  eval:selection_to_clipboard
-.keysym.C-S-0x56:                  eval:paste_primary
-.tripleclickwords:                 true
-xterm*VT100.Translations: #override \
-    Ctrl Meta <Key>V: insert-selection(CLIPBOARD) \n\
-    Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
-    Ctrl Shift <Key>C:    copy-selection(CLIPBOARD) \n\
-    Ctrl <Key> minus: smaller-vt-font() \n\
-    Ctrl <Key> plus: larger-vt-font() \n\
-    Ctrl <Key> 0: set-vt-font(d)
+Rxvt.keysym.C-S-0x43:                  eval:selection_to_clipboard
+Rxvt.keysym.C-S-0x56:                  eval:paste_primary
+Rxvt.tripleclickwords:                 true
+
+! .iso14755:                         false
+! .iso14755_52:                      false
+! .keysym.M-s:                       builtin-string:
+! .keysym.M-S:                       builtin-string:
+! .keysym.C-s-t:                     builtin-string:
+
+! .keysym.C-S-0x43:                  eval:selection_to_clipboard
+! .keysym.C-S-0x56:                  eval:paste_primary
+! .tripleclickwords:                 true
+! xterm*VT100.Translations: #override \
+!     Ctrl Meta <Key>V: insert-selection(CLIPBOARD) \n\
+!     Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
+!     Ctrl Shift <Key>C:    copy-selection(CLIPBOARD) \n\
+!     Ctrl <Key> minus: smaller-vt-font() \n\
+!     Ctrl <Key> plus: larger-vt-font() \n\
+!     Ctrl <Key> 0: set-vt-font(d)
 
 ! Fonty Python {{{1
 *font:                               xft:Pt Mono:size=11
