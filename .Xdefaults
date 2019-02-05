@@ -2,7 +2,7 @@
 *termName:                         xterm-256color
 *loginShell:                       true
 urxvt*depth: 32
-urxvt*background: rgba:0000/0000/0000/8888
+urxvt*background: rgba:0000/0000/0000/c800
 
 ! Scrolls {{{1
 ! I want to scroll if I type something, jump (fast scrolling)
@@ -382,7 +382,7 @@ xterm*renderFont: true
 ! Bright       : 66 ff ff
 ! BrightBright : 00 ff ff
 
-*.foreground:   #aaaaaa
+*.foreground:   #ccccbb
 *.background:   #000000
 *.cursorColor:  #ff00ff
 *.cursorColor2: #000000
@@ -401,7 +401,7 @@ xterm*renderFont: true
 
 ! yellow
 *.color3:       #ff9933
-*.color11:      #ffff66
+*.color11:      #924724
 
 ! blue
 *.color4:       #3399ff
@@ -422,4 +422,4 @@ xterm*renderFont: true
 *underlineColor:    #3399ff
 *colorUL:           #5599ff
 *colorIT:           #00ff00
-*colorBD:           #ff33ff
+*colorBD:           #ccccff
