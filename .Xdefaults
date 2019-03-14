@@ -29,10 +29,7 @@
 ! Colors {{{1
 URxvt.perl-ext:           default,matcher
 URxvt.url-launcher:       sensible-browser
-URxvt.keysym.M-u:    matcher:first
-URxvt.keysym.M-d:    matcher:last
 URxvt.keysym.M-l:    matcher:list
-URxvt.keysym.M-u:         matcher:select
 URxvt.matcher.button:     1
 
 ! DONT FUCKIN SET THESE!!
