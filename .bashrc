@@ -1,5 +1,5 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
-export TERM=xterm-256color
+export TERM=screen-256color
 export H=/mnt/c/Users/bcoffman
 
 alias ls='ls -G'
@@ -31,9 +31,9 @@ shopt -s checkwinsize
 
 # Set prompt if ssh use orange-white, otherwise use magenta-black
 if [ -n "$SSH_CLIENT" ]; then
-    PS1='\[\e[1;36m\]\$:\[\e[1;33m\]\[\e[1;35m\]\w \[\e[7;33m\]\[\e[1;36m\]\>\[\e[m\] '
+    PS1='\[\e[1;36m\][\D{%T}] \[\e[1;30m\]\$: \[\e[1;33m\]\w \[\e[1;30m\]\>\[\e[m\] '
 else
-    PS1='\[\e[1;36m\]\$:\[\e[1;35m\]\w \[\e[1;36m\]\>\[\e[m\] '
+    PS1='\[\e[1;36m\][\D{%T}] \[\e[1;30m\]\$: \[\e[1;35m\]\w \[\e[1;30m\]\>\[\e[m\] '
 fi
 # Set title
 PS1="\[\e]0;\h:\u \j \!\a\]$PS1"
@@ -66,27 +66,17 @@ if ! shopt -oq posix; then
     fi
 fi
 
-#enable adb autocompleter
-if [ -e /bin/adb.txt ] ; then
-    source /bin/adb.txt
-fi
-
 export VISUAL=nvim
 # export PROMPT_DIRTRIM=2
 
 # I love fzf...
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-# Setting fd as the default source for fzf
-
-if hash ag 2>/dev/null; then
-    export FZF_DEFAULT_COMMAND='ag -l'
-    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-fi
+export FZF_DEFAULT_COMMAND='ag -l'
 
 # export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-# export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-# export FZF_CTRL_T_OPTS="--preview-window down:50% --preview '(cat {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-# export FZF_DEFAULT_OPTS="--color 16"
+export FZF_CTRL_R_OPTS="--color=16 --preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+export FZF_CTRL_T_OPTS="--color=16 --preview-window down:99% --preview '(cat {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -500'"
+export FZF_DEFAULT_OPTS="--color 16 --preview='cat {}' --preview-window=down:70% --bind=up:preview-up,down:preview-down,right:preview-page-down,left:preview-page-up"
 # export FZF_COMPLETION_TRIGGER='\\'
 # export FZF_DEFAULT_COMMAND='ag -l'
 # export DISPLAY=:0
@@ -95,12 +85,17 @@ echo "-----------------"
 echo "Going to init ssh"
 
 function sshagent_export_if_exists {
-    SSH_AGENT=`find /tmp -uid $(id -u) -type s -name agent.\* 2>/dev/null`
-    echo 'We go this agent :: ' $SSH_AGENT
+    ssh-add -l &>/dev/null
+    if [ "$?" == 2 ]; then
+        test -r ~/.ssh-agent && \
+            eval "$(<~/.ssh-agent)" >/dev/null
 
-    if [ $? ] ; then
-        export SSH_AUTH_SOCK=$SSH_AGENT
-        ssh-add -l
+        ssh-add -l &>/dev/null
+        if [ "$?" == 2 ]; then
+            (umask 066; ssh-agent > ~/.ssh-agent)
+            eval "$(<~/.ssh-agent)" >/dev/null
+            ssh-add
+        fi
     fi
 }
 

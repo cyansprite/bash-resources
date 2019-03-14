@@ -1,31 +1,37 @@
 " Plugins: (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
 
+    Plug 'cyansprite/gitch'
+    Plug 'google/vim-searchindex'
+    Plug 'junegunn/rainbow_parentheses.vim'
+
     " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
-    Plug '~/.local/share/nvim/plugged/gitch'
+    Plug 'cyansprite/Sir-Nvim'
     Plug 'thinca/vim-visualstar'
     Plug 'vim-scripts/cmdlinecomplete'
+    Plug 'kana/vim-repeat'
+    Plug 'tyru/caw.vim'
 
     " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
     Plug 'junegunn/vim-easy-align'
 
-    " Syntax: The default is mediocre
+    " Syntax: The default is mediocre, and that's being nice
     Plug 'cyansprite/vim-csharp'
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'keith/tmux.vim'
     Plug 'cyansprite/vim-operator-highlight'
     Plug 'leafgarland/typescript-vim'
+    Plug 'larsbs/vim-xmll'
 
-    " Completion: Deoplete is amazing
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'Shougo/neoinclude.vim'
-    Plug 'zchee/deoplete-jedi'
-    Plug 'Shougo/neco-syntax'
-    Plug 'Shougo/neco-vim'
-    Plug 'cyansprite/deoplete-omnisharp'
-    Plug 'Shougo/echodoc.vim'
+    " Completion:
+    Plug 'ncm2/ncm2'
+    Plug 'roxma/nvim-yarp'
+    Plug 'ncm2/ncm2-tmux'
+    Plug 'ncm2/ncm2-path'
+    Plug 'ncm2/ncm2-match-highlight'
+    Plug 'ncm2/ncm2-bufword'
 
     if has('unix')
         Plug 'wellle/tmux-complete.vim'
@@ -37,25 +43,30 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Interface:
     Plug 'cyansprite/logicalBuffers'
-    Plug 'vim-scripts/undofile_warn.vim'
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-    Plug '~/.fzf'
-    Plug 'junegunn/fzf.vim'
-    " Plug 'dodie/vim-disapprove-deep-indentation'
-    " Grep: the context grep sucks; but quickfix is nice and match is nice...
-    " TODO FIX side issues I have.
-    " TODO FIX match issues ( turns off in hlsearch is off? I think... idr )
-    Plug 'cyansprite/vim-grepper'
+    Plug 'mhinz/neovim-remote'
 
-    " Color: My personal theme featuring Espurr
+    Plug 'junegunn/fzf', { 'do': './install --bin' }
+    Plug 'junegunn/fzf.vim'
+
+    Plug 'cyansprite/vim-grepper'
+    Plug '/users/brcoffman/.local/share/nvim/plugged/LeaderF-gitModified'
+
+    " Color: My personal theme
     Plug 'cyansprite/Restraint.vim'
+    Plug 'cyansprite/omnisharp.nvim'
+
 call plug#end()
 
-" let $NVIM_PYTHON_LOG_FILE="/tmp/nvim_log"
-" let $NVIM_NCM_LOG_LEVEL="DEBUG"
-" let $NVIM_NCM_MULTI_THREAD=0
-" {{{ Completion
+" Activation based on file type
+augroup rainbows
+  autocmd!
+  autocmd FileType * RainbowParentheses
+augroup END
+
+let g:ncm2#match_highlight = 'bold'
+
+" {{{1 Completion
     " let g:tmuxcomplete#trigger = ''
     let g:deoplete#enable_at_startup = 1
     let g:echodoc#enable_at_startup = 1
@@ -66,16 +77,14 @@ call plug#end()
     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
     smap <C-k>     <Plug>(neosnippet_expand_or_jump)
     xmap <C-k>     <Plug>(neosnippet_expand_target)
-" }}}
 " Various Mappings With No Options: {{{1
     nnoremap <silent> <leader>A :ArgWrap<cr>
-    nmap <leader>] :TagbarToggle<cr>
     nmap <leader>u :UndotreeToggle<cr>
     let g:undotree_WindowLayout = 2
-
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0
-" Insert mode completion
+
+" FZF {{{2
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
@@ -106,8 +115,7 @@ let g:cpp_concepts_highlight        = 1
 " Extract {{{2
 let g:extract_maxCount = 20
 
-" Autocmd: {{{1
-autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
+
 " Highlight: {{{1
     hi link StartifyPath     StorageClass
     hi link StorageClass     Keyword

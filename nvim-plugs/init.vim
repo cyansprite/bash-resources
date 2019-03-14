@@ -8,7 +8,9 @@
 " map arrow keys ??
 " function for cpp  ->  ::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$
 
-" Plug, colo {{{
+" Plug, colo
+
+let g:netrw_liststyle = 3
 
 if has("unix")
     so ~/.config/nvim/plug.vim
@@ -19,9 +21,24 @@ else
     command! -nargs=0 INIT :e c:/Users/bcoffman/AppData/Local/nvim/init.vim
     command! -nargs=0 PLUG :e c:/Users/bcoffman/AppData/Local/nvim/plug.vim
 endif
+
+let g:clipboard = {
+        \   'name': 'xsel - bin',
+        \   'copy': {
+        \      '+': $HOME.'/bin/xsel -i -b',
+        \      '*': $HOME.'/bin/xsel -i -p',
+        \    },
+        \   'paste': {
+        \      '+': $HOME.'/bin/xsel -b',
+        \      '*': $HOME.'/bin/xsel -p',
+        \   },
+        \   'cache_enabled': 0,
+\ }
+
 " doesn't work on windows... says it does but I'm pretty sure that's only for
 " the nvim-qt shit and fuck that...
 " set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
+set guicursor=
 
 try
     " set termguicolors
@@ -48,10 +65,11 @@ else
     set bg=dark
 endif
 
-"}}}
-"Begin Vim set {{{
+
+"Begin Vim set
     " Set: Those that use macros
-    set cursorline                 " set cursorline, just make sure highlight is none
+    set nocursorline               " set no cursor line
+    set nocursorcolumn             " set no cursor column
     set expandtab                  " Expands tab to spaces
     set linebreak                  " don't cut words on wrap if i DO wrap
     set list                       " list my chars: ╳│¦|┆×•·
@@ -100,7 +118,7 @@ endif
 
     " Set: Those that are complex, or just look stupid
     " set fill chars to things that make me happy—
-    set fillchars=vert:\|,stlnc:_,stl:-,fold:.,diff:┉
+    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:┉
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
@@ -127,12 +145,28 @@ endif
     " set formatoptions-=b " I just don't like auto
     " set formatoptions-=1 " I don't fuckin care how long it is
     " set formatoptions-=o " do not continue comment using o or O
-"End Vim set }}}
-"Begin Vim map {{{
+"End Vim set
+"Begin Vim map
+    tnoremap <A-h> <C-\><C-N><C-w>h
+    tnoremap <A-j> <C-\><C-N><C-w>j
+    tnoremap <A-k> <C-\><C-N><C-w>k
+    tnoremap <A-l> <C-\><C-N><C-w>l
+    inoremap <A-h> <C-\><C-N><C-w>h
+    inoremap <A-j> <C-\><C-N><C-w>j
+    inoremap <A-k> <C-\><C-N><C-w>k
+    inoremap <A-l> <C-\><C-N><C-w>l
+    nnoremap <A-h> <C-w>h
+    nnoremap <A-j> <C-w>j
+    nnoremap <A-k> <C-w>k
+    nnoremap <A-l> <C-w>l
+
     " Refresh my script bitch!
     nnoremap <F5> :w \| so %<cr>
-    nnoremap <c-p> g;
-    nnoremap <c-n> g,
+    nnoremap <c-p> g;zO
+    nnoremap <c-n> g,zO
+
+    " If i'm asking the name just copy it to the black hole register while we are at it...
+    nnoremap <c-g> :let @" = expand('%')<cr><c-g>
 
     " TODO: make a set or something?
     nnoremap <leader>ea :e <c-r>%<c-w>
@@ -143,28 +177,32 @@ endif
 
     " Hls ease
     nnoremap <silent><space>h hl:silent set hlsearch!<cr>
-    nnoremap n :set hlsearch<cr>nzv
-    nnoremap N :set hlsearch<cr>Nzv
-    nnoremap / :set hlsearch<cr>/
+    nnoremap <silent> n :set hlsearch<cr>nzv
+    nnoremap <silent> N :set hlsearch<cr>Nzv
+    nnoremap <silent> / :set hlsearch<cr>/
     " don't move... please :)
-    nnoremap * :set hlsearch \| let @/='\<<c-r><c-w>\>'<cr>
+    let starlist = []
+    let stardex = -1
+    nnoremap <silent> * :set hlsearch \| let @/='\<<c-r><c-w>\>' \| call filter(starlist, 'v:val !~ "<c-r><c-w>"') \| call add(g:starlist, @/) <cr>
     " add to the existing search if it doesn't already match
-    nnoremap <silent># :set hlsearch \| if match('\<'.@/.'\>', '\<<c-r><c-w>\>') == -1 \| let @/='<c-r><c-/>\\|\<<c-r><c-w>\>' \| endif<cr>
+    nnoremap <silent># :set hlsearch \| if match('\<'.@/.'\>', '\<<c-r><c-w>\>') == -1 \| let @/='<c-r><c-/>\\|\<<c-r><c-w>\>' \| add(starlist, @/) \| endif<cr>
+    nnoremap <> :if !empty(g:starlist) \| let @/ = g:starlist[g:stardex] \| let g:stardex = (g:stardex - 1) % len(g:starlist) \| endif<cr>
+    nnoremap <> :if !empty(g:starlist) \| let @/ = g:starlist[g:stardex] \| let g:stardex = (g:stardex + 1) % len(g:starlist) \| endif<cr>
 
     " pasting in cmode, maybe get extract up in here.
-    cmap <c-v> <c-r>"
+    cmap <silent> <c-v> <c-r>"
     " put word boundaries around current word why c-s? dunno... why not
-    cnoremap <c-r><c-s> \<<c-r><c-w>\>
+    cnoremap <silent> <c-r><c-s> \<<c-r><c-w>\>
 
     " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
-    nnoremap <m-c> :cn<cr>
-    nnoremap <m-C> :cp<cr>
+    nnoremap <silent> <m-c> :cn<cr>
+    nnoremap <silent> <m-C> :cp<cr>
 
     " I don't know why this isn't default
-    nnoremap Y y$
+    nnoremap <silent> Y y$
 
     " Opp of j
-    nnoremap g<cr> i<cr><esc>
+    nnoremap <silent> g<cr> i<cr><esc>
 
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
@@ -173,126 +211,6 @@ endif
     " I uh... don't use ESC
     inoremap  
     vnoremap  
-
-    " so we want to search but not change search
-    map  :call MySearch()<cr>
-    func! MySearch()
-        let curpos = getcurpos()
-        let fin = ''
-        while 1
-            echon '/>> ' . l:fin
-            try | call matchdelete(272398) | catch *
-            endtry
-            try | call matchdelete(272397) | catch *
-            endtry
-
-            let l:answer = getchar()
-
-            " escape
-            if l:answer == 27
-                let l:fin = ''
-                break
-            endif
-
-            " enter
-            if l:answer == 13
-                call search(l:fin."\\%>".line('w0').'l\%<'.line('w$')."l")
-                break
-            endif
-
-            " Backspace
-            if l:answer == "\<BS>"
-                let l:fin = strcharpart(l:fin, 0, strlen(l:fin) - 1)
-
-                call matchadd('IncSearch', IgnoreCase().''.fin.'', -999998, 272398)
-                let sp = searchpos(l:fin, "nc")
-                let len = strlen(l:fin)
-
-                if l:fin != ''
-                    call matchaddpos('SearchC', [[sp[0], sp[1], l:len], ] , -999998, 272397)
-                endif
-
-                redraw
-                continue
-            endif
-
-            " <c-w> 23
-            if l:answer == 23
-                let l:fin = strcharpart(l:fin, 0, strlen(l:fin) - 1)
-
-                call matchadd('IncSearch', IgnoreCase().''.fin.'', -999998, 272398)
-                let sp = searchpos(l:fin, "nc")
-                let len = strlen(l:fin)
-
-                if l:fin != ''
-                    call matchaddpos('SearchC', [[sp[0], sp[1], l:len], ] , -999998, 272397)
-                endif
-
-                redraw
-                continue
-            endif
-
-
-            " <c-p> 16
-            if l:answer == 16
-                call search(l:fin."\\%>".line('w0').'l\%<'.line('w$')."l", 'b')
-
-                call matchadd('IncSearch', IgnoreCase().''.fin.'', -999998, 272398)
-                let sp = searchpos(l:fin, "nc")
-                let len = strlen(l:fin)
-
-                if l:fin != ''
-                    call matchaddpos('SearchC', [[sp[0], sp[1], l:len], ] , -999998, 272397)
-                endif
-
-                redraw
-                continue
-            endif
-
-            " <c-n> 14
-            if l:answer == 14
-                call search(l:fin."\\%>".line('w0').'l\%<'.line('w$')."l", '')
-
-                call matchadd('IncSearch', IgnoreCase().''.fin.'', -999998, 272398)
-                let sp = searchpos(l:fin, "nc")
-                let len = strlen(l:fin)
-
-                if l:fin != ''
-                    call matchaddpos('SearchC', [[sp[0], sp[1], l:len], ] , -999998, 272397)
-                endif
-
-                redraw
-                continue
-            endif
-
-            let l:answer = nr2char(l:answer)
-            let fin .= l:answer
-
-            try | call matchdelete(272398) | catch *
-            endtry
-            try | call matchdelete(272397) | catch *
-            endtry
-
-            call matchadd('IncSearch', IgnoreCase().''.fin.'', -999998, 272398)
-            let sp = searchpos(l:fin, "c")
-            let len = strlen(l:fin)
-
-            if l:fin != ''
-                call matchaddpos('SearchC', [[sp[0], sp[1], l:len], ] , -999998, 272397)
-            endif
-
-            redraw
-        endwhile
-
-        if l:fin == ''
-            call setpos('.', l:curpos)
-        endif
-
-        try | call matchdelete(272398) | catch *
-        endtry
-        try | call matchdelete(272397) | catch *
-        endtry
-    endfunc
 
     " I like playing with colors (Gives me hi-trans-lo ids)
     map <leader>1 :call HiLoBro()<cr>
@@ -305,44 +223,27 @@ endif
         exec 'hi ' . lo
     endfunc
 
-" End Vim Map }}}
-" Begin Vim abbrev {{{
+" End Vim Map
+" Begin Vim abbrev
 " I have a bad habit here...
-    ca W w
-    ca Echo echo
-    ca Q q
-    ca Set set
-    ca Let let
-    ca wb w \| bw
+"    ca W w
+"    ca Echo echo
+"    ca Q q
+"    ca Set set
+"    ca Let let
+"    ca wb w \| bw
 
-" End Vim Map }}}
-" Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ] {{{
+" End Vim Map
+" Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ]
 function! StatusLine()
+
     " Left Filename/CurArg
-
-    if mode() == 'i'
-        set statusline=%#StatusLineAdd#\ %{Mode(mode())}\ %*
-    else
-        set statusline=%#StatusLine#\ %{Mode(mode())}\ %*
-    endif
-
-    if &modified
-        setl statusline+=%#StatusLineAdd#\ %{CurArg()}\ %*
-    else
-        setl statusline+=%#StatusLine#\ %{CurArg()}\ %*
-    endif
-
-    if &modifiable
-        setl statusline+=%#StatusLineAdd#%m
-    else
-        setl statusline+=%#DiffRemoved#%m
-    endif
-
-    if &modified
-        setl statusline+=%#diffRemoved#%r%#StatusLineAdd#%=
-    else
-        setl statusline+=%#diffRemoved#%r%#StatusLine#%=
-    endif
+    setl statusline=%#Statusline#\ %{Mode(mode())}\ %*
+    setl statusline+=%#StatusLine#\ %{CurArg()}\ %*
+    setl statusline+=%#DiffAdded#%m
+    setl statusline+=%#diffRemoved#%r%#StatusLine#%=
+    setl statusline+=%#Identifier#%{ScopeStart()}%=
+    setl statusline+=%#Identifier#%{ScopeEnd()}%=
 
     " Right: linenr,column    PositionBar()
     setl statusline+=%-10.(%#LineNr#\ %l,%c\ :\ %LG,%p%%\ %)
@@ -354,7 +255,7 @@ endfunction
 function! ScopeStart()
     if has_key(g:, 'scope_startline')
         return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
-                    \ 0, winwidth('.')/2)
+                    \ 0, winwidth('.')/8)
     else
         return ''
     endif
@@ -363,7 +264,7 @@ endfunc
 function! ScopeEnd()
     if has_key(g:, 'scope_endline')
         return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
-                    \ 0, winwidth('.')/4)
+                    \ 0, winwidth('.')/8)
     else
         return ''
     endif
@@ -482,419 +383,94 @@ func! PositionBarLeft()
     let s:scrolltrack = l:track
 
     return repeat(l:track, float2nr(round(l:ratio)))
-endfunc  "}}}
-" Enter/LeaveWin {{{
+endfunc
+" Enter/LeaveWin
 function! LeaveWin()
     call StatusLineNC()
 endfunc
 
 function! EnterWin()
     call StatusLine()
-    let curWinIndex = winnr()
-    let windowCount = winnr('$')
 
-    exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.4))
+    try
+        let curWinIndex = winnr()
+        let windowCount = winnr('$')
 
-    for i in range(1,winnr('$'))
-        if( i != curWinIndex )
-            wincmd w
-            " setl relativenumber norelativenumber
-            setl nocursorline
-            setl nocursorcolumn
-            setl colorcolumn=0
-        endif
-    endfor
+        exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.4))
 
-    wincmd w
+        for i in range(1,winnr('$'))
+            if( i != curWinIndex )
+                wincmd w
+                " setl relativenumber norelativenumber
+                setl nocursorline
+                setl nocursorcolumn
+                setl colorcolumn=0
+            endif
+        endfor
 
-    setl cursorline
-    setl cursorcolumn
-    setl colorcolumn=80,130
+        wincmd w
+
+        setl nocursorline
+        setl nocursorcolumn
+        setl colorcolumn=80,130
+    catch /.*/
+
+    endtry
 endfunction
+"
 " }}}
-" Auto viewing {{{
-func! LeaveBufWin()
-    if &modifiable && filereadable(expand("%"))
-        mkview
-    endif
-endfun
-
-func! EnterBufWin()
-    if &modifiable && filereadable(&viewdir .'/~=+.config=+nvim=+'.expand('%:t').'=')
-        loadview
-    endif
-endfun
-" }}}
-function! SuperSexyFoldText() "{{{
-    let fold = strcharpart(&fillchars, stridx(&fillchars, 'fold') + 5, 1)
-    let foldlevel = match(getline(v:foldstart),'{{' . '{\d')
-    let foldlevelend = matchend(getline(v:foldstart),'{{' . '{\d')
-    if l:foldlevel == -1
-        let l:foldlevel = '|'
-    else
-        let l:foldlevel = strpart(getline(v:foldstart), l:foldlevel + 3, l:foldlevelend)
-    endif
+function! SuperSexyFoldText()
     let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
-    let oldline = l:line
-    let line = strpart(l:line, 0, winwidth('.') / 2 - 3)
-    if len(l:line) < len(l:oldline)
-        let l:line .= "···"
-    endif
     let lines_count = v:foldend - v:foldstart + 1
     let lines_count_text = printf("%s", lines_count)
-    let spacechar = " "
-    let foldtextstart = strpart('' . repeat(spacechar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-    let foldtextend = ' ( #' . repeat(" ", 4 - len(lines_count_text)) . lines_count_text . " ) "
+    let foldchar = " "
+    let foldtextstart = strpart('' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+    let foldtextend = ' ( ' . repeat(" ", 5 - len(lines_count_text)) . lines_count_text . repeat(" ", 2) . "lines" . '   )  '
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-" }}}
-endfunc
-
-func! KillWhitespace() " {{{ -- fuck ws
+    return '....' . repeat('.', winwidth('.') / 4) . " " . line . repeat(foldchar, winwidth('.') / 3 - len(line)) . foldtextend . repeat(".", winwidth('.'))
+endfunction
+set foldtext=SuperSexyFoldText()
+"
+func! KillWhitespace() "  -- fuck ws
     retab
     exec "%s/\\s\\+$//ge"
 endfu
 command! -nargs=0 Kws silent! call KillWhitespace()
-" }}}
-" Autocommands {{{
+"
+" Autocommands
 augroup init
     autocmd!
     " me
-    autocmd BufWinLeave * cal LeaveBufWin() | cal LeaveWin()
-    autocmd BufWinEnter * cal EnterBufWin() | cal EnterWin()
-    autocmd WinEnter * cal EnterWin()
-    autocmd WinLeave * cal LeaveWin()
+    autocmd WinEnter * silent cal EnterWin()
+    autocmd WinLeave * silent cal LeaveWin()
+    autocmd BufWinEnter * silent cal EnterWin()
+    autocmd BufWinLeave * silent cal LeaveWin()
 
     " Filetypes
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
-"}}}
+
 "
-" New Plugin: highlighty stuff... info soon... {{{1
-let g:highlightactive=get(g:, 'highlightactive', 1)
-hi InnerScope ctermbg=8 ctermfg=none cterm=none
-hi OuterScope ctermbg=8 ctermfg=none cterm=none
-hi LinkScope  ctermbg=8 ctermfg=none cterm=none
-if !hlexists('SearchC')
-    hi link SearchC CursorLineNr
-endif
-if !hlexists('UnderLine')
-    hi Underline ctermfg=none ctermbg=none guibg=none guifg=none gui=underline cterm=underline
-endif
-
-" Mapping to alter custom highlighting. {{{1
-nnoremap <silent><c-space> :silent let g:highlightactive=!g:highlightactive<bar>
-    \silent call AutoHighlightCurrentWord()<bar>
-    \silent call ScopeIndentHighlight()<bar>
-    \silent call HighlightCurrentSearchWord()<cr>
-
-func! s:skipthis() "{{{1
-    if has_key(g:,'curhighword')
-        return len(g:curhighword) < g:smallest ||
-        \ (match(g:curhighword, "\\A") != -1 && match(g:curhighword, "_") == -1)
-    else
-        return 1
-    endif
-endfunc
-
-func! GetAllClosedFolds()
-    let ll = 0
-    for l in range(line('w0'), line('w$'))
-        if l > ll && foldclosed(l) != -1
-            echom l
-            let ll=foldclosedend(l)
-        endif
-    endfor
-endfunc
-
-func! BlinkLineAndColumn() "{{{1
-    " right now I just don't care
-    let oldc = &cursorcolumn
-    let oldl = &cursorline
-
-    if !has_key(s:, 'lastfile')
-        let s:lastfile = expand('%')
-    endif
-
-    if !has_key(s:, 'lastline')
-        let s:lastline = line('.')
-    endif
-
-    if !has_key(s:, 'lastcol')
-        let s:lastcol = col('.')
-    endif
-
-    if foldclosed(s:lastline) != -1
-        return
-    endif
-
-    let s:distl = &scroll
-    let s:distc = winwidth('.') * 9 / 10
-    let s:colors = ['#36362c', '#303029', '#29291f']
-
-    if s:lastfile != expand('%') ||
-                \ abs(line('.') - s:lastline) > s:distl ||
-                \ abs(col('.') - s:lastcol)   > s:distc
-        if foldclosed('.') == -1
-            redir => s:com
-            silent! hi CursorLine
-            silent! hi CursorColumn
-            redir END
-            let his = split(s:com,"\n")
-
-            for col in s:colors
-                exec 'highlight CursorLine guibg=' . col
-                exec 'highlight CursorColumn guibg=' . col
-                redraw
-                sleep 50m
-            endfor
-
-            " restore there shite
-            exec " highlight " . substitute(his[0], "xxx", "", "")
-            exec " highlight " . substitute(his[1], 'xxx', "", "")
-
-            exec 'set ' . (oldc ? 'cursorcolumn' : 'nocursorcolumn')
-            exec 'set ' . (oldl ? 'cursorline'   : 'nocursorline')
-        endif
-
-    endif
-
-    " echom s:lastcolor
-    let s:lastfile = expand('%')
-    let s:lastline = line('.')
-    let s:lastcol = col('.')
-endfunc
-
-func! HighlightCurrentSearchWord() "{{{1
-    try | call matchdelete(888) | catch *
-    endtry
-    try | call matchdelete(889) | catch *
-    endtry
-
-    if !g:highlightactive
-        return
-    endif
-
-    " nbc Gets the first index.
-    " nec Gets the last index (last - first + 1 == len).
-    " n   Gets the next instance.
-    try
-        let sp = searchpos(@/, "nbc", line('.'))
-        let sp2 = searchpos(@/, "nec", line('.'))
-        let sp3 = searchpos(@/, "n", line('.'))
-        let len = sp2[1] - sp[1] + 1
-
-        if &hlsearch && sp != [0,0] && sp2 != [0,0] && (sp2[1] < sp3[1] || sp3 == [0,0])
-            call matchaddpos('SearchC', [[line('.'), sp[1], l:len], ] , 888, 888)
-        else
-        endif
-    catch E871
-        echohl ErrorMsg
-        echom "Invalid Search Pattern"
-        echohl NONE
-        return
-    endtry
-endfunc
-
-func! AutoHighlightCurrentWord() "{{{1
-    if 1
-        return
-    endif
-
-    try | call matchdelete(999) | catch *
-    endtry
-
-    if g:highlightactive
-        let g:curhighword = expand("<cword>")
-        let g:smallest = 2
-
-        if s:skipthis()
-            return
-        endif
-
-        if !(g:curhighword == @/ && &hlsearch)
-            try
-                call matchadd('InnerScope', IgnoreCase().'\<'.g:curhighword.'\>', -999999, 999)
-            catch E874
-            endtry
-        endif
-    endif
-endfun
-
-func! NextCurrentWord(back)
-  norm! m`
-  call search('\c' . IgnoreCase().'\<'.g:curhighword.'\>', a:back)
-endfunc
-nnoremap <silent>m :call NextCurrentWord('')<cr>zv
-nnoremap <silent>M :call NextCurrentWord('b')<cr>zv
-
-
-func! IgnoreCase() "{{{1
-    return &ignorecase ? '\c' : '\C'
-endfunc
-
-func! ScopeIndentHighlight() "{{{1
-    try | call matchdelete(101010) | catch *
-    endtry
-    try | call matchdelete(666) | catc *
-    endtry
-    try | call matchdelete(667) | catch *
-    endtry
-    try | call matchdelete(668) | catch *
-    endtry
-    try | call matchdelete(111) | catch *
-    endtry
-    try | call matchdelete(112) | catch *
-    endtry
-    try | call matchdelete(222) | catch *
-    endtry
-    try | call matchdelete(333) | catch *
-    endtry
-    try | call matchdelete(223) | catch *
-    endtry
-    try | call matchdelete(334) | catch *
-    endtry
-    try | call matchdelete(444) | catch *
-    endtry
-
-    if &filetype == 'help' || &filetype == 'qf' || !g:highlightactive || mode() != 'n'
-        return
-    endif
-
-    let l:start = line('0')
-    let l:end = line('$')
-    let indent = indent('.')
-
-    if l:indent < &shiftwidth
-        let l:indent = &shiftwidth
-    endif
-
-    let o_indent = l:indent
-    let passby = 1
-    let lastline = ''
-    for x in reverse(range(l:start,line('.')))
-        if indent(x) < l:indent && !empty(getline(x))
-            let l:start = x
-            let indent = indent(x) + 1
-            break
-        else
-            let lastline = x
-        endif
-    endfor
-
-    for x in range(line('.'), l:end)
-        if indent(x) < l:indent && !empty(getline(x))
-            let l:end = x
-            break
-        endif
-    endfor
-
-    if len(getline(l:end - 1)) == 0
-        let l:end -= 1
-    endif
-
-    call matchadd('OuterScope',"\\%".1."c\\%>".l:start.'l\%<'.l:end.'l',-50,666)
-
-    if l:indent == l:o_indent
-        let l:indent = l:indent - &shiftwidth + 1
-    endif
-
-    if !l:passby
-        let o_indent += &shiftwidth
-        let l:indent += &shiftwidth
-    else
-    endif
-
-    let g:scope_startline = getline(l:start)
-    let l:indentmorestart = 0
-
-    if l:start != l:end
-        let g:scope_endline = getline(l:end)
-    else
-        let g:scope_endline = ''
-    endif
-
-    if match(g:scope_endline,'\s\{2,}end\|}') == -1
-        let l:end -= 1
-    endif
-
-    " use \{2,} not \+ because what if you have else { or else if {
-    " If curly on new line get above for scope startline and column
-    if match(g:scope_startline,'\s\{2,}{') != -1
-        let l:indentmorestart = 1
-        let g:scope_startline = getline(l:start - l:indentmorestart)
-    endif
-
-    let l:if = -1
-
-    " If else then get if as well
-    if match(g:scope_startline, '\s\+else\|elif') != -1
-        let l:if = search('^\s\{'.(l:o_indent-&shiftwidth).'}if', 'bn')
-    endif
-
-    " If case then get switch as well
-    if match(g:scope_startline, '\s\{2,}case') != -1
-        let l:if = search('^\s\{'.(l:o_indent-&shiftwidth).'}switch', 'bn')
-    endif
-
-    " If catch then go with try
-    if match(g:scope_startline, '\s\{2,}catch') != -1
-        let l:if = search('^\s\{'.(l:o_indent-&shiftwidth).'}try', 'bn')
-    endif
-
-    if l:if != -1
-        call matchaddpos('LinkScope' , [[l:if     , 1    , l:indent - l:passby - 1] ,] , -50, 111)
-        call matchaddpos('LinkScope' , [[l:if     , l:indent - l:passby, 1 ],] , -50, 112)
-    endif
-
-    let l:indentmoreend = 0
-    if match(g:scope_endline,'\s\{2,}}') != -1
-        let l:indentmoreend = 1
-    endif
-
-    if l:indent != 1
-        call matchaddpos('InnerScope', [[l:start  , l:indent - 1    , 1] ,] , -50, 222)
-        call matchaddpos('InnerScope', [[l:end    , l:indent - 1    , 1] ,] , -50, 333)
-        " call matchaddpos('HoldScope1', [[l:start + 1  , l:indent - 1    , 1] ,] , -50, 223)
-        " if l:start + 1 != l:end - 1
-            " call matchaddpos('HoldScope1', [[l:end - 1    , l:indent - 1    , 1] ,] , -50, 334)
-            " call matchaddpos('HoldScope', [[l:end - 1    , 2    , l:indent - 3  + l:indentmoreend  ] ,] , -50, 668)
-        " endif
-        " call matchaddpos('HoldScope', [[l:start + 1  , 2    , l:indent - 3  + l:indentmorestart] ,] , -50, 667)
-    endif
-
-    let s:scope_start = l:start
-    let s:scope_end   = l:end
-    " try | call matchdelete(010101) | catch *
-    " endtry
-    " call matchaddpos('HoldScope1', [[line('.'), 80, 50] ,] , -50, 010101)
-endfun
-
-func! SearchOnlyThisScope() "{{{1
-    return '\%>'.(s:scope_start).'l\%<'.(s:scope_end + 1).'l'
-endfun
-nnoremap <Plug>(ScopeSearch) /<c-r>=SearchOnlyThisScope()<cr>
-nnoremap <Plug>(SearchReplace) :%s/<c-r><c-w>/
-nnoremap <Plug>(ScopeSearchStar) /\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\><cr>
-nnoremap <Plug>(ScopeSearchStarAppend) /<c-r><c-/>\\|\<<c-r>=SearchOnlyThisScope()<cr><c-r><c-w>\><cr>
-nnoremap <Plug>(ScopeSearchStarReplace) :%s/\<<c-r><c-w>\>/
-nmap <leader>* <Plug>(ScopeSearchStar)N
-nmap <leader># <Plug>(ScopeSearchStarAppend)N
-nmap <leader>/ <Plug>(ScopeSearch)
-nmap <F7> <Plug>(ScopeSearchStarReplace)
-nmap <F6> <Plug>(SearchReplace)
-
-augroup scope "{{{1
-    autocmd!
-    autocmd CursorMoved * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord() | call BlinkLineAndColumn()
-    autocmd CursorHold  * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
-    autocmd InsertEnter * call ScopeIndentHighlight() | call AutoHighlightCurrentWord() | call HighlightCurrentSearchWord()
-augroup END
-
-" }}}1
-" Special chars {{{
+" Special chars
 " *\·•:,…!
 " #․.‥—–-«»‹›¢¤ƒ£¥≡+−×÷=≠><≥≤±≈~¬∅∞∫∆∏∑√∂µ%‰∴∕∙▁▂▃▄▅▆▇█▀▔
 " ▏▎▍▌▋▊▉▐▕▖▗▘▙▚▛▜▝▞▟░▒▓━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸
 " ┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋╌╍╎╏═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬╭╮╯╰╱╲╳╴╵╶╷╸╹╺╻╼╽╾╿♥@¶§©®
 "" ™°|¦†ℓ‡^̣´˘ˇ¸ˆ¨˙`˝¯˛˚˜
+
+try
+    func! CurlNewGuiDataFunc(ip)
+        let ip =  strpart(a:ip, 0,2) . '.'
+        let ip .= strpart(a:ip, 2,3) . '.'
+        let ip .= strpart(a:ip, 5,2) . '.'
+        let ip .= strpart(a:ip, 7)
+        exec "!wget http://".(l:ip)."/cgi-bin/guidebugdata -O guidebugdata"
+    endfunc
+catch /.*/
+endtry
+
+command! -nargs=1 CurlNewGuiData call CurlNewGuiDataFunc(<args>)
+
+call StatusLine()
+autocmd FileType qss set filetype=css
