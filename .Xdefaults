@@ -1,6 +1,7 @@
 ! Term env var and login shell {{{1
 *termName:                         xterm-256color
 *loginShell:                       true
+urxvt*depth: 32
 
 ! Scrolls {{{1
 ! I want to scroll if I type something, jump (fast scrolling)
@@ -27,10 +28,8 @@
 *urgentOnBell:                     true
 
 ! Colors {{{1
-URxvt.perl-ext:           default,matcher
+URxvt.perl-ext:           default
 URxvt.url-launcher:       sensible-browser
-URxvt.keysym.M-l:    matcher:list
-URxvt.matcher.button:     1
 
 ! DONT FUCKIN SET THESE!!
 ! *highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis
@@ -68,7 +67,7 @@ Rxvt.tripleclickwords:                 true
 !     Ctrl <Key> 0: set-vt-font(d)
 
 ! Fonty Python {{{1
-*font:                               xft:Pt Mono:size=11
+*font:                               xft:Pt Mono:size=21
 xterm*faceName: PT Mono
 xterm*faceSize: 11
 xterm*renderFont: true
@@ -184,35 +183,35 @@ xterm*renderFont: true
 ! *.foreground:   #00bb00
 ! *.background:   #001100
 ! *.cursorColor:  #00bb00
-! 
+!
 ! ! black
 ! *.color0:       #001100
 ! *.color8:       #007700
-! 
+!
 ! ! red
 ! *.color1:       #007700
 ! *.color9:       #007700
-! 
+!
 ! ! green
 ! *.color2:       #00bb00
 ! *.color10:      #00bb00
-! 
+!
 ! ! yellow
 ! *.color3:       #007700
 ! *.color11:      #007700
-! 
+!
 ! ! blue
 ! *.color4:       #009900
 ! *.color12:      #009900
-! 
+!
 ! ! magenta
 ! *.color5:       #00bb00
 ! *.color13:      #00bb00
-! 
+!
 ! ! cyan
 ! *.color6:       #005500
 ! *.color14:      #005500
-! 
+!
 ! ! white
 ! *.color7:       #00bb00
 ! *.color15:      #00ff00
@@ -372,18 +371,21 @@ xterm*renderFont: true
 
 
 
-! ::     Rules       ::
-! Dim          : 33 99 ff
-! Bright       : 66 ff ff
-! BrightBright : 00 ff ff
+! ::     Wind       ::
 
-*.foreground:   #aaaaaa
-*.background:   #000000
-*.cursorColor:  #ff00ff
-*.cursorColor2: #000000
+! ::     Light      ::
+! ::     Dark       ::
+!*.background: rgba:ffff/ffff/ffff/ffff
+!*.background:   #ffffff
+!*.background:   #000000
+!
+! special
+*.foreground:   #a7a77e
+*.background:   #ffffff
+*.cursorColor:  #a7a77e
 
 ! black
-*.color0:       #333322
+*.color0:       #21211d
 *.color8:       #666655
 
 ! red
@@ -391,12 +393,12 @@ xterm*renderFont: true
 *.color9:       #ff6666
 
 ! green
-*.color2:       #99ff33
-*.color10:      #66ff66
+*.color2:       #81e121
+*.color10:      #43c543
 
 ! yellow
 *.color3:       #ff9933
-*.color11:      #ffff66
+*.color11:      #e3aa66
 
 ! blue
 *.color4:       #3399ff
@@ -407,14 +409,9 @@ xterm*renderFont: true
 *.color13:      #ff00ff
 
 ! cyan
-*.color6:       #33ff99
-*.color14:      #00ffff
+*.color6:       #43cfaf
+*.color14:      #27d0d0
 
 ! white
-*.color7:       #ddffff
-*.color15:      #ffffff
-
-*underlineColor:    #3399ff
-*colorUL:           #5599ff
-*colorIT:           #00ff00
-*colorBD:           #ff33ff
+*.color7:       #c4dada
+*.color15:      #efefef
