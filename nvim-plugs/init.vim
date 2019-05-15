@@ -159,6 +159,8 @@ endif
     nnoremap <A-j> <C-w>j
     nnoremap <A-k> <C-w>k
     nnoremap <A-l> <C-w>l
+    nnoremap u uzo
+    nnoremap <c-r> uzo
 
     " Refresh my script bitch!
     nnoremap <F5> :w \| so %<cr>
@@ -449,6 +451,7 @@ augroup init
     " Filetypes
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+    autocmd VimEnter * silent colo restraint
 augroup END
 
 "

@@ -58,6 +58,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 call plug#end()
 
+let g:rainbow#pairs = [['(', ')'],['{','}']]
+
 " Activation based on file type
 augroup rainbows
   autocmd!
