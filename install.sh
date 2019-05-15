@@ -63,6 +63,14 @@ if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ] ; then
     echo "========================================================================="
     echo "Installing plug.vim"
     echo "========================================================================="
+    if hash curl 2>/dev/null; then
+        echo "========================================================================="
+        echo "Curl already installed."
+        echo "========================================================================="
+    else
+        yes | sudo apt-get install curl
+        echo ""
+    fi
     curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     echo ""
