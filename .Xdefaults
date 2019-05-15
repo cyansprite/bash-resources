@@ -374,14 +374,14 @@ xterm*renderFont: true
 ! ::     Wind       ::
 
 ! ::     Light      ::
-! ::     Dark       ::
-!*.background: rgba:ffff/ffff/ffff/ffff
 !*.background:   #ffffff
-!*.background:   #000000
-!
+!*.foreground:   #a7a77e
+
+! ::     Dark       ::
+*.background:   #000000
+*.foreground:   #aaaacc
+
 ! special
-*.foreground:   #a7a77e
-*.background:   #ffffff
 *.cursorColor:  #a7a77e
 
 ! black
@@ -393,7 +393,7 @@ xterm*renderFont: true
 *.color9:       #ff6666
 
 ! green
-*.color2:       #81e121
+*.color2:       #b1e181
 *.color10:      #43c543
 
 ! yellow
@@ -409,7 +409,7 @@ xterm*renderFont: true
 *.color13:      #ff00ff
 
 ! cyan
-*.color6:       #43cfaf
+*.color6:       #77ffff
 *.color14:      #27d0d0
 
 ! white
