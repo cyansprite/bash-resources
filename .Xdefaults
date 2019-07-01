@@ -378,6 +378,7 @@ xterm*renderFont: true
 !*.foreground:   #a7a77e
 
 ! ::     Dark       ::
+! *.background:   #000000
 *.background:   #000000
 *.foreground:   #aaaacc
 

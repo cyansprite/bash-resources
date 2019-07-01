@@ -10,7 +10,7 @@
 [mergetool]
     prompt = true
 [mergetool "vimdiff"]
-    cmd = /users/brcoffman/bin/nvim -d $LOCAL $REMOTE -c '$wincmd w'
+    cmd = nvim -d $LOCAL $REMOTE -c '$wincmd w'
 [color]
     ui = auto
     branch = always
@@ -22,7 +22,7 @@
     d = diff
 [core]
     excludesfile = ~/.gitignore
-    editor = /users/brcoffman/bin/nvim
+    editor = nvim
 [push]
     default = matching
 [alias]

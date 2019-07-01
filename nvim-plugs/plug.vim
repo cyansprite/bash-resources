@@ -5,6 +5,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'google/vim-searchindex'
     Plug 'junegunn/rainbow_parentheses.vim'
 
+    Plug 'https://github.com/udalov/kotlin-vim'
+
     " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
     Plug 'cyansprite/Sir-Nvim'
@@ -12,6 +14,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/cmdlinecomplete'
     Plug 'kana/vim-repeat'
     Plug 'tyru/caw.vim'
+
+    Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
     " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
@@ -26,12 +31,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'larsbs/vim-xmll'
 
     " Completion:
-    Plug 'ncm2/ncm2'
-    Plug 'roxma/nvim-yarp'
-    Plug 'ncm2/ncm2-tmux'
-    Plug 'ncm2/ncm2-path'
-    Plug 'ncm2/ncm2-match-highlight'
-    Plug 'ncm2/ncm2-bufword'
+    " Plug 'ncm2/ncm2'
+    " Plug 'roxma/nvim-yarp'
+    " Plug 'ncm2/ncm2-tmux'
+    " Plug 'ncm2/ncm2-path'
+    " Plug 'ncm2/ncm2-match-highlight'
+    " Plug 'ncm2/ncm2-bufword'
+    Plug 'Shougo/deoplete.nvim'
 
     if has('unix')
         Plug 'wellle/tmux-complete.vim'

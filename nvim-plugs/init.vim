@@ -22,23 +22,21 @@ else
     command! -nargs=0 PLUG :e c:/Users/bcoffman/AppData/Local/nvim/plug.vim
 endif
 
-let g:clipboard = {
-        \   'name': 'xsel - bin',
-        \   'copy': {
-        \      '+': $HOME.'/bin/xsel -i -b',
-        \      '*': $HOME.'/bin/xsel -i -p',
-        \    },
-        \   'paste': {
-        \      '+': $HOME.'/bin/xsel -b',
-        \      '*': $HOME.'/bin/xsel -p',
-        \   },
-        \   'cache_enabled': 0,
-\ }
+"" let g:clipboard = {
+""         xsel --nodetach -i\   'name': 'xsel - bin',
+""         \   'copy': {
+""         \      '+': $HOME.'/bin/xsel -i -b',
+""         \      '*': $HOME.'/bin/xsel -i -p',
+""         \    },
+""         \   'paste': {
+""         \      '+': $HOME.'/bin/xsel -b',
+""         \      '*': $HOME.'/bin/xsel -p',
+""         \   },
+""         \   'cache_enabled': 0,
+"" \ }
 
-" doesn't work on windows... says it does but I'm pretty sure that's only for
-" the nvim-qt shit and fuck that...
 " set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
-set guicursor=
+" set guicursor=
 
 try
     " set termguicolors
@@ -51,19 +49,13 @@ endtry
 func! Colors()
     hi cursorcolumn guifg=none guibg=none ctermfg=none ctermbg=none cterm=none
     hi cursorline   guifg=none guibg=none ctermfg=none ctermbg=none cterm=none
-    if !hlexists("StatusLineAdd")
-        hi StatusLineAdd ctermfg=10 ctermbg=none cterm=bold
-    endif
+    hi StatusLineAdd    ctermfg=10 ctermbg=0 cterm=bold
+    hi StatusLineRemove ctermfg=9  ctermbg=0 cterm=bold
 endfunc
 
 call Colors()
 
-" I typically want dark, but I CAN use light if I want/need
-if hostname() == "mojajojo" || hostname() == "captainJojo"
-    set bg=dark
-else
-    set bg=dark
-endif
+set bg=dark
 
 
 "Begin Vim set
@@ -122,7 +114,8 @@ endif
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
-    if &modifiable | set number | endif
+    " if &modifiable | set number | endif
+    set nonu
     set synmaxcol=300
     " Ignore this crap :) Need more..?
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
@@ -159,13 +152,15 @@ endif
     nnoremap <A-j> <C-w>j
     nnoremap <A-k> <C-w>k
     nnoremap <A-l> <C-w>l
-    nnoremap u uzo
-    nnoremap <c-r> uzo
 
     " Refresh my script bitch!
     nnoremap <F5> :w \| so %<cr>
-    nnoremap <c-p> g;zO
-    nnoremap <c-n> g,zO
+
+    " Before and after
+    nnoremap <c-p> g;
+    nnoremap <c-n> g,
+
+    vnoremap <cr> "+y
 
     " If i'm asking the name just copy it to the black hole register while we are at it...
     nnoremap <c-g> :let @" = expand('%')<cr><c-g>
@@ -240,18 +235,18 @@ endif
 function! StatusLine()
 
     " Left Filename/CurArg
-    setl statusline=%#Statusline#\ %{Mode(mode())}\ %*
+    setl statusline=%#ModeMsg#\ %{Mode(mode())}\ %*
     setl statusline+=%#StatusLine#\ %{CurArg()}\ %*
-    setl statusline+=%#DiffAdded#%m
-    setl statusline+=%#diffRemoved#%r%#StatusLine#%=
-    setl statusline+=%#Identifier#%{ScopeStart()}%=
-    setl statusline+=%#Identifier#%{ScopeEnd()}%=
+    setl statusline+=%#StatusLineAdd#%m
+    setl statusline+=%#StatusLineRemove#%r%#StatusLine#%=
+    setl statusline+=%#StatusLine#%{ScopeStart()}%=
+    setl statusline+=%#StatusLine#%{ScopeEnd()}%=
 
     " Right: linenr,column    PositionBar()
-    setl statusline+=%-10.(%#LineNr#\ %l,%c\ :\ %LG,%p%%\ %)
-    setl statusline+=%-22.(%#LineNr#\ [\ %{PositionBarLeft()}
-                          \%#CursorLineNr#%{PositionBar()}
-                          \%#LineNr#%{PositionBarRight()}%)\ ]\ %*
+    setl statusline+=%-10.(%#StatusLine#\ %l,%c\ :\ %LG,%p%%\ %)
+    setl statusline+=%-22.(%#ModeMsg#\ [\ %{PositionBarLeft()}
+                          \%#StatusLine#%{PositionBar()}
+                          \%#ModeMsg#%{PositionBarRight()}%)\ ]\ %*
 endfunction
 
 function! ScopeStart()
