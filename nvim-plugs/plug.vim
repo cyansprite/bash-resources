@@ -65,6 +65,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 call plug#end()
 
 let g:rainbow#pairs = [['(', ')'],['{','}']]
+let g:nvim_typescript#diagnostics_enable = 0
 
 " Activation based on file type
 augroup rainbows
