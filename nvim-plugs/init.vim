@@ -8,9 +8,7 @@
 " map arrow keys ??
 " function for cpp  ->  ::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$
 
-" Plug, colo
-
-let g:netrw_liststyle = 3
+" Plug, colo {{{
 
 if has("unix")
     so ~/.config/nvim/plug.vim
@@ -22,21 +20,7 @@ else
     command! -nargs=0 PLUG :e c:/Users/bcoffman/AppData/Local/nvim/plug.vim
 endif
 
-"" let g:clipboard = {
-""         xsel --nodetach -i\   'name': 'xsel - bin',
-""         \   'copy': {
-""         \      '+': $HOME.'/bin/xsel -i -b',
-""         \      '*': $HOME.'/bin/xsel -i -p',
-""         \    },
-""         \   'paste': {
-""         \      '+': $HOME.'/bin/xsel -b',
-""         \      '*': $HOME.'/bin/xsel -p',
-""         \   },
-""         \   'cache_enabled': 0,
-"" \ }
-
-" set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
-" set guicursor=
+set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
 
 try
     " set termguicolors
@@ -49,19 +33,22 @@ endtry
 func! Colors()
     hi cursorcolumn guifg=none guibg=none ctermfg=none ctermbg=none cterm=none
     hi cursorline   guifg=none guibg=none ctermfg=none ctermbg=none cterm=none
-    hi StatusLineAdd    ctermfg=10 ctermbg=0 cterm=bold
-    hi StatusLineRemove ctermfg=9  ctermbg=0 cterm=bold
 endfunc
 
-call Colors()
+if !hlexists("StatusLineAdd")
+    hi StatusLineAdd ctermfg=10 ctermbg=none cterm=bold
+endif
 
-set bg=dark
+if hostname() == 'DESKTOP-D9I4I5S'
+    let g:python3_host_prog='V:\Python3\python.exe'
+    let g:python_host_prog='V:\Python2\python.exe'
+endif
 
-
-"Begin Vim set
+"}}}
+"Begin Vim set {{{
     " Set: Those that use macros
-    set nocursorline               " set no cursor line
-    set nocursorcolumn             " set no cursor column
+    set cursorline                 " set cursorline, just make sure highlight is none
+    set cursorcolumn               " set no cursor column
     set expandtab                  " Expands tab to spaces
     set linebreak                  " don't cut words on wrap if i DO wrap
     set list                       " list my chars: ╳│¦|┆×•·
@@ -78,23 +65,28 @@ set bg=dark
     set nosol                      " Don't be stupid and move to start of line
     set splitbelow                 " ...split below... what did you think?
     set splitright                 " Oh this one will be different!...cept not.
+    set title title                " rxvt and tmux make this usable
+    set title titlestring=%<%F%=%y " title, and tiltestring
+                \ titlelen=30      " title length.
     set undofile                   " keep undo history ina file
 
     " Set: Those that use =
     let &showbreak = '↳ '          " Change show break thing (rare occasion)
     set cinkeys-=0#                " don't force # indentation, ever write python?
+
     set cmdheight=1                " Pair up
     set complete=.,w,b,u,U         " Complete all buffers,window, current
     set completeopt=menu           " I'm not a fan of auto documentation.
     set diffopt+=context:3         " diff context lines
-    set foldcolumn=0               " foldcolumn... no
+    set foldcolumn=1               " foldcolumn... yes
     set foldmethod=marker          " fold stuff :)
     set foldopen+=jump,search      " open folds when I search/jump to things
+    set icm="nosplit"              " inc command split in preview, hasn't worked
     set matchtime=0                " Show matching time
     set matchpairs+=<:>            " More matches
     set mouse=                     " I like terminal func
     set shiftwidth=4               " Use indents of 4 spaces
-    set shortmess+=c
+    set shortmess+=c               " Insert completions is annoying as hellllll
     set sidescrolloff=10           " 10 columns off?, scroll
     set scrolloff=0                " I want to touch the top...
     set softtabstop=4              " Let backspace delete indent
@@ -109,13 +101,14 @@ set bg=dark
     set wildmode=full              " Let's make it nice tab completion
 
     " Set: Those that are complex, or just look stupid
+    " These are annoying to have on
+    set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy—
     set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:┉
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
-    " if &modifiable | set number | endif
-    set nonu
+    if &modifiable | set number | endif
     set synmaxcol=300
     " Ignore this crap :) Need more..?
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
@@ -131,6 +124,7 @@ set bg=dark
     set formatoptions+=q " continue comments with gq
     set formatoptions+=n " Recognize numbered lists
     set formatoptions+=2 " Use indent from 2nd line of a paragraph
+    set formatoptions+=j " Destroy comment leader join when valid
     " set formatoptions-=c " Auto-wrap comments using textwidth
     " set formatoptions-=t " auto wrap based on textwidth
     " set formatoptions-=a " auto-paragraphing, fuck that.
@@ -138,8 +132,8 @@ set bg=dark
     " set formatoptions-=b " I just don't like auto
     " set formatoptions-=1 " I don't fuckin care how long it is
     " set formatoptions-=o " do not continue comment using o or O
-"End Vim set
-"Begin Vim map
+"End Vim set }}}
+"Begin Vim map {{{
     tnoremap <A-h> <C-\><C-N><C-w>h
     tnoremap <A-j> <C-\><C-N><C-w>j
     tnoremap <A-k> <C-\><C-N><C-w>k
@@ -155,15 +149,10 @@ set bg=dark
 
     " Refresh my script bitch!
     nnoremap <F5> :w \| so %<cr>
-
-    " Before and after
+    " On windows it's f15 because you have to hold down shift because windows thinks f5 is fuckin E for some fucked up reason
+    nnoremap <F15> :w \| so %<cr>
     nnoremap <c-p> g;
     nnoremap <c-n> g,
-
-    vnoremap <cr> "+y
-
-    " If i'm asking the name just copy it to the black hole register while we are at it...
-    nnoremap <c-g> :let @" = expand('%')<cr><c-g>
 
     " TODO: make a set or something?
     nnoremap <leader>ea :e <c-r>%<c-w>
@@ -174,32 +163,26 @@ set bg=dark
 
     " Hls ease
     nnoremap <silent><space>h hl:silent set hlsearch!<cr>
-    nnoremap <silent> n :set hlsearch<cr>nzv
-    nnoremap <silent> N :set hlsearch<cr>Nzv
-    nnoremap <silent> / :set hlsearch<cr>/
+    nnoremap n :set hlsearch<cr>nzv
+    nnoremap N :set hlsearch<cr>Nzv
+    nnoremap / :set hlsearch<cr>/
     " don't move... please :)
-    let starlist = []
-    let stardex = -1
-    nnoremap <silent> * :set hlsearch \| let @/='\<<c-r><c-w>\>' \| call filter(starlist, 'v:val !~ "<c-r><c-w>"') \| call add(g:starlist, @/) <cr>
+    nnoremap * :set hlsearch \| let @/='\<<c-r><c-w>\>'<cr>
     " add to the existing search if it doesn't already match
-    nnoremap <silent># :set hlsearch \| if match('\<'.@/.'\>', '\<<c-r><c-w>\>') == -1 \| let @/='<c-r><c-/>\\|\<<c-r><c-w>\>' \| add(starlist, @/) \| endif<cr>
-    nnoremap <> :if !empty(g:starlist) \| let @/ = g:starlist[g:stardex] \| let g:stardex = (g:stardex - 1) % len(g:starlist) \| endif<cr>
-    nnoremap <> :if !empty(g:starlist) \| let @/ = g:starlist[g:stardex] \| let g:stardex = (g:stardex + 1) % len(g:starlist) \| endif<cr>
+    nnoremap <silent># :set hlsearch \| if match('\<'.@/.'\>', '\<<c-r><c-w>\>') == -1 \| let @/='<c-r><c-/>\\|\<<c-r><c-w>\>' \| endif<cr>
 
     " pasting in cmode, maybe get extract up in here.
-    cmap <silent> <c-v> <c-r>"
-    " put word boundaries around current word why c-s? dunno... why not
-    cnoremap <silent> <c-r><c-s> \<<c-r><c-w>\>
+    cmap <c-v> <c-r>"
 
     " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
-    nnoremap <silent> <m-c> :cn<cr>
-    nnoremap <silent> <m-C> :cp<cr>
+    nnoremap <m-c> :cn<cr>
+    nnoremap <m-C> :cp<cr>
 
     " I don't know why this isn't default
-    nnoremap <silent> Y y$
+    nnoremap Y y$
 
     " Opp of j
-    nnoremap <silent> g<cr> i<cr><esc>
+    nnoremap g<cr> i<cr><esc>
 
     "[Pre/App]end to the word under the cursor
     map <m-a> ea
@@ -208,6 +191,7 @@ set bg=dark
     " I uh... don't use ESC
     inoremap  
     vnoremap  
+    nnoremap ? /\c
 
     " I like playing with colors (Gives me hi-trans-lo ids)
     map <leader>1 :call HiLoBro()<cr>
@@ -220,39 +204,32 @@ set bg=dark
         exec 'hi ' . lo
     endfunc
 
-" End Vim Map
-" Begin Vim abbrev
-" I have a bad habit here...
-"    ca W w
-"    ca Echo echo
-"    ca Q q
-"    ca Set set
-"    ca Let let
-"    ca wb w \| bw
-
-" End Vim Map
-" Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ]
+" End Vim Map }}}
+" Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ] {{{
 function! StatusLine()
-
     " Left Filename/CurArg
     setl statusline=%#ModeMsg#\ %{Mode(mode())}\ %*
     setl statusline+=%#StatusLine#\ %{CurArg()}\ %*
-    setl statusline+=%#StatusLineAdd#%m
-    setl statusline+=%#StatusLineRemove#%r%#StatusLine#%=
-    setl statusline+=%#StatusLine#%{ScopeStart()}%=
-    setl statusline+=%#StatusLine#%{ScopeEnd()}%=
+
+    if &modifiable
+        setl statusline+=%#diffAdded#%m
+    else
+        setl statusline+=%#diffRemoved#%m
+    endif
+
+    setl statusline+=%#diffRemoved#%r%#CursorLineNr#%=
 
     " Right: linenr,column    PositionBar()
-    setl statusline+=%-10.(%#StatusLine#\ %l,%c\ :\ %LG,%p%%\ %)
-    setl statusline+=%-22.(%#ModeMsg#\ [\ %{PositionBarLeft()}
-                          \%#StatusLine#%{PositionBar()}
-                          \%#ModeMsg#%{PositionBarRight()}%)\ ]\ %*
+    setl statusline+=%-10.(%#CursorLineNr#\ %l,%c\ :\ %LG,%p%%\ %)
+    setl statusline+=%-22.(%#LineNr#\ [\ %{PositionBarLeft()}
+                          \%#CursorLineNr#%{PositionBar()}
+                          \%#LineNr#%{PositionBarRight()}%)\ ]\ %*
 endfunction
 
 function! ScopeStart()
     if has_key(g:, 'scope_startline')
         return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
-                    \ 0, winwidth('.')/8)
+                    \ 0, winwidth('.')/2)
     else
         return ''
     endif
@@ -261,7 +238,7 @@ endfunc
 function! ScopeEnd()
     if has_key(g:, 'scope_endline')
         return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
-                    \ 0, winwidth('.')/8)
+                    \ 0, winwidth('.')/4)
     else
         return ''
     endif
@@ -305,25 +282,25 @@ endfun
 func! Mode(mode)
     if !has_key(s:, "statusmodes")
         let s:statusmodes = {
-                    \ "n"  : "---××××××---",
-                    \ "no" : "-- OPERTR --",
+                    \ "n"  : "-- xxxxxx --",
+                    \ "no" : "-- OPERATOR --",
                     \ "i"  : "-- INSERT --",
                     \ "v"  : "-- VISUAL --",
-                    \ "V"  : "-- VSLINE --",
-                    \ "" : "-- VSBLCK --",
-                    \ "R"  : "-- RPLACE --",
-                    \ "Rv" : "-- VRPLCE --",
-                    \ "t"  : "-- TRMINL --",
+                    \ "V"  : "-- VISUAL LINE --",
+                    \ "" : "-- VISUAL BLOCK --",
+                    \ "R"  : "-- REPLACE --",
+                    \ "Rv" : "-- V REPLACE --",
+                    \ "t"  : "-- TERMINAL --",
                     \ "s"  : "-- SELECT --",
-                    \ "S"  : "-- SLCLNE --",
-                    \ "" : "-- SLCBLK--",
-                    \ "c"  : "-- CMMAND --",
-                    \ "cv" : "-- VEXXXX --",
-                    \ "ce" : "-- EXXXXX --",
+                    \ "S"  : "-- SELECT LINE --",
+                    \ "" : "-- SELECT BLOCK--",
+                    \ "c"  : "-- COMMAND --",
+                    \ "cv" : "-- VEX --",
+                    \ "ce" : "-- EX --",
                     \ "r"  : "-- PROMPT --",
-                    \ "rm" : "-- MOREEE --",
-                    \ "r?" : "-- CONFRM --",
-                    \ "!"  : "-- SHELLL --",
+                    \ "rm" : "-- MORE --",
+                    \ "r?" : "-- CONFIRM --",
+                    \ "!"  : "-- SHELL --",
        \}
     endif
 
@@ -380,15 +357,14 @@ func! PositionBarLeft()
     let s:scrolltrack = l:track
 
     return repeat(l:track, float2nr(round(l:ratio)))
-endfunc
-" Enter/LeaveWin
+endfunc  "}}}
+" Enter/LeaveWin {{{
 function! LeaveWin()
     call StatusLineNC()
 endfunc
 
 function! EnterWin()
     call StatusLine()
-
     try
         let curWinIndex = winnr()
         let windowCount = winnr('$')
@@ -407,57 +383,72 @@ function! EnterWin()
 
         wincmd w
 
-        setl nocursorline
-        setl nocursorcolumn
+        setl cursorline
+        setl cursorcolumn
         setl colorcolumn=80,130
     catch /.*/
-
     endtry
 endfunction
-"
 " }}}
-function! SuperSexyFoldText()
+" Auto viewing {{{
+func! LeaveBufWin()
+    if &modifiable && filereadable(expand("%"))
+        mkview
+    endif
+endfun
+
+func! EnterBufWin()
+    if &modifiable && filereadable(&viewdir .'/~=+.config=+nvim=+'.expand('%:t').'=')
+        loadview
+    endif
+endfun
+" }}}
+function! SuperSexyFoldText() "{{{
+    let fold = strcharpart(&fillchars, stridx(&fillchars, 'fold') + 5, 1)
+    let foldlevel = match(getline(v:foldstart),'{{' . '{\d')
+    let foldlevelend = matchend(getline(v:foldstart),'{{' . '{\d')
+    if l:foldlevel == -1
+        let l:foldlevel = '|'
+    else
+        let l:foldlevel = strpart(getline(v:foldstart), l:foldlevel + 3, l:foldlevelend)
+    endif
     let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+    let oldline = l:line
+    let line = strpart(l:line, 0, winwidth('.') / 2 - 3)
+    if len(l:line) < len(l:oldline)
+        let l:line .= "···"
+    endif
     let lines_count = v:foldend - v:foldstart + 1
     let lines_count_text = printf("%s", lines_count)
-    let foldchar = " "
-    let foldtextstart = strpart('' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-    let foldtextend = ' ( ' . repeat(" ", 5 - len(lines_count_text)) . lines_count_text . repeat(" ", 2) . "lines" . '   )  '
+    let spacechar = " "
+    let foldtextstart = strpart('' . repeat(spacechar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+    let foldtextend = ' ( #' . repeat(" ", 4 - len(lines_count_text)) . lines_count_text . " ) "
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-    return '....' . repeat('.', winwidth('.') / 4) . " " . line . repeat(foldchar, winwidth('.') / 3 - len(line)) . foldtextend . repeat(".", winwidth('.'))
+    return l:foldlevel . repeat(l:fold, winwidth('.') / 4) . l:foldlevel . " " . line . repeat(spacechar, winwidth('.') / 2 - len(line)) . foldtextend . l:foldlevel
 endfunction
 set foldtext=SuperSexyFoldText()
-"
-func! KillWhitespace() "  -- fuck ws
+" }}}
+func! KillWhitespace() " {{{ -- fuck ws
     retab
     exec "%s/\\s\\+$//ge"
 endfu
 command! -nargs=0 Kws silent! call KillWhitespace()
-"
-" Autocommands
+" }}}
+" Autocommands {{{
 augroup init
     autocmd!
     " me
-    autocmd WinEnter * silent cal EnterWin()
-    autocmd WinLeave * silent cal LeaveWin()
-    autocmd BufWinEnter * silent cal EnterWin()
-    autocmd BufWinLeave * silent cal LeaveWin()
+    autocmd BufWinLeave * cal LeaveBufWin() | call LeaveWin()
+    autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
+    autocmd WinEnter * cal EnterWin()
+    autocmd WinLeave * cal LeaveWin()
 
     " Filetypes
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-    autocmd VimEnter * silent colo restraint
 augroup END
-
-"
-" Special chars
-" *\·•:,…!
-" #․.‥—–-«»‹›¢¤ƒ£¥≡+−×÷=≠><≥≤±≈~¬∅∞∫∆∏∑√∂µ%‰∴∕∙▁▂▃▄▅▆▇█▀▔
-" ▏▎▍▌▋▊▉▐▕▖▗▘▙▚▛▜▝▞▟░▒▓━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸
-" ┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋╌╍╎╏═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬╭╮╯╰╱╲╳╴╵╶╷╸╹╺╻╼╽╾╿♥@¶§©®
-"" ™°|¦†ℓ‡^̣´˘ˇ¸ˆ¨˙`˝¯˛˚˜
-
-try
+"}}}
+try " CurlNewGuiDataFunc {{{
     func! CurlNewGuiDataFunc(ip)
         let ip =  strpart(a:ip, 0,2) . '.'
         let ip .= strpart(a:ip, 2,3) . '.'
@@ -467,8 +458,56 @@ try
     endfunc
 catch /.*/
 endtry
-
 command! -nargs=1 CurlNewGuiData call CurlNewGuiDataFunc(<args>)
+" }}}
+" {{{ fun GetAllClosedFolds
+func! GetAllClosedFolds()
+    let ll = 0
+    for l in range(line('w0'), line('w$'))
+        if l > ll && foldclosed(l) != -1
+            echom l
+            let ll=foldclosedend(l)
+        endif
+    endfor
+endfunc
+" }}}
 
-call StatusLine()
-autocmd FileType qss set filetype=css
+" }}}1
+" Special chars {{{
+" *\·•:,…!
+" #․.‥—–-«»‹›¢¤ƒ£¥≡+−×÷=≠><≥≤±≈~¬∅∞∫∆∏∑√∂µ%‰∴∕∙▁▂▃▄▅▆▇█▀▔
+" ▏▎▍▌▋▊▉▐▕▖▗▘▙▚▛▜▝▞▟░▒▓━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸
+" ┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋╌╍╎╏═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬╭╮╯╰╱╲╳╴╵╶╷╸╹╺╻╼╽╾╿♥@¶§©®
+"" ™°|¦†ℓ‡^̣´˘ˇ¸ˆ¨˙`˝¯˛˚˜
+" Don't delete this...
+
+func! HexToRgbPercent(hex)
+    let dex = 0
+    if a:hex[0] == '#'
+        let l:dex = 1
+    endif
+
+    let r = string(str2float('0x'.a:hex[dex].a:hex[dex+1])) | let dex += 2
+    let g = string(str2float('0x'.a:hex[dex].a:hex[dex+1])) | let dex += 2
+    let b = string(str2float('0x'.a:hex[dex].a:hex[dex+1]))
+
+    let pr = r / 255.0
+    let pg = g / 255.0
+    let pb = b / 255.0
+
+    " call setreg('r', l:r, 'c')
+    " call setreg('g', l:g, 'c')
+    " call setreg('b', l:b, 'c')
+
+    " if exists("g:extract_loaded")
+    "     call extract#YankHappened({'regname': 'r', 'regcontents': [l:r], 'regtype' : 'v'})
+    "     call extract#YankHappened({'regname': 'g', 'regcontents': [l:g], 'regtype' : 'v'})
+    "     call extract#YankHappened({'regname': 'b', 'regcontents': [l:b], 'regtype' : 'v'})
+    " endif
+
+    return '' .
+                \ 'B '. l:b . l:pb . '   ' .
+                \ 'G '. l:g . l:pg . '   ' .
+                \ 'R '. l:r . l:pr . '   ' .
+                \ ''
+endfunc
