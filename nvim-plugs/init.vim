@@ -42,6 +42,9 @@ endif
 if hostname() == 'DESKTOP-D9I4I5S'
     let g:python3_host_prog='V:\Python3\python.exe'
     let g:python_host_prog='V:\Python2\python.exe'
+elseif hostname() == 'mojajojo'
+    let g:python3_host_prog='/usr/bin/python3'
+    let g:python_host_prog='/usr/bin/python2'
 endif
 
 "}}}

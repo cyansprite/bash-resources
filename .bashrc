@@ -2,6 +2,11 @@
 export TERM=screen-256color
 export H=/mnt/c/Users/bcoffman
 
+export PATH="~/bin:$PATH"
+export PATH="~/.local/bin:$PATH"
+
+export XDG_DATA_HOME="~/.local/share"
+
 alias ls='ls -G'
 alias l='ls -CF'
 
@@ -54,6 +59,7 @@ fi
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
+
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
