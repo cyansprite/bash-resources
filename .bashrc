@@ -5,7 +5,7 @@ export H=/mnt/c/Users/bcoffman
 export PATH="~/bin:$PATH"
 export PATH="~/.local/bin:$PATH"
 
-export XDG_DATA_HOME="~/.local/share"
+# export XDG_DATA_HOME="~/.local/share"
 
 alias ls='ls -G'
 alias l='ls -CF'
