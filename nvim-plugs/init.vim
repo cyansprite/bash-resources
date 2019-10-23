@@ -45,6 +45,8 @@ if hostname() == 'DESKTOP-D9I4I5S'
 elseif hostname() == 'mojajojo'
     let g:python3_host_prog='/usr/bin/python3'
     let g:python_host_prog='/usr/bin/python2'
+elseif hostname() == 'captainJojo'
+    set bg=light
 endif
 
 "}}}
