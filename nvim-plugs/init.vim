@@ -70,9 +70,6 @@ endif
     set nosol                      " Don't be stupid and move to start of line
     set splitbelow                 " ...split below... what did you think?
     set splitright                 " Oh this one will be different!...cept not.
-    set title title                " rxvt and tmux make this usable
-    set title titlestring=%<%F%=%y " title, and tiltestring
-                \ titlelen=30      " title length.
     set undofile                   " keep undo history ina file
 
     " Set: Those that use =
