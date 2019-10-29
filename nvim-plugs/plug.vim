@@ -27,7 +27,16 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'zchee/deoplete-jedi'
     Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
-    Plug 'cyansprite/omnisharp.nvim'
+    if hostname() == "mojajojo"
+        " Plug 'wokalski/autocomplete-flow'
+        Plug 'ternjs/tern_for_vim', { 'do': 'node ~/bin/npm install && node ~/bin/npm install -g tern' }
+        Plug 'carlitux/deoplete-ternjs'
+    end
+
+    if has('unix')
+    else
+        Plug 'cyansprite/omnisharp.nvim'
+    endif
     Plug 'Shougo/echodoc.vim'
 
     if has('unix')
@@ -60,6 +69,9 @@ call plug#end()
     inoremap <silent><expr> <c-space> deoplete#mappings#manual_complete()
     let g:deoplete#delimiters = ['/',',',';','.',':']
     let g:deoplete#auto_refresh_delay = 100
+    let g:tern#command = ["/users/brcoffman/bin/node-v12.12.0-linux-x64/bin/node",  "/users/brcoffman/lib/node_modules/tern/bin/tern"]
+    let g:deoplete#sources#ternjs#tern_bin  = "/users/brcoffman/lib/node_modules/tern/bin/tern"
+    let g:deoplete#sources#ternjs#node_bin  = "/users/brcoffman/bin/node-v12.12.0-linux-x64/bin/node"
 " }}}
 " Various Mappings With No Options: {{{1
     nnoremap <silent> <leader>A :ArgWrap<cr>
