@@ -156,8 +156,17 @@ endif
     nnoremap <c-p> g;
     nnoremap <c-n> g,
 
-    " TODO: make a set or something?
+
+    " Current file ea will remove extenion so like header, ec will keep
+    " directory but remove file entirely. NOTE, if you file has no extension
+    " still use ea.
     nnoremap <leader>ea :e <c-r>%<c-w>
+    nnoremap <leader>ec :e <c-r>%<c-w><c-w><c-w>
+    nnoremap <leader>ve :vsp <c-r>%<c-w>
+    nnoremap <leader>vc :vsp <c-r>%<c-w><c-w><c-w>
+    nnoremap <leader>se :sp <c-r>%<c-w>
+    nnoremap <leader>sc :sp <c-r>%<c-w><c-w><c-w>
+
     nnoremap <leader>cc :cfile  \| copen \| cc<left><left><left><left><left><left><left><left><left><left><left><left><left>
 
     " Does anyone actually use single quote?
@@ -175,6 +184,10 @@ endif
 
     " pasting in cmode, maybe get extract up in here.
     cmap <c-v> <c-r>"
+    " pasting in cmode, but escape for searching
+    cmap <m-v>/ <c-r>=substitute(escape('', '/'), "\\s", "", "g")<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+    " pasting in cmode, but escape for /
+    cmap <m-v>\ <c-r>=substitute(escape('', '\\'), "\\s", "", "g")<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 
     " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
     nnoremap <m-c> :cn<cr>
