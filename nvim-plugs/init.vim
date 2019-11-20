@@ -80,7 +80,7 @@ endif
     set complete=.,w,b,u,U         " Complete all buffers,window, current
     set completeopt=menu           " I'm not a fan of auto documentation.
     set diffopt+=context:3         " diff context lines
-    set foldcolumn=1               " foldcolumn... yes
+    set foldcolumn=2               " foldcolumn... yes
     set foldmethod=marker          " fold stuff :)
     set foldopen+=jump,search      " open folds when I search/jump to things
     set icm="nosplit"              " inc command split in preview, hasn't worked
