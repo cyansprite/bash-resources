@@ -28,9 +28,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
     if hostname() == "mojajojo"
-        " Plug 'wokalski/autocomplete-flow'
         Plug 'ternjs/tern_for_vim', { 'do': 'node ~/bin/npm install && node ~/bin/npm install -g tern' }
         Plug 'carlitux/deoplete-ternjs'
+    elseif hostname() == "captainJojo"
+        Plug 'ternjs/tern_for_vim', { 'do': '/usr/local/bin/npm install' }
+        Plug 'carlitux/deoplete-ternjs'
+    else
+        " Plug 'ternjs/tern_for_vim', { 'do': '/usr/local/bin/npm install' }
     end
 
     if has('unix')
@@ -69,9 +73,16 @@ call plug#end()
     inoremap <silent><expr> <c-space> deoplete#mappings#manual_complete()
     let g:deoplete#delimiters = ['/',',',';','.',':']
     let g:deoplete#auto_refresh_delay = 100
-    let g:tern#command = ["/users/brcoffman/bin/node-v12.12.0-linux-x64/bin/node",  "/users/brcoffman/lib/node_modules/tern/bin/tern"]
-    let g:deoplete#sources#ternjs#tern_bin  = "/users/brcoffman/lib/node_modules/tern/bin/tern"
-    let g:deoplete#sources#ternjs#node_bin  = "/users/brcoffman/bin/node-v12.12.0-linux-x64/bin/node"
+    if hostname() == "mojajojo"
+        let g:tern#command = ["/users/brcoffman/bin/node-v12.12.0-linux-x64/bin/node",  "/users/brcoffman/lib/node_modules/tern/bin/tern"]
+        let g:deoplete#sources#ternjs#tern_bin  = "/users/brcoffman/lib/node_modules/tern/bin/tern"
+        let g:deoplete#sources#ternjs#node_bin  = "/users/brcoffman/bin/node-v12.12.0-linux-x64/bin/node"
+    elseif hostname() == "captainJojo"
+        " let g:tern#command = ["/usr/local/bin/tern"]
+        " let g:deoplete#sources#ternjs#tern_bin  = "/usr/local/bin/node"
+        " let g:deoplete#sources#ternjs#node_bin  = "/usr/local/bin/tern"
+    endif
+
 " }}}
 " Various Mappings With No Options: {{{1
     nnoremap <silent> <leader>A :ArgWrap<cr>
