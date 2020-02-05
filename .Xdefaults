@@ -374,12 +374,12 @@ xterm*renderFont: true
 ! ::     Wind       ::
 
 ! ::     Light      ::
-!*.background:   #ffffff
+*.background:   #221a11
 !*.foreground:   #a7a77e
 
 ! ::     Dark       ::
 ! *.background:   #000000
-*.background:   #000000
+! *.background:   #000000
 *.foreground:   #aaaacc
 
 ! special
