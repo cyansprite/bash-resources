@@ -374,7 +374,7 @@ xterm*renderFont: true
 ! ::     Wind       ::
 
 ! ::     Light      ::
-*.background:   #221a11
+*.background:   #ffeedd
 !*.foreground:   #a7a77e
 
 ! ::     Dark       ::
@@ -383,7 +383,7 @@ xterm*renderFont: true
 *.foreground:   #aaaacc
 
 ! special
-*.cursorColor:  #a7a77e
+*.cursorColor:  #ccaa88
 
 ! black
 *.color0:       #21211d
@@ -414,5 +414,5 @@ xterm*renderFont: true
 *.color14:      #27d0d0
 
 ! white
-*.color7:       #c4dada
+*.color7:       #cfdada
 *.color15:      #efefef
