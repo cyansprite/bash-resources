@@ -383,10 +383,10 @@ xterm*renderFont: true
 *.foreground:   #998877
 
 ! special
-*.cursorColor:  #aaaaff
+*.cursorColor:  #ffaa00
 
 ! black
-*.color0:       #221100
+*.color0:       #1f1004
 *.color8:       #666655
 
 ! red
@@ -402,8 +402,8 @@ xterm*renderFont: true
 *.color11:      #B56917
 
 ! blue
-*.color4:       #3399ff
-*.color12:      #6666ff
+*.color4:       #33acff
+*.color12:      #9999ff
 
 ! magenta
 *.color5:       #9933ff
@@ -418,3 +418,12 @@ xterm*renderFont: true
 *.color15:      #eeddcc
 
 urxvt*background: rgba:1111/0a0a/0000/c800
+
+URxvt.perl-ext-common: tabbed
+
+URxvt.tabbed.tabbar-fg: 11
+URxvt.tabbed.tabbar-bg: 0
+
+URxvt.tabbed.tab-fg: 11
+URxvt.tabbed.tab-bg: 3
+URxvt.tabbed.new-button: false
