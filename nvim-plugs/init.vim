@@ -8,6 +8,8 @@
 " map arrow keys ??
 " function for cpp  ->  ::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$
 
+nnoremap <F9> :!python src/main.py<cr>
+
 " Plug, colo {{{
 
 if has("unix")
@@ -46,8 +48,8 @@ elseif hostname() == 'mojajojo'
     let g:python3_host_prog='/usr/bin/python3'
     let g:python_host_prog='/usr/bin/python2'
 elseif hostname() == 'captainJojo'
-    set bg=light
 endif
+set bg=dark
 
 "}}}
 "Begin Vim set {{{

@@ -4,10 +4,8 @@
 urxvt*depth: 32
 
 ! Scrolls {{{1
-! I want to scroll if I type something, jump (fast scrolling)
 *scrollTtyKeypress:                true
 *jumpScroll:                       true
-! Disable everything else
 *scrollstyle:                      plain
 *scrollTtyOutput:                  false
 *scrollWithBuffer:                 false
@@ -31,45 +29,28 @@ urxvt*depth: 32
 URxvt.perl-ext:           default
 URxvt.url-launcher:       sensible-browser
 
-! DONT FUCKIN SET THESE!!
 ! *highlightColor:                 BanishYouToTheShadowRealmIfYouSetThis
 ! *highlightTextColor:             BanishYouToTheShadowRealmIfYouSetThis
-! *cursorColor:       #ffffff
 ! *altIsNotMeta:false
 xterm*metaSendsEscape:  true
 !*cursorColor2:      #ffffff
 ! Mappings {{{1
-Rxvt.iso14755:                         false
-Rxvt.iso14755_52:                      false
-Rxvt.keysym.M-s:                       builtin-string:
-Rxvt.keysym.M-S:                       builtin-string:
-Rxvt.keysym.C-s-t:                     builtin-string:
+Rxvt.iso14755         : false
+Rxvt.iso14755_52      : false
+Rxvt.keysym.M-s       : builtin-string:
+Rxvt.keysym.M-S       : builtin-string:
+Rxvt.keysym.C-s-t     : builtin-string:
 
-Rxvt.keysym.C-S-0x43:                  eval:selection_to_clipboard
-Rxvt.keysym.C-S-0x56:                  eval:paste_primary
-Rxvt.tripleclickwords:                 true
+Rxvt.keysym.C-S-0x43  : eval:selection_to_clipboard
+Rxvt.keysym.C-S-0x56  : eval:paste_primary
+Rxvt.tripleclickwords : true
 
-! .iso14755:                         false
-! .iso14755_52:                      false
-! .keysym.M-s:                       builtin-string:
-! .keysym.M-S:                       builtin-string:
-! .keysym.C-s-t:                     builtin-string:
-
-! .keysym.C-S-0x43:                  eval:selection_to_clipboard
-! .keysym.C-S-0x56:                  eval:paste_primary
-! .tripleclickwords:                 true
-! xterm*VT100.Translations: #override \
-!     Ctrl Meta <Key>V: insert-selection(CLIPBOARD) \n\
-!     Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
-!     Ctrl Shift <Key>C:    copy-selection(CLIPBOARD) \n\
-!     Ctrl <Key> minus: smaller-vt-font() \n\
-!     Ctrl <Key> plus: larger-vt-font() \n\
-!     Ctrl <Key> 0: set-vt-font(d)
+URxvt.iconFile        : /home/brcoffman/Pictures/cheetah.jpg
 
 ! Fonty Python {{{1
-*font:                               xft:Pt Mono:size=21
+*font:                               xft:Pt Mono:size=13
 xterm*faceName: PT Mono
-xterm*faceSize: 11
+xterm*faceSize: 9
 xterm*renderFont: true
 ! xterm*font: -bitstream-courier 10 pitch-medium-r-*-*-*-*-*-*-*-*-*-*
 ! *boldFont:                         xft:Anonymous Pro:bold
@@ -77,353 +58,125 @@ xterm*renderFont: true
 ! *boldItalicFont:                   xft:UbuntuMono:bold:italic
 ! Colors {{{1
 
-! *background:        #eeffff
-! *foreground:        #000000
 
-! Apprentice
-! *foreground: #BCBCBC
-! *background: #262626
-! *color0:     #1C1C1C
-! *color8:     #444444
-! *color1:     #AF5F5F
-! *color9:     #FF8700
-! *color2:     #5F875F
-! *color10:    #87AF87
-! *color3:     #87875F
-! *color11:    #FFFFAF
-! *color4:     #5F87AF
-! *color12:    #8FAFD7
-! *color5:     #5F5F87
-! *color13:    #8787AF
-! *color6:     #5F8787
-! *color14:    #5FAFAF
-! *color7:     #6C6C6C
-! *color15:    #FFFFFF
-
-
-!! mythos
-!! special
-!*.foreground:   #8a9193
-!*.background:   #202d31
-!*.cursorColor:  #8a9193
-!
-!! black
-!*.color0:       #151d20
-!*.color8:       #202d31
-!
-!! red
-!*.color1:       #875a61
-!*.color9:       #9c6b61
-!
-!! green
-!*.color2:       #4b725e
-!*.color10:      #657f5e
-!
-!! yellow
-!*.color3:       #766c45
-!*.color11:      #9b996c
-!
-!! blue
-!*.color4:       #526a87
-!*.color12:      #5b859e
-!
-!! magenta
-!*.color5:       #775671
-!*.color13:      #7d7294
-!
-!! cyan
-!*.color6:       #4e6c72
-!*.color14:      #6e8f84
-!
-!! white
-!*.color7:       #485356
-!*.color15: #8a9193
-
-
-! My Green
-! special
-!*.foreground:   #4ff200
-!*.background:   #001f00
-!*.cursorColor:  #4ff200
-!
-!! black
-!*.color0:       #000f00
-!*.color8:       #1b5200
-!
-!! red
-!*.color1:       #2a7d00
-!*.color9:       #3bb000
-!
-!! green
-!*.color2:       #308f00
-!*.color10:      #41c200
-!
-!! yellow
-!*.color3:       #36a100
-!*.color11:      #4ad400
-!
-!! blue
-!*.color4:       #236900
-!*.color12:      #349c00
-!
-!! magenta
-!*.color5:       #267300
-!*.color13:      #37a600
-!
-!! cyan
-!*.color6:       #2d8700
-!*.color14:      #3eba00
-!
-!! white
-!*.color7:       #3eba00
-!*.color15:      #52f700
-
-! Twilight
-! special
-! *.foreground:   #00bb00
-! *.background:   #001100
-! *.cursorColor:  #00bb00
-!
-! ! black
-! *.color0:       #001100
-! *.color8:       #007700
-!
-! ! red
-! *.color1:       #007700
-! *.color9:       #007700
-!
-! ! green
-! *.color2:       #00bb00
-! *.color10:      #00bb00
-!
-! ! yellow
-! *.color3:       #007700
-! *.color11:      #007700
-!
-! ! blue
-! *.color4:       #009900
-! *.color12:      #009900
-!
-! ! magenta
-! *.color5:       #00bb00
-! *.color13:      #00bb00
-!
-! ! cyan
-! *.color6:       #005500
-! *.color14:      #005500
-!
-! ! white
-! *.color7:       #00bb00
-! *.color15:      #00ff00
-
-! Constant pain ( Red Screen )
-! special
-!*.foreground:   #f20000
-!*.background:   #0f0000
-!*.cursorColor:  #f20000
-!
-!! black
-!*.color0:       #0f0000
-!*.color8:       #520000
-!
-!! red
-!*.color1:       #7d0000
-!*.color9:       #b00000
-!
-!! green
-!*.color2:       #8f0000
-!*.color10:      #c20000
-!
-!! yellow
-!*.color3:       #a10000
-!*.color11:      #d40000
-!
-!! blue
-!*.color4:       #690000
-!*.color12:      #9c0000
-!
-!! magenta
-!*.color5:       #730000
-!*.color13:      #a60000
-!
-!! cyan
-!*.color6:       #870000
-!*.color14:      #ba0000
-!
-!! white
-!*.color7:       #ba0000
-!*.color15:      #f70000
-!
-!! Cyan sprite
-!! special
-!*.foreground:   #00ffff
-!*.background:   #000f0f
-!*.cursorColor:  #00ffff
-!
-!! black
-!*.color0:       #000f0f
-!*.color8:       #005252
-!
-!! red
-!*.color1:       #007d7d
-!*.color9:       #00b0b0
-!
-!! green
-!*.color2:       #008f8f
-!*.color10:      #00c2c2
-!
-!! yellow
-!*.color3:       #00a1a1
-!*.color11:      #00d4d4
-!
-!! blue
-!*.color4:       #006969
-!*.color12:      #009c9c
-!
-!! magenta
-!*.color5:       #007373
-!*.color13:      #00a6a6
-!
-!! cyan
-!*.color6:       #008787
-!*.color14:      #00baba
-!
-!! white
-!*.color7:       #00baba
-!*.color15:      #00f7f7
-!
-!! Magenta
-!! special
-!*.foreground:   #ff00ff
-!*.background:   #0f000f
-!*.cursorColor:  #ff00ff
-!
-!! black
-!*.color0:       #0f000f
-!*.color8:       #520052
-!
-!! red
-!*.color1:       #7d007d
-!*.color9:       #b000b0
-!
-!! green
-!*.color2:       #8f008f
-!*.color10:      #c200c2
-!
-!! yellow
-!*.color3:       #a100a1
-!*.color11:      #d400d4
-!
-!! blue
-!*.color4:       #690069
-!*.color12:      #9c009c
-!
-!! magenta
-!*.color5:       #730073
-!*.color13:      #a600a6
-!
-!! cyan
-!*.color6:       #870087
-!*.color14:      #ba00ba
-!
-!! white
-!*.color7:       #ba00ba
-!*.color15:      #f700f7
-!
-!
 !! Magic
-!! special
+! ::     Dark       ::
+
 !*.foreground:   #a39a90
-!*.background:   #16130f
 !*.cursorColor:  #a39a90
-!
-!! black
+!*.background:   #16130f
+
+! ::     Light       ::
+!*.foreground:   #16130f
+!*.cursorColor:  #16130f
+!*.background:   #eeeee3
+
 !*.color0:       #2a2a2a
 !*.color8:       #5a5047
-!
-!! red
 !*.color1:       #824d4d
 !*.color9:       #cc295f
-!
-!! green
 !*.color2:       #62824d
 !*.color10:      #47991f
-!
-!! yellow
 !*.color3:       #77824d
 !*.color11:      #99701f
-!
-!! blue
 !*.color4:       #6e6eb5
 !*.color12:      #1f7099
-!
-!! magenta
 !*.color5:       #824d82
 !*.color13:      #991f99
-!
-!! cyan
 !*.color6:       #4d8282
 !*.color14:      #1f9999
-!
-!! white
 !*.color7:       #82786f
 !*.color15:      #999999
-
 
 
 ! ::     Wind       ::
 
 ! ::     Light      ::
-*.background:   #ffeedd
+!*.background:   #ffeedd
 !*.foreground:   #a7a77e
+!*.cursorColor:  #a7a77e
 
 ! ::     Dark       ::
-! *.background:   #000000
-! *.background:   #000000
-*.foreground:   #998877
+!*.background:   #000000
+!*.foreground:   #FF9F00
+!*.cursorColor:  #FF9F00
+!
+!*.color0:       #1f1004
+!*.color8:       #666655
+!*.color1:       #ff3399
+!*.color9:       #ff6666
+!*.color2:       #a1d171
+!*.color10:      #43c543
+!*.color3:       #B56917
+!*.color11:      #FFD700
+!*.color4:       #33acff
+!*.color12:      #9999ff
+!*.color5:       #9933ff
+!*.color13:      #ff00ff
+!*.color6:       #44ccac
+!*.color14:      #11dddd
+!*.color7:       #ddccaa
+!*.color15:      #eeddcc
 
-! special
-*.cursorColor:  #ffaa00
+! ::     Faded       ::
+! ::     Dark        ::
+URxvt*background:    [95]#1a1a1a
+URxvt*foreground:        #9f95ac
+URxvt*underlineColor:    #c0f0ff
+URxvt*colorUL:           #f0ffca
+URxvt*colorIT:           #f0c0c0
+URxvt*colorBD:           #cfc5fc
 
-! black
-*.color0:       #1f1004
-*.color8:       #666655
+*color0:  #23232f
+*color8:  #6c6f6c
+*color1:  #db9090
+*color9:  #9d6968
+*color2:  #b6db90
+*color10: #829d68
+*color3:  #dbcf90
+*color11: #db9970
+*color4:  #9090db
+*color12: #90b6db
+*color5:  #b690db
+*color13: #db90b6
+*color6:  #90dbdb
+*color14: #689d9d
+*color7:  #909090
+*color15: #ffffff
 
-! red
-*.color1:       #ff3399
-*.color9:       #ff6666
+! ::     Light       ::
+! URxvt*background:    [95]#1a1a1a
+! URxvt*background:    [95]#ffffff
+! URxvt*foreground:        #35355c
+! URxvt*underlineColor:    #22aaaa
+! URxvt*colorUL:           #505000
+! URxvt*colorIT:           #aa4444
+! URxvt*colorBD:           #9595ac
+! 
+! *color0:  #20202f
+! *color1:  #840000
+! *color2:  #008400
+! *color3:  #846e00
+! *color4:  #000084
+! *color5:  #420084
+! *color6:  #008484
+! *color7:  #65656c
+! *color8:  #778877
+! *color9:  #b70000
+! *color10: #428400
+! *color11: #b76a00
+! *color12: #005bb7
+! *color13: #b700b7
+! *color14: #008463
+! *color15: #afafcc
 
-! green
-*.color2:       #a1d171
-*.color10:      #43c543
+URxvt.perl-ext-common: tabbed,bell-command
+URxvt.bell-command: canberra-gtk-play -i  -f ~/Downloads/Alarms/Pixel\ Sounds/Awaken.ogg
 
-! yellow
-*.color3:       #ff9933
-*.color11:      #B56917
-
-! blue
-*.color4:       #33acff
-*.color12:      #9999ff
-
-! magenta
-*.color5:       #9933ff
-*.color13:      #ff00ff
-
-! cyan
-*.color6:       #44ccac
-*.color14:      #11dddd
-
-! white
-*.color7:       #ddccaa
-*.color15:      #eeddcc
-
-urxvt*background: rgba:1111/0a0a/0000/c800
-
-URxvt.perl-ext-common: tabbed
-
-URxvt.tabbed.tabbar-fg: 11
+URxvt.tabbed.tabbar-fg: 8
 URxvt.tabbed.tabbar-bg: 0
 
-URxvt.tabbed.tab-fg: 11
+URxvt.tabbed.tab-fg: 0
 URxvt.tabbed.tab-bg: 3
 URxvt.tabbed.new-button: false
+

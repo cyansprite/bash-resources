@@ -11,6 +11,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Syntax: The default is mediocre, and that's being nice
     Plug 'cyansprite/vim-csharp'
+    Plug 'udalov/kotlin-vim'
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'keith/tmux.vim'
     Plug 'cyansprite/vim-operator-highlight'
@@ -27,14 +28,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'zchee/deoplete-jedi'
     Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
+    Plug 'carlitux/deoplete-ternjs'
     if hostname() == "mojajojo"
         Plug 'ternjs/tern_for_vim', { 'do': 'node ~/bin/npm install && node ~/bin/npm install -g tern' }
-        Plug 'carlitux/deoplete-ternjs'
     elseif hostname() == "captainJojo"
         Plug 'ternjs/tern_for_vim', { 'do': '/usr/local/bin/npm install' }
-        Plug 'carlitux/deoplete-ternjs'
     else
-        " Plug 'ternjs/tern_for_vim', { 'do': '/usr/local/bin/npm install' }
+        Plug 'ternjs/tern_for_vim', { 'do': 'npm install -g tern' }
     end
 
     if has('unix')
@@ -81,6 +81,10 @@ call plug#end()
         " let g:tern#command = ["/usr/local/bin/tern"]
         " let g:deoplete#sources#ternjs#tern_bin  = "/usr/local/bin/node"
         " let g:deoplete#sources#ternjs#node_bin  = "/usr/local/bin/tern"
+    else
+        let g:tern#command = ["/usr/bin/tern"]
+        let g:deoplete#sources#ternjs#tern_bin  = "/usr/bin/tern"
+        let g:deoplete#sources#ternjs#node_bin  = "/usr/bin/node"
     endif
 
 " }}}
