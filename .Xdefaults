@@ -59,48 +59,46 @@ xterm*renderFont: true
 ! Colors {{{1
 
 
-!! Magic
+! ::     Magic      ::
 ! ::     Dark       ::
-
-!*.foreground:   #a39a90
-!*.cursorColor:  #a39a90
-!*.background:   #16130f
-
+*.foreground:   #9f9f8c
+*.cursorColor:  #9f9f8c
+*.background:   [95]#0f0f0f
 ! ::     Light       ::
 !*.foreground:   #16130f
 !*.cursorColor:  #16130f
 !*.background:   #eeeee3
+*.color0:       #2a2a2a
+*.color8:       #5a5a5a
+*.color1:       #824d4d
+*.color9:       #cc295f
+*.color2:       #62824d
+*.color10:      #47991f
+*.color3:       #a7a22d
+*.color11:      #99701f
+*.color4:       #6e8ec5
+*.color12:      #9090c9
+*.color5:       #824d82
+*.color13:      #991f99
+*.color6:       #4d8282
+*.color14:      #1f9999
+*.color7:       #82786f
+*.color15:      #fffff3
 
-!*.color0:       #2a2a2a
-!*.color8:       #5a5047
-!*.color1:       #824d4d
-!*.color9:       #cc295f
-!*.color2:       #62824d
-!*.color10:      #47991f
-!*.color3:       #77824d
-!*.color11:      #99701f
-!*.color4:       #6e6eb5
-!*.color12:      #1f7099
-!*.color5:       #824d82
-!*.color13:      #991f99
-!*.color6:       #4d8282
-!*.color14:      #1f9999
-!*.color7:       #82786f
-!*.color15:      #999999
 
-
-! ::     Wind       ::
-
+! ::     Pumpkin    ::
 ! ::     Light      ::
 !*.background:   #ffeedd
 !*.foreground:   #a7a77e
 !*.cursorColor:  #a7a77e
 
+
+! ::     Acid       ::
 ! ::     Dark       ::
 !*.background:   #000000
 !*.foreground:   #FF9F00
 !*.cursorColor:  #FF9F00
-!
+
 !*.color0:       #1f1004
 !*.color8:       #666655
 !*.color1:       #ff3399
@@ -108,7 +106,7 @@ xterm*renderFont: true
 !*.color2:       #a1d171
 !*.color10:      #43c543
 !*.color3:       #B56917
-!*.color11:      #FFD700
+!*.color11:      #FFC700
 !*.color4:       #33acff
 !*.color12:      #9999ff
 !*.color5:       #9933ff
@@ -116,43 +114,40 @@ xterm*renderFont: true
 !*.color6:       #44ccac
 !*.color14:      #11dddd
 !*.color7:       #ddccaa
-!*.color15:      #eeddcc
+!*.color15:      #fffaf0
 
 ! ::     Faded       ::
 ! ::     Dark        ::
-URxvt*background:    [95]#1a1a1a
-URxvt*foreground:        #9f95ac
-URxvt*underlineColor:    #c0f0ff
-URxvt*colorUL:           #f0ffca
-URxvt*colorIT:           #f0c0c0
-URxvt*colorBD:           #cfc5fc
-
-*color0:  #23232f
-*color8:  #6c6f6c
-*color1:  #db9090
-*color9:  #9d6968
-*color2:  #b6db90
-*color10: #829d68
-*color3:  #dbcf90
-*color11: #db9970
-*color4:  #9090db
-*color12: #90b6db
-*color5:  #b690db
-*color13: #db90b6
-*color6:  #90dbdb
-*color14: #689d9d
-*color7:  #909090
-*color15: #ffffff
+! URxvt*background:    [95]#1a1a1a
+! URxvt*foreground:        #9f95ac
+! URxvt*underlineColor:    #c0f0ff
+! URxvt*colorUL:           #f0ffca
+! URxvt*colorIT:           #f0c0c0
+! URxvt*colorBD:           #cfc5fc
+! *color0:  #23232f
+! *color8:  #6c6f6c
+! *color1:  #db9090
+! *color9:  #9d6968
+! *color2:  #b6db90
+! *color10: #829d68
+! *color3:  #dbcf90
+! *color11: #db9970
+! *color4:  #9090db
+! *color12: #90b6db
+! *color5:  #b690db
+! *color13: #db90b6
+! *color6:  #90dbdb
+! *color14: #689d9d
+! *color7:  #909090
+! *color15: #efefff
 
 ! ::     Light       ::
-! URxvt*background:    [95]#1a1a1a
-! URxvt*background:    [95]#ffffff
+! URxvt*background:    [95]#eeeeea
 ! URxvt*foreground:        #35355c
 ! URxvt*underlineColor:    #22aaaa
 ! URxvt*colorUL:           #505000
 ! URxvt*colorIT:           #aa4444
 ! URxvt*colorBD:           #9595ac
-! 
 ! *color0:  #20202f
 ! *color1:  #840000
 ! *color2:  #008400
@@ -168,7 +163,7 @@ URxvt*colorBD:           #cfc5fc
 ! *color12: #005bb7
 ! *color13: #b700b7
 ! *color14: #008463
-! *color15: #afafcc
+! *color15: #efefff
 
 URxvt.perl-ext-common: tabbed,bell-command
 URxvt.bell-command: canberra-gtk-play -i  -f ~/Downloads/Alarms/Pixel\ Sounds/Awaken.ogg
