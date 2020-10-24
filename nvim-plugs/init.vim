@@ -50,7 +50,7 @@ elseif hostname() == 'mojajojo'
 elseif hostname() == 'captainJojo'
 endif
 set bg=dark
-" set bg=light
+set bg=light
 
 "}}}
 "Begin Vim set {{{

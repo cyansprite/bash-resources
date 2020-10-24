@@ -6,6 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/Sir-Nvim'
     Plug 'thinca/vim-visualstar'
     Plug 'vim-scripts/cmdlinecomplete'
+    Plug 'nessss/vim-gml'
     " Plug 'kana/vim-repeat'
     " Plug 'tyru/caw.vim'
 
@@ -23,6 +24,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/vim-easy-align'
 
     " Completion: Deoplete is amazing
+    Plug 'joereynolds/vim-minisnip'
+    Plug 'joereynolds/deoplete-minisnip'
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Shougo/neoinclude.vim'
     Plug 'zchee/deoplete-jedi'
@@ -70,7 +73,6 @@ call plug#end()
     let g:deoplete#enable_at_startup = 1
     let g:echodoc#enable_at_startup = 1
     let g:deoplete#enable_camel_case = 1
-    inoremap <silent><expr> <c-space> deoplete#mappings#manual_complete()
     let g:deoplete#delimiters = ['/',',',';','.',':']
     let g:deoplete#auto_refresh_delay = 100
     if hostname() == "mojajojo"
@@ -86,6 +88,8 @@ call plug#end()
         let g:deoplete#sources#ternjs#tern_bin  = "/usr/bin/tern"
         let g:deoplete#sources#ternjs#node_bin  = "/usr/bin/node"
     endif
+
+    let g:minisnip_trigger= '<c-space>'
 
 " }}}
 " Various Mappings With No Options: {{{1
@@ -124,7 +128,7 @@ let g:cpp_concepts_highlight        = 1
     nnoremap <leader>ga :Grepper -tool ag<cr>
 
 " Extract {{{2
-let g:extract_maxCount = 20
+let g:extract_maxCount = 7
 
 " Autocmd: {{{1
 autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')

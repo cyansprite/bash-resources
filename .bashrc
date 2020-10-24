@@ -5,6 +5,10 @@ export H=/mnt/c/Users/bcoffman
 export PATH="~/bin:$PATH"
 export PATH="~/.local/bin:$PATH"
 
+if [ `hostname` == "captainJojo" ]; then
+    export PATH="/usr/local/Cellar/python3/3.7.6_1/bin:$PATH"
+fi
+
 # export XDG_DATA_HOME="~/.local/share"
 
 alias ls='ls -G'
