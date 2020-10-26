@@ -72,9 +72,9 @@ call plug#end()
     " let g:tmuxcomplete#trigger = ''
     let g:deoplete#enable_at_startup = 1
     let g:echodoc#enable_at_startup = 1
+    let g:echodoc#type = "popup"
     let g:deoplete#enable_camel_case = 1
     let g:deoplete#delimiters = ['/',',',';','.',':']
-    let g:deoplete#auto_refresh_delay = 100
     if hostname() == "mojajojo"
         let g:tern#command = ["/users/brcoffman/bin/node-v12.12.0-linux-x64/bin/node",  "/users/brcoffman/lib/node_modules/tern/bin/tern"]
         let g:deoplete#sources#ternjs#tern_bin  = "/users/brcoffman/lib/node_modules/tern/bin/tern"

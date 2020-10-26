@@ -83,10 +83,11 @@ export VISUAL=nvim
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_DEFAULT_COMMAND='ag -l'
 
-# export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 export FZF_CTRL_R_OPTS="--color=16 --preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export FZF_CTRL_T_OPTS="--color=16 --preview-window down:99% --preview '(cat {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -500'"
-export FZF_DEFAULT_OPTS="--color 16 --preview='cat {}' --preview-window=down:70% --bind=up:preview-up,down:preview-down,right:preview-page-down,left:preview-page-up"
+export FZF_CTRL_T_OPTS="--color=16 --preview-window down:99% --preview 'bat --style=numbers --color=always --highlight-line {2} {1}'"
+
+# export FZF_DEFAULT_OPTS="--color 16 --preview='cat {}' --preview-window=down:70% --bind=up:preview-up,down:preview-down,right:preview-page-down,left:preview-page-up"
 # export FZF_COMPLETION_TRIGGER='\\'
 # export FZF_DEFAULT_COMMAND='ag -l'
 # export DISPLAY=:0

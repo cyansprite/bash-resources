@@ -45,19 +45,12 @@ ln -fv plug.vim ~/.config/nvim/
 
 echo ""
 
-if [ ! -d ~/.fzf ] ; then
-    # make sure we have fzf, yes to all options
-    echo "========================================================================="
-    echo "Installing fzf"
-    echo "========================================================================="
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    yes | ~/.fzf/install
-    echo ""
-else
-    echo "========================================================================="
-    echo "FZF already installed."
-    echo "========================================================================="
-fi
+echo "========================================================================="
+echo "Installing fzf"
+echo "========================================================================="
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+yes | ~/.fzf/install
+echo ""
 
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ] ; then
     echo "========================================================================="
