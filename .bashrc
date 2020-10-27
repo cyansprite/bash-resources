@@ -64,7 +64,6 @@ if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
 
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -84,8 +83,8 @@ export VISUAL=nvim
 export FZF_DEFAULT_COMMAND='ag -l'
 
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-export FZF_CTRL_R_OPTS="--color=16 --preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export FZF_CTRL_T_OPTS="--color=16 --preview-window down:99% --preview 'bat --style=numbers --color=always --highlight-line {2} {1}'"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+export FZF_CTRL_T_OPTS="--preview-window down:99% --preview 'if [ -d "{}" ]; then tree -C {} | head -200; else bat --style=numbers --color=always --line-range :500 {}; fi'"
 
 # export FZF_DEFAULT_OPTS="--color 16 --preview='cat {}' --preview-window=down:70% --bind=up:preview-up,down:preview-down,right:preview-page-down,left:preview-page-up"
 # export FZF_COMPLETION_TRIGGER='\\'
