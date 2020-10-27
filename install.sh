@@ -73,6 +73,14 @@ else
     echo "========================================================================="
 fi
 
+# for fzf preview
+if hash tree 2>/dev/null; then
+    yes | sudo apt-get install tree
+fi
+if hash bat 2>/dev/null; then
+    yes | sudo apt-get install bat
+fi
+
 if hash nvim 2>/dev/null; then
     echo "========================================================================="
     echo "Neovim already installed."

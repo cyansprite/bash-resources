@@ -44,13 +44,17 @@ endif
 if hostname() == 'DESKTOP-D9I4I5S'
     let g:python3_host_prog='V:\Python3\python.exe'
     let g:python_host_prog='V:\Python2\python.exe'
+    set bg=light
 elseif hostname() == 'mojajojo'
     let g:python3_host_prog='/usr/bin/python3'
     let g:python_host_prog='/usr/bin/python2'
+    set bg=dark
 elseif hostname() == 'captainJojo'
+    set bg=light
+elseif hostname() == 'cinder'
+    set bg=dark
+else
 endif
-set bg=dark
-set bg=light
 
 "}}}
 "Begin Vim set {{{
