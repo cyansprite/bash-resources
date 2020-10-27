@@ -79,6 +79,7 @@ if hash tree 2>/dev/null; then
 fi
 if hash bat 2>/dev/null; then
     yes | sudo apt-get install bat
+    ln -s /usr/bin/batcat ~/.local/bin/bat
 fi
 
 if hash nvim 2>/dev/null; then
