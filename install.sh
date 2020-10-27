@@ -75,9 +75,17 @@ fi
 
 # for fzf preview
 if hash tree 2>/dev/null; then
+    echo "========================================================================="
+    echo "Tree already installed."
+    echo "========================================================================="
+else
     yes | sudo apt-get install tree
 fi
 if hash bat 2>/dev/null; then
+    echo "========================================================================="
+    echo "Bat already installed."
+    echo "========================================================================="
+else
     yes | sudo apt-get install bat
     ln -s /usr/bin/batcat ~/.local/bin/bat
 fi
