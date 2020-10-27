@@ -165,13 +165,13 @@ xterm*renderFont: true
 ! *color14: #008463
 ! *color15: #efefff
 
-URxvt.perl-ext-common: tabbed,bell-command
-URxvt.bell-command: canberra-gtk-play -i  -f ~/Downloads/Alarms/Pixel\ Sounds/Awaken.ogg
-
-URxvt.tabbed.tabbar-fg: 8
-URxvt.tabbed.tabbar-bg: 0
-
-URxvt.tabbed.tab-fg: 0
-URxvt.tabbed.tab-bg: 3
-URxvt.tabbed.new-button: false
+! URxvt.perl-ext-common: tabbed,bell-command
+! URxvt.bell-command: canberra-gtk-play -i  -f ~/Downloads/Alarms/Pixel\ Sounds/Awaken.ogg
+! 
+! URxvt.tabbed.tabbar-fg: 8
+! URxvt.tabbed.tabbar-bg: 0
+! 
+! URxvt.tabbed.tab-fg: 0
+! URxvt.tabbed.tab-bg: 3
+! URxvt.tabbed.new-button: false
 
