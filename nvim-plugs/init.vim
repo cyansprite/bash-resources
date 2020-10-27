@@ -46,7 +46,7 @@ if hostname() == 'DESKTOP-D9I4I5S'
     let g:python_host_prog='V:\Python2\python.exe'
     set bg=light
 elseif hostname() == 'mojajojo'
-    let g:python3_host_prog='/usr/bin/python3'
+    let g:python3_host_prog='/usr/local/bin/python3.7'
     let g:python_host_prog='/usr/bin/python2'
     set bg=dark
 elseif hostname() == 'captainJojo'
