@@ -14,7 +14,7 @@ yes | sudo apt-get install neovim
 yes | sudo apt-get install python-dev python-pip python3-dev python3-pip
 yes | sudo apt-get install xsel
 yes | sudo apt-get install tmux
-yes | sudo apt-get install rxvt-unicode-256color
+yes | sudo apt-get install rxvt-unicode
 
 if [ ! -d ~/.urxvt/ext ] ; then
     mkdir -p ~/.urxvt/ext
