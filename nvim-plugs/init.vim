@@ -231,12 +231,13 @@ endif
 
 " End Vim Map }}}
 " Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ] {{{
-let g:scope_startline = ''
-let g:scope_endline = ''
+let s:scope_startline = ''
+let s:scope_endline = ''
+
 function! StatusLine()
     " Left Filename/CurArg
-    setl statusline=%#ModeMsg#\ %{Mode(mode())}\ %*
-    setl statusline+=%#StatusLine#\ %{CurArg()}\ %*
+    setl statusline=%{ModeColor(mode())}%#ModeMsg#\ %{Mode(mode())}\ %*
+    setl statusline+=%{ModeColor(mode())}%#ModeMsg#\ %{CurArg()}\ %*
 
     if &modifiable
         setl statusline+=%#diffAdded#%m
@@ -244,16 +245,18 @@ function! StatusLine()
         setl statusline+=%#diffRemoved#%m
     endif
 
-    setl statusline+=%#CursorLineNr#\ %{ScopeStart()}\ %#CursorLineNr#%{ScopePos()}%<
-    setl statusline+=%#CursorLineNr#\ %{ScopeEnd()}\ %*
+    setl statusline+=%{ModeColor(mode())}%#ModeMsg#\ %<%{ScopeStart()}\ %{ModeColor(mode())}%#ModeMsg#%{ScopePos()}
+    setl statusline+=%{ModeColor(mode())}%#ModeMsg#\ %{ScopeEnd()}\ %*
 
-    setl statusline+=%#diffRemoved#%r%#CursorLineNr#%=
+    setl statusline+=%#diffRemoved#%r%{ModeColor(mode())}%#ModeMsg#%=
 
-    " Right: linenr,column    PositionBar()
-    setl statusline+=%-10.(%#CursorLineNr#\ %l,%c\ :\ %LG,%p%%\ %)
-    setl statusline+=%-22.(%#LineNr#\ [\ %{PositionBarLeft()}
-                          \%#CursorLineNr#%{PositionBar()}
-                          \%#LineNr#%{PositionBarRight()}%)\ ]\ %*
+    " Right linenr,column    PositionBar()
+    setl statusline+=%-10.(%{ModeColor(mode())}%#ModeMsg#\ %l,%c\ :\ %LG,%p%%\ %)
+    setl statusline+=%-22.(%{ModeColor(mode())}%#ModeMsg#\ [\ %{PositionBarLeft()}
+                          \%{ModeColor(mode())}%#ModeMsg#%{PositionBar()}
+                          \%{ModeColor(mode())}%#ModeMsg#%{PositionBarRight()}%)\ ]\ %*
+
+    call ModeColor('n')
 endfunction
 
 function! ScopePos()
@@ -261,8 +264,8 @@ function! ScopePos()
 endfunc
 
 function! ScopeStart()
-    if has_key(g:, 'scope_startline')
-        return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
+    if has_key(s:, 'scope_startline')
+        return strpart(substitute(s:scope_startline, '^\s\+\|\s\+$', "", "g"),
                     \ 0, winwidth('.')/3)
     else
         return ''
@@ -270,8 +273,8 @@ function! ScopeStart()
 endfunc
 
 function! ScopeEnd()
-    if has_key(g:, 'scope_endline')
-        return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
+    if has_key(s:, 'scope_endline')
+        return strpart(substitute(s:scope_endline, '^\s\+\|\s\+$', '', "g"),
                     \ 0, winwidth('.')/4)
     else
         return ''
@@ -313,6 +316,66 @@ func! CurArg()
     return f
 endfun
 
+if !hlexists("NormalMode")
+    hi NormalMode   ctermfg=none ctermbg=none guibg=none guifg=none gui=none cterm=none
+endif
+if !hlexists("InsertMode")
+    hi InsertMode   ctermfg=none ctermbg=none guibg=none guifg=none gui=none cterm=none
+endif
+if !hlexists("VisualMode")
+    hi VisualMode   ctermfg=none ctermbg=none guibg=none guifg=none gui=none cterm=none
+endif
+if !hlexists("SelectMode")
+    hi SelectMode   ctermfg=none ctermbg=none guibg=none guifg=none gui=none cterm=none
+endif
+if !hlexists("ReplaceMode")
+    hi ReplaceMode  ctermfg=none ctermbg=none guibg=none guifg=none gui=none cterm=none
+endif
+if !hlexists("CommandMode")
+    hi CommandMode  ctermfg=none ctermbg=none guibg=none guifg=none gui=none cterm=none
+endif
+if !hlexists("TerminalMode")
+    hi TerminalMode ctermfg=none ctermbg=none guibg=none guifg=none gui=none cterm=none
+endif
+if !hlexists("OtherMode")
+    hi OtherMode    ctermfg=none ctermbg=none guibg=none guifg=none gui=none cterm=none
+endif
+
+function! ModeColor(mode)
+    if !has_key(s:, "statusmodecolors")
+        let s:statusmodecolors = {
+                    \ "n"  : "NormalMode",
+                    \ "no" : "NormalMode",
+                    \ "i"  : "InsertMode",
+                    \ "v"  : "VisualMode",
+                    \ "V"  : "VisualMode",
+                    \ "" : "VisualMode",
+                    \ "R"  : "ReplaceMode",
+                    \ "Rv" : "ReplaceMode",
+                    \ "t"  : "TerminalMode",
+                    \ "!"  : "CommandMode",
+                    \ "c"  : "CommandMode",
+                    \ "cv" : "CommandMode",
+                    \ "ce" : "CommandMode",
+                    \ "s"  : "SelectMode",
+                    \ "S"  : "SelectMode",
+                    \ "" : "SelectMode",
+                    \ "r"  : "ReplaceMode",
+                    \ "rm" : "ReplaceMode",
+                    \ "r?" : "ReplaceMode",
+       \}
+    endif
+
+    let sl = &statusline
+    let &statusline=substitute(sl, '%{ModeColor(mode())}%#\w\+#', '%{ModeColor(mode())}'.'%#'.s:statusmodecolors[a:mode].'#', 'g')
+
+    redrawstatus!
+
+    return ''
+endfun
+
+autocmd CmdlineEnter * call ModeColor('c')
+
 func! Mode(mode)
     if !has_key(s:, "statusmodes")
         let s:statusmodes = {
@@ -343,11 +406,7 @@ func! Mode(mode)
         let paste = " PASTE "
     endif
 
-    if !&modifiable
-        return '- '. toupper(&filetype) . ' -'
-    else
-        return s:statusmodes[a:mode] . l:paste
-    endif
+    return s:statusmodes[a:mode] . l:paste . ' : ' .toupper(&filetype)
 endfunc
 
 func! PositionBarRight()
