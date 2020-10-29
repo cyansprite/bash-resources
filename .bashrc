@@ -93,11 +93,23 @@ export FZF_DEFAULT_COMMAND='ag -l'
 
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export FZF_CTRL_T_OPTS="--preview-window down:99% --preview 'if [ -d "{}" ]; then tree -C {} | head -200; else bat --style=numbers --color=always --line-range :500 {}; fi'"
-export FZF_DEFAULT_OPTS="--color='bg:#4B4B4B,bg+:#3F3F3F,info:#BDBB72,border:#6B6B6B,spinner:#98BC99' \
-                         --color='hl:#719872,fg:#D9D9D9,header:#719872,fg+:#D9D9D9' \
-                         --color='pointer:#E12672,marker:#E17899,prompt:#98BEDE,hl+:#98BC99' \
-                         --bind=up:preview-up,down:preview-down"
+export FZF_CTRL_T_OPTS="--preview-window down:99% --preview 'if [ -d "{}" ]; then tree -C {} | head -200; else bat --color=always --line-range :500 {}; fi'"
+
+if [ `hostname` == "captainJojo" ]; then
+    export FZF_DEFAULT_OPTS="--color='bg:#f2f2de,bg+:#ffffea,info:#df8243,border:#acaa55,spinner:#df8243' \
+                            --color='hl:#acaa55,fg:#181826,header:#acaa55,fg+:#121211' \
+                            --color='pointer:#ff4c96,marker:#ef4cff,prompt:#ef4cff,hl+:#ef4cff' \
+                            --bind=up:preview-up,down:preview-down"
+
+    export BAT_THEME="Monokai Extended Light"
+else
+    export FZF_DEFAULT_OPTS="--color='bg:#4B4B4B,bg+:#3F3F3F,info:#BDBB72,border:#6B6B6B,spinner:#98BC99' \
+                            --color='hl:#719872,fg:#D9D9D9,header:#719872,fg+:#D9D9D9' \
+                            --color='pointer:#E12672,marker:#E17899,prompt:#98BEDE,hl+:#98BC99' \
+                            --bind=up:preview-up,down:preview-down"
+
+    export BAT_THEME="Monokai Extended Light"
+fi
 
 echo "-----------------"
 echo "Going to init ssh"

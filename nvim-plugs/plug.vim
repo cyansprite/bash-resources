@@ -6,7 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/Sir-Nvim'
     Plug 'thinca/vim-visualstar'
     Plug 'vim-scripts/cmdlinecomplete'
-    Plug 'nessss/vim-gml'
+    Plug 'cyansprite/nvim-gml'
     " Plug 'kana/vim-repeat'
     " Plug 'tyru/caw.vim'
 
@@ -26,10 +26,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Completion: Deoplete is amazing
     Plug 'joereynolds/vim-minisnip'
     Plug 'artur-shaik/vim-javacomplete2'
+    " Plug 'joereynolds/deoplete-minisnip'
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Shougo/neoinclude.vim'
     Plug 'zchee/deoplete-jedi'
-    Plug 'Shougo/neco-syntax'
+    " Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
     Plug 'carlitux/deoplete-ternjs'
     if hostname() == "mojajojo"

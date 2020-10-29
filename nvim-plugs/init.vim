@@ -114,7 +114,7 @@ endif
     " These are annoying to have on
     set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy—
-    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:.,diff:┉
+    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:═,diff:┉
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
@@ -236,8 +236,8 @@ let s:scope_endline = ''
 
 function! StatusLine()
     " Left Filename/CurArg
-    setl statusline=%{ModeColor(mode())}%#ModeMsg#\ %{Mode(mode())}\ %*
-    setl statusline+=%{ModeColor(mode())}%#ModeMsg#\ %{CurArg()}\ %*
+    setl statusline=%{ModeColor(mode())}%#NormalMode#\ %{Mode(mode())}\ %*
+    setl statusline+=%#NormalMode#\ %{CurArg()}\ %*
 
     if &modifiable
         setl statusline+=%#diffAdded#%m
@@ -245,16 +245,16 @@ function! StatusLine()
         setl statusline+=%#diffRemoved#%m
     endif
 
-    setl statusline+=%{ModeColor(mode())}%#ModeMsg#\ %<%{ScopeStart()}\ %{ModeColor(mode())}%#ModeMsg#%{ScopePos()}
-    setl statusline+=%{ModeColor(mode())}%#ModeMsg#\ %{ScopeEnd()}\ %*
+    setl statusline+=%#NormalMode#\ %<%{ScopeStart()}\ %#NormalMode#%{ScopePos()}
+    setl statusline+=%#NormalMode#\ %{ScopeEnd()}\ %*
 
-    setl statusline+=%#diffRemoved#%r%{ModeColor(mode())}%#ModeMsg#%=
+    setl statusline+=%#diffRemoved#%r%#NormalMode#%=
 
     " Right linenr,column    PositionBar()
-    setl statusline+=%-10.(%{ModeColor(mode())}%#ModeMsg#\ %l,%c\ :\ %LG,%p%%\ %)
-    setl statusline+=%-22.(%{ModeColor(mode())}%#ModeMsg#\ [\ %{PositionBarLeft()}
-                          \%{ModeColor(mode())}%#ModeMsg#%{PositionBar()}
-                          \%{ModeColor(mode())}%#ModeMsg#%{PositionBarRight()}%)\ ]\ %*
+    setl statusline+=%-10.(%#NormalMode#\ %l,%c\ :\ %LG,%p%%\ %)
+    setl statusline+=%-22.(%#NormalMode#\ [\ %{PositionBarLeft()}
+                          \%#NormalMode#%{PositionBar()}
+                          \%#NormalMode#%{PositionBarRight()}%)\ ]\ %*
 
     call ModeColor('n')
 endfunction
@@ -367,14 +367,13 @@ function! ModeColor(mode)
     endif
 
     let sl = &statusline
-    let &statusline=substitute(sl, '%{ModeColor(mode())}%#\w\+#', '%{ModeColor(mode())}'.'%#'.s:statusmodecolors[a:mode].'#', 'g')
 
-    redrawstatus!
+    let &statusline=substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)#', '%#'.s:statusmodecolors[a:mode].'#', 'g')
 
     return ''
 endfun
 
-autocmd CmdlineEnter * call ModeColor('c')
+autocmd CmdlineEnter * call ModeColor('c') | redrawstatus!
 
 func! Mode(mode)
     if !has_key(s:, "statusmodes")
