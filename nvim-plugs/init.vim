@@ -244,7 +244,7 @@ function! StatusLine()
         setl statusline+=%#diffRemoved#%m
     endif
 
-    setl statusline+=%#CursorLineNr#\ %{ScopeStart()}\ %#CursorLineNr#%{ScopePos()}
+    setl statusline+=%#CursorLineNr#\ %{ScopeStart()}\ %#CursorLineNr#%{ScopePos()}%<
     setl statusline+=%#CursorLineNr#\ %{ScopeEnd()}\ %*
 
     setl statusline+=%#diffRemoved#%r%#CursorLineNr#%=
@@ -263,7 +263,7 @@ endfunc
 function! ScopeStart()
     if has_key(g:, 'scope_startline')
         return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
-                    \ 0, winwidth('.')/2)
+                    \ 0, winwidth('.')/3)
     else
         return ''
     endif
