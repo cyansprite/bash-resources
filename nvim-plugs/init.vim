@@ -373,7 +373,7 @@ function! ModeColor(mode)
     return ''
 endfun
 
-autocmd CmdlineEnter * call ModeColor('c') | redrawstatus!
+autocmd CmdlineEnter * if v:event['cmdtype'] == ':' | call ModeColor('c') | redrawstatus! | endif
 
 func! Mode(mode)
     if !has_key(s:, "statusmodes")
