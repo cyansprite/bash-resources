@@ -84,18 +84,19 @@ endif
     set cinkeys-=0#                " don't force # indentation, ever write python?
 
     set cmdheight=1                " Pair up
-    set complete=.,w,b,u,U         " Complete all buffers,window, current
+    set complete=.,w,b,u,U         " Complete all buffers, window, current
     set completeopt=menu           " I'm not a fan of auto documentation.
     set diffopt+=context:3         " diff context lines
-    set foldcolumn=2               " foldcolumn... yes
-    set foldmethod=marker          " fold stuff :)
-    set foldopen+=jump,search      " open folds when I search/jump to things
-    set icm="nosplit"              " inc command split in preview, hasn't worked
+    set foldcolumn=0               " foldcolumn... no, just, no
+    set foldmethod=marker          " fold stuff
+    set foldopen=tag,undo,block,hor,insert,percent,jump,search
+    set inccommand=split           " pretty fucking useful
     set matchtime=0                " Show matching time
     set matchpairs+=<:>            " More matches
-    set mouse=                     " I like terminal func
+    set mouse=n                    " Term: Rxvt:shift, Iterm:command, Win:?
+    nmap <LeftMouse> <nop>
     set shiftwidth=4               " Use indents of 4 spaces
-    set shortmess+=c               " Insert completions is annoying as hellllll
+    set shortmess+=c               " Insert completions are annoying
     set sidescrolloff=10           " 10 columns off?, scroll
     set scrolloff=0                " I want to touch the top...
     set softtabstop=4              " Let backspace delete indent
@@ -103,9 +104,9 @@ endif
     set textwidth=80               " text width
     set timeoutlen=999             " Best type maps fast
     set ttimeoutlen=25             " I don't care much for waiting
-    set undolevels=99999           " A lot of undo history :P
+    set undolevels=99999           " A lot of undo history
     set updatecount=33             " update swp every 33 chars.
-    set updatetime=1000            " Do updates every second
+    set updatetime=1000            " update swp every 1 second while cursorhold
     set viewoptions=folds,cursor   " What to save with mkview
     set wildmode=full              " Let's make it nice tab completion
 
@@ -126,11 +127,11 @@ endif
     set wildignore+=*.a,*.o,*.so,*.pyc,*.class | "cpp/python/java
     set wildignore+=*/.git*,*.tar,*.zip | "srctl, compress
 
-    " I finally set it up >.> happy?
-    set formatoptions=
+    " I finally set it up
+    set formatoptions=   " reset
     set formatoptions+=l " Don't auto break lines unless I say
     set formatoptions+=r " Continue comments in insert mode
-    set formatoptions+=q " continue comments with gq
+    set formatoptions+=q " Continue comments with gq
     set formatoptions+=n " Recognize numbered lists
     set formatoptions+=2 " Use indent from 2nd line of a paragraph
     set formatoptions+=j " Destroy comment leader join when valid
@@ -151,15 +152,17 @@ endif
     inoremap <A-j> <C-\><C-N><C-w>j
     inoremap <A-k> <C-\><C-N><C-w>k
     inoremap <A-l> <C-\><C-N><C-w>l
-    nnoremap <A-h> <C-w>h
-    nnoremap <A-j> <C-w>j
-    nnoremap <A-k> <C-w>k
-    nnoremap <A-l> <C-w>l
+    " nnoremap <A-h> <C-w>h "NO
+    " nnoremap <A-j> <C-w>j "NO
+    " nnoremap <A-k> <C-w>k "NO
+    " nnoremap <A-l> <C-w>l "NO
 
-    " Refresh my script bitch!
-    nnoremap <F5> :w \| so %<cr>
+    " Refresh my vim script TODO filetypes
     " On windows it's f15 because you have to hold down shift because windows thinks f5 is fuckin E for some fucked up reason
+    nnoremap <F5> :w \| so %<cr>
     nnoremap <F15> :w \| so %<cr>
+
+    " Change list
     nnoremap <c-p> g;
     nnoremap <c-n> g,
 
@@ -184,7 +187,8 @@ endif
     nnoremap n :set hlsearch<cr>nzv
     nnoremap N :set hlsearch<cr>Nzv
     nnoremap / :set hlsearch<cr>/
-    " don't move... please :)
+    nnoremap ? :set hlsearch<cr>/\c
+    " don't move... please
     nnoremap * :set hlsearch \| let @/='\<<c-r><c-w>\>'<cr>
     " add to the existing search if it doesn't already match
     nnoremap <silent># :set hlsearch \| if match('\<'.@/.'\>', '\<<c-r><c-w>\>') == -1 \| let @/='<c-r><c-/>\\|\<<c-r><c-w>\>' \| endif<cr>
@@ -206,14 +210,13 @@ endif
     " Opp of j
     nnoremap g<cr> i<cr><esc>
 
-    "[Pre/App]end to the word under the cursor
+    "[Pre/App]end to the word under the cursor TODO make repeatable?
     map <m-a> ea
     map <m-i> bi
 
     " I uh... don't use ESC
     inoremap  
     vnoremap  
-    nnoremap ? /\c
 
     " I like playing with colors (Gives me hi-trans-lo ids)
     map <leader>1 :call HiLoBro()<cr>
@@ -228,6 +231,8 @@ endif
 
 " End Vim Map }}}
 " Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ] {{{
+let g:scope_startline = ''
+let g:scope_endline = ''
 function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%#ModeMsg#\ %{Mode(mode())}\ %*
@@ -239,6 +244,9 @@ function! StatusLine()
         setl statusline+=%#diffRemoved#%m
     endif
 
+    setl statusline+=%#CursorLineNr#\ %{ScopeStart()}\ %#CursorLineNr#%{ScopePos()}
+    setl statusline+=%#CursorLineNr#\ %{ScopeEnd()}\ %*
+
     setl statusline+=%#diffRemoved#%r%#CursorLineNr#%=
 
     " Right: linenr,column    PositionBar()
@@ -247,6 +255,10 @@ function! StatusLine()
                           \%#CursorLineNr#%{PositionBar()}
                           \%#LineNr#%{PositionBarRight()}%)\ ]\ %*
 endfunction
+
+function! ScopePos()
+    return "┃"
+endfunc
 
 function! ScopeStart()
     if has_key(g:, 'scope_startline')
@@ -479,8 +491,8 @@ try " CurlNewGuiDataFunc {{{
         exec "!wget http://".(l:ip)."/cgi-bin/guidebugdata -O guidebugdata"
     endfunc
 catch /.*/
-endtry
 command! -nargs=1 CurlNewGuiData call CurlNewGuiDataFunc(<args>)
+endtry
 " }}}
 " {{{ fun GetAllClosedFolds
 func! GetAllClosedFolds()
@@ -527,9 +539,9 @@ func! HexToRgbPercent(hex)
     "     call extract#YankHappened({'regname': 'b', 'regcontents': [l:b], 'regtype' : 'v'})
     " endif
 
-    return '' .
-                \ 'B '. l:b . l:pb . '   ' .
-                \ 'G '. l:g . l:pg . '   ' .
-                \ 'R '. l:r . l:pr . '   ' .
+    return a:hex. ' : ' .
+                \ 'B '. (l:b) . " : " .string(l:pb) . '   ' .
+                \ 'G '. (l:g) . " : " .string(l:pg) . '   ' .
+                \ 'R '. (l:r) . " : " .string(l:pr) . '   ' .
                 \ ''
 endfunc

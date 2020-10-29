@@ -25,7 +25,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Completion: Deoplete is amazing
     Plug 'joereynolds/vim-minisnip'
-    Plug 'joereynolds/deoplete-minisnip'
+    Plug 'artur-shaik/vim-javacomplete2'
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Shougo/neoinclude.vim'
     Plug 'zchee/deoplete-jedi'
@@ -90,6 +90,12 @@ call plug#end()
     endif
 
     let g:minisnip_trigger= '<c-space>'
+
+    autocmd FileType java setl omnifunc=javacomplete#Complete
+
+    nmap <leader>jia <Plug>(JavaComplete-Imports-AddSmart)
+    nmap <leader>jir <Plug>(JavaComplete-Imports-RemoveUnused)
+    let g:JavaComplete_EnableDefaultMappings = 0
 
 " }}}
 " Various Mappings With No Options: {{{1
