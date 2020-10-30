@@ -133,8 +133,7 @@ let g:cpp_concepts_highlight        = 1
     let g:grepper.open      = 0
     let g:grepper.jump      = 1
     let g:grepper.highlight = 1
-    nnoremap <leader>gg :Grepper -tool git<cr>
-    nnoremap <leader>ga :Grepper -tool ag<cr>
+    nnoremap <leader>ag :Grepper -tool ag<cr>
 
 " Extract {{{2
 let g:extract_maxCount = 7
