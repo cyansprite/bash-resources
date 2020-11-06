@@ -108,7 +108,7 @@ else
                             --color='pointer:#E12672,marker:#E17899,prompt:#98BEDE,hl+:#98BC99' \
                             --bind=up:preview-up,down:preview-down"
 
-    export BAT_THEME="Monokai Extended Light"
+    export BAT_THEME="Monokai Extended"
 fi
 
 echo "-----------------"
