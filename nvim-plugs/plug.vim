@@ -24,6 +24,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/vim-easy-align'
 
     " Completion: Deoplete is amazing
+    Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
     Plug 'joereynolds/vim-minisnip'
     Plug 'artur-shaik/vim-javacomplete2'
     " Plug 'joereynolds/deoplete-minisnip'
@@ -107,6 +109,12 @@ call plug#end()
 
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_sign_added              = '»'
+let g:gitgutter_sign_modified           = '•'
+let g:gitgutter_sign_removed            = '▓'
+let g:gitgutter_sign_removed_first_line = '^̣'
+let g:gitgutter_sign_modified_removed   = '┅'
+
 " Insert mode completion
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
