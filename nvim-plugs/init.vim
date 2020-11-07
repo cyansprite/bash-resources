@@ -231,8 +231,8 @@ endif
 
 " End Vim Map }}}
 " Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ] {{{
-let s:scope_startline = ''
-let s:scope_endline = ''
+let g:scope_startline = ''
+let g:scope_endline = ''
 
 function! StatusLine()
     " Left Filename/CurArg
@@ -264,8 +264,8 @@ function! ScopePos()
 endfunc
 
 function! ScopeStart()
-    if has_key(s:, 'scope_startline')
-        return strpart(substitute(s:scope_startline, '^\s\+\|\s\+$', "", "g"),
+    if has_key(g:, 'scope_startline')
+        return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
                     \ 0, winwidth('.')/3)
     else
         return ''
@@ -273,8 +273,8 @@ function! ScopeStart()
 endfunc
 
 function! ScopeEnd()
-    if has_key(s:, 'scope_endline')
-        return strpart(substitute(s:scope_endline, '^\s\+\|\s\+$', '', "g"),
+    if has_key(g:, 'scope_endline')
+        return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
                     \ 0, winwidth('.')/4)
     else
         return ''
