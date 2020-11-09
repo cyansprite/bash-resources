@@ -107,7 +107,7 @@ endif
     " If it's modifable, turn on numbers
     if &modifiable | set number | endif
     set synmaxcol=300
-    " Ignore this crap :) Need more..?
+    " Ignore this crap ; Need more..?
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
                   \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build*
     set wildignore+=*.bak,*.swp,*.swo | "vim
@@ -534,6 +534,7 @@ try " CurlNewGuiDataFunc {{{
         let ip .= strpart(a:ip, 5,2) . '.'
         let ip .= strpart(a:ip, 7)
         exec "!wget http://".(l:ip)."/cgi-bin/guidebugdata -O guidebugdata"
+        e guidebugdata
     endfunc
 catch /.*/
 command! -nargs=1 CurlNewGuiData call CurlNewGuiDataFunc(<args>)

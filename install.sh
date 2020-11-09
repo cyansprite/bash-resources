@@ -22,7 +22,13 @@ ln -fv .bash_aliases ~/.bash_aliases
 ln -fv .dircolors ~/.dircolors
 ln -fv .inputrc ~/.inputrc
 ln -fv .gitconfig ~/.gitconfig
-ln -fv .tmux.conf ~/.tmux.conf
+if [ `hostname` == "mojajojo" ]; then
+    ln -fv .mtmux.conf ~/.tmux.conf
+elif [ `hostname` == "cinder" ]; then
+    ln -fv .ctmux.conf ~/.tmux.conf
+else
+    ln -fv .tmux.conf ~/.tmux.conf
+fi
 ln -fv .Xdefaults ~/.Xdefaults
 ln -fv .Xresources-demi ~/.Xresources-demi
 ln -fv .Xresources-kitsune ~/.Xresources-kitsune
