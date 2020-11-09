@@ -35,14 +35,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'zchee/deoplete-jedi'
     " Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
-    Plug 'carlitux/deoplete-ternjs'
-    if hostname() == "mojajojo"
-        Plug 'ternjs/tern_for_vim', { 'do': 'node ~/bin/npm install && node ~/bin/npm install -g tern' }
-    elseif hostname() == "captainJojo"
-        Plug 'ternjs/tern_for_vim', { 'do': '/usr/local/bin/npm install' }
-    else
-        Plug 'ternjs/tern_for_vim', { 'do': 'npm install -g tern' }
-    end
 
     if has('unix')
     else
@@ -79,19 +71,6 @@ call plug#end()
     let g:echodoc#type = "popup"
     let g:deoplete#enable_camel_case = 1
     let g:deoplete#delimiters = ['/',',',';','.',':']
-    if hostname() == "mojajojo"
-        let g:tern#command = ["/users/brcoffman/bin/node-v12.12.0-linux-x64/bin/node",  "/users/brcoffman/lib/node_modules/tern/bin/tern"]
-        let g:deoplete#sources#ternjs#tern_bin  = "/users/brcoffman/lib/node_modules/tern/bin/tern"
-        let g:deoplete#sources#ternjs#node_bin  = "/users/brcoffman/bin/node-v12.12.0-linux-x64/bin/node"
-    elseif hostname() == "captainJojo"
-        " let g:tern#command = ["/usr/local/bin/tern"]
-        " let g:deoplete#sources#ternjs#tern_bin  = "/usr/local/bin/node"
-        " let g:deoplete#sources#ternjs#node_bin  = "/usr/local/bin/tern"
-    else
-        let g:tern#command = ["/usr/bin/tern"]
-        let g:deoplete#sources#ternjs#tern_bin  = "/usr/bin/tern"
-        let g:deoplete#sources#ternjs#node_bin  = "/usr/bin/node"
-    endif
 
     let g:minisnip_trigger= '<c-space>'
 

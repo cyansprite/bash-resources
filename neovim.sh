@@ -33,8 +33,8 @@ sudo -H pip install --upgrade pip
 sudo -H pip3 install --upgrade pip
 sudo -H pip install setuptools
 sudo -H pip3 install setuptools
-sudo -H pip install neovim
-sudo -H pip3 install neovim
+sudo -H pip install pynvim
+sudo -H pip3 install pynvim
 echo "========================================================================="
 echo "Updating Alternatives"
 echo "========================================================================="

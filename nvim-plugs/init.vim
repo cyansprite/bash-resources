@@ -1,15 +1,3 @@
-" TODO
-" Research formatprg
-" Research include and define
-" Research g ops
-" Of [ ops like [I
-" Of ] ops
-" map ]f and [f because gf is the same and I never use it anyways...
-" map arrow keys ??
-" function for cpp  ->  ::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$
-
-nnoremap <F9> :!python src/main.py<cr>
-
 " Plug, colo {{{
 
 if has("unix")
@@ -93,8 +81,7 @@ endif
     set inccommand=split           " pretty fucking useful
     set matchtime=0                " Show matching time
     set matchpairs+=<:>            " More matches
-    set mouse=n                    " Term: Rxvt:shift, Iterm:command, Win:?
-    nmap <LeftMouse> <nop>
+    set mouse=n                    " Term: Lin:shift, Iterm:command, Win:shift
     set shiftwidth=4               " Use indents of 4 spaces
     set shortmess+=c               " Insert completions are annoying
     set sidescrolloff=10           " 10 columns off?, scroll
@@ -603,3 +590,13 @@ func! HexToRgbPercent(hex)
                 \ 'R '. (l:r) . " : " .string(l:pr) . '   ' .
                 \ ''
 endfunc
+
+" TODO
+" Research formatprg
+" Research include and define
+" Research g ops
+" Of [ ops like [I
+" Of ] ops
+" map ]f and [f because gf is the same and I never use it anyways...
+" map arrow keys ??
+" function for cpp  ->  ::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$
