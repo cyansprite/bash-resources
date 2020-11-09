@@ -115,7 +115,8 @@ let g:gitgutter_sign_modified           = '•'
 let g:gitgutter_sign_removed            = '▓'
 let g:gitgutter_sign_removed_first_line = '^̣'
 let g:gitgutter_sign_modified_removed   = '┅'
-let g:highlightactive = 0
+let g:highlightactive = 1
+let g:autoHighCurrent = 0
 
 " Insert mode completion
 imap <c-x><c-k> <plug>(fzf-complete-word)
