@@ -7,6 +7,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'thinca/vim-visualstar'
     Plug 'vim-scripts/cmdlinecomplete'
     Plug 'cyansprite/nvim-gml'
+    Plug 'cyansprite/nvim-unmatched'
     " Plug 'kana/vim-repeat'
     " Plug 'tyru/caw.vim'
 
@@ -114,7 +115,7 @@ let g:gitgutter_sign_modified           = '•'
 let g:gitgutter_sign_removed            = '▓'
 let g:gitgutter_sign_removed_first_line = '^̣'
 let g:gitgutter_sign_modified_removed   = '┅'
-let g:highlightactive = 1
+let g:highlightactive = 0
 
 " Insert mode completion
 imap <c-x><c-k> <plug>(fzf-complete-word)
