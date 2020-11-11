@@ -50,6 +50,7 @@ endif
     set cursorline                 " set cursorline, just make sure highlight is none
     set cursorcolumn               " set no cursor column
     set expandtab                  " Expands tab to spaces
+    set hidden                     " So we can navigate without writing
     set linebreak                  " don't cut words on wrap if i DO wrap
     set list                       " list my chars: ╳│¦|┆×•·
     set nowrap                     " I really hate wrap
@@ -439,10 +440,13 @@ func! PositionBarLeft()
 endfunc  "}}}
 " Enter/LeaveWin {{{
 function! LeaveWin()
-    call StatusLineNC()
+    if g:local_win_enter != bufnr('')
+        call StatusLineNC()
+    endif
 endfunc
 
 function! EnterWin()
+    let g:local_win_enter = bufnr('')
     call StatusLine()
     try
         let curWinIndex = winnr()
