@@ -89,11 +89,11 @@ call plug#end()
 
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0
-let g:gitgutter_sign_added              = '»'
+let g:gitgutter_sign_added              = '∙'
 let g:gitgutter_sign_modified           = '•'
-let g:gitgutter_sign_removed            = '▓'
-let g:gitgutter_sign_removed_first_line = '^̣'
-let g:gitgutter_sign_modified_removed   = '┅'
+let g:gitgutter_sign_removed            = '∙'
+let g:gitgutter_sign_removed_first_line = '∙'
+let g:gitgutter_sign_modified_removed   = '∙'
 let g:highlightactive = 1
 let g:autoHighCurrent = 0
 
@@ -126,7 +126,7 @@ let g:cpp_concepts_highlight        = 1
     nnoremap <leader>ag :Grepper -tool ag<cr>
 
 " Extract {{{2
-let g:extract_maxCount = 7
+let g:extract_maxCount = 15
 
 " Autocmd: {{{1
 autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
