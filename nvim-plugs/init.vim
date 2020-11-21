@@ -6,8 +6,8 @@ if has("unix")
     command! -nargs=0 PLUG :e ~/.config/nvim/plug.vim
 else
     so ~\AppData\Local\nvim\plug.vim
-    command! -nargs=0 INIT :e c:/Users/bcoffman/AppData/Local/nvim/init.vim
-    command! -nargs=0 PLUG :e c:/Users/bcoffman/AppData/Local/nvim/plug.vim
+    command! -nargs=0 INIT :e c:/Users/brand/AppData/Local/nvim/init.vim
+    command! -nargs=0 PLUG :e c:/Users/brand/AppData/Local/nvim/plug.vim
 endif
 
 set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
@@ -29,10 +29,9 @@ if !hlexists("StatusLineAdd")
     hi StatusLineAdd ctermfg=10 ctermbg=none cterm=bold
 endif
 
-if hostname() == 'DESKTOP-D9I4I5S'
-    let g:python3_host_prog='V:\Python3\python.exe'
-    let g:python_host_prog='V:\Python2\python.exe'
-    set bg=light
+if hostname() == 'MSI'
+    let g:python3_host_prog='C:\Users\Brand\AppData\Local\Programs\Python\Python39\python.exe'
+    set bg=dark
 elseif hostname() == 'mojajojo'
     let g:python3_host_prog='/usr/local/bin/python3.7'
     let g:python_host_prog='/usr/bin/python2'
