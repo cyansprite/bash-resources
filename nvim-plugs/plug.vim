@@ -1,15 +1,14 @@
 " Plugins: (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
+    " WIP:
+    Plug 'cyansprite/nvim-gml'
+    Plug 'cyansprite/nvim-unmatched'
 
     " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
     Plug 'cyansprite/Sir-Nvim'
     Plug 'thinca/vim-visualstar'
     Plug 'vim-scripts/cmdlinecomplete'
-    Plug 'cyansprite/nvim-gml'
-    Plug 'cyansprite/nvim-unmatched'
-    " Plug 'kana/vim-repeat'
-    " Plug 'tyru/caw.vim'
 
     " Syntax: The default is mediocre, and that's being nice
     Plug 'cyansprite/vim-csharp'
@@ -18,7 +17,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'keith/tmux.vim'
     Plug 'cyansprite/vim-operator-highlight'
     Plug 'leafgarland/typescript-vim'
-    Plug 'larsbs/vim-xmll'
+    Plug 'amadeus/vim-xml'
+
+    Plug 'cyansprite/vim-ps1'
+
+    Plug 'cyansprite/vim-ps1', {
+      \ 'branch': 'feature/named-switches'
+      \ }
 
     " Format: Wrap it and align it.
     Plug 'foosoft/vim-argwrap'
@@ -29,22 +34,35 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
     Plug 'joereynolds/vim-minisnip'
     Plug 'artur-shaik/vim-javacomplete2'
-    " Plug 'joereynolds/deoplete-minisnip'
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Shougo/neoinclude.vim'
-    Plug 'zchee/deoplete-jedi'
-    " Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
-
-    if has('unix')
-    else
-        Plug 'cyansprite/omnisharp.nvim'
-    endif
     Plug 'Shougo/echodoc.vim'
 
+    " TODO Checkout language server for this
+    Plug 'zchee/deoplete-jedi'
+
+    " TODO see if I want to modify these as a toggle
+    " Plug 'Shougo/neco-syntax'
+    " Plug 'joereynolds/deoplete-minisnip'
+
+    let languageClientInstallCommand = 'bash install.sh'
     if has('unix')
         Plug 'wellle/tmux-complete.vim'
+    elseif has('win32')
+        let languageClientInstallCommand = 'powershell -executionpolicy bypass -File install.ps1'
+        Plug 'cyansprite/omnisharp.nvim'
     endif
+
+    Plug 'autozimu/LanguageClient-neovim', {
+      \ 'branch': 'next',
+      \ 'do': languageClientInstallCommand,
+      \ }
+
+    Plug 'corbob/vim-powershell', {
+      \ 'branch': 'dev',
+      \ 'do': 'pwsh build.ps1',
+      \ }
 
     " Git: git...GIT
     Plug 'airblade/vim-gitgutter'
@@ -54,10 +72,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/logicalBuffers'
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-    Plug '~/.fzf'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
+
+    " TODO update
     Plug 'cyansprite/vim-grepper'
+
+    " Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
     " Plug 'mhinz/neovim-remote'
 
     " Color: My personal theme featuring Espurr
@@ -83,27 +104,34 @@ call plug#end()
 " }}}
 " Various Mappings With No Options: {{{1
     nnoremap <silent> <leader>A :ArgWrap<cr>
-    nmap <leader>] :TagbarToggle<cr>
     nmap <leader>u :UndotreeToggle<cr>
-    let g:undotree_WindowLayout = 2
+    " nmap <leader>] :TagbarToggle<cr>
 
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0
-let g:gitgutter_sign_added              = '∙'
+let g:gitgutter_sign_added              = '•'
 let g:gitgutter_sign_modified           = '•'
-let g:gitgutter_sign_removed            = '∙'
-let g:gitgutter_sign_removed_first_line = '∙'
-let g:gitgutter_sign_modified_removed   = '∙'
+let g:gitgutter_sign_removed            = '•'
+let g:gitgutter_sign_removed_first_line = '•'
+let g:gitgutter_sign_modified_removed   = '•'
+
 let g:highlightactive = 1
 let g:autoHighCurrent = 0
 
-" Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--info=inline', '--preview', '~/.local/share/nvim/plugged/fzf.vim/bin/preview.sh {}']}, <bang>0)
+let g:undotree_WindowLayout = 2
+
+" FZF {{{2
+if has('unix')
+    command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--info=inline', '--preview', '~/.local/share/nvim/plugged/fzf.vim/bin/preview.sh {}']}, <bang>0)
+
+    " Insert mode completion
+    imap <c-x><c-k> <plug>(fzf-complete-word)
+    imap <c-x><c-f> <plug>(fzf-complete-path)
+    imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+    imap <c-x><c-l> <plug>(fzf-complete-line)
+endif
+
 nmap <leader>ff :Files<cr>
 nmap <leader>fl :BLines<cr>
 nmap <leader>fa :Ag<space>
@@ -128,13 +156,5 @@ let g:cpp_concepts_highlight        = 1
 " Extract {{{2
 let g:extract_maxCount = 15
 
-" Autocmd: {{{1
+" Autocmd: {{{2
 autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
-" Highlight: {{{1
-    hi link StartifyPath     StorageClass
-    hi link StorageClass     Keyword
-    hi link cppSTLnamespace  Label
-    hi link cCustomMemVar    Member
-    hi link cCustomClass     Class
-    hi link cRepeat          Repeat
-"}}}1

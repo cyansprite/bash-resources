@@ -2,13 +2,14 @@
 
 if has("unix")
     so ~/.config/nvim/plug.vim
-    command! -nargs=0 INIT :e ~/.config/nvim/init.vim
-    command! -nargs=0 PLUG :e ~/.config/nvim/plug.vim
 else
     so ~\AppData\Local\nvim\plug.vim
-    command! -nargs=0 INIT :e c:/Users/brand/AppData/Local/nvim/init.vim
-    command! -nargs=0 PLUG :e c:/Users/brand/AppData/Local/nvim/plug.vim
+    command! -nargs=0 WT :e ~/Documents/bash-resources/wtsettings.json
+    command! -nargs=0 PS :e ~/Documents/bash-resources/profile.ps1
 endif
+
+command! -nargs=0 INIT :e ~/Documents/bash-resources/nvim-plugs/init.vim
+command! -nargs=0 PLUG :e ~/Documents/bash-resources/nvim-plugs/plug.vim
 
 set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
 
