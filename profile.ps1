@@ -3,8 +3,17 @@ Import-Module PSReadLine
 Import-Module PSFzf
 Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
 
+# SSH
 ssh-agent
 ssh-add
+
+# PROMPT
+function prompt
+{
+    Write-Host ("[" + $(get-date -Format "HH:mm:ss") + "] ") -nonewline -foregroundcolor Cyan
+    Write-Host ($PWD) -nonewline -foregroundcolor Yellow
+    return " \> "
+}
 
 # ALIASES
 Set-Alias -Name l -Value Get-ChildItem
