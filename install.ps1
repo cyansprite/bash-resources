@@ -1,6 +1,8 @@
 # NOTE: remove ' for syntax highlighting
 
 $scriptblock = '
+# So we can use it manually in our profile.ps1
+Set-Service ssh-agent -StartupType Manual
 
 # Profiles for powershell.exe and pwsh
 Remove-Item C:\Users\Brand\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1 -Force

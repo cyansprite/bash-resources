@@ -3,6 +3,9 @@ Import-Module PSReadLine
 Import-Module PSFzf
 Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
 
+ssh-agent
+ssh-add
+
 # ALIASES
 Set-Alias -Name l -Value Get-ChildItem
 
