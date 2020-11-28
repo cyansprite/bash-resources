@@ -18,6 +18,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/vim-operator-highlight'
     Plug 'leafgarland/typescript-vim'
     Plug 'amadeus/vim-xml'
+    Plug 'tbastos/vim-lua'
 
     Plug 'cyansprite/vim-ps1'
 
@@ -77,8 +78,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " TODO update
     Plug 'cyansprite/vim-grepper'
-
-    " Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
     " Plug 'mhinz/neovim-remote'
 
     " Color: My personal theme featuring Espurr
@@ -105,15 +104,34 @@ call plug#end()
 " Various Mappings With No Options: {{{1
     nnoremap <silent> <leader>A :ArgWrap<cr>
     nmap <leader>u :UndotreeToggle<cr>
-    " nmap <leader>] :TagbarToggle<cr>
+
+    let lend = ''
+    if has('win32')
+        let lend = '.cmd'
+    endif
+
+    let g:LanguageClient_serverCommands = {
+                \ 'json': ['vscode-json-languageserver'.lend, '--stdio'],
+                \ 'sh': ['bash-language-server'.lend, 'start'],
+                \ }
+
+    let g:LanguageClient_selectionUI="FZF"
+    nmap <silent><leader>l <Plug>(lcn-menu)
+    nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+    nnoremap <silent> <F12> :call LanguageClient#textDocument_rename()<CR>
 
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0
-let g:gitgutter_sign_added              = '•'
-let g:gitgutter_sign_modified           = '•'
-let g:gitgutter_sign_removed            = '•'
-let g:gitgutter_sign_removed_first_line = '•'
-let g:gitgutter_sign_modified_removed   = '•'
+let g:gitgutter_sign_added                   = '•'
+let g:gitgutter_sign_modified                = '•'
+let g:gitgutter_sign_removed                 = '•'
+let g:gitgutter_sign_removed_first_line      = '•'
+let g:gitgutter_sign_modified_removed        = '•'
+let g:gitgutter_sign_allow_clobber           = '•'
+let g:gitgutter_sign_removed_above_and_below = '•'
+let g:gitgutter_sign_priority                = '•'
 
 let g:highlightactive = 1
 let g:autoHighCurrent = 0

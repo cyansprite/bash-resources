@@ -28,7 +28,7 @@
         "defaults":
         {
             "colorScheme" : "HoneyBee",
-            "fontSize" : 9,
+            "fontSize" : 11,
             "fontFace" : "Cascadia Code Light"
         },
         "list":
@@ -74,28 +74,28 @@
     // Add custom color schemes to this array.
     // To learn more about color schemes, visit https://aka.ms/terminal-color-schemes
     "schemes": [
-{
-    "name"         : "HoneyBee",
-    "foreground"   : "#f2f2de",
-    "background"   : "#181816",
-    "black"        : "#121211",
-    "brightBlack"  : "#808075",
-    "red"          : "#8c4646",
-    "brightRed"    : "#ff4c96",
-    "green"        : "#1ba93e",
-    "brightGreen"  : "#6bce3e",
-    "yellow"       : "#acaa55",
-    "brightYellow" : "#df8243",
-    "blue"         : "#4b64bb",
-    "brightBlue"   : "#43a7de",
-    "purple"       : "#af59b1",
-    "brightPurple" : "#ef4cff",
-    "cyan"         : "#59b09f",
-    "brightCyan"   : "#40d6d3",
-    "white"        : "#c6c6b5",
-    "brightWhite"  : "#ffffea",
-}
-
+        {
+            "name"         : "HoneyBee",
+            "background"   : "#f2f2de",
+            // "cursorColor"  : "#ffefee",
+            "foreground"   : "#181816",
+            "black"        : "#121211",
+            "brightBlack"  : "#808075",
+            "red"          : "#8c4646",
+            "brightRed"    : "#ff4c96",
+            "green"        : "#1ba93e",
+            "brightGreen"  : "#6bce3e",
+            "yellow"       : "#acaa55",
+            "brightYellow" : "#df8243",
+            "blue"         : "#4b64bb",
+            "brightBlue"   : "#43a7de",
+            "purple"       : "#af59b1",
+            "brightPurple" : "#ef4cff",
+            "cyan"         : "#59b09f",
+            "brightCyan"   : "#40d6d3",
+            "white"        : "#c6c6b5",
+            "brightWhite"  : "#ffffea"
+        }
     ],
 
     // Add custom actions and keybindings to this array.

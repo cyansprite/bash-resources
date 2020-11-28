@@ -1,11 +1,10 @@
 # MODULES
 Import-Module PSReadLine
 Import-Module PSFzf
-Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
 
 # SSH
 ssh-agent
-ssh-add
+# ssh-add
 
 # PROMPT
 function prompt
@@ -17,6 +16,8 @@ function prompt
 
 # ALIASES
 Set-Alias -Name l -Value Get-ChildItem
+
+Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
 
 # INPUT
 # Up and Downs, we don't like arrow keys here
@@ -52,3 +53,9 @@ Set-PSReadlineKeyHandler -Key ctrl+F -Function CharacterSearchBackward
 
 # Set-PSReadLineKeyHandler -Key ctrl+y -Function ScrollDisplayDownLine
 # Set-PSReadLineKeyHandler -Key ctrl+e -Function ScrollDisplayUpLine
+
+# Chocolatey profile
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}

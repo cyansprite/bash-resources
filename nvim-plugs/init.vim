@@ -45,6 +45,7 @@ else
 endif
 
 "}}}
+
 "Begin Vim set {{{
     " Set: Those that use macros
     set cursorline                 " set cursorline, just make sure highlight is none
@@ -131,6 +132,7 @@ endif
     " set formatoptions-=1 " I don't fuckin care how long it is
     " set formatoptions-=o " do not continue comment using o or O
 "End Vim set }}}
+
 "Begin Vim map {{{
     tnoremap <A-h> <C-\><C-N><C-w>h
     tnoremap <A-j> <C-\><C-N><C-w>j
@@ -218,6 +220,7 @@ endif
     endfunc
 
 " End Vim Map }}}
+
 " Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ] {{{
 let g:scope_startline = ''
 let g:scope_endline = ''
@@ -293,7 +296,7 @@ func! CurArg()
     endif
 
     " Breadcrumb that shit
-    let pa = split(@%, '/\|\\')
+    let pa = split(@%, "/\|\\")
     if len(pa) > 0
         for i in range(0, len(pa) - 2)
             let pa[i] = strcharpart(pa[i], 0,1)
@@ -438,11 +441,14 @@ func! PositionBarLeft()
 
     return repeat(l:track, float2nr(round(l:ratio)))
 endfunc  "}}}
+
 " Enter/LeaveWin {{{
+let g:local_win_enter = -1
+let g:local_win_leave = -1
+
 function! LeaveWin()
-    if g:local_win_enter != bufnr('')
-        call StatusLineNC()
-    endif
+    let g:local_win_leave = bufnr('')
+    call StatusLineNC()
 endfunc
 
 function! EnterWin()
@@ -455,7 +461,7 @@ function! EnterWin()
         exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.4))
 
         for i in range(1,winnr('$'))
-            if( i != curWinIndex )
+            if ( i != curWinIndex )
                 wincmd w
                 " setl relativenumber norelativenumber
                 setl nocursorline
@@ -473,19 +479,24 @@ function! EnterWin()
     endtry
 endfunction
 " }}}
+
 " Auto viewing {{{
 func! LeaveBufWin()
     if &modifiable && filereadable(expand("%"))
-        mkview
+        mkview!
     endif
 endfun
 
 func! EnterBufWin()
-    if &modifiable && filereadable(&viewdir .'/~=+.config=+nvim=+'.expand('%:t').'=')
-        loadview
-    endif
+    try
+        if &modifiable
+            loadview
+        endif
+    catch /.*/ " E32 : No file name
+    endtry
 endfun
 " }}}
+
 function! SuperSexyFoldText() "{{{
     let fold = strcharpart(&fillchars, stridx(&fillchars, 'fold') + 5, 1)
     let foldlevel = match(getline(v:foldstart),'{{' . '{\d')
@@ -511,12 +522,14 @@ function! SuperSexyFoldText() "{{{
 endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
+
 func! KillWhitespace() " {{{ -- fuck ws
     retab
     exec "%s/\\s\\+$//ge"
 endfu
 command! -nargs=0 Kws silent! call KillWhitespace()
 " }}}
+
 " Autocommands {{{
 augroup init
     autocmd!
@@ -531,6 +544,7 @@ augroup init
     autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}
+
 try " CurlNewGuiDataFunc {{{
     func! CurlNewGuiDataFunc(ip)
         let ip =  strpart(a:ip, 0,2) . '.'
@@ -544,6 +558,7 @@ catch /.*/
 command! -nargs=1 CurlNewGuiData call CurlNewGuiDataFunc(<args>)
 endtry
 " }}}
+
 " {{{ fun GetAllClosedFolds
 func! GetAllClosedFolds()
     let ll = 0
@@ -557,6 +572,7 @@ endfunc
 " }}}
 
 " }}}1
+
 " Special chars {{{
 " *\·•:,…!
 " #․.‥—–-«»‹›¢¤ƒ£¥≡+−×÷=≠><≥≤±≈~¬∅∞∫∆∏∑√∂µ%‰∴∕∙▁▂▃▄▅▆▇█▀▔
@@ -605,3 +621,4 @@ endfunc
 " map ]f and [f because gf is the same and I never use it anyways...
 " map arrow keys ??
 " function for cpp  ->  ::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$
+" True Boundary : (?<=\s)m(?=\s)|^m(?=\s)|(?<=\s)m$|^m$
