@@ -30,7 +30,8 @@ Set-PSReadLineKeyHandler -Key ctrl+k -Function HistorySearchBackward
 # Editing
 Set-PSReadlineKeyHandler -Key ctrl+w -Function BackwardKillWord
 Set-PSReadlineKeyHandler -Key ctrl+u -Function BackwardKillLine
-Set-PSReadlineKeyHandler -Key ctrl+k -Function KillLine
+
+# Set-PSReadlineKeyHandler -Key ctrl+k -Function KillLine
 
 Set-PSReadlineKeyHandler -Key alt+d -Function KillWord
 Set-PSReadlineKeyHandler -Key alt+b -Function BackwardWord
