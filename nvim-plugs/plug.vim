@@ -32,7 +32,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Completion: Deoplete is amazing
     Plug 'HerringtonDarkholme/yats.vim'
-    Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
     Plug 'joereynolds/vim-minisnip'
     Plug 'artur-shaik/vim-javacomplete2'
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -50,9 +49,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     let languageClientInstallCommand = 'bash install.sh'
     if has('unix')
         Plug 'wellle/tmux-complete.vim'
+        Plug '~/.fzf'
     elseif has('win32')
         let languageClientInstallCommand = 'powershell -executionpolicy bypass -File install.ps1'
         Plug 'cyansprite/omnisharp.nvim'
+        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     endif
 
     Plug 'autozimu/LanguageClient-neovim', {
@@ -73,7 +74,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/logicalBuffers'
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
 
     " TODO update
@@ -113,6 +113,7 @@ call plug#end()
     let g:LanguageClient_serverCommands = {
                 \ 'json': ['vscode-json-languageserver'.lend, '--stdio'],
                 \ 'sh': ['bash-language-server'.lend, 'start'],
+                \ 'typescript': ['typescript-language-server'.lend, '--stdio'],
                 \ }
 
     let g:LanguageClient_selectionUI="FZF"
