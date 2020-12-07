@@ -13,7 +13,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'thinca/vim-visualstar'
     Plug 'vim-scripts/cmdlinecomplete'
 
-    " Syntax: The default is mediocre, and that's being nice
+    " Syntax:
     Plug 'cyansprite/vim-csharp'
     Plug 'udalov/kotlin-vim'
     Plug 'octol/vim-cpp-enhanced-highlight'
@@ -22,32 +22,14 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'leafgarland/typescript-vim'
     Plug 'amadeus/vim-xml'
     Plug 'tbastos/vim-lua'
+    Plug 'PProvost/vim-ps1'
 
-    Plug 'cyansprite/vim-ps1'
-
-    Plug 'cyansprite/vim-ps1', {
-      \ 'branch': 'feature/named-switches'
-      \ }
-
-    " Format: Wrap it and align it.
+    " Format:
     Plug 'foosoft/vim-argwrap'
     Plug 'junegunn/vim-easy-align'
 
-    " Completion: Deoplete is amazing
-    " Plug 'HerringtonDarkholme/yats.vim'
-    " Plug 'joereynolds/vim-minisnip'
-    " Plug 'artur-shaik/vim-javacomplete2'
-    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'Shougo/neoinclude.vim'
-    " TODO see if deoplete source for nvim .50 lsp
-    " TODO Checkout language server for this
-    " Plug 'zchee/deoplete-jedi'
-    " TODO see if I want to modify these as a toggle
-    " Plug 'Shougo/neco-vim'
-    " Plug 'Shougo/neco-syntax'
-    " Plug 'joereynolds/deoplete-minisnip'
-    "Plug 'Shougo/echodoc.vim'
-
+    " Completion:
+    Plug 'hrsh7th/vim-vsnip-integ' " IDK I'll try it
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
 
@@ -59,7 +41,7 @@ call plug#begin('~/.local/share/nvim/plugged')
         Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     endif
 
-    " Git: git...GIT
+    " Git:
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
 
@@ -71,22 +53,12 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " TODO update
     Plug 'cyansprite/vim-grepper'
-    " Plug 'mhinz/neovim-remote'
 
-    " Color: My personal theme featuring Espurr
+    " Color:
     Plug 'cyansprite/Restraint.vim'
 call plug#end()
 
 " {{{ Completion
-    " let g:tmuxcomplete#trigger = ''
-    " let g:deoplete#enable_at_startup = 1
-    " let g:echodoc#enable_at_startup = 1
-    " let g:echodoc#type = "popup"
-    " let g:deoplete#enable_camel_case = 1
-    " let g:deoplete#delimiters = ['/',',',';','.',':']
-    " let g:minisnip_trigger = '<Tab>'
-
-    " Use completion-nvim in every buffer
     autocmd BufEnter * lua require'completion'.on_attach()
     let g:completion_confirm_key = "\<C-y>"
     let g:completion_matching_smart_case = 1
@@ -96,11 +68,6 @@ call plug#end()
 " Various Mappings With No Options: {{{1
     nnoremap <silent> <leader>A :ArgWrap<cr>
     nmap <leader>u :UndotreeToggle<cr>
-
-    let lend = ''
-    if has('win32')
-        let lend = '.cmd'
-    endif
 
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0
@@ -112,10 +79,8 @@ let g:gitgutter_sign_modified_removed        = '•'
 let g:gitgutter_sign_allow_clobber           = '•'
 let g:gitgutter_sign_removed_above_and_below = '•'
 let g:gitgutter_sign_priority                = '•'
-
 let g:highlightactive = 1
 let g:autoHighCurrent = 0
-
 let g:undotree_WindowLayout = 2
 
 " FZF {{{2
