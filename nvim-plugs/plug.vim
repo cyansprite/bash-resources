@@ -36,35 +36,24 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'artur-shaik/vim-javacomplete2'
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Shougo/neoinclude.vim'
-    Plug 'Shougo/neco-vim'
     Plug 'Shougo/echodoc.vim'
+    " TODO see if deoplete source for nvim .50 lsp
 
     " TODO Checkout language server for this
-    Plug 'zchee/deoplete-jedi'
-
+    " Plug 'zchee/deoplete-jedi'
     " TODO see if I want to modify these as a toggle
+    " Plug 'Shougo/neco-vim'
     " Plug 'Shougo/neco-syntax'
     " Plug 'joereynolds/deoplete-minisnip'
+    Plug 'neovim/nvim-lspconfig'
 
-    let languageClientInstallCommand = 'bash install.sh'
     if has('unix')
         Plug 'wellle/tmux-complete.vim'
         Plug '~/.fzf'
     elseif has('win32')
-        let languageClientInstallCommand = 'powershell -executionpolicy bypass -File install.ps1'
         Plug 'cyansprite/omnisharp.nvim'
         Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     endif
-
-    Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-      \ 'do': languageClientInstallCommand,
-      \ }
-
-    Plug 'corbob/vim-powershell', {
-      \ 'branch': 'dev',
-      \ 'do': 'pwsh build.ps1',
-      \ }
 
     " Git: git...GIT
     Plug 'airblade/vim-gitgutter'
@@ -110,19 +99,6 @@ call plug#end()
         let lend = '.cmd'
     endif
 
-    let g:LanguageClient_serverCommands = {
-                \ 'json': ['vscode-json-languageserver'.lend, '--stdio'],
-                \ 'sh': ['bash-language-server'.lend, 'start'],
-                \ 'typescript': ['typescript-language-server'.lend, '--stdio'],
-                \ }
-
-    let g:LanguageClient_selectionUI="FZF"
-    nmap <silent><leader>l <Plug>(lcn-menu)
-    nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-    nnoremap <silent> <F12> :call LanguageClient#textDocument_rename()<CR>
-
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_sign_added                   = '•'
@@ -158,12 +134,6 @@ nmap <leader>fo :History<cr>
 nmap <leader>fh :Helptags<cr>
 nmap <leader>f] :BTags<cr>
 
-" Cpp highlight {{{2
-let g:cpp_class_scope_highlight     = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight      = 1
-let g:cpp_concepts_highlight        = 1
-
 "Grepper {{{2
     let g:grepper           = {}
     let g:grepper.tools     = ['git', 'ag', 'grep']
@@ -175,5 +145,67 @@ let g:cpp_concepts_highlight        = 1
 " Extract {{{2
 let g:extract_maxCount = 15
 
-" Autocmd: {{{2
-autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
+"LSP  {{{1
+
+function! Hover()
+    try
+        lua vim.lsp.buf.hover()
+        lua vim.lsp.buf.document_highlight()
+    catch /.*/
+    endtry
+endfunc
+
+function! Moved()
+    try
+        lua vim.lsp.buf.clear_references()
+        lua vim.lsp.buf.document_highlight()
+    catch /.*/
+    endtry
+endfunc
+
+func! Tag()
+    try
+        lua vim.lsp.buf.definition()
+    catch /.*/
+        norm! 
+    endtry
+endfunc
+
+nnoremap <silent> <c-]> <cmd>call Tag()<CR>
+nnoremap <silent> K     <cmd>call Hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+
+autocmd! CursorHold * silent! call Hover()
+autocmd! CursorHoldI * silent! call Hover()
+autocmd! CursorMoved * silent! call Moved()
+
+lua require'lspconfig'.sumneko_lua.setup{}
+lua require'lspconfig'.vimls.setup{}
+lua require'lspconfig'.pyls_ms.setup{}
+set omnifunc=v:lua.vim.lsp.omnifunc
+
+hi link LspDiagnosticsError ErrorMsg
+hi link LspDiagnosticsErrorSign ErrorMsg
+hi link LspDiagnosticsErrorFloating ErrorMsg
+
+hi link LspDiagnosticsWarning WarningMsg
+hi link LspDiagnosticsWarningSign WarningMsg
+hi link LspDiagnosticsWarningFloating WarningMsg
+
+hi link LspDiagnosticsInformation MoreMsg
+hi link LspDiagnosticsInformationSign MoreMsg
+hi link LspDiagnosticsInformationFloating MoreMsg
+
+hi link LspDiagnosticsHint Question
+hi link LspDiagnosticsHintSign Question
+hi link LspDiagnosticsHintFloating Question
+
+hi link LspReferenceText CursorLineNr
+hi link LspReferenceRead CursorLineNr
+hi link LspReferenceWrite CursorLineNr

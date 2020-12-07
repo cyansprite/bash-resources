@@ -1,6 +1,6 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 export TERM=screen-256color
-export H=/mnt/c/Users/bcoffman
+export H=/mnt/c/Users/brand
 
 export PATH="~/bin:$PATH"
 export PATH="~/.local/bin:$PATH"

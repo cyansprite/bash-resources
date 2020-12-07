@@ -1,5 +1,7 @@
 " Plug, colo {{{
 
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+
 if has("unix")
     so ~/.config/nvim/plug.vim
 else
@@ -31,8 +33,10 @@ if !hlexists("StatusLineAdd")
 endif
 
 if hostname() == 'MSI'
-    let g:python3_host_prog='C:\Users\Brand\AppData\Local\Programs\Python\Python39\python.exe'
-    set bg=dark
+    if has('win32')
+        let g:python3_host_prog='C:\Users\Brand\AppData\Local\Programs\Python\Python39\python.exe'
+    endif
+    set bg=light
 elseif hostname() == 'mojajojo'
     let g:python3_host_prog='/usr/local/bin/python3.7'
     let g:python_host_prog='/usr/bin/python2'
@@ -84,10 +88,11 @@ endif
     set matchtime=0                " Show matching time
     set matchpairs+=<:>            " More matches
     set mouse=n                    " Term: Lin:shift, Iterm:command, Win:shift
+    set scrolloff=0                " I want to touch the top...
     set shiftwidth=4               " Use indents of 4 spaces
     set shortmess+=c               " Insert completions are annoying
     set sidescrolloff=10           " 10 columns off?, scroll
-    set scrolloff=0                " I want to touch the top...
+    set signcolumn=number          " always draw it
     set softtabstop=4              " Let backspace delete indent
     set tabstop=4                  " An indentation every four columns
     set textwidth=80               " text width
@@ -241,14 +246,35 @@ function! StatusLine()
 
     setl statusline+=%#diffRemoved#%r%#NormalMode#%=
 
+    let x = ''
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+        let x.="E:"
+        let x.=luaeval('vim.lsp.util.buf_diagnostics_count([[Error]])')
+        let x.=" W: "
+        let x.=luaeval('vim.lsp.util.buf_diagnostics_count([[Warning]])')
+    else
+    endif
+
     " Right linenr,column    PositionBar()
-    setl statusline+=%-10.(%#NormalMode#\ %l,%c\ :\ %LG,%p%%\ %)
+    setl statusline+=%-10.(%#NormalMode#\ %l,%c\ %{LSP_Status()}\ %LG,%p%%\ %)
     setl statusline+=%-22.(%#NormalMode#\ [\ %{PositionBarLeft()}
                           \%#NormalMode#%{PositionBar()}
                           \%#NormalMode#%{PositionBarRight()}%)\ ]\ %*
 
     call ModeColor('n')
 endfunction
+
+function! LSP_Status()
+    let x = ''
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+        let x.="E:"
+        let x.=string(luaeval('vim.lsp.util.buf_diagnostics_count([[Error]])'))
+        let x.=" W:"
+        let x.=string(luaeval('vim.lsp.util.buf_diagnostics_count([[Warning]])'))
+    else
+    endif
+    return x
+endfunc
 
 function! ScopePos()
     return "┃"
@@ -266,7 +292,7 @@ endfunc
 function! ScopeEnd()
     if has_key(g:, 'scope_endline')
         return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
-                    \ 0, winwidth('.')/4)
+                    \ 0, winwidth('.')/4) . ' '
     else
         return ''
     endif
@@ -454,7 +480,11 @@ endfunc
 function! EnterWin()
     let g:local_win_enter = bufnr('')
     call StatusLine()
+    " echom g:curwin
+
     try
+        throw "skip"
+
         let curWinIndex = winnr()
         let windowCount = winnr('$')
 
@@ -538,6 +568,7 @@ augroup init
     autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
     autocmd WinEnter * cal EnterWin()
     autocmd WinLeave * cal LeaveWin()
+    autocmd CursorMoved * cal LeaveBufWin()
 
     " Filetypes
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s

@@ -11,7 +11,7 @@ echo "Installing neovim, pythons, xsel, tmux"
 echo "========================================================================="
 echo ""
 yes | sudo apt-get install neovim
-yes | sudo apt-get install python-dev python-pip python3-dev python3-pip
+yes | sudo apt-get install python3-dev python3-pip
 yes | sudo apt-get install xsel
 yes | sudo apt-get install tmux
 
