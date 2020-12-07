@@ -29,6 +29,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/vim-easy-align'
 
     " Completion:
+    Plug 'hrsh7th/vim-vsnip'
     Plug 'hrsh7th/vim-vsnip-integ' " IDK I'll try it
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
