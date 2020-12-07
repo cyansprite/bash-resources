@@ -31,21 +31,22 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/vim-easy-align'
 
     " Completion: Deoplete is amazing
-    Plug 'HerringtonDarkholme/yats.vim'
-    Plug 'joereynolds/vim-minisnip'
-    Plug 'artur-shaik/vim-javacomplete2'
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'Shougo/neoinclude.vim'
-    Plug 'Shougo/echodoc.vim'
+    " Plug 'HerringtonDarkholme/yats.vim'
+    " Plug 'joereynolds/vim-minisnip'
+    " Plug 'artur-shaik/vim-javacomplete2'
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'Shougo/neoinclude.vim'
     " TODO see if deoplete source for nvim .50 lsp
-
     " TODO Checkout language server for this
     " Plug 'zchee/deoplete-jedi'
     " TODO see if I want to modify these as a toggle
     " Plug 'Shougo/neco-vim'
     " Plug 'Shougo/neco-syntax'
     " Plug 'joereynolds/deoplete-minisnip'
+    "Plug 'Shougo/echodoc.vim'
+
     Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/completion-nvim'
 
     if has('unix')
         Plug 'wellle/tmux-complete.vim'
@@ -80,10 +81,13 @@ call plug#end()
     let g:echodoc#type = "popup"
     let g:deoplete#enable_camel_case = 1
     let g:deoplete#delimiters = ['/',',',';','.',':']
+    let g:minisnip_trigger = '<Tab>'
+    " autocmd FileType java setl omnifunc=javacomplete#Complete
 
-    let g:minisnip_trigger= '<c-space>'
-
-    autocmd FileType java setl omnifunc=javacomplete#Complete
+    " Use completion-nvim in every buffer
+    autocmd BufEnter * lua require'completion'.on_attach()
+    let g:completion_confirm_key = "\<C-y>"
+    let g:completion_matching_smart_case = 1
 
     nmap <leader>jia <Plug>(JavaComplete-Imports-AddSmart)
     nmap <leader>jir <Plug>(JavaComplete-Imports-RemoveUnused)
@@ -146,29 +150,38 @@ nmap <leader>f] :BTags<cr>
 let g:extract_maxCount = 15
 
 "LSP  {{{1
-
 function! Hover()
-    try
-        lua vim.lsp.buf.hover()
-        lua vim.lsp.buf.document_highlight()
-    catch /.*/
-    endtry
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+        try
+            lua vim.lsp.buf.hover()
+            lua vim.lsp.buf.document_highlight()
+        catch /.*/
+            echom v:exception
+        endtry
+    endif
 endfunc
 
 function! Moved()
-    try
-        lua vim.lsp.buf.clear_references()
-        lua vim.lsp.buf.document_highlight()
-    catch /.*/
-    endtry
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+        try
+            lua vim.lsp.buf.clear_references()
+            lua vim.lsp.buf.document_highlight()
+        catch /.*/
+            echom v:exception
+        endtry
+    endif
 endfunc
 
 func! Tag()
-    try
-        lua vim.lsp.buf.definition()
-    catch /.*/
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+        try
+            lua vim.lsp.buf.definition()
+        catch /.*/
+            echom v:exception
+        endtry
+    else
         norm! 
-    endtry
+    endif
 endfunc
 
 nnoremap <silent> <c-]> <cmd>call Tag()<CR>
@@ -188,8 +201,43 @@ autocmd! CursorMoved * silent! call Moved()
 lua require'lspconfig'.sumneko_lua.setup{}
 lua require'lspconfig'.vimls.setup{}
 lua require'lspconfig'.pyls_ms.setup{}
+lua require'lspconfig'.tsserver.setup{}
+lua require'lspconfig'.bashls.setup{}
+
+function! InstallAll()
+    try
+        LspInstall sumneko_lua
+    catch /.*/
+        echom v:exception
+    endtry
+    try
+        LspInstall vimls
+    catch /.*/
+        echom v:exception
+    endtry
+    try
+        LspInstall pyls_ms
+    catch /.*/
+        echom v:exception
+    endtry
+
+    try
+        LspInstall tsserver
+    catch /.*/
+        echom v:exception
+    endtry
+
+    try
+        LspInstall bashls
+    catch /.*/
+        echom v:exception
+    endtry
+endfunc
+
+" TODO deoplete
 set omnifunc=v:lua.vim.lsp.omnifunc
 
+" TODO move to COLO
 hi link LspDiagnosticsError ErrorMsg
 hi link LspDiagnosticsErrorSign ErrorMsg
 hi link LspDiagnosticsErrorFloating ErrorMsg

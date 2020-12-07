@@ -2,6 +2,12 @@
 
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
 if has("unix")
     so ~/.config/nvim/plug.vim
 else
@@ -79,7 +85,7 @@ endif
 
     set cmdheight=1                " Pair up
     set complete=.,w,b,u,U         " Complete all buffers, window, current
-    set completeopt=menu           " I'm not a fan of auto documentation.
+    set completeopt=menuone,noinsert,noselect
     set diffopt+=context:3         " diff context lines
     set foldcolumn=0               " foldcolumn... no, just, no
     set foldmethod=marker          " fold stuff
@@ -213,6 +219,9 @@ endif
     inoremap  
     vnoremap  
 
+    " omni complete, will probably remove later
+    inoremap <c-space> <c-x><c-o>
+
     " I like playing with colors (Gives me hi-trans-lo ids)
     map <leader>1 :call HiLoBro()<cr>
 
@@ -246,17 +255,8 @@ function! StatusLine()
 
     setl statusline+=%#diffRemoved#%r%#NormalMode#%=
 
-    let x = ''
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-        let x.="E:"
-        let x.=luaeval('vim.lsp.util.buf_diagnostics_count([[Error]])')
-        let x.=" W: "
-        let x.=luaeval('vim.lsp.util.buf_diagnostics_count([[Warning]])')
-    else
-    endif
-
     " Right linenr,column    PositionBar()
-    setl statusline+=%-10.(%#NormalMode#\ %l,%c\ %{LSP_Status()}\ %LG,%p%%\ %)
+    setl statusline+=%-10.(%#NormalMode#\ %l,%c\ %#ErrorMsg#%{LSP_Error()}%#WarningMsg#%{LSP_Warning()}%#NormalMode#\ %LG,%p%%\ %)
     setl statusline+=%-22.(%#NormalMode#\ [\ %{PositionBarLeft()}
                           \%#NormalMode#%{PositionBar()}
                           \%#NormalMode#%{PositionBarRight()}%)\ ]\ %*
@@ -264,17 +264,33 @@ function! StatusLine()
     call ModeColor('n')
 endfunction
 
-function! LSP_Status()
+function! LSP_Error()
     let x = ''
+
     if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-        let x.="E:"
-        let x.=string(luaeval('vim.lsp.util.buf_diagnostics_count([[Error]])'))
-        let x.=" W:"
-        let x.=string(luaeval('vim.lsp.util.buf_diagnostics_count([[Warning]])'))
-    else
+        let errorCount = luaeval("vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Error]])")
+        if errorCount > 0
+            let x.="E:"
+            let x.=string(errorCount)
+            let x.=" "
+        endif
     endif
+
     return x
 endfunc
+
+function! LSP_Warning()
+    let x = ''
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+        let warningCount = luaeval("vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Warning]])")
+        if warningCount > 0
+            let x.="W:"
+            let x.=string(warningCount)
+            let x.=" "
+        endif
+    endif
+    return x
+endfun
 
 function! ScopePos()
     return "┃"
@@ -322,7 +338,8 @@ func! CurArg()
     endif
 
     " Breadcrumb that shit
-    let pa = split(@%, "/\|\\")
+    " let pa = split(@%, "/\|\\")
+    let pa = split(@%, "/\\|\\")
     if len(pa) > 0
         for i in range(0, len(pa) - 2)
             let pa[i] = strcharpart(pa[i], 0,1)
@@ -469,22 +486,13 @@ func! PositionBarLeft()
 endfunc  "}}}
 
 " Enter/LeaveWin {{{
-let g:local_win_enter = -1
-let g:local_win_leave = -1
-
 function! LeaveWin()
-    let g:local_win_leave = bufnr('')
-    call StatusLineNC()
 endfunc
 
 function! EnterWin()
-    let g:local_win_enter = bufnr('')
     call StatusLine()
-    " echom g:curwin
 
     try
-        throw "skip"
-
         let curWinIndex = winnr()
         let windowCount = winnr('$')
 
@@ -493,10 +501,10 @@ function! EnterWin()
         for i in range(1,winnr('$'))
             if ( i != curWinIndex )
                 wincmd w
-                " setl relativenumber norelativenumber
                 setl nocursorline
                 setl nocursorcolumn
                 setl colorcolumn=0
+                call StatusLineNC()
             endif
         endfor
 
