@@ -4,6 +4,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/nvim-gml'
     Plug 'cyansprite/nvim-unmatched'
 
+    " Stuff:
+    Plug 'cyansprite/vim-highlightedyank'
+
     " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
     Plug 'cyansprite/Sir-Nvim'
@@ -76,22 +79,18 @@ call plug#end()
 
 " {{{ Completion
     " let g:tmuxcomplete#trigger = ''
-    let g:deoplete#enable_at_startup = 1
-    let g:echodoc#enable_at_startup = 1
-    let g:echodoc#type = "popup"
-    let g:deoplete#enable_camel_case = 1
-    let g:deoplete#delimiters = ['/',',',';','.',':']
-    let g:minisnip_trigger = '<Tab>'
-    " autocmd FileType java setl omnifunc=javacomplete#Complete
+    " let g:deoplete#enable_at_startup = 1
+    " let g:echodoc#enable_at_startup = 1
+    " let g:echodoc#type = "popup"
+    " let g:deoplete#enable_camel_case = 1
+    " let g:deoplete#delimiters = ['/',',',';','.',':']
+    " let g:minisnip_trigger = '<Tab>'
 
     " Use completion-nvim in every buffer
     autocmd BufEnter * lua require'completion'.on_attach()
     let g:completion_confirm_key = "\<C-y>"
     let g:completion_matching_smart_case = 1
-
-    nmap <leader>jia <Plug>(JavaComplete-Imports-AddSmart)
-    nmap <leader>jir <Plug>(JavaComplete-Imports-RemoveUnused)
-    let g:JavaComplete_EnableDefaultMappings = 0
+    let g:completion_enable_auto_hover = 1
 
 " }}}
 " Various Mappings With No Options: {{{1
@@ -153,6 +152,7 @@ let g:extract_maxCount = 15
 function! Hover()
     if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
         try
+            lua vim.lsp.buf.clear_references()
             lua vim.lsp.buf.hover()
             lua vim.lsp.buf.document_highlight()
         catch /.*/
@@ -184,6 +184,18 @@ func! Tag()
     endif
 endfunc
 
+"function! CodeAction()
+    "if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+"
+"lua << EOF
+    "local params = vim.lsp.util.make_range_params()
+    "local rtn = vim.lsp.buf_request_sync(bufnr(''), 'textDocument/codeAction', params, 10000)
+    "print(rtn)
+"EOF
+"
+    "endif
+"endfunc
+
 nnoremap <silent> <c-]> <cmd>call Tag()<CR>
 nnoremap <silent> K     <cmd>call Hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -193,10 +205,13 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+" Make it all go away when I'm trying to focus
+" nnoremap <silent> <space>k <cmd>lua vim.lsp.buf.clear_references()<CR>
 
 autocmd! CursorHold * silent! call Hover()
 autocmd! CursorHoldI * silent! call Hover()
 autocmd! CursorMoved * silent! call Moved()
+autocmd! CursorMovedI * silent! call Moved()
 
 lua require'lspconfig'.sumneko_lua.setup{}
 lua require'lspconfig'.vimls.setup{}
@@ -236,24 +251,3 @@ endfunc
 
 " TODO deoplete
 set omnifunc=v:lua.vim.lsp.omnifunc
-
-" TODO move to COLO
-hi link LspDiagnosticsError ErrorMsg
-hi link LspDiagnosticsErrorSign ErrorMsg
-hi link LspDiagnosticsErrorFloating ErrorMsg
-
-hi link LspDiagnosticsWarning WarningMsg
-hi link LspDiagnosticsWarningSign WarningMsg
-hi link LspDiagnosticsWarningFloating WarningMsg
-
-hi link LspDiagnosticsInformation MoreMsg
-hi link LspDiagnosticsInformationSign MoreMsg
-hi link LspDiagnosticsInformationFloating MoreMsg
-
-hi link LspDiagnosticsHint Question
-hi link LspDiagnosticsHintSign Question
-hi link LspDiagnosticsHintFloating Question
-
-hi link LspReferenceText CursorLineNr
-hi link LspReferenceRead CursorLineNr
-hi link LspReferenceWrite CursorLineNr

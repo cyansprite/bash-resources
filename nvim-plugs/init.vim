@@ -149,14 +149,18 @@ endif
     tnoremap <A-j> <C-\><C-N><C-w>j
     tnoremap <A-k> <C-\><C-N><C-w>k
     tnoremap <A-l> <C-\><C-N><C-w>l
+    tnoremap <A-c> <C-\><C-N>
+
     inoremap <A-h> <C-\><C-N><C-w>h
     inoremap <A-j> <C-\><C-N><C-w>j
     inoremap <A-k> <C-\><C-N><C-w>k
     inoremap <A-l> <C-\><C-N><C-w>l
-    " nnoremap <A-h> <C-w>h "NO
-    " nnoremap <A-j> <C-w>j "NO
-    " nnoremap <A-k> <C-w>k "NO
-    " nnoremap <A-l> <C-w>l "NO
+    inoremap <A-c> <C-\><C-N>
+
+    nnoremap <A-h> <C-w>h
+    nnoremap <A-j> <C-w>j
+    nnoremap <A-k> <C-w>k
+    nnoremap <A-l> <C-w>l
 
     " Refresh my vim script TODO filetypes
     " On windows it's f15 because you have to hold down shift because windows thinks f5 is fuckin E for some fucked up reason
@@ -242,7 +246,7 @@ let g:scope_endline = ''
 function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%{ModeColor(mode())}%#NormalMode#\ %{Mode(mode())}\ %*
-    setl statusline+=%#NormalMode#\ %{CurArg()}\ %*
+    setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error('[[Error]]')}%#WarningMsg#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}%#NormalMode#\ %{CurArg()}\ %*
 
     if &modifiable
         setl statusline+=%#diffAdded#%m
@@ -256,21 +260,22 @@ function! StatusLine()
     setl statusline+=%#diffRemoved#%r%#NormalMode#%=
 
     " Right linenr,column    PositionBar()
-    setl statusline+=%-10.(%#NormalMode#\ %l,%c\ %#ErrorMsg#%{LSP_Error()}%#WarningMsg#%{LSP_Warning()}%#NormalMode#\ %LG,%p%%\ %)
-    setl statusline+=%-22.(%#NormalMode#\ [\ %{PositionBarLeft()}
-                          \%#NormalMode#%{PositionBar()}
-                          \%#NormalMode#%{PositionBarRight()}%)\ ]\ %*
+    setl statusline+=%-8.(%#NormalMode#\ %l,%c%)
+    setl statusline+=%-8.(%#NormalMode#%{StatusLineFileType()}\ █%{PositionBarLeft()}
+                          \%{PositionBar()}
+                          \%{PositionBarRight()}%)█\ %*
 
     call ModeColor('n')
 endfunction
 
-function! LSP_Error()
+function! LSP_Error(key)
     let x = ''
 
     if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-        let errorCount = luaeval("vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Error]])")
+        let errorCount = luaeval("vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), ".a:key.")")
         if errorCount > 0
-            let x.="E:"
+            let x.=" "
+            let x.=strcharpart(a:key, 2, 1).":"
             let x.=string(errorCount)
             let x.=" "
         endif
@@ -278,19 +283,6 @@ function! LSP_Error()
 
     return x
 endfunc
-
-function! LSP_Warning()
-    let x = ''
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-        let warningCount = luaeval("vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Warning]])")
-        if warningCount > 0
-            let x.="W:"
-            let x.=string(warningCount)
-            let x.=" "
-        endif
-    endif
-    return x
-endfun
 
 function! ScopePos()
     return "┃"
@@ -439,7 +431,11 @@ func! Mode(mode)
         let paste = " PASTE "
     endif
 
-    return s:statusmodes[a:mode] . l:paste . ' : ' .toupper(&filetype)
+    return s:statusmodes[a:mode] . l:paste
+endfunc
+
+func! StatusLineFileType()
+    return toupper(&filetype)
 endfunc
 
 func! PositionBarRight()
@@ -459,7 +455,7 @@ func! PositionBarLeft()
     if l:cnt < l:length
         let l:length = l:cnt
     endif
-    let track='·'
+    let track='━'
 
     let ratio=(l:current/l:cnt)*l:length
     let rratio=l:length-l:ratio
@@ -471,11 +467,11 @@ func! PositionBarLeft()
     endif
 
     if l:current == 1
-        let pos = '|=='
+        let pos = '┃━━'
     elseif l:current != l:cnt
-        let pos = '=|='
+        let pos = '━┃━'
     else
-        let pos='==|'
+        let pos='━━┃'
     endif
 
     let s:scrollrratio = l:rratio
