@@ -28,17 +28,15 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'foosoft/vim-argwrap'
     Plug 'junegunn/vim-easy-align'
 
-    " Completion:
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'hrsh7th/vim-vsnip-integ' " IDK I'll try it
+    " LSP:
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
+    Plug 'RishabhRD/popfix'
+    Plug 'RishabhRD/nvim-lsputils'
 
     if has('unix')
-        Plug 'wellle/tmux-complete.vim'
         Plug '~/.fzf'
     elseif has('win32')
-        Plug 'cyansprite/omnisharp.nvim'
         Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     endif
 
@@ -102,29 +100,6 @@ nmap <leader>fa :Ag<space>
 nmap <leader>fo :History<cr>
 nmap <leader>fh :Helptags<cr>
 nmap <leader>f] :BTags<cr>
-" VSnip {{{2
-" NOTE: You can use other key to expand snippet.
-" Expand
-imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-
-" Expand or jump
-imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-
-" Jump forward or backward
-imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-
-" If you want to use snippet for multiple filetypes, you can `g:vsip_filetypes` for it.
-let g:vsnip_filetypes = {}
-let g:vsnip_filetypes.javascript = ['javascript']
-let g:vsnip_filetypes.typescript = ['typescript']
-let g:vsnip_filetypes.vim = ['vim']
-let g:vsnip_filetypes.lua = ['lua']
-
 "Grepper {{{2
     let g:grepper           = {}
     let g:grepper.tools     = ['git', 'ag', 'grep']
@@ -144,45 +119,60 @@ function! Hover()
             lua vim.lsp.buf.hover()
             lua vim.lsp.buf.document_highlight()
         catch /.*/
-            echom v:exception
+            echo v:exception
         endtry
     endif
 endfunc
 
 function! Moved()
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())')
         try
             lua vim.lsp.buf.clear_references()
             lua vim.lsp.buf.document_highlight()
         catch /.*/
-            echom v:exception
+            echo v:exception
         endtry
     endif
 endfunc
+
+func! NormTag()
+    try
+        if &filetype == "vim"
+            " TODO help
+        else
+            norm! 
+        endif
+    catch /.*/
+        echo v:exception
+    endtry
+endfu
 
 func! Tag()
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())')
         try
+            let [bufnum, lnum, col, off, curswant] = getcurpos()
             lua vim.lsp.buf.definition()
+            let [bufnum1, lnum1, col1, off1, curswant1] = getcurpos()
+            if bufnum1 == bufnum && lnum == lnum1 && col == col1 && off == off
+                call NormTag()
+            endif
         catch /.*/
-            echom v:exception
+            echo v:exception
         endtry
     else
-        norm! 
+        call NormTag()
     endif
 endfunc
 
-"function! CodeAction()
-    "if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-"
-"lua << EOF
-    "local params = vim.lsp.util.make_range_params()
-    "local rtn = vim.lsp.buf_request_sync(bufnr(''), 'textDocument/codeAction', params, 10000)
-    "print(rtn)
-"EOF
-"
-    "endif
-"endfunc
+function! CodeAction()
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())')
+        try
+            lua vim.lsp.buf.code_action()
+        catch /.*/
+            echo v:exception
+        endtry
+    endif
+endfunc
 
 nnoremap <silent> <c-]> <cmd>call Tag()<CR>
 nnoremap <silent> K     <cmd>call Hover()<CR>
@@ -193,6 +183,7 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> ga    <cmd>call CodeAction()<CR>
 " Make it all go away when I'm trying to focus
 " nnoremap <silent> <space>k <cmd>lua vim.lsp.buf.clear_references()<CR>
 
@@ -239,3 +230,15 @@ endfunc
 
 " TODO deoplete
 set omnifunc=v:lua.vim.lsp.omnifunc
+
+" lsputils {{{1
+lua <<EOF
+    vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+    vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+    vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+    vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+    vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+    vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+    vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+    vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+EOF

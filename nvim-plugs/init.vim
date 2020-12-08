@@ -114,7 +114,7 @@ endif
     " These are annoying to have on
     set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy—
-    set fillchars=vert:\|,stlnc:_,stl:\ ,fold:═,diff:┉
+    set fillchars=stlnc:_,stl:\ ,fold:═,diff:┉,vert:¦
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
@@ -261,9 +261,9 @@ function! StatusLine()
 
     " Right linenr,column    PositionBar()
     setl statusline+=%-8.(%#NormalMode#\ %l,%c%)
-    setl statusline+=%-8.(%#NormalMode#%{StatusLineFileType()}\ █%{PositionBarLeft()}
+    setl statusline+=%-8.(%#NormalMode#%{StatusLineFileType()}\ ┣%{PositionBarLeft()}
                           \%{PositionBar()}
-                          \%{PositionBarRight()}%)█\ %*
+                          \%{PositionBarRight()}%)┫\ %*
 
     call ModeColor('n')
 endfunction
@@ -309,6 +309,8 @@ endfunc
 " Status Line Not current, file [+][-][RO]_______>____<____l,c : maxG,%
 function! StatusLineNC()
     setl statusline =%<%#Statuslinenc#%{CurArg()}
+    setl statusline+=\ %#ErrorMsg#%{LSP_Error('[[Error]]')}%#WarningMsg#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}
+
     if &modifiable
         setl statusline+=%1*%m
     else
@@ -483,12 +485,16 @@ endfunc  "}}}
 
 " Enter/LeaveWin {{{
 function! LeaveWin()
+    call StatusLineNC()
 endfunc
 
 function! EnterWin()
     call StatusLine()
 
     try
+        let ei=&ei
+        set eventignore=WinEnter,WinLeave
+
         let curWinIndex = winnr()
         let windowCount = winnr('$')
 
@@ -509,6 +515,8 @@ function! EnterWin()
         setl cursorline
         setl cursorcolumn
         setl colorcolumn=80,130
+
+        set eventignore=ei
     catch /.*/
     endtry
 endfunction
@@ -517,6 +525,7 @@ endfunction
 " Auto viewing {{{
 func! LeaveBufWin()
     if &modifiable && filereadable(expand("%"))
+        setlocal foldmethod=marker
         mkview!
     endif
 endfun
@@ -536,7 +545,7 @@ function! SuperSexyFoldText() "{{{
     let foldlevel = match(getline(v:foldstart),'{{' . '{\d')
     let foldlevelend = matchend(getline(v:foldstart),'{{' . '{\d')
     if l:foldlevel == -1
-        let l:foldlevel = '|'
+        let l:foldlevel = '╠'
     else
         let l:foldlevel = strpart(getline(v:foldstart), l:foldlevel + 3, l:foldlevelend)
     endif
@@ -552,7 +561,7 @@ function! SuperSexyFoldText() "{{{
     let foldtextstart = strpart('' . repeat(spacechar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
     let foldtextend = ' ( #' . repeat(" ", 4 - len(lines_count_text)) . lines_count_text . " ) "
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-    return l:foldlevel . repeat(l:fold, winwidth('.') / 4) . l:foldlevel . " " . line . repeat(spacechar, winwidth('.') / 2 - len(line)) . foldtextend . l:foldlevel
+    return l:foldlevel . repeat(l:fold, winwidth('.') / 4) . '╣' . " " . line . repeat(spacechar, winwidth('.') / 2 - len(line)) . foldtextend . l:foldlevel
 endfunction
 set foldtext=SuperSexyFoldText()
 " }}}
@@ -570,32 +579,18 @@ augroup init
     " me
     autocmd BufWinLeave * cal LeaveBufWin() | call LeaveWin()
     autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
-    autocmd WinEnter * cal EnterWin()
-    autocmd WinLeave * cal LeaveWin()
-    autocmd CursorMoved * cal LeaveBufWin()
+    autocmd WinLeave * cal LeaveBufWin() | call LeaveWin()
+    autocmd WinEnter * cal EnterBufWin() | call EnterWin()
+    autocmd BufWritePost * cal LeaveBufWin()
 
-    " Filetypes
-    autocmd FileType c,cpp,java,cs set commentstring=//\ %s
-    autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+    " Filetypes TODO see if these are still even needed
+    " autocmd FileType c,cpp,java,cs set commentstring=//\ %s
+    " autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 "}}}
 
-try " CurlNewGuiDataFunc {{{
-    func! CurlNewGuiDataFunc(ip)
-        let ip =  strpart(a:ip, 0,2) . '.'
-        let ip .= strpart(a:ip, 2,3) . '.'
-        let ip .= strpart(a:ip, 5,2) . '.'
-        let ip .= strpart(a:ip, 7)
-        exec "!wget http://".(l:ip)."/cgi-bin/guidebugdata -O guidebugdata"
-        e guidebugdata
-    endfunc
-catch /.*/
-command! -nargs=1 CurlNewGuiData call CurlNewGuiDataFunc(<args>)
-endtry
-" }}}
-
-" {{{ fun GetAllClosedFolds
-func! GetAllClosedFolds()
+" {{{ fun GetAllClosedFoldsOnScreen
+func! GetAllClosedFoldsOnScreen()
     let ll = 0
     for l in range(line('w0'), line('w$'))
         if l > ll && foldclosed(l) != -1
