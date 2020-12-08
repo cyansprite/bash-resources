@@ -1,3 +1,27 @@
+" {{{ Disable vim shit
+let g:loaded_gzip = 1
+let g:loaded_tar = 1
+let g:loaded_tarPlugin = 1
+let g:loaded_zip = 1
+let g:loaded_zipPlugin = 1
+
+let g:loaded_getscript = 1
+let g:loaded_getscriptPlugin = 1
+let g:loaded_vimball = 1
+let g:loaded_vimballPlugin = 1
+
+let g:loaded_matchit = 1
+let g:loaded_matchparen = 1
+let g:loaded_2html_plugin = 1
+let g:loaded_logiPat = 1
+let g:loaded_rrhelper = 1
+
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
+let g:loaded_netrwSettings = 1
+let g:loaded_netrwFileHandlers = 1
+" }}}
+
 " Plug, colo {{{
 
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
@@ -19,7 +43,7 @@ endif
 command! -nargs=0 INIT :e ~/Documents/bash-resources/nvim-plugs/init.vim
 command! -nargs=0 PLUG :e ~/Documents/bash-resources/nvim-plugs/plug.vim
 
-set guicursor=n-c-v:block,i-ci:ver30,r-cr:hor20,o:hor100
+set guicursor=n-c-v:block-nCursor-blinkwait300-blinkon200-blinkoff150,i-ci:ver30-iCursor-blinkwait300-blinkon200-blinkoff150
 
 try
     " set termguicolors
@@ -71,6 +95,7 @@ endif
     set noshowmatch                " Plugin does this Show matching brackets/parentthesis
     set noshowmode                 " I just put it in statusbar, don't clear echo
     set ignorecase smartcase       " ignore case if just using lower
+    set shiftround                 " shiftup/down on ><
     set smartcase                  " makes things a bit better
     set smartindent                " indent things well
     set smarttab                   " tab plays nicer
@@ -82,7 +107,7 @@ endif
     " Set: Those that use =
     let &showbreak = '↳ '          " Change show break thing (rare occasion)
     set cinkeys-=0#                " don't force # indentation, ever write python?
-
+    set backspace=indent,eol,start " Intuitive backspacing in insert mode
     set cmdheight=1                " Pair up
     set complete=.,w,b,u,U         " Complete all buffers, window, current
     set completeopt=menuone,noinsert,noselect
@@ -91,9 +116,10 @@ endif
     set foldmethod=marker          " fold stuff
     set foldopen=tag,undo,block,hor,insert,percent,jump,search
     set inccommand=split           " pretty fucking useful
+    " set jumpoptions=stack
     set matchtime=0                " Show matching time
     set matchpairs+=<:>            " More matches
-    set mouse=n                    " Term: Lin:shift, Iterm:command, Win:shift
+    set mouse=nv                   " Term: Lin:shift, Iterm:command, Win:shift
     set scrolloff=0                " I want to touch the top...
     set shiftwidth=4               " Use indents of 4 spaces
     set shortmess+=c               " Insert completions are annoying
@@ -109,6 +135,10 @@ endif
     set updatetime=1000            " update swp every 1 second while cursorhold
     set viewoptions=folds,cursor   " What to save with mkview
     set wildmode=full              " Let's make it nice tab completion
+    set whichwrap+=h,l,<,>,[,],~   " Go to next/previous lines with these "
+
+    set grepformat=%f:%l:%m
+    let &grepprg = 'ag --vimgrep' . (&smartcase ? ' --smart-case' : '')
 
     " Set: Those that are complex, or just look stupid
     " These are annoying to have on
@@ -120,12 +150,17 @@ endif
     " If it's modifable, turn on numbers
     if &modifiable | set number | endif
     set synmaxcol=300
-    " Ignore this crap ; Need more..?
+    " Ignore this crap ; Need more.. and need to filter
     set wildignore=*.jar,*.class,*/Sdk*,*.ttf,*.png,*.tzo,*.tar,*.pdf,
                   \*.gif,*.gz,*.jpg,*.jpeg,**/bin/*,*.iml,*.store,*/build*
     set wildignore+=*.bak,*.swp,*.swo | "vim
     set wildignore+=*.a,*.o,*.so,*.pyc,*.class | "cpp/python/java
     set wildignore+=*/.git*,*.tar,*.zip | "srctl, compress
+    set wildignore+=.git,.hg,.svn,.stversions,*.pyc,*.spl,*.o,*.out,*~,%*
+    set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store
+    set wildignore+=**/node_modules/**,**/bower_modules/**,*/.sass-cache/*
+    set wildignore+=application/vendor/**,**/vendor/ckeditor/**,media/vendor/**
+    set wildignore+=__pycache__,*.egg-info,.pytest_cache,.mypy_cache/**
 
     " I finally set it up
     set formatoptions=   " reset
@@ -583,9 +618,11 @@ augroup init
     autocmd WinEnter * cal EnterBufWin() | call EnterWin()
     autocmd BufWritePost * cal LeaveBufWin()
 
+    autocmd Syntax * if line('$') > 200 | syntax sync minlines=200 | endif
+
     " Filetypes TODO see if these are still even needed
-    " autocmd FileType c,cpp,java,cs set commentstring=//\ %s
-    " autocmd FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+    autocmd FileType c,cpp,java,cs set commentstring=//\ %s
+    autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class expandtab smarttab tabstop=4 softtabstop=4 shiftwidth=4
 augroup END
 "}}}
 
