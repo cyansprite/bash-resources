@@ -6,12 +6,14 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Stuff:
     Plug 'cyansprite/vim-highlightedyank'
+    Plug 'vim-scripts/cmdlinecomplete'
 
     " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
     Plug 'cyansprite/Sir-Nvim'
     Plug 'thinca/vim-visualstar'
-    Plug 'vim-scripts/cmdlinecomplete'
+    Plug 'AndrewRadev/dsf.vim' " delete surrounding function with dsf
+    Plug 'AndrewRadev/deleft.vim' " delete surrounding blocks with dh
 
     " Syntax:
     Plug 'cyansprite/vim-csharp'
@@ -31,8 +33,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     " LSP:
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
-    Plug 'RishabhRD/popfix'
-    Plug 'RishabhRD/nvim-lsputils'
 
     if has('unix')
         Plug '~/.fzf'
@@ -45,13 +45,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-fugitive'
 
     " Interface:
+    Plug 'cyansprite/vim-sayonara'
     Plug 'cyansprite/logicalBuffers'
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     Plug 'junegunn/fzf.vim'
-
-    " TODO update
-    Plug 'cyansprite/vim-grepper'
+    Plug 'mhinz/vim-tree'
+    Plug 'junegunn/gv.vim'
 
     " Color:
     Plug 'cyansprite/Restraint.vim'
@@ -111,27 +111,45 @@ nmap <leader>f] :BTags<cr>
 " Extract {{{2
 let g:extract_maxCount = 15
 
-"LSP  {{{1
-function! Hover()
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+"LSP  TODO move to plugin? {{{1
+
+let g:cooldown = 500
+let g:need_cooldown = v:false
+let g:cooldown_timer = -1
+
+function! Hover(timer)
+    call timer_stop(g:cooldown_timer)
+
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))') && g:plug_allow
         try
-            lua vim.lsp.buf.clear_references()
-            lua vim.lsp.buf.hover()
-            lua vim.lsp.buf.document_highlight()
+            if !g:need_cooldown
+                if luaeval('vim.lsp.diagnostic.show_line_diagnostics()') == v:null
+                    if luaeval('vim.lsp.buf.hover()') != v:null
+                        let g:need_cooldown = v:true
+                    endif
+                else
+                    let g:need_cooldown = v:true
+                endif
+            endif
         catch /.*/
             echo v:exception
         endtry
     endif
+
+    let g:cooldown_timer = timer_start(g:cooldown, {-> execute('let g:need_cooldown=v:false')})
 endfunc
 
-function! Moved()
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())')
+function! Moved(timer)
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())') && g:plug_allow
+        "let myei=&ei
+        "set eventignore=all
         try
             lua vim.lsp.buf.clear_references()
             lua vim.lsp.buf.document_highlight()
         catch /.*/
             echo v:exception
         endtry
+        "let &eventignore=myei
     endif
 endfunc
 
@@ -148,7 +166,7 @@ func! NormTag()
 endfu
 
 func! Tag()
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())')
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())') && g:plug_allow
         try
             let [bufnum, lnum, col, off, curswant] = getcurpos()
             lua vim.lsp.buf.definition()
@@ -165,8 +183,9 @@ func! Tag()
 endfunc
 
 function! CodeAction()
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())')
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())') && g:plug_allow
         try
+            let g:plug_allow = v:false
             lua vim.lsp.buf.code_action()
         catch /.*/
             echo v:exception
@@ -174,8 +193,23 @@ function! CodeAction()
     endif
 endfunc
 
+let g:plug_timers={}
+let g:plug_timer_wait=100
+let g:plug_allow = v:true
+
+" Let's not spam it
+function! Timed(method)
+    if g:plug_timers[a:method]
+        call timer_stop(g:plug_timers[a:method])
+        unlet g:plug_timers[a:method]
+    endif
+
+    let g:plug_timers[a:method] = timer_start(g:plug_timer_wait, a:method)
+endfunc
+
 nnoremap <silent> <c-]> <cmd>call Tag()<CR>
-nnoremap <silent> K     <cmd>call Hover()<CR>
+nnoremap <silent> K     <cmd>call Timed('Hover')<CR>
+nnoremap <silent> ga    <cmd>call CodeAction()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
@@ -183,14 +217,15 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> ga    <cmd>call CodeAction()<CR>
 " Make it all go away when I'm trying to focus
 " nnoremap <silent> <space>k <cmd>lua vim.lsp.buf.clear_references()<CR>
 
-autocmd! CursorHold * silent! call Hover()
-autocmd! CursorHoldI * silent! call Hover()
-autocmd! CursorMoved * silent! call Moved()
-autocmd! CursorMovedI * silent! call Moved()
+augroup lsp
+    autocmd! CursorHold * silent! call Timed('Hover')
+    autocmd! CursorHoldI * silent! call Timed('Hover')
+    autocmd! CursorMoved * silent! call Timed('Moved')
+    autocmd! CursorMovedI * silent! call Timed('Moved')
+augroup END
 
 lua require'lspconfig'.sumneko_lua.setup{}
 lua require'lspconfig'.vimls.setup{}
@@ -228,17 +263,4 @@ function! InstallAll()
     endtry
 endfunc
 
-" TODO deoplete
 set omnifunc=v:lua.vim.lsp.omnifunc
-
-" lsputils {{{1
-lua <<EOF
-    vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-    vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
-    vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
-    vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-    vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-    vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-    vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-    vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-EOF

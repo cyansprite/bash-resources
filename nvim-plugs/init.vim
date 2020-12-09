@@ -23,7 +23,6 @@ let g:loaded_netrwFileHandlers = 1
 " }}}
 
 " Plug, colo {{{
-
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 if exists('+termguicolors')
@@ -42,8 +41,6 @@ endif
 
 command! -nargs=0 INIT :e ~/Documents/bash-resources/nvim-plugs/init.vim
 command! -nargs=0 PLUG :e ~/Documents/bash-resources/nvim-plugs/plug.vim
-
-set guicursor=n-c-v:block-nCursor-blinkwait300-blinkon200-blinkoff150,i-ci:ver30-iCursor-blinkwait300-blinkon200-blinkoff150
 
 try
     " set termguicolors
@@ -108,9 +105,13 @@ endif
     let &showbreak = '↳ '          " Change show break thing (rare occasion)
     set cinkeys-=0#                " don't force # indentation, ever write python?
     set backspace=indent,eol,start " Intuitive backspacing in insert mode
+    set backupskip+=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
+    set backupskip+=.vault.vim     " secure things
     set cmdheight=1                " Pair up
     set complete=.,w,b,u,U         " Complete all buffers, window, current
     set completeopt=menuone,noinsert,noselect
+    set conceallevel=2             " conceal text we don't want to see
+    set concealcursor=niv
     set diffopt+=context:3         " diff context lines
     set foldcolumn=0               " foldcolumn... no, just, no
     set foldmethod=marker          " fold stuff
@@ -124,7 +125,7 @@ endif
     set shiftwidth=4               " Use indents of 4 spaces
     set shortmess+=c               " Insert completions are annoying
     set sidescrolloff=10           " 10 columns off?, scroll
-    set signcolumn=number          " always draw it
+    set signcolumn=yes:1           " always show 1
     set softtabstop=4              " Let backspace delete indent
     set tabstop=4                  " An indentation every four columns
     set textwidth=80               " text width
@@ -132,7 +133,7 @@ endif
     set ttimeoutlen=25             " I don't care much for waiting
     set undolevels=99999           " A lot of undo history
     set updatecount=33             " update swp every 33 chars.
-    set updatetime=1000            " update swp every 1 second while cursorhold
+    set updatetime=128             " update swp every 1 second while cursorhold
     set viewoptions=folds,cursor   " What to save with mkview
     set wildmode=full              " Let's make it nice tab completion
     set whichwrap+=h,l,<,>,[,],~   " Go to next/previous lines with these "
@@ -239,6 +240,10 @@ endif
     cmap <m-v>/ <c-r>=substitute(escape('', '/'), "\\s", "", "g")<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
     " pasting in cmode, but escape for /
     cmap <m-v>\ <c-r>=substitute(escape('', '\\'), "\\s", "", "g")<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+    " more linux linux command line
+    cmap <c-a> <Home>
+    cmap <m-b> <c-left>
+    cmap <m-f> <c-right>
 
     " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
     nnoremap <m-c> :cn<cr>
@@ -253,6 +258,9 @@ endif
     "[Pre/App]end to the word under the cursor TODO make repeatable?
     map <m-a> ea
     map <m-i> bi
+
+    " merge issues with git
+    map g/ /<<<<<<<\\|=======\\|>>>>>>>
 
     " I uh... don't use ESC
     inoremap  
@@ -274,7 +282,7 @@ endif
 
 " End Vim Map }}}
 
-" Status Line , mode [arg]|file [+][-][RO] > TODO < l,c : maxG,% [ pos ] {{{
+" Status Line , mode [arg]|file [+][-][RO] > Scope < l,c [ posbar ] {{{
 let g:scope_startline = ''
 let g:scope_endline = ''
 
@@ -289,14 +297,14 @@ function! StatusLine()
         setl statusline+=%#diffRemoved#%m
     endif
 
-    setl statusline+=%#NormalMode#\ %<%{ScopeStart()}\ %#NormalMode#%{ScopePos()}
-    setl statusline+=%#NormalMode#\ %{ScopeEnd()}\ %*
+    setl statusline+=%#NormalMode1#\ %<%{ScopeStart()}\ %#NormalMode1#%{ScopePos()}
+    setl statusline+=%#NormalMode1#\ %{ScopeEnd()}\ %*
 
-    setl statusline+=%#diffRemoved#%r%#NormalMode#%=
+    setl statusline+=%#diffRemoved#%r%#NormalMode1#%=
 
     " Right linenr,column    PositionBar()
-    setl statusline+=%-8.(%#NormalMode#\ %l,%c%)
-    setl statusline+=%-8.(%#NormalMode#%{StatusLineFileType()}\ ┣%{PositionBarLeft()}
+    setl statusline+=%.(%#NormalMode2#\ %l,%c%)
+    setl statusline+=%.(%#NormalMode2#%{StatusLineFileType()}\ ┣%{PositionBarLeft()}
                           \%{PositionBar()}
                           \%{PositionBarRight()}%)┫\ %*
 
@@ -323,6 +331,7 @@ function! ScopePos()
     return "┃"
 endfunc
 
+" TODO LSP context?
 function! ScopeStart()
     if has_key(g:, 'scope_startline')
         return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
@@ -431,12 +440,12 @@ function! ModeColor(mode)
 
     let sl = &statusline
 
-    let &statusline=substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)#', '%#'.s:statusmodecolors[a:mode].'#', 'g')
+    let sl = substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)2#', '%#'.s:statusmodecolors[a:mode].'2#', 'g')
+    let sl = substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)1#', '%#'.s:statusmodecolors[a:mode].'1#', 'g')
+    let &statusline = substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)#', '%#'.s:statusmodecolors[a:mode].'#', 'g')
 
     return ''
 endfun
-
-autocmd CmdlineEnter * if v:event['cmdtype'] == ':' | call ModeColor('c') | redrawstatus! | endif
 
 func! Mode(mode)
     if !has_key(s:, "statusmodes")
@@ -472,7 +481,7 @@ func! Mode(mode)
 endfunc
 
 func! StatusLineFileType()
-    return toupper(&filetype)
+    return ' '.toupper(&filetype)
 endfunc
 
 func! PositionBarRight()
@@ -520,16 +529,14 @@ endfunc  "}}}
 
 " Enter/LeaveWin {{{
 function! LeaveWin()
-    call StatusLineNC()
 endfunc
 
 function! EnterWin()
     call StatusLine()
+    let myei=&ei
 
     try
-        let ei=&ei
         set eventignore=WinEnter,WinLeave
-
         let curWinIndex = winnr()
         let windowCount = winnr('$')
 
@@ -549,10 +556,11 @@ function! EnterWin()
 
         setl cursorline
         setl cursorcolumn
-        setl colorcolumn=80,130
+        setl colorcolumn=80
 
-        set eventignore=ei
+        let &eventignore=myei
     catch /.*/
+        let &eventignore=myei
     endtry
 endfunction
 " }}}
@@ -612,6 +620,8 @@ command! -nargs=0 Kws silent! call KillWhitespace()
 augroup init
     autocmd!
     " me
+    autocmd CmdlineEnter * if v:event['cmdtype'] == ':' | call ModeColor('c') | redrawstatus! | endif
+
     autocmd BufWinLeave * cal LeaveBufWin() | call LeaveWin()
     autocmd BufWinEnter * cal EnterBufWin() | call EnterWin()
     autocmd WinLeave * cal LeaveBufWin() | call LeaveWin()
@@ -623,6 +633,21 @@ augroup init
     " Filetypes TODO see if these are still even needed
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class expandtab smarttab tabstop=4 softtabstop=4 shiftwidth=4
+augroup END
+
+augroup user_persistent_undo
+    autocmd!
+    au BufWritePre /tmp/*          setlocal noundofile
+    au BufWritePre COMMIT_EDITMSG  setlocal noundofile
+    au BufWritePre MERGE_MSG       setlocal noundofile
+    au BufWritePre *.tmp           setlocal noundofile
+    au BufWritePre *.bak           setlocal noundofile
+augroup END
+augroup user_secure
+    autocmd!
+    silent! autocmd BufNewFile,BufReadPre
+                \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*,.vault.vim
+                \ setlocal noswapfile noundofile nobackup nowritebackup viminfo= shada=
 augroup END
 "}}}
 
