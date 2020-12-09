@@ -45,6 +45,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-fugitive'
 
     " Interface:
+    Plug 'cyansprite/vim-grepper'
     Plug 'cyansprite/vim-sayonara'
     Plug 'cyansprite/logicalBuffers'
     Plug 'vim-scripts/undofile_warn.vim'
@@ -52,6 +53,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/fzf.vim'
     Plug 'mhinz/vim-tree'
     Plug 'junegunn/gv.vim'
+    " Plug 'AndrewRadev/inline_edit.vim' Fix for lua << EOF or find something
+    " else
 
     " Color:
     Plug 'cyansprite/Restraint.vim'
@@ -113,30 +116,23 @@ let g:extract_maxCount = 15
 
 "LSP  TODO move to plugin? {{{1
 
-let g:cooldown = 500
-let g:need_cooldown = v:false
-let g:cooldown_timer = -1
+let g:plug_last_hover_pos=[0, 0]
 
 function! Hover(timer)
-    call timer_stop(g:cooldown_timer)
-
     if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))') && g:plug_allow
         try
-            if !g:need_cooldown
-                if luaeval('vim.lsp.diagnostic.show_line_diagnostics()') == v:null
-                    if luaeval('vim.lsp.buf.hover()') != v:null
-                        let g:need_cooldown = v:true
-                    endif
-                else
-                    let g:need_cooldown = v:true
-                endif
+            let [bufnum, lnum, col, off, curswant] = getcurpos()
+            if g:plug_last_hover_pos[0] == lnum && g:plug_last_hover_pos[1] == col
+                return
+            endif
+            let g:plug_last_hover_pos = [lnum, col]
+            if luaeval('vim.lsp.diagnostic.show_line_diagnostics()') == v:null
+                lua vim.lsp.buf.hover()
             endif
         catch /.*/
             echo v:exception
         endtry
     endif
-
-    let g:cooldown_timer = timer_start(g:cooldown, {-> execute('let g:need_cooldown=v:false')})
 endfunc
 
 function! Moved(timer)
@@ -227,11 +223,14 @@ augroup lsp
     autocmd! CursorMovedI * silent! call Timed('Moved')
 augroup END
 
-lua require'lspconfig'.sumneko_lua.setup{}
-lua require'lspconfig'.vimls.setup{}
-lua require'lspconfig'.pyls_ms.setup{}
-lua require'lspconfig'.tsserver.setup{}
-lua require'lspconfig'.bashls.setup{}
+
+lua << EOF
+    require'lspconfig'.sumneko_lua.setup{}
+    require'lspconfig'.vimls.setup{}
+    require'lspconfig'.pyls_ms.setup{}
+    require'lspconfig'.tsserver.setup{}
+    require'lspconfig'.bashls.setup{}
+EOF
 
 function! InstallAll()
     try
