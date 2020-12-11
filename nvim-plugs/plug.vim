@@ -15,6 +15,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     Plug 'thinca/vim-visualstar'
 
+    Plug 'tyru/caw.vim' " Comments
+
     Plug 'AndrewRadev/dsf.vim' " delete surrounding function with dsf
     Plug 'AndrewRadev/deleft.vim' " delete surrounding blocks with dh
 
@@ -61,7 +63,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     Plug 'mhinz/vim-tree', { 'on': 'Tree' }
     Plug 'junegunn/gv.vim', { 'on': 'GV' }
-    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 
     Plug 'liuchengxu/vista.vim'
 
@@ -85,8 +86,6 @@ call plug#end()
 " Various Mappings With No Options: {{{1
     nnoremap <silent> <leader>A :ArgWrap<cr>
     nmap <leader>u :UndotreeToggle<cr>
-    nnoremap <silent> <leader> :WhichKey '\'<CR>
-    nnoremap <silent> <space> :WhichKey '<space>'<CR>
 
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0
