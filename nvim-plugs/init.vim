@@ -1,18 +1,19 @@
 " {{{ Disable vim shit
-let g:loaded_gzip = 1
-let g:loaded_tar = 1
-let g:loaded_tarPlugin = 1
-let g:loaded_zip = 1
-let g:loaded_zipPlugin = 1
+" let g:loaded_matchit = 1
+" let g:loaded_zip = 1
+" let g:loaded_zipPlugin = 1
+" let g:loaded_2html_plugin = 1
+" let g:loaded_gzip = 1
+" let g:loaded_tar = 1
+" let g:loaded_tarPlugin = 1
+let g:zipPlugin_ext= '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docx,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptx,*.pptm,*.ppam,*.sldx,*.thmx,*.xlam,*.xlsx,*.xlsm,*.xlsb,*.xltx,*.xltm,*.xlam,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx,*.epub'
 
 let g:loaded_getscript = 1
 let g:loaded_getscriptPlugin = 1
 let g:loaded_vimball = 1
 let g:loaded_vimballPlugin = 1
 
-let g:loaded_matchit = 1
 let g:loaded_matchparen = 1
-let g:loaded_2html_plugin = 1
 let g:loaded_logiPat = 1
 let g:loaded_rrhelper = 1
 
@@ -20,6 +21,7 @@ let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
 let g:loaded_netrwSettings = 1
 let g:loaded_netrwFileHandlers = 1
+
 " }}}
 
 " Plug, colo {{{
@@ -42,6 +44,22 @@ endif
 command! -nargs=0 INIT :e ~/Documents/bash-resources/nvim-plugs/init.vim
 command! -nargs=0 PLUG :e ~/Documents/bash-resources/nvim-plugs/plug.vim
 
+if hostname() == 'MSI'
+    if has('win32')
+        let g:python3_host_prog='C:\Users\Brand\AppData\Local\Programs\Python\Python39\python.exe'
+    endif
+    set bg=light
+elseif hostname() == 'mojajojo'
+    let g:python3_host_prog='/usr/local/bin/python3.7'
+    let g:python_host_prog='/usr/bin/python2'
+    set bg=dark
+elseif hostname() == 'captainJojo'
+    set bg=light
+elseif hostname() == 'cinder'
+    set bg=dark
+else
+endif
+
 try
     " set termguicolors
     colo restraint
@@ -57,22 +75,6 @@ endfunc
 
 if !hlexists("StatusLineAdd")
     hi StatusLineAdd ctermfg=10 ctermbg=none cterm=bold
-endif
-
-if hostname() == 'MSI'
-    if has('win32')
-        let g:python3_host_prog='C:\Users\Brand\AppData\Local\Programs\Python\Python39\python.exe'
-    endif
-    set bg=light
-elseif hostname() == 'mojajojo'
-    let g:python3_host_prog='/usr/local/bin/python3.7'
-    let g:python_host_prog='/usr/bin/python2'
-    set bg=dark
-elseif hostname() == 'captainJojo'
-    set bg=light
-elseif hostname() == 'cinder'
-    set bg=dark
-else
 endif
 
 "}}}
@@ -111,7 +113,7 @@ endif
     set complete=.,w,b,u,U         " Complete all buffers, window, current
     set completeopt=menuone,noinsert,noselect
     set conceallevel=2             " conceal text we don't want to see
-    set concealcursor=niv
+    set concealcursor=nivc         " always conceal
     set diffopt+=context:3         " diff context lines
     set foldcolumn=0               " foldcolumn... no, just, no
     set foldmethod=marker          " fold stuff
@@ -129,7 +131,7 @@ endif
     set softtabstop=4              " Let backspace delete indent
     set tabstop=4                  " An indentation every four columns
     set textwidth=80               " text width
-    set timeoutlen=999             " Best type maps fast
+    set timeoutlen=100             " Best type maps fast
     set ttimeoutlen=25             " I don't care much for waiting
     set undolevels=99999           " A lot of undo history
     set updatecount=33             " update swp every 33 chars.
@@ -206,7 +208,6 @@ endif
     " Change list
     nnoremap <c-p> g;
     nnoremap <c-n> g,
-
 
     " Current file ea will remove extenion so like header, ec will keep
     " directory but remove file entirely. NOTE, if you file has no extension
@@ -331,22 +332,29 @@ function! ScopePos()
     return "┃"
 endfunc
 
-" TODO LSP context?
 function! ScopeStart()
-    if has_key(g:, 'scope_startline')
-        return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
-                    \ 0, winwidth('.')/3)
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+        return get(b:, 'vista_nearest_method_or_function', '')
     else
-        return ''
+        if has_key(g:, 'scope_startline')
+            return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
+                        \ 0, winwidth('.')/3)
+        else
+            return ''
+        endif
     endif
 endfunc
 
 function! ScopeEnd()
-    if has_key(g:, 'scope_endline')
-        return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
-                    \ 0, winwidth('.')/4) . ' '
-    else
+    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
         return ''
+    else
+        if has_key(g:, 'scope_endline')
+            return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
+                        \ 0, winwidth('.')/4) . ' '
+        else
+            return ''
+        endif
     endif
 endfunc
 
@@ -450,25 +458,25 @@ endfun
 func! Mode(mode)
     if !has_key(s:, "statusmodes")
         let s:statusmodes = {
-                    \ "n"  : "-- xxxxxx --",
-                    \ "no" : "-- OPERATOR --",
-                    \ "i"  : "-- INSERT --",
-                    \ "v"  : "-- VISUAL --",
-                    \ "V"  : "-- VISUAL LINE --",
-                    \ "" : "-- VISUAL BLOCK --",
-                    \ "R"  : "-- REPLACE --",
-                    \ "Rv" : "-- V REPLACE --",
-                    \ "t"  : "-- TERMINAL --",
-                    \ "s"  : "-- SELECT --",
-                    \ "S"  : "-- SELECT LINE --",
-                    \ "" : "-- SELECT BLOCK--",
-                    \ "c"  : "-- COMMAND --",
-                    \ "cv" : "-- VEX --",
-                    \ "ce" : "-- EX --",
-                    \ "r"  : "-- PROMPT --",
-                    \ "rm" : "-- MORE --",
-                    \ "r?" : "-- CONFIRM --",
-                    \ "!"  : "-- SHELL --",
+                    \ "n"  : " xxxxxx ",
+                    \ "no" : " OPERATOR ",
+                    \ "i"  : " INSERT ",
+                    \ "v"  : " VISUAL ",
+                    \ "V"  : " VISUAL LINE ",
+                    \ "" : " VISUAL BLOCK ",
+                    \ "R"  : " REPLACE ",
+                    \ "Rv" : " V REPLACE ",
+                    \ "t"  : " TERMINAL ",
+                    \ "s"  : " SELECT ",
+                    \ "S"  : " SELECT LINE ",
+                    \ "" : " SELECT BLOCK",
+                    \ "c"  : " COMMAND ",
+                    \ "cv" : " VEX ",
+                    \ "ce" : " EX ",
+                    \ "r"  : " PROMPT ",
+                    \ "rm" : " MORE ",
+                    \ "r?" : " CONFIRM ",
+                    \ "!"  : " SHELL ",
        \}
     endif
 
@@ -477,11 +485,15 @@ func! Mode(mode)
         let paste = " PASTE "
     endif
 
-    return s:statusmodes[a:mode] . l:paste
+    return '' . s:statusmodes[a:mode] . l:paste
 endfunc
 
 func! StatusLineFileType()
-    return ' '.toupper(&filetype)
+    if len(&filetype) > 0
+        return ' ' .WebDevIconsGetFileTypeSymbol(@%).' '.toupper(&filetype)
+    else
+        return ''
+    endif
 endfunc
 
 func! PositionBarRight()
@@ -627,8 +639,42 @@ augroup init
     autocmd WinLeave * cal LeaveBufWin() | call LeaveWin()
     autocmd WinEnter * cal EnterBufWin() | call EnterWin()
     autocmd BufWritePost * cal LeaveBufWin()
-
     autocmd Syntax * if line('$') > 200 | syntax sync minlines=200 | endif
+
+    func! MyVimEnter()
+        " only act if we have nothing
+        if len(@%) == 0 && len(&filetype) == 0
+            silent! setlocal
+                  \ bufhidden=wipe
+                  \ colorcolumn=
+                  \ foldcolumn=0
+                  \ matchpairs=
+                  \ modifiable
+                  \ nobuflisted
+                  \ nocursorcolumn
+                  \ nocursorline
+                  \ nolist
+                  \ nonumber
+                  \ noreadonly
+                  \ norelativenumber
+                  \ nospell
+                  \ noswapfile
+                  \ signcolumn=no
+                  \ synmaxcol&
+
+            let g:my_vim_header_index = -1
+            " let g:my_vim_enter_timer = timer_start(100, 'AnimatedNoneBuf', {'repeat' : -1})
+            call AnimatedNoneBuf(-1) " supports animations above but I'm lazy
+
+        endif
+    endf
+
+    " Maybe also bufenter?
+    if v:vim_did_enter
+        call MyVimEnter()
+    else
+        autocmd VimEnter * call MyVimEnter()
+    endif
 
     " Filetypes TODO see if these are still even needed
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
@@ -714,3 +760,157 @@ endfunc
 " map arrow keys ??
 " function for cpp  ->  ::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$
 " True Boundary : (?<=\s)m(?=\s)|^m(?=\s)|(?<=\s)m$|^m$
+
+" A fun little wip
+func! AnimatedNoneBuf(timer)
+    let g:my_header_ns = nvim_create_namespace('')
+
+    let leftpad = repeat(' ', winwidth('') / 3)
+    let toppad = winheight('') / 8
+    let belowHeaderPad = 5
+    "let leftpad = repeat(' ', winwidth('') / 3 - winwidth('') / 20)
+    "let toppad = 5
+    "let belowHeaderPad = 3
+    setlocal modifiable modified
+    norm! ggdG
+    let header = GetHeader()
+    let len = len(header)
+    let paddedHeader = []
+    for item in header
+        let s = leftpad . item
+        call add(paddedHeader, s)
+    endfor
+
+    call append('$', repeat([''], toppad))
+
+    let startline = line('$') + 1
+    call append('$', paddedHeader)
+    let endline = line('$')
+    let bnr = bufnr('%')
+    let colocat = "Operator"
+    let colograss = "String"
+
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, startline - 1, 0, -1)
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, startline, 0, -1)
+
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, startline, 70, 110)
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, startline + 1, 0, -1)
+
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, startline + 1, 66, 104)
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, startline + 2, 0, -1)
+
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, startline + 2, 65, 72)
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, startline + 2, 75, 106)
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, startline + 2, 72, 74)
+
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, endline - 1, 0, -1)
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, endline - 1, 76, 85)
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, endline - 1, 90, 105)
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, endline - 1, 85, 89)
+
+    call append('$', repeat([''], belowHeaderPad))
+
+    let colotitle = "Title"
+    let startline = line('$') + 1
+    let str = "Welcome to my Neovim"
+    let catpad = repeat(' ', len(str) - 1)
+    call append('$', leftpad.catpad. str)
+    call append('$', "")
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
+
+    let catpad = '    '
+    let colotitle = "Number"
+    let startline = line('$') + 1
+    let str = "[f] Use <leader>ff for Files"
+    call append('$', leftpad.catpad. str)
+    call append('$', "")
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
+    nnoremap <buffer><nowait><silent> f :norm <leader>ff!<cr>
+
+    let colotitle = "Special"
+    let startline = line('$') + 1
+    let str = "[o] Use <leader>fo for MRU"
+    call append('$', leftpad.catpad. str)
+    call append('$', "")
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
+    nnoremap <buffer><nowait><silent> o :norm <leader>fo!<cr>
+
+    let colotitle = "Conditonal"
+    let startline = line('$') + 1
+    let str = "[c] Use :COLO<cr> for my personal colorscheme"
+    call append('$', leftpad.catpad. str)
+    call append('$', "")
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
+    nnoremap <buffer><nowait><silent> c :COLO<cr>
+
+    let colotitle = "StorageClass"
+    let startline = line('$') + 1
+    let str = "[i] Use :INIT<cr> for my personal init.vim"
+    call append('$', leftpad.catpad. str)
+    call append('$', "")
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
+    nnoremap <buffer><nowait><silent> i :INIT<cr>
+
+    let colotitle = "Keyword"
+    let startline = line('$') + 1
+    let str = "[p] Use :PLUG<cr> for my personal plug.vim ( init.vim for plugins )"
+    call append('$', leftpad.catpad. str)
+    call append('$', "")
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
+    nnoremap <buffer><nowait><silent> p :PLUG<cr>
+
+    let x = ''
+    redir => x
+        silent! !tree -L 1
+    redir END
+    let x = split(x, "\n")
+    call remove(x, 0, 2)
+    let paddedX = []
+    for item in x
+        let s = leftpad.catpad. item
+        call add(paddedX, s)
+    endfor
+
+    call append('$', paddedX)
+
+    call append('$', repeat([''], winheight('') - line('$')))
+
+
+    " call append('$', repeat([''], winheight('') - len))
+    setlocal nomodifiable nomodified
+endfunc
+
+func! GetHeader()
+    let g:my_vim_header_index += 1
+    let g:my_vim_header_index = g:my_vim_header_index % len(g:my_vim_headers)
+    return g:my_vim_headers[g:my_vim_header_index]
+endfunc
+
+
+let g:my_vim_headers = {
+            \ 0 : [
+            \"           __..--''``---....___   _..._    __",
+            \" /// //_.-'    .-/\";  `        ``<._  ``.''_ `. / // /",
+            \"///_.-' _..--.'_    \    Neovim          `/ / / // //",
+            \"/ (_..-' // (< _     ;_..__               ; `' / ///",
+            \" / // // //  `-._,_)' // / ``--...____..-' /// / //"
+            \],
+            \}
+
+" let g:my_vim_headers = {
+"             \ 0 : [
+"             \"                      /^--^\\     /^--^\\     /^--^\\",
+"             \"                      \\____/     \\____/     \\____/",
+"             \"                     /      \\   /      \\   /      \\",
+"             \"                    |        | |        | |        |",
+"             \"                     \\__  __/   \\__  __/   \\__  __/",
+"             \"|^|^|^|^|^|^|^|^|^|^|^|^\\ \\^|^|^|^/ /^|^|^|^|^\\ \\^|^|^|^|^|^|^|^|^|^|^|^|",
+"             \"| | | | | | | | | | | | |\\ \\| | |/ /| | | | | | \\ \\ | | | | | | | | | | |",
+"             \"| | | | | | | | | | | | / / | | |\\ \\| | | | | |/ /| | | | | | | | | | | |",
+"             \"| | | | | | | | | | | | \\/| | | | \\/| | | | | |\\/ | | | | | | | | | | | |",
+"             \"#########################################################################",
+"             \"| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |",
+"             \"| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |",
+"             \],
+"             \}
+

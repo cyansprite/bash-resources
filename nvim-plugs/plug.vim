@@ -1,17 +1,20 @@
 " Plugins: (Plug.vim) {{{1
 call plug#begin('~/.local/share/nvim/plugged')
-    " WIP:
+    " WIP: Need major updates before releasing.
     Plug 'cyansprite/nvim-gml'
     Plug 'cyansprite/nvim-unmatched'
 
     " Stuff:
     Plug 'cyansprite/vim-highlightedyank'
-    Plug 'vim-scripts/cmdlinecomplete'
+    Plug 'vim-scripts/cmdlinecomplete' " TODO look into if better|etc
+    Plug 'cyansprite/Sir-Nvim' " TODO Remove probably
+    Plug 'Shougo/context_filetype.vim'
 
     " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
-    Plug 'cyansprite/Sir-Nvim'
+
     Plug 'thinca/vim-visualstar'
+
     Plug 'AndrewRadev/dsf.vim' " delete surrounding function with dsf
     Plug 'AndrewRadev/deleft.vim' " delete surrounding blocks with dh
 
@@ -34,6 +37,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
 
+    " Template:
+    Plug 'mattn/vim-sonictemplate'
+
     if has('unix')
         Plug '~/.fzf'
     elseif has('win32')
@@ -42,19 +48,28 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Git:
     Plug 'airblade/vim-gitgutter'
-    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-fugitive', { 'on' : ['Gdiff', 'Gblame'] } " add more if I ever use
 
     " Interface:
-    Plug 'cyansprite/vim-grepper'
     Plug 'cyansprite/vim-sayonara'
     Plug 'cyansprite/logicalBuffers'
+
     Plug 'vim-scripts/undofile_warn.vim'
-    Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     Plug 'junegunn/fzf.vim'
-    Plug 'mhinz/vim-tree'
-    Plug 'junegunn/gv.vim'
-    " Plug 'AndrewRadev/inline_edit.vim' Fix for lua << EOF or find something
-    " else
+
+    Plug 'cyansprite/vim-grepper', { 'on' : 'Grepper' }
+    Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+    Plug 'mhinz/vim-tree', { 'on': 'Tree' }
+    Plug 'junegunn/gv.vim', { 'on': 'GV' }
+    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+
+    Plug 'liuchengxu/vista.vim'
+
+    Plug 'norcalli/nvim-colorizer.lua'
+
+    Plug 'ryanoasis/vim-devicons'
+
+    Plug 'AndrewRadev/inline_edit.vim'
 
     " Color:
     Plug 'cyansprite/Restraint.vim'
@@ -70,6 +85,8 @@ call plug#end()
 " Various Mappings With No Options: {{{1
     nnoremap <silent> <leader>A :ArgWrap<cr>
     nmap <leader>u :UndotreeToggle<cr>
+    nnoremap <silent> <leader> :WhichKey '\'<CR>
+    nnoremap <silent> <space> :WhichKey '<space>'<CR>
 
 " Options: {{{1
 let g:gitgutter_override_sign_column_highlight = 0
@@ -84,12 +101,16 @@ let g:gitgutter_sign_priority                = '•'
 let g:highlightactive = 1
 let g:autoHighCurrent = 0
 let g:undotree_WindowLayout = 2
+let g:vista_default_executive = 'nvim_lsp'
+let g:sonictemplate_postfix_key = '<C-j>'
 
-" FZF {{{2
+" TODO fix preview it's trying to preview files because exedee
+nmap <leader>fv :Vista finder<cr>
+" TODO Needs more work I may make my own
+nmap <leader>i :InlineEdit context_filetype#get()['filetype']<cr>
+
+" FZF {{{
 if has('unix')
-    command! -bang -nargs=? -complete=dir Files
-        \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--info=inline', '--preview', '~/.local/share/nvim/plugged/fzf.vim/bin/preview.sh {}']}, <bang>0)
-
     " Insert mode completion
     imap <c-x><c-k> <plug>(fzf-complete-word)
     imap <c-x><c-f> <plug>(fzf-complete-path)
@@ -143,7 +164,8 @@ function! Moved(timer)
             lua vim.lsp.buf.clear_references()
             lua vim.lsp.buf.document_highlight()
         catch /.*/
-            echo v:exception
+            " Be silent for this will happen a lot
+            " echo v:exception
         endtry
         "let &eventignore=myei
     endif
@@ -195,7 +217,7 @@ let g:plug_allow = v:true
 
 " Let's not spam it
 function! Timed(method)
-    if g:plug_timers[a:method]
+    if has_key(g:plug_timers, a:method) && g:plug_timers[a:method]
         call timer_stop(g:plug_timers[a:method])
         unlet g:plug_timers[a:method]
     endif
@@ -217,12 +239,17 @@ nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 " nnoremap <silent> <space>k <cmd>lua vim.lsp.buf.clear_references()<CR>
 
 augroup lsp
-    autocmd! CursorHold * silent! call Timed('Hover')
-    autocmd! CursorHoldI * silent! call Timed('Hover')
+    " It's a feature but it fucking annoys me so go away
+    " autocmd! CursorHold * silent! call Timed('Hover')
+    " autocmd! CursorHoldI * silent! call Timed('Hover')
     autocmd! CursorMoved * silent! call Timed('Moved')
     autocmd! CursorMovedI * silent! call Timed('Moved')
 augroup END
 
+sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=LspDiagnosticsSignError
+sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=LspDiagnosticsSignWarning
+sign define LspDiagnosticsSignInformation text=• texthl=LspDiagnosticsSignInformation linehl= numhl=LspDiagnosticsSignInformation
+sign define LspDiagnosticsSignHint text=• texthl=LspDiagnosticsSignHint linehl= numhl=LspDiagnosticsSignHint
 
 lua << EOF
     require'lspconfig'.sumneko_lua.setup{}
@@ -230,6 +257,8 @@ lua << EOF
     require'lspconfig'.pyls_ms.setup{}
     require'lspconfig'.tsserver.setup{}
     require'lspconfig'.bashls.setup{}
+    require'lspconfig'.jsonls.setup{}
+    require'colorizer'.setup()
 EOF
 
 function! InstallAll()
@@ -257,6 +286,12 @@ function! InstallAll()
 
     try
         LspInstall bashls
+    catch /.*/
+        echom v:exception
+    endtry
+
+    try
+        LspInstall jsonls
     catch /.*/
         echom v:exception
     endtry
