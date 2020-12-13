@@ -917,12 +917,15 @@ let g:my_vim_headers = {
 "             \}
 
 " {{{ Preview Folds: TODO Move to plugin
+let g:fold_win_id = -1
 func! PreviewFold(lnum)
     let r = foldtextresult(a:lnum)
 
     if r == ''
         return v:false
     end
+
+    call CloseFoldPreview()
 
     echom string(a:lnum) . ' ' . string(v:foldend)
 
@@ -956,7 +959,10 @@ func! PreviewFold(lnum)
 endfunc
 
 func! CloseFoldPreview()
-    execute win_id2win(g:fold_win_id).'wincmd c'
+    if g:fold_win_id != -1
+        execute win_id2win(g:fold_win_id).'wincmd c'
+        let g:fold_win_id = -1
+    endif
 endfunc
 
 autocmd CursorMoved * call PreviewFold('.')
