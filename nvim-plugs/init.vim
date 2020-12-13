@@ -147,7 +147,7 @@ endif
     " These are annoying to have on
     set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy—
-    set fillchars=stlnc:_,stl:\ ,fold:═,diff:┉,vert:¦
+    set fillchars=stlnc:_,stl:\ ,fold:═,diff:┉,vert:¦,eob:
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
@@ -543,12 +543,18 @@ endfunc  "}}}
 
 " Enter/LeaveWin {{{
 function! LeaveWin()
+
 endfunc
 
 function! EnterWin()
+    let ignore = &winhl " This is a way to detect floating windows...
+
+    if ignore != ''
+        return
+    endif
+
     call StatusLine()
     let myei=&ei
-
     try
         set eventignore=WinEnter,WinLeave
         let curWinIndex = winnr()
@@ -898,72 +904,3 @@ let g:my_vim_headers = {
             \" / // // //  `-._,_)' // / ``--...____..-' /// / //"
             \],
             \}
-
-" let g:my_vim_headers = {
-"             \ 0 : [
-"             \"                      /^--^\\     /^--^\\     /^--^\\",
-"             \"                      \\____/     \\____/     \\____/",
-"             \"                     /      \\   /      \\   /      \\",
-"             \"                    |        | |        | |        |",
-"             \"                     \\__  __/   \\__  __/   \\__  __/",
-"             \"|^|^|^|^|^|^|^|^|^|^|^|^\\ \\^|^|^|^/ /^|^|^|^|^\\ \\^|^|^|^|^|^|^|^|^|^|^|^|",
-"             \"| | | | | | | | | | | | |\\ \\| | |/ /| | | | | | \\ \\ | | | | | | | | | | |",
-"             \"| | | | | | | | | | | | / / | | |\\ \\| | | | | |/ /| | | | | | | | | | | |",
-"             \"| | | | | | | | | | | | \\/| | | | \\/| | | | | |\\/ | | | | | | | | | | | |",
-"             \"#########################################################################",
-"             \"| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |",
-"             \"| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |",
-"             \],
-"             \}
-
-" {{{ Preview Folds: TODO Move to plugin
-let g:fold_win_id = -1
-func! PreviewFold(lnum)
-    let r = foldtextresult(a:lnum)
-
-    if r == ''
-        return v:false
-    end
-
-    call CloseFoldPreview()
-
-    echom string(a:lnum) . ' ' . string(v:foldend)
-
-    let bufname = "Fold " . string(a:lnum) . " ~ " . string(v:foldend)
-
-    let buf = nvim_create_buf(v:false, v:true)
-    let lines = getline(a:lnum, v:foldend)
-
-    call nvim_buf_set_name(buf, bufname)
-    call nvim_buf_set_option(buf, 'filetype',  &filetype)
-    call nvim_buf_set_option(buf, 'buftype',   'nofile')
-    call nvim_buf_set_option(buf, 'bufhidden', 'wipe')
-    call nvim_buf_set_option(buf, 'buflisted', v:false)
-    call nvim_buf_set_option(buf, 'swapfile',  v:false)
-    call nvim_buf_set_lines(buf, 0, len(lines), v:false, lines)
-    call nvim_buf_set_option(buf, 'modifiable',  v:false)
-
-    let g:fold_win_id = nvim_open_win(buf, v:false, {
-                \ 'relative': 'cursor',
-                \ 'row': 1,
-                \ 'col': 0,
-                \ 'width': &tw,
-                \ 'height': min([20, v:foldend - a:lnum]),
-                \ 'style': 'minimal'
-                \ })
-
-    call nvim_win_set_option(g:fold_win_id, 'foldenable',  v:false)
-
-    " Assumes cursor is in original window.
-    autocmd CursorMoved <buffer> ++once call CloseFoldPreview()
-endfunc
-
-func! CloseFoldPreview()
-    if g:fold_win_id != -1
-        execute win_id2win(g:fold_win_id).'wincmd c'
-        let g:fold_win_id = -1
-    endif
-endfunc
-
-autocmd CursorMoved * call PreviewFold('.')
-"}}}

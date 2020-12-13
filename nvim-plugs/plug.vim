@@ -1,4 +1,4 @@
-" Plugins: (Plug.vim) {{{1
+" Plugins: (Plug.vim) {{{
 call plug#begin('~/.local/share/nvim/plugged')
     " WIP: Need major updates before releasing.
     Plug 'cyansprite/nvim-gml'
@@ -58,6 +58,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'junegunn/fzf.vim'
 
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
     Plug 'cyansprite/vim-grepper', { 'on' : 'Grepper' }
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     Plug 'mhinz/vim-tree', { 'on': 'Tree' }
@@ -73,7 +75,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Color:
     Plug 'cyansprite/Restraint.vim'
-call plug#end()
+call plug#end() " }}}
 
 " {{{ Completion
     autocmd BufEnter * lua require'completion'.on_attach()
@@ -82,11 +84,13 @@ call plug#end()
     let g:completion_enable_auto_hover = 1
 
 " }}}
-" Various Mappings With No Options: {{{1
+"
+" Various Mappings With No Options: {{{
     nnoremap <silent> <leader>A :ArgWrap<cr>
     nmap <leader>u :UndotreeToggle<cr>
+" }}}
 
-" Options: {{{1
+" Options: {{{
 let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_sign_added                   = '•'
 let g:gitgutter_sign_modified                = '•'
@@ -106,6 +110,7 @@ let g:sonictemplate_postfix_key = '<C-j>'
 nmap <leader>fv :Vista finder<cr>
 " TODO Needs more work I may make my own
 nmap <leader>i :InlineEdit context_filetype#get()['filetype']<cr>
+" }}}
 
 " FZF {{{
 if has('unix')
@@ -122,18 +127,22 @@ nmap <leader>fa :Ag<space>
 nmap <leader>fo :History<cr>
 nmap <leader>fh :Helptags<cr>
 nmap <leader>f] :BTags<cr>
-"Grepper {{{2
+" }}}
+
+"Grepper {{{
     let g:grepper           = {}
     let g:grepper.tools     = ['git', 'ag', 'grep']
     let g:grepper.open      = 0
     let g:grepper.jump      = 1
     let g:grepper.highlight = 1
     nnoremap <leader>ag :Grepper -tool ag<cr>
+"}}}
 
-" Extract {{{2
+" Extract {{{
 let g:extract_maxCount = 15
+"}}}
 
-"LSP  TODO move to plugin? {{{1
+"LSP  TODO move to plugin? {{{
 
 let g:plug_last_hover_pos=[0, 0]
 
@@ -296,3 +305,66 @@ function! InstallAll()
 endfunc
 
 set omnifunc=v:lua.vim.lsp.omnifunc
+" }}}
+
+" {{{ Treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+        highlight = {
+            enable = true,              -- false will disable the whole extension
+            disable = {},  -- list of language that will be disabled
+        },
+    }
+EOF
+" }}}
+
+" {{{ Preview Folds: TODO Move to plugin
+let g:fold_win_id = -1
+func! PreviewFold(lnum)
+    let r = foldtextresult(a:lnum)
+
+    if r == '' && foldclosed(a:lnum)
+        return v:false
+    end
+    echom "um"
+
+    call CloseFoldPreview()
+
+    let bufname = "Fold " . string(a:lnum) . " ~ " . string(v:foldend)
+    let buf = nvim_create_buf(v:false, v:true)
+    let lines = getline(a:lnum, v:foldend)
+
+    call nvim_buf_set_name(buf, bufname)
+    call nvim_buf_set_option(buf, 'filetype',  &filetype)
+    call nvim_buf_set_option(buf, 'buftype',   'nofile')
+    call nvim_buf_set_option(buf, 'bufhidden', 'wipe')
+    call nvim_buf_set_option(buf, 'buflisted', v:false)
+    call nvim_buf_set_option(buf, 'swapfile',  v:false)
+    call nvim_buf_set_lines(buf, 0, len(lines), v:false, lines)
+    call nvim_buf_set_option(buf, 'modifiable',  v:false)
+
+    let g:fold_win_id = nvim_open_win(buf, v:false, {
+                \ 'relative': 'cursor',
+                \ 'row': 1,
+                \ 'col': 0,
+                \ 'width': &tw,
+                \ 'height': min([20, len(lines)]),
+                \ 'style': 'minimal'
+                \ })
+
+    call nvim_win_set_option(g:fold_win_id, 'foldenable',  v:false)
+
+    autocmd CursorMoved <buffer> ++once call CloseFoldPreview()
+endfunc
+
+func! CloseFoldPreview()
+    if g:fold_win_id != -1
+        execute win_id2win(g:fold_win_id).'wincmd c'
+        let g:fold_win_id = -1
+    endif
+endfunc
+nnoremap L     <cmd>call PreviewFold('.')<CR>
+autocmd CursorHold * call PreviewFold('.')
+autocmd CmdlineEnter * call CloseFoldPreview()
+"}}}
