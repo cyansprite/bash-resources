@@ -245,6 +245,8 @@ endif
     cmap <c-a> <Home>
     cmap <m-b> <c-left>
     cmap <m-f> <c-right>
+    cmap <c-p> <up>
+    cmap <c-n> <down>
 
     " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
     nnoremap <m-c> :cn<cr>
@@ -914,3 +916,48 @@ let g:my_vim_headers = {
 "             \],
 "             \}
 
+" {{{ Preview Folds: TODO Move to plugin
+func! PreviewFold(lnum)
+    let r = foldtextresult(a:lnum)
+
+    if r == ''
+        return v:false
+    end
+
+    echom string(a:lnum) . ' ' . string(v:foldend)
+
+    let bufname = "Fold " . string(a:lnum) . " ~ " . string(v:foldend)
+
+    let buf = nvim_create_buf(v:false, v:true)
+    let lines = getline(a:lnum, v:foldend)
+
+    call nvim_buf_set_name(buf, bufname)
+    call nvim_buf_set_option(buf, 'filetype',  &filetype)
+    call nvim_buf_set_option(buf, 'buftype',   'nofile')
+    call nvim_buf_set_option(buf, 'bufhidden', 'wipe')
+    call nvim_buf_set_option(buf, 'buflisted', v:false)
+    call nvim_buf_set_option(buf, 'swapfile',  v:false)
+    call nvim_buf_set_lines(buf, 0, len(lines), v:false, lines)
+    call nvim_buf_set_option(buf, 'modifiable',  v:false)
+
+    let g:fold_win_id = nvim_open_win(buf, v:false, {
+                \ 'relative': 'cursor',
+                \ 'row': 1,
+                \ 'col': 0,
+                \ 'width': &tw,
+                \ 'height': min([20, v:foldend - a:lnum]),
+                \ 'style': 'minimal'
+                \ })
+
+    call nvim_win_set_option(g:fold_win_id, 'foldenable',  v:false)
+
+    " Assumes cursor is in original window.
+    autocmd CursorMoved <buffer> ++once call CloseFoldPreview()
+endfunc
+
+func! CloseFoldPreview()
+    execute win_id2win(g:fold_win_id).'wincmd c'
+endfunc
+
+autocmd CursorMoved * call PreviewFold('.')
+"}}}

@@ -6,7 +6,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Stuff:
     Plug 'cyansprite/vim-highlightedyank'
-    Plug 'vim-scripts/cmdlinecomplete' " TODO look into if better|etc
     Plug 'cyansprite/Sir-Nvim' " TODO Remove probably
     Plug 'Shougo/context_filetype.vim'
 
