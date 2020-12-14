@@ -226,10 +226,8 @@ endif
 
     " Hls ease
     nnoremap <silent><space>h hl:silent set hlsearch!<cr>
-    nnoremap n :set hlsearch<cr>nzv
-    nnoremap N :set hlsearch<cr>Nzv
-    nnoremap / :set hlsearch<cr>/
-    nnoremap ? :set hlsearch<cr>/\c
+    nnoremap <silent> n nzv
+    nnoremap <silent> N Nzv
     " don't move... please
     nnoremap * :set hlsearch \| let @/='\<<c-r><c-w>\>'<cr>
     " add to the existing search if it doesn't already match
@@ -245,8 +243,8 @@ endif
     cmap <c-a> <Home>
     cmap <m-b> <c-left>
     cmap <m-f> <c-right>
-    cmap <c-p> <up>
-    cmap <c-n> <down>
+    cmap <c-k> <up>
+    cmap <c-j> <down>
 
     " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
     nnoremap <m-c> :cn<cr>
@@ -686,7 +684,7 @@ augroup init
 
     " Filetypes TODO see if these are still even needed
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
-    autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class expandtab smarttab tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 augroup END
 
 augroup user_persistent_undo

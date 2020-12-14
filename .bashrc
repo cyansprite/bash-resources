@@ -38,20 +38,11 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-
-if [ `hostname` == "cinder" ] ; then
+if [ -n $SSH_CLIENT ]; then
     PS1='\[\e[1;31m\][\D{%T}] \[\e[1;30m\]\$: \[\e[1;33m\]\w \[\e[1;30m\]\>\[\e[m\] '
-elif [ `hostname` == "mojajojo" ] ; then
-    PS1='\[\e[1;35m\][\D{%T}] \[\e[1;30m\]\$: \[\e[1;33m\]\w \[\e[1;30m\]\>\[\e[m\] '
 else
-    PS1='\[\e[1;33m\][\D{%T}] \[\e[1;30m\]\$: \[\e[1;33m\]\w \[\e[1;30m\]\>\[\e[m\] '
+    PS1='\[\e[1;35m\][\D{%T}] \[\e[1;30m\]\$: \[\e[1;33m\]\w \[\e[1;30m\]\>\[\e[m\] '
 fi
-# Set prompt if ssh use orange-white, otherwise use magenta-black
-# if [ -n "$SSH_CLIENT" ]; then
-    # PS1='\[\e[1;36m\][\D{%T}] \[\e[1;30m\]\$: \[\e[1;33m\]\w \[\e[1;30m\]\>\[\e[m\] '
-# else
-    # PS1='\[\e[1;36m\][\D{%T}] \[\e[1;30m\]\$: \[\e[1;33m\]\w \[\e[1;30m\]\>\[\e[m\] '
-# fi
 
 # Set title
 PS1="\[\e]0;\h:\u \j \!\a\]$PS1"

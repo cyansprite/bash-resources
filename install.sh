@@ -22,12 +22,9 @@ ln -fv .bash_aliases ~/.bash_aliases
 ln -fv .dircolors ~/.dircolors
 ln -fv .inputrc ~/.inputrc
 ln -fv .gitconfig ~/.gitconfig
-if [ `hostname` == "mojajojo" ]; then
-    ln -fv .mtmux.conf ~/.tmux.conf
-elif [ `hostname` == "cinder" ]; then
-    ln -fv .ctmux.conf ~/.tmux.conf
-else
-    ln -fv .tmux.conf ~/.tmux.conf
+ln -fv .tmux.conf ~/.tmux.conf
+if [ ! -d ~/.tmux/plugins/tpm ] ; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 ln -fv .Xdefaults ~/.Xdefaults
 ln -fv .Xresources-demi ~/.Xresources-demi

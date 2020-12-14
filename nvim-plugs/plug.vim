@@ -29,6 +29,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'amadeus/vim-xml'
     Plug 'tbastos/vim-lua'
     Plug 'PProvost/vim-ps1'
+    Plug 'mfukar/robotframework-vim'
 
     " Format:
     Plug 'foosoft/vim-argwrap'
@@ -238,7 +239,7 @@ nnoremap <silent> ga    <cmd>call CodeAction()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gR    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
@@ -266,6 +267,7 @@ lua << EOF
     require'lspconfig'.bashls.setup{}
     require'lspconfig'.jsonls.setup{}
     require'colorizer'.setup()
+    require 'nvim-treesitter.ts_utils'
 EOF
 
 function! InstallAll()
@@ -310,11 +312,26 @@ set omnifunc=v:lua.vim.lsp.omnifunc
 " {{{ Treesitter
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-        highlight = {
-            enable = true,              -- false will disable the whole extension
-            disable = {},  -- list of language that will be disabled
+    ensure_installed = "maintained",
+        indent = {
+            enable = true
         },
+
+        highlight = {
+            enable = true,
+            disable = {},
+            ["Keyword"] = "Keyword",
+        },
+
+        incremental_selection = {
+            enable = true,
+            keymaps = {
+                init_selection = "gnn",
+                node_incremental = "gni",
+                scope_incremental = "gns",
+                node_decremental = "gnc",
+            },
+        }
     }
 EOF
 " }}}
@@ -327,7 +344,6 @@ func! PreviewFold(lnum)
     if r == '' && foldclosed(a:lnum)
         return v:false
     end
-    echom "um"
 
     call CloseFoldPreview()
 
