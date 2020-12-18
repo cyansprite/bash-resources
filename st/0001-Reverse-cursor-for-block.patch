@@ -1,0 +1,51 @@
+From 354c895dcc026348294efe0127280e4ca75dbee3 Mon Sep 17 00:00:00 2001
+From: Brandon Coffman <brandoncoffman.cs@gmail.com>
+Date: Wed, 16 Dec 2020 07:01:10 -0800
+Subject: [PATCH] Reverse cursor for block
+
+---
+ x.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/x.c b/x.c
+index 120e495..b2b1d9f 100644
+--- a/x.c
++++ b/x.c
+@@ -1504,24 +1504,29 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
+ 	g.mode &= ATTR_BOLD|ATTR_ITALIC|ATTR_UNDERLINE|ATTR_STRUCK|ATTR_WIDE;
+ 
+ 	if (IS_SET(MODE_REVERSE)) {
++		fprintf(stdout, "Reverse\n");
+ 		g.mode |= ATTR_REVERSE;
+ 		g.bg = defaultfg;
+ 		if (selected(cx, cy)) {
+ 			drawcol = dc.col[defaultcs];
+ 			g.fg = defaultrcs;
+ 		} else {
+-			drawcol = dc.col[defaultrcs];
+-			g.fg = defaultcs;
++			int temp = g.fg;
++			g.fg = g.bg;
++			g.bg = temp;
++			drawcol = dc.col[defaultcs];
+ 		}
+ 	} else {
+ 		if (selected(cx, cy)) {
+ 			g.fg = defaultfg;
+ 			g.bg = defaultrcs;
++			drawcol = dc.col[g.bg];
+ 		} else {
+-			g.fg = defaultbg;
+-			g.bg = defaultcs;
++			int temp = g.fg;
++			g.fg = g.bg;
++			g.bg = temp;
++			drawcol = dc.col[defaultrcs];
+ 		}
+-		drawcol = dc.col[g.bg];
+ 	}
+ 
+ 	/* draw the new one */
+-- 
+2.29.0
+

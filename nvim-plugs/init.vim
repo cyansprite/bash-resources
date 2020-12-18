@@ -85,6 +85,7 @@ endif
     set cursorcolumn               " set no cursor column
     set expandtab                  " Expands tab to spaces
     set hidden                     " So we can navigate without writing
+    set hlsearch                   " Default higlight search on
     set linebreak                  " don't cut words on wrap if i DO wrap
     set list                       " list my chars: ╳│¦|┆×•·
     set nowrap                     " I really hate wrap
@@ -127,7 +128,7 @@ endif
     set shiftwidth=4               " Use indents of 4 spaces
     set shortmess+=c               " Insert completions are annoying
     set sidescrolloff=10           " 10 columns off?, scroll
-    set signcolumn=yes:1           " always show 1
+    set signcolumn=number          " put in number column
     set softtabstop=4              " Let backspace delete indent
     set tabstop=4                  " An indentation every four columns
     set textwidth=80               " text width

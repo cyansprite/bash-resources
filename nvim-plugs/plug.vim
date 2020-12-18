@@ -25,7 +25,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'keith/tmux.vim'
     Plug 'cyansprite/vim-operator-highlight'
-    Plug 'leafgarland/typescript-vim'
     Plug 'amadeus/vim-xml'
     Plug 'tbastos/vim-lua'
     Plug 'PProvost/vim-ps1'
@@ -314,7 +313,7 @@ lua <<EOF
 require'nvim-treesitter.configs'.setup {
     ensure_installed = "maintained",
         indent = {
-            enable = true
+            enable = false
         },
 
         highlight = {
