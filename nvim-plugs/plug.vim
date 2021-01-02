@@ -38,9 +38,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
 
-    " Template:
-    Plug 'mattn/vim-sonictemplate'
-
     if has('unix')
         Plug '~/.fzf'
     elseif has('win32')
@@ -104,7 +101,6 @@ let g:highlightactive = 1
 let g:autoHighCurrent = 0
 let g:undotree_WindowLayout = 2
 let g:vista_default_executive = 'nvim_lsp'
-let g:sonictemplate_postfix_key = '<C-j>'
 
 " TODO fix preview it's trying to preview files because exedee
 nmap <leader>fv :Vista finder<cr>
@@ -259,7 +255,6 @@ sign define LspDiagnosticsSignInformation text=• texthl=LspDiagnosticsSignInfo
 sign define LspDiagnosticsSignHint text=• texthl=LspDiagnosticsSignHint linehl= numhl=LspDiagnosticsSignHint
 
 lua << EOF
-    require'lspconfig'.sumneko_lua.setup{}
     require'lspconfig'.vimls.setup{}
     require'lspconfig'.pyls_ms.setup{}
     require'lspconfig'.tsserver.setup{}
@@ -337,10 +332,11 @@ EOF
 
 " {{{ Preview Folds: TODO Move to plugin
 let g:fold_win_id = -1
+let g:fold_old_lnum = -1
 func! PreviewFold(lnum)
     let r = foldtextresult(a:lnum)
 
-    if r == '' && foldclosed(a:lnum)
+    if r == '' && foldclosed(a:lnum) || g:fold_old_lnum == a:lnum
         return v:false
     end
 
@@ -359,27 +355,86 @@ func! PreviewFold(lnum)
     call nvim_buf_set_lines(buf, 0, len(lines), v:false, lines)
     call nvim_buf_set_option(buf, 'modifiable',  v:false)
 
+    let height = min([20, len(lines)])
+
     let g:fold_win_id = nvim_open_win(buf, v:false, {
                 \ 'relative': 'cursor',
                 \ 'row': 1,
                 \ 'col': 0,
                 \ 'width': &tw,
-                \ 'height': min([20, len(lines)]),
+                \ 'height': height,
                 \ 'style': 'minimal'
                 \ })
 
     call nvim_win_set_option(g:fold_win_id, 'foldenable',  v:false)
+    call nvim_win_set_cursor(g:fold_win_id, [height, 0])
+    nmap <c-u> <cmd>silent! call nvim_win_set_cursor(g:fold_win_id, [nvim_win_get_cursor(g:fold_win_id)[0] - nvim_win_get_height(g:fold_win_id) / 2, 0])<cr>
+    nmap <c-d> <cmd>silent! call nvim_win_set_cursor(g:fold_win_id, [nvim_win_get_cursor(g:fold_win_id)[0] + nvim_win_get_height(g:fold_win_id) / 2, 0])<cr>
 
     autocmd CursorMoved <buffer> ++once call CloseFoldPreview()
+    let g:fold_old_lnum = a:lnum
 endfunc
 
 func! CloseFoldPreview()
+    silent! unmap <c-u>
+    silent! unmap <c-d>
+
     if g:fold_win_id != -1
         execute win_id2win(g:fold_win_id).'wincmd c'
         let g:fold_win_id = -1
+        let g:fold_old_lnum = -1
     endif
 endfunc
 nnoremap L     <cmd>call PreviewFold('.')<CR>
 autocmd CursorHold * call PreviewFold('.')
 autocmd CmdlineEnter * call CloseFoldPreview()
+"}}}
+
+" {{{ Preview File Under Cursor
+" Test: ~/Documents/bash-resources/nvim-plugs/init.vim : 100
+let g:file_pop_win_id = -1
+func! PreviewFile()
+    call CloseFilePreview()
+
+    let max_height = 20
+    let filetype = ''
+    let bufnr = bufnr()
+
+    try
+        keepj norm! gF
+    catch /^Vim\%((\a\+)\)\=:E447/
+        echohl ErrorMsg | echom v:exception | echohl None
+        return
+    endtry
+
+    let filebuf = bufnr()
+    execute 'keepj buf ' . bufnr
+
+    let g:file_pop_win_id = nvim_open_win(filebuf, v:false, {
+                \ 'relative': 'cursor',
+                \ 'row': 1,
+                \ 'col': 0,
+                \ 'width': &tw,
+                \ 'height': max_height,
+                \ 'style': 'minimal'
+                \ })
+
+    call nvim_win_set_option(g:file_pop_win_id, 'foldenable',  v:false)
+
+    nmap <c-u> <cmd>silent! call nvim_win_set_cursor(g:file_pop_win_id, [nvim_win_get_cursor(g:file_pop_win_id)[0] - nvim_win_get_height(g:file_pop_win_id), 0])<cr>
+    nmap <c-d> <cmd>silent! call nvim_win_set_cursor(g:file_pop_win_id, [nvim_win_get_cursor(g:file_pop_win_id)[0] + nvim_win_get_height(g:file_pop_win_id), 0])<cr>
+    autocmd CursorMoved <buffer> ++once call CloseFilePreview()
+endfunc
+
+func! CloseFilePreview()
+    silent! unmap <c-u>
+    silent! unmap <c-d>
+
+    if g:file_pop_win_id != -1
+        execute win_id2win(g:file_pop_win_id).'wincmd c'
+        let g:file_pop_win_id = -1
+    endif
+endfunc
+
+nnoremap gfp     <cmd>call PreviewFile()<CR>
 "}}}
