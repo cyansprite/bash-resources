@@ -97,6 +97,7 @@ let g:gitgutter_sign_modified_removed        = '•'
 let g:gitgutter_sign_allow_clobber           = '•'
 let g:gitgutter_sign_removed_above_and_below = '•'
 let g:gitgutter_sign_priority                = '•'
+let g:gitgutter_highlight_linenrs = 1
 let g:highlightactive = 1
 let g:autoHighCurrent = 0
 let g:undotree_WindowLayout = 2

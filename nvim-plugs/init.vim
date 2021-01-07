@@ -128,7 +128,7 @@ endif
     set shiftwidth=4               " Use indents of 4 spaces
     set shortmess+=c               " Insert completions are annoying
     set sidescrolloff=10           " 10 columns off?, scroll
-    set signcolumn=number          " put in number column
+    set signcolumn=no              " put in number column
     set softtabstop=4              " Let backspace delete indent
     set tabstop=4                  " An indentation every four columns
     set textwidth=80               " text width
