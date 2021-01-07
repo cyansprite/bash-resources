@@ -1,0 +1,48 @@
+From 0babd2b858320eda91b6ad8d7b0c97b7e483ad0a Mon Sep 17 00:00:00 2001
+From: Brandon Coffman <brandoncoffman.cs@gmail.com>
+Date: Thu, 7 Jan 2021 11:00:47 -0800
+Subject: [PATCH] Sign col: nr -> show line nr
+
+---
+ src/nvim/screen.c | 25 ++++++++++++++++++-------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
+
+diff --git a/src/nvim/screen.c b/src/nvim/screen.c
+index 377e8f58f..5f4c1dd6f 100644
+--- a/src/nvim/screen.c
++++ b/src/nvim/screen.c
+@@ -4393,13 +4393,24 @@ static void get_sign_display_info(
+         *c_finalp = NUL;
+ 
+         if (nrcol) {
+-          int n, width = number_width(wp) - 2;
+-          for (n = 0; n < width; n++) {
+-            extra[n] = ' ';
+-          }
+-          extra[n] = NUL;
+-          STRCAT(extra, *pp_extra);
+-          STRCAT(extra, " ");
++          // Fill with blank spaces
++          int width = number_width(wp);
++          for(int n=0; n<width; n++)
++              extra[n] = ' ';
++
++          // Convert lnum to a char*
++          int lnum_char = 0, var_width = width;
++          long temp_lnum = lnum;
++          do {
++              lnum_char = temp_lnum % 10;
++              extra[--var_width] = (char) (lnum_char + '0');
++              temp_lnum = (int)(temp_lnum / 10);
++          } while(temp_lnum != 0);
++
++          // finish with blank space and null term.
++          extra[width] = ' ';
++          extra[width+1] = NUL;
++
+           *pp_extra = extra;
+           *n_extrap = (int)STRLEN(*pp_extra);
+         } else {
+-- 
+2.29.0
+

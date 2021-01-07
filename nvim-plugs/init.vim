@@ -334,29 +334,29 @@ function! ScopePos()
 endfunc
 
 function! ScopeStart()
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-        return get(b:, 'vista_nearest_method_or_function', '')
+    " if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+    "     return get(b:, 'vista_nearest_method_or_function', '')
+    " else
+    if has_key(g:, 'scope_startline')
+        return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
+                    \ 0, winwidth('.')/3)
     else
-        if has_key(g:, 'scope_startline')
-            return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
-                        \ 0, winwidth('.')/3)
-        else
-            return ''
-        endif
+        return ''
     endif
+    " endif
 endfunc
 
 function! ScopeEnd()
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-        return ''
+    " if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+        " return ''
+    " else
+    if has_key(g:, 'scope_endline')
+        return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
+                    \ 0, winwidth('.')/4) . ' '
     else
-        if has_key(g:, 'scope_endline')
-            return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
-                        \ 0, winwidth('.')/4) . ' '
-        else
-            return ''
-        endif
+        return ''
     endif
+    " endif
 endfunc
 
 " Status Line Not current, file [+][-][RO]_______>____<____l,c : maxG,%

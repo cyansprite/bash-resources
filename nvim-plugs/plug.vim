@@ -6,7 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Stuff:
     Plug 'cyansprite/vim-highlightedyank'
-    Plug 'cyansprite/Sir-Nvim' " TODO Remove probably
+    " Plug 'cyansprite/Sir-Nvim' " TODO Remove probably
     Plug 'Shougo/context_filetype.vim'
 
     " Motion: My clips, visual star, , and comment stuff.
@@ -55,7 +55,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'junegunn/fzf.vim'
 
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
     Plug 'cyansprite/vim-grepper', { 'on' : 'Grepper' }
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -261,7 +261,6 @@ lua << EOF
     require'lspconfig'.bashls.setup{}
     require'lspconfig'.jsonls.setup{}
     require'colorizer'.setup()
-    require 'nvim-treesitter.ts_utils'
 EOF
 
 function! InstallAll()
@@ -304,30 +303,30 @@ set omnifunc=v:lua.vim.lsp.omnifunc
 " }}}
 
 " {{{ Treesitter
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = "maintained",
-        indent = {
-            enable = false
-        },
-
-        highlight = {
-            enable = true,
-            disable = {},
-            ["Keyword"] = "Keyword",
-        },
-
-        incremental_selection = {
-            enable = true,
-            keymaps = {
-                init_selection = "gnn",
-                node_incremental = "gni",
-                scope_incremental = "gns",
-                node_decremental = "gnc",
-            },
-        }
-    }
-EOF
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"     ensure_installed = "maintained",
+"         indent = {
+"             enable = false
+"         },
+"
+"         highlight = {
+"             enable = true,
+"             disable = {},
+"             ["Keyword"] = "Keyword",
+"         },
+"
+"         incremental_selection = {
+"             enable = true,
+"             keymaps = {
+"                 init_selection = "gnn",
+"                 node_incremental = "gni",
+"                 scope_incremental = "gns",
+"                 node_decremental = "gnc",
+"             },
+"         }
+"     }
+" EOF
 " }}}
 
 " {{{ Preview Folds: TODO Move to plugin
@@ -386,7 +385,7 @@ func! CloseFoldPreview()
     endif
 endfunc
 nnoremap L     <cmd>call PreviewFold('.')<CR>
-autocmd CursorHold * call PreviewFold('.')
+" autocmd CursorHold * call PreviewFold('.')
 autocmd CmdlineEnter * call CloseFoldPreview()
 "}}}
 
@@ -436,5 +435,5 @@ func! CloseFilePreview()
     endif
 endfunc
 
-nnoremap gfp     <cmd>call PreviewFile()<CR>
+nnoremap gf <cmd>call PreviewFile()<CR>
 "}}}
