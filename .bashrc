@@ -99,8 +99,14 @@ else
                             --color='pointer:#E12672,marker:#E17899,prompt:#98BEDE,hl+:#98BC99' \
                             --bind=up:preview-up,down:preview-down"
 
-    export BAT_THEME="Monokai Extended"
+    export BAT_THEME="Monokai Extended Light"
 fi
+export FZF_DEFAULT_OPTS="--color='bg:#f2f2de,bg+:#ffffea,info:#df8243,border:#acaa55,spinner:#df8243' \
+                        --color='hl:#acaa55,fg:#181826,header:#acaa55,fg+:#121211' \
+                        --color='pointer:#ff4c96,marker:#ef4cff,prompt:#ef4cff,hl+:#ef4cff' \
+                        --bind=up:preview-up,down:preview-down"
+
+export BAT_THEME="Monokai Extended Light"
 
 echo "-----------------"
 echo "Going to init ssh"

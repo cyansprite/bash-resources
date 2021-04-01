@@ -35,7 +35,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/vim-easy-align'
 
     " LSP:
-    Plug 'neovim/nvim-lspconfig'
+    " Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
 
     if has('unix')
@@ -55,6 +55,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'junegunn/fzf.vim'
 
+    Plug 'Lenovsky/nuake'
     " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
     Plug 'cyansprite/vim-grepper', { 'on' : 'Grepper' }
@@ -85,6 +86,9 @@ call plug#end() " }}}
 " Various Mappings With No Options: {{{
     nnoremap <silent> <leader>A :ArgWrap<cr>
     nmap <leader>u :UndotreeToggle<cr>
+    nnoremap <F4> :Nuake<CR>
+    inoremap <F4> <C-\><C-n>:Nuake<CR>
+    tnoremap <F4> <C-\><C-n>:Nuake<CR>
 " }}}
 
 " Options: {{{
@@ -255,14 +259,14 @@ sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning 
 sign define LspDiagnosticsSignInformation text=• texthl=LspDiagnosticsSignInformation linehl= numhl=LspDiagnosticsSignInformation
 sign define LspDiagnosticsSignHint text=• texthl=LspDiagnosticsSignHint linehl= numhl=LspDiagnosticsSignHint
 
-lua << EOF
-    require'lspconfig'.vimls.setup{}
-    require'lspconfig'.pyls_ms.setup{}
-    require'lspconfig'.tsserver.setup{}
-    require'lspconfig'.bashls.setup{}
-    require'lspconfig'.jsonls.setup{}
-    require'colorizer'.setup()
-EOF
+" lua << EOF
+    " require'lspconfig'.vimls.setup{}
+    " require'lspconfig'.pyls_ms.setup{}
+    " require'lspconfig'.tsserver.setup{}
+    " require'lspconfig'.bashls.setup{}
+    " require'lspconfig'.jsonls.setup{}
+    " require'colorizer'.setup()
+" EOF
 
 function! InstallAll()
     try

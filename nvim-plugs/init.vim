@@ -49,10 +49,10 @@ if hostname() == 'MSI'
         let g:python3_host_prog='C:\Users\Brand\AppData\Local\Programs\Python\Python39\python.exe'
     endif
     set bg=light
-elseif hostname() == 'mojajojo'
+elseif hostname() == 'mojojojo2'
     let g:python3_host_prog='/usr/local/bin/python3.7'
     let g:python_host_prog='/usr/bin/python2'
-    set bg=dark
+    set bg=light
 elseif hostname() == 'captainJojo'
     set bg=light
 elseif hostname() == 'cinder'
@@ -585,8 +585,21 @@ endfunction
 " }}}
 
 " Auto viewing {{{
+func! OnlyMe(bnr, wnr)
+    for i in range(1,winnr('$'))
+        if i == a:wnr
+            continue
+        end
+        if winbufnr(i) == a:bnr
+            return 0
+        end
+    endfor
+endfun
+func! ShouldILoadView()
+    return &modifiable && OnlyMe(bufnr('%'), winnr()) && scrollbind == 0 && &filetype != 'COMMIT_MSG'
+endfun
 func! LeaveBufWin()
-    if &modifiable && filereadable(expand("%"))
+    if ShouldILoadView() && filereadable(expand("%"))
         setlocal foldmethod=marker
         mkview!
     endif
@@ -594,7 +607,7 @@ endfun
 
 func! EnterBufWin()
     try
-        if &modifiable
+        if ShouldILoadView()
             loadview
         endif
     catch /.*/ " E32 : No file name
@@ -680,7 +693,7 @@ augroup init
     if v:vim_did_enter
         call MyVimEnter()
     else
-        autocmd VimEnter * call MyVimEnter()
+        " autocmd VimEnter * call MyVimEnter()
     endif
 
     " Filetypes TODO see if these are still even needed
