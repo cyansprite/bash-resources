@@ -2,7 +2,12 @@ echo "========================================================================="
 echo "Cloning Neovim"
 echo "========================================================================="
 echo ""
-# TODO deps needed on my main
+sudo apt-get install cmake
+sudo apt-get install libtool
+sudo apt-get install libtool-bin
+sudo apt-get install m4
+sudo apt-get install automake
+sudo apt-get install gettext
 rm -rf ~/neovim
 mkdir ~/neovim
 git clone https://github.com/neovim/neovim.git
@@ -11,6 +16,9 @@ make CMAKE_INSTALL_PREFIX=~/neovim
 make install
 cd ../
 rm -rf neovim
+if [ ! -d ~/bin ] ; then
+    mkdir ~/bin
+fi
 ln -fv ~/neovim/bin/nvim ~/bin/nvim
 
 echo "========================================================================="
@@ -26,20 +34,9 @@ echo "========================================================================="
 echo "Installing pip modules for neovim"
 echo "========================================================================="
 echo ""
-sudo -H pip3 install --upgrade pip
-sudo -H pip3 install --upgrade setuptools
-sudo -H pip3 install --upgrade pynvim
-
-echo "========================================================================="
-echo "Updating Alternatives"
-echo "========================================================================="
-echo ""
-sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
-echo -ne 0 | sudo update-alternatives --config vi
-sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
-echo -ne 0 | sudo update-alternatives --config vim
-sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
-echo -ne 0 | sudo update-alternatives --config editor
+pip3 install --upgrade --user pip
+pip3 install --upgrade --user setuptools
+pip3 install --upgrade --user pynvim
 
 echo ""
 echo "========================================================================="
