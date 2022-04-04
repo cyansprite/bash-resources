@@ -64,12 +64,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/fzf.vim'
 
     Plug 'Lenovsky/nuake'
-    " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
     Plug 'cyansprite/vim-grepper', { 'on' : 'Grepper' }
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     Plug 'mhinz/vim-tree', { 'on': 'Tree' }
-    Plug 'junegunn/gv.vim', { 'on': 'GV' }
 
     Plug 'liuchengxu/vista.vim'
 
@@ -79,7 +78,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     Plug 'AndrewRadev/inline_edit.vim'
 
-    Plug 'justinmk/vim-matchparenalways'
+    " Plug 'justinmk/vim-matchparenalways'
 
     Plug 'liuchengxu/vim-which-key'
 
@@ -280,46 +279,46 @@ let g:extract_maxCount = 15
 "}}}
 
 " Lua {{{
-" lua << EOF
-"     require'nvim-treesitter.configs'.setup {
-"         -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-"         ensure_installed = "maintained",
-"
-"         -- Install languages synchronously (only applied to `ensure_installed`)
-"         sync_install = false,
-"
-"         -- List of parsers to ignore installing
-"         ignore_install = {},
-"
-"         highlight = {
-"             -- `false` will disable the whole extension
-"             enable = true,
-"
-"             -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-"             -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-"             -- the name of the parser)
-"             -- list of language that will be disabled
-"             disable = {},
-"
-"             -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-"             -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-"             -- Using this option may slow down your editor, and you may see some duplicate highlights.
-"             -- Instead of true it can also be a list of languages
-"             additional_vim_regex_highlighting = true,
-"         },
-"         incremental_selection = {
-"             enable = true,
-"             keymaps = {
-"                 init_selection = "gnn",
-"                 node_incremental = "grn",
-"                 scope_incremental = "grc",
-"                 node_decremental = "grm",
-"             },
-"         },
-"     }
-" require'nvim-treesitter.configs'.setup {
-" }
-" EOF
+lua << EOF
+    require'nvim-treesitter.configs'.setup {
+        -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+        ensure_installed = "maintained",
+
+        -- Install languages synchronously (only applied to `ensure_installed`)
+        sync_install = false,
+
+        -- List of parsers to ignore installing
+        ignore_install = {},
+
+        highlight = {
+            -- `false` will disable the whole extension
+            enable = true,
+
+            -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+            -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+            -- the name of the parser)
+            -- list of language that will be disabled
+            disable = {},
+
+            -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+            -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+            -- Using this option may slow down your editor, and you may see some duplicate highlights.
+            -- Instead of true it can also be a list of languages
+            additional_vim_regex_highlighting = false,
+        },
+        incremental_selection = {
+            enable = true,
+            keymaps = {
+                init_selection = "gnn",
+                node_incremental = "grn",
+                scope_incremental = "grc",
+                node_decremental = "grm",
+            },
+        },
+    }
+require'nvim-treesitter.configs'.setup {
+}
+EOF
 " End Lua}}}
 
 " {{{ Preview Folds: TODO Move to plugin

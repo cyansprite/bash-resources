@@ -883,15 +883,24 @@ func! AnimatedNoneBuf(timer)
     redir => x
         silent! !git status
     redir END
+    let removecolorpat = '\^\[\[[0-9;]*m'
     let x = split(x, "\n")
-    call remove(x, 0, 2)
+
+    call remove(x, 0, 2) " remove the calling of the command
     let paddedX = []
     for item in x
-        let s = leftpad.catpad. item
-        call add(paddedX, s)
+        echom item
+        let cc = matchstr(item, removecolorpat)
+        let color = "None"
+        if stridx(cc, "^[[31m") != -1
+            let color = "DiffDelete"
+        elseif stridx(cc, "^[[32m") != -1
+            let color = "DiffAdd"
+        endif
+        call append('$', leftpad.catpad.substitute(item, removecolorpat, '', 'g'))
+        call nvim_buf_add_highlight(bnr, g:my_header_ns, color, line('$')-1, len(leftpad.catpad) + 1, -1)
     endfor
 
-    call append('$', paddedX)
 
     call append('$', repeat([''], winheight('') - line('$')))
 
