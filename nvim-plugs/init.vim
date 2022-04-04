@@ -41,10 +41,6 @@ else
     command! -nargs=0 PS :e ~/Documents/bash-resources/profile.ps1
 endif
 
-command! -nargs=0 INIT :e ~/Documents/bash-resources/nvim-plugs/init.vim
-command! -nargs=0 PLUG :e ~/Documents/bash-resources/nvim-plugs/plug.vim
-command! -nargs=0 JOURNAL :e ~/journal/journal.md
-
 if hostname() == 'MSI'
     if has('win32')
         let g:python3_host_prog='C:\Users\Brand\AppData\Local\Programs\Python\Python39\python.exe'
@@ -64,7 +60,6 @@ endif
 try
     " set termguicolors
     colo restraint
-    command! -nargs=0 COLO :e ~/.local/share/nvim/plugged/Restraint.vim/colors/restraint.vim
 catch E185
     colo desert
 endtry
@@ -706,7 +701,7 @@ augroup init
     if v:vim_did_enter
         call MyVimEnter()
     else
-        " autocmd VimEnter * call MyVimEnter()
+        autocmd VimEnter * call MyVimEnter()
     endif
 
     " Filetypes TODO see if these are still even needed
@@ -821,26 +816,9 @@ func! AnimatedNoneBuf(timer)
     call append('$', paddedHeader)
     let endline = line('$')
     let bnr = bufnr('%')
-    let colocat = "Operator"
+    " TODO
+    let colocat = "Macro"
     let colograss = "String"
-
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, startline - 1, 0, -1)
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, startline, 0, -1)
-
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, startline, 70, 110)
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, startline + 1, 0, -1)
-
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, startline + 1, 66, 104)
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, startline + 2, 0, -1)
-
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, startline + 2, 65, 72)
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, startline + 2, 75, 106)
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, startline + 2, 72, 74)
-
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, endline - 1, 0, -1)
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, endline - 1, 76, 85)
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colocat, endline - 1, 90, 105)
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colograss, endline - 1, 85, 89)
 
     call append('$', repeat([''], belowHeaderPad))
 
@@ -850,7 +828,7 @@ func! AnimatedNoneBuf(timer)
     let catpad = repeat(' ', len(str) - 1)
     call append('$', leftpad.catpad. str)
     call append('$', "")
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, len(leftpad.catpad), -1)
 
     let catpad = '    '
     let colotitle = "Number"
@@ -893,9 +871,17 @@ func! AnimatedNoneBuf(timer)
     call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
     nnoremap <buffer><nowait><silent> p :PLUG<cr>
 
+    let colotitle = "Special"
+    let startline = line('$') + 1
+    let str = "[l] Use :CocConfig<cr> for CocConfig"
+    call append('$', leftpad.catpad. str)
+    call append('$', "")
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
+    nnoremap <buffer><nowait><silent> l :CocConfig<cr>
+
     let x = ''
     redir => x
-        silent! !tree -L 1
+        silent! !git status
     redir END
     let x = split(x, "\n")
     call remove(x, 0, 2)
@@ -908,7 +894,6 @@ func! AnimatedNoneBuf(timer)
     call append('$', paddedX)
 
     call append('$', repeat([''], winheight('') - line('$')))
-
 
     " call append('$', repeat([''], winheight('') - len))
     setlocal nomodifiable nomodified
@@ -925,7 +910,7 @@ let g:my_vim_headers = {
             \ 0 : [
             \"           __..--''``---....___   _..._    __",
             \" /// //_.-'    .-/\";  `        ``<._  ``.''_ `. / // /",
-            \"///_.-' _..--.'_    \    Neovim          `/ / / // //",
+            \"///_.-' _..--.'_    \                    `/ / / // //",
             \"/ (_..-' // (< _     ;_..__               ; `' / ///",
             \" / // // //  `-._,_)' // / ``--...____..-' /// / //"
             \],

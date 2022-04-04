@@ -430,3 +430,34 @@ endfunc
 
 nnoremap gf <cmd>call PreviewFile()<CR>
 "}}}
+
+let s:meOptions =  [
+    \ 'INIT',
+    \ 'COLO',
+    \ 'PLUG',
+    \ 'JOURNAL',
+    \ 'REMIND',
+    \ 'CocConfig'
+    \ ]
+
+command! -nargs=0 INIT :e ~/Documents/bash-resources/nvim-plugs/init.vim
+command! -nargs=0 PLUG :e ~/Documents/bash-resources/nvim-plugs/plug.vim
+command! -nargs=0 COLO :e ~/.local/share/nvim/plugged/Restraint.vim/colors/restraint.vim
+command! -nargs=0 JOURNAL :e ~/journal/journal.md
+command! -nargs=0 REMIND :e ~/.reminders
+
+func! s:fzfMe()
+    call fzf#run({
+          \        'source': s:meOptions,
+          \        'sink': '',
+          \        'window': { 'width': 0.9, 'height': 0.6 }
+          \    })
+endfunc
+
+func! s:fzfMeSink(obj)
+    exec a:obj
+endfunc
+
+command! -nargs=0 ME call s:fzfMe()
+nnoremap <silent> <leader>m :ME<CR>
+
