@@ -13,14 +13,14 @@ let g:loaded_getscriptPlugin = 1
 let g:loaded_vimball = 1
 let g:loaded_vimballPlugin = 1
 
-let g:loaded_matchparen = 1
-let g:loaded_logiPat = 1
-let g:loaded_rrhelper = 1
+" let g:loaded_matchparen = 1
+" let g:loaded_logiPat = 1
+" let g:loaded_rrhelper = 1
 
-let g:loaded_netrw = 1
-let g:loaded_netrwPlugin = 1
-let g:loaded_netrwSettings = 1
-let g:loaded_netrwFileHandlers = 1
+" let g:loaded_netrw = 1
+" let g:loaded_netrwPlugin = 1
+" let g:loaded_netrwSettings = 1
+" let g:loaded_netrwFileHandlers = 1
 
 " }}}
 
@@ -43,6 +43,7 @@ endif
 
 command! -nargs=0 INIT :e ~/Documents/bash-resources/nvim-plugs/init.vim
 command! -nargs=0 PLUG :e ~/Documents/bash-resources/nvim-plugs/plug.vim
+command! -nargs=0 JOURNAL :e ~/journal/journal.md
 
 if hostname() == 'MSI'
     if has('win32')
@@ -92,7 +93,7 @@ endif
     set nowrapscan                 " I don't like my searches to continue forever
     set shiftround                 " indent it by multiples of shiftwidth please
     set showcmd                    " Show cmd while typing in bottom right corner
-    set noshowmatch                " Plugin does this Show matching brackets/parentthesis
+    set showmatch                  " Plugin does this Show matching brackets/parentthesis
     set noshowmode                 " I just put it in statusbar, don't clear echo
     set ignorecase smartcase       " ignore case if just using lower
     set shiftround                 " shiftup/down on ><
@@ -110,10 +111,10 @@ endif
     set backspace=indent,eol,start " Intuitive backspacing in insert mode
     set backupskip+=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
     set backupskip+=.vault.vim     " secure things
-    set cmdheight=1                " Pair up
+    set cmdheight=2                " Pair up
     set complete=.,w,b,u,U         " Complete all buffers, window, current
     set completeopt=menuone,noinsert,noselect
-    set conceallevel=2             " conceal text we don't want to see
+    set conceallevel=0             " conceal text we don't want to see
     set concealcursor=nivc         " always conceal
     set diffopt+=context:3         " diff context lines
     set foldcolumn=0               " foldcolumn... no, just, no
@@ -215,10 +216,6 @@ endif
     " still use ea.
     nnoremap <leader>ea :e <c-r>%<c-w>
     nnoremap <leader>ec :e <c-r>%<c-w><c-w><c-w>
-    nnoremap <leader>ve :vsp <c-r>%<c-w>
-    nnoremap <leader>vc :vsp <c-r>%<c-w><c-w><c-w>
-    nnoremap <leader>se :sp <c-r>%<c-w>
-    nnoremap <leader>sc :sp <c-r>%<c-w><c-w><c-w>
 
     nnoremap <leader>cc :cfile  \| copen \| cc<left><left><left><left><left><left><left><left><left><left><left><left><left>
 
@@ -268,18 +265,22 @@ endif
     inoremap  
     vnoremap  
 
-    " omni complete, will probably remove later
+    " omni complete
     inoremap <c-space> <c-x><c-o>
 
     " I like playing with colors (Gives me hi-trans-lo ids)
-    map <leader>1 :call HiLoBro()<cr>
+    map <silent><leader>1 :call HiLoBro()<cr>
 
     func! HiLoBro()
         let hi = synIDattr(synID(line("."),col("."),1),"name")
         let trans = synIDattr(synID(line("."),col("."),0),"name")
         let lo = synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")
-        echo 'hi<' . hi . '> trans<' . trans . '> lo<' . lo . '>'
-        exec 'hi ' . lo
+        if hi != "" || lo != ""
+            echo 'hi<' . hi . '> trans<' . trans . '> lo<' . lo . '>'
+            exec 'hi ' . lo
+        else
+            echo 'no hi/lo defintion trans= ' . trans
+        endif
     endfunc
 
 " End Vim Map }}}
@@ -287,11 +288,13 @@ endif
 " Status Line , mode [arg]|file [+][-][RO] > Scope < l,c [ posbar ] {{{
 let g:scope_startline = ''
 let g:scope_endline = ''
-
 function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%{ModeColor(mode())}%#NormalMode#\ %{Mode(mode())}\ %*
-    setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error('[[Error]]')}%#WarningMsg#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}%#NormalMode#\ %{CurArg()}\ %*
+    setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error_COC('error','💀')}%#WarningMsg#%{LSP_Error_COC('warning','⛈')}%#MoreMsg#%{LSP_Error_COC('hint','✨')}%#Question#%{LSP_Error_COC('information','ℹ')}%#NormalMode#\ %{coc#status()}
+    setl statusline+=\ %{CurArg()}\ %*
+
+    " setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error('[[Error]]')}%#WarningMsg#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}%#NormalMode#\ %{CurArg()}\ %*
 
     if &modifiable
         setl statusline+=%#diffAdded#%m
@@ -311,6 +314,16 @@ function! StatusLine()
                           \%{PositionBarRight()}%)┫\ %*
 
     call ModeColor('n')
+endfunction
+
+function! LSP_Error_COC(key, sign) abort
+    let info = get(b:, 'coc_diagnostic_info', {})
+    if empty(info) | return '' | endif
+    let msgs = []
+    if get(info, a:key, 0)
+        call add(msgs, a:sign . ' ' . info[a:key])
+    endif
+    return join(msgs, ' ')
 endfunction
 
 function! LSP_Error(key)
@@ -699,6 +712,7 @@ augroup init
     " Filetypes TODO see if these are still even needed
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+    autocmd FileType json syntax match Comment +\/\/.\+$+
 augroup END
 
 augroup user_persistent_undo

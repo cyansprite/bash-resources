@@ -17,7 +17,7 @@
     interactive = always
     status = always
 [alias]
-    s = status --short --branch
+    s = status
     l = whatchanged --date=format:'%Y-%m-%d %H:%M' --graph --decorate
     d = diff
 [core]

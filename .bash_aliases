@@ -19,3 +19,7 @@ alias c:='cd /mnt/c/'
 alias weather='curl wttr.in/~lexington'
 alias mux='tmux new-session -As MagicSpell'
 alias fux='tmux new-session -As FocusSpell'
+alias az=~/bin/az
+alias python3=python3.9
+alias c="bat --plain"
+alias gits="git status --porcelain | cut --fields=3 --delimiter=' '"

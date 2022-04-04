@@ -11,6 +11,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Motion: My clips, visual star, , and comment stuff.
     Plug 'cyansprite/extract'
+    Plug 'justinmk/vim-sneak'
 
     Plug 'thinca/vim-visualstar'
 
@@ -20,6 +21,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'AndrewRadev/deleft.vim' " delete surrounding blocks with dh
 
     " Syntax:
+    Plug 'MTDL9/vim-log-highlighting'
     Plug 'cyansprite/vim-csharp'
     Plug 'udalov/kotlin-vim'
     Plug 'octol/vim-cpp-enhanced-highlight'
@@ -34,9 +36,16 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'foosoft/vim-argwrap'
     Plug 'junegunn/vim-easy-align'
 
-    " LSP:
+    " LSP and completion:
     " Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/completion-nvim'
+    " Plug 'nvim-lua/plenary.nvim'
+    " Plug 'jose-elias-alvarez/null-ls.nvim'
+    " Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+    " Plug 'mfussenegger/nvim-jdtls'
+    " Use release branch (recommend)
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'antoinemadec/coc-fzf'
+    Plug 'wellle/tmux-complete.vim'
 
     if has('unix')
         Plug '~/.fzf'
@@ -49,7 +58,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-fugitive', { 'on' : ['Gdiff', 'Gblame'] } " add more if I ever use
 
     " Interface:
-    Plug 'cyansprite/vim-sayonara'
     Plug 'cyansprite/logicalBuffers'
 
     Plug 'vim-scripts/undofile_warn.vim'
@@ -71,42 +79,170 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     Plug 'AndrewRadev/inline_edit.vim'
 
+    Plug 'justinmk/vim-matchparenalways'
+
+    Plug 'liuchengxu/vim-which-key'
+
+    " Optional
+    Plug 'rcarriga/nvim-notify'
+
     " Color:
     Plug 'cyansprite/Restraint.vim'
 call plug#end() " }}}
 
 " {{{ Completion
-    autocmd BufEnter * lua require'completion'.on_attach()
-    let g:completion_confirm_key = "\<C-y>"
-    let g:completion_matching_smart_case = 1
-    let g:completion_enable_auto_hover = 1
+    " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
+    " unicode characters in the file autoload/float.vim
+    set encoding=utf-8
+
+    " TextEdit might fail if hidden is not set.
+    set hidden
+
+    " Some servers have issues with backup files, see #649.
+    set nobackup
+    set nowritebackup
+
+    " IMPORTANT: :help Ncm2PopupOpen for more information
+    set completeopt=noselect
+
+    " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+    " found' messages
+    set shortmess+=c
+
+    " select
+    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+    if has("nvim-0.5.0") || has("patch-8.1.1564")
+        " Recently vim can merge signcolumn and number column into one
+        set signcolumn=number
+    else
+        set signcolumn=yes
+    endif
+
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+    nmap <silent> gd <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Use K to show documentation in preview window.
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+    function! s:show_documentation()
+        if (index(['vim','help'], &filetype) >= 0)
+            execute 'h '.expand('<cword>')
+        elseif (coc#rpc#ready())
+            call CocActionAsync('doHover')
+        else
+            execute '!' . &keywordprg . " " . expand('<cword>')
+        endif
+    endfunction
+
+    " Highlight the symbol and its references when holding the cursor.
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+
+    " Symbol renaming.
+    nmap <leader>nn <Plug>(coc-rename)
+    xmap <leader>F  <Plug>(coc-format-selected)
+
+    " Applying codeAction to the selected region.
+    " Example: `<leader>aap` for current paragraph
+    xmap <leader>a  <Plug>(coc-codeaction-selected)
+    nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+    " Remap keys for applying codeAction to the current buffer.
+    nmap <leader>ac  <Plug>(coc-codeaction)
+    " Apply AutoFix to problem on the current line.
+    nmap <leader>qf  <Plug>(coc-fix-current)
+
+    " Run the Code Lens action on the current line.
+    nmap <leader>cl  <Plug>(coc-codelens-action)
+
+    " Map function and class text objects
+    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+    xmap if <Plug>(coc-funcobj-i)
+    omap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap af <Plug>(coc-funcobj-a)
+    xmap ic <Plug>(coc-classobj-i)
+    omap ic <Plug>(coc-classobj-i)
+    xmap ac <Plug>(coc-classobj-a)
+    omap ac <Plug>(coc-classobj-a)
+
+    " Remap <C-f> and <C-b> for scroll float windows/popups.
+    if has('nvim-0.4.0') || has('patch-8.2.0750')
+        nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+        nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+        inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+        inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+        vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+        vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    endif
+
+    " Use CTRL-S for selections ranges.
+    " Requires 'textDocument/selectionRange' support of language server.
+    nmap <silent> <leader>s <Plug>(coc-range-select)
+    xmap <silent> <leader>s <Plug>(coc-range-select)
+    " Add `:Format` command to format current buffer.
+    command! -nargs=0 Format :call CocActionAsync('format')
+
+    " Add `:Fold` command to fold current buffer.
+    command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+    " Add `:Imports` command for organize imports of the current buffer.
+    command! -nargs=0 Imports   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+    " Mappings for CoCList
+    " allow to scroll in the preview
+    set mouse=a
+
+    " mappings
+    nnoremap <silent> <space><space> :<C-u>CocFzfList<CR>
+    nnoremap <silent> <space>g       :<C-u>CocFzfList diagnostics<CR>
+    nnoremap <silent> <space>b       :<C-u>CocFzfList diagnostics --current-buf<CR>
+    nnoremap <silent> <space>c       :<C-u>CocFzfList commands<CR>
+    nnoremap <silent> <space>e       :<C-u>CocFzfList extensions<CR>
+    nnoremap <silent> <space>l       :<C-u>CocFzfList location<CR>
+    nnoremap <silent> <space>o       :<C-u>CocFzfList outline<CR>
+    nnoremap <silent> <space>s       :<C-u>CocFzfList symbols<CR>
+    nnoremap <silent> <space>p       :<C-u>CocFzfListResume<CR>
 
 " }}}
-"
+
 " Various Mappings With No Options: {{{
+    map zs <Plug>Sneak_s
+    map zS <Plug>Sneak_S
+    nnoremap <silent> <space> :WhichKey '<Space>'<CR>
+    nnoremap <silent> <leader> :WhichKey '\'<CR>
     nnoremap <silent> <leader>A :ArgWrap<cr>
     nmap <leader>u :UndotreeToggle<cr>
     nnoremap <F4> :Nuake<CR>
     inoremap <F4> <C-\><C-n>:Nuake<CR>
     tnoremap <F4> <C-\><C-n>:Nuake<CR>
+    nmap <space>c <Plug>(caw:prefix)
+    xmap <space>c <Plug>(caw:prefix)
 " }}}
 
 " Options: {{{
 let g:gitgutter_override_sign_column_highlight = 0
-let g:gitgutter_sign_added                   = '•'
-let g:gitgutter_sign_modified                = '•'
-let g:gitgutter_sign_removed                 = '•'
-let g:gitgutter_sign_removed_first_line      = '•'
-let g:gitgutter_sign_modified_removed        = '•'
-let g:gitgutter_sign_allow_clobber           = '•'
-let g:gitgutter_sign_removed_above_and_below = '•'
-let g:gitgutter_sign_priority                = '•'
+let g:gitgutter_signs=0
+let g:gitgutter_sign_added                   = ''
+let g:gitgutter_sign_modified                = ''
+let g:gitgutter_sign_removed                 = ''
+let g:gitgutter_sign_removed_first_line      = ''
+let g:gitgutter_sign_modified_removed        = ''
+let g:gitgutter_sign_allow_clobber           = ''
+let g:gitgutter_sign_removed_above_and_below = ''
+let g:gitgutter_sign_priority                = ''
 let g:gitgutter_highlight_linenrs = 1
 let g:highlightactive = 1
 let g:autoHighCurrent = 0
 let g:undotree_WindowLayout = 2
 let g:vista_default_executive = 'nvim_lsp'
 
+nmap <leader>d :GitGutterPreviewHunk<cr>
 " TODO fix preview it's trying to preview files because exedee
 nmap <leader>fv :Vista finder<cr>
 " TODO Needs more work I may make my own
@@ -143,196 +279,48 @@ nmap <leader>f] :BTags<cr>
 let g:extract_maxCount = 15
 "}}}
 
-"LSP  TODO move to plugin? {{{
-
-let g:plug_last_hover_pos=[0, 0]
-
-function! Hover(timer)
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))') && g:plug_allow
-        try
-            let [bufnum, lnum, col, off, curswant] = getcurpos()
-            if g:plug_last_hover_pos[0] == lnum && g:plug_last_hover_pos[1] == col
-                return
-            endif
-            let g:plug_last_hover_pos = [lnum, col]
-            if luaeval('vim.lsp.diagnostic.show_line_diagnostics()') == v:null
-                lua vim.lsp.buf.hover()
-            endif
-        catch /.*/
-            echo v:exception
-        endtry
-    endif
-endfunc
-
-function! Moved(timer)
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())') && g:plug_allow
-        "let myei=&ei
-        "set eventignore=all
-        try
-            lua vim.lsp.buf.clear_references()
-            lua vim.lsp.buf.document_highlight()
-        catch /.*/
-            " Be silent for this will happen a lot
-            " echo v:exception
-        endtry
-        "let &eventignore=myei
-    endif
-endfunc
-
-func! NormTag()
-    try
-        if &filetype == "vim"
-            " TODO help
-        else
-            norm! 
-        endif
-    catch /.*/
-        echo v:exception
-    endtry
-endfu
-
-func! Tag()
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())') && g:plug_allow
-        try
-            let [bufnum, lnum, col, off, curswant] = getcurpos()
-            lua vim.lsp.buf.definition()
-            let [bufnum1, lnum1, col1, off1, curswant1] = getcurpos()
-            if bufnum1 == bufnum && lnum == lnum1 && col == col1 && off == off
-                call NormTag()
-            endif
-        catch /.*/
-            echo v:exception
-        endtry
-    else
-        call NormTag()
-    endif
-endfunc
-
-function! CodeAction()
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients())') && g:plug_allow
-        try
-            let g:plug_allow = v:false
-            lua vim.lsp.buf.code_action()
-        catch /.*/
-            echo v:exception
-        endtry
-    endif
-endfunc
-
-let g:plug_timers={}
-let g:plug_timer_wait=100
-let g:plug_allow = v:true
-
-" Let's not spam it
-function! Timed(method)
-    if has_key(g:plug_timers, a:method) && g:plug_timers[a:method]
-        call timer_stop(g:plug_timers[a:method])
-        unlet g:plug_timers[a:method]
-    endif
-
-    let g:plug_timers[a:method] = timer_start(g:plug_timer_wait, a:method)
-endfunc
-
-nnoremap <silent> <c-]> <cmd>call Tag()<CR>
-nnoremap <silent> K     <cmd>call Timed('Hover')<CR>
-nnoremap <silent> ga    <cmd>call CodeAction()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gR    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-" Make it all go away when I'm trying to focus
-" nnoremap <silent> <space>k <cmd>lua vim.lsp.buf.clear_references()<CR>
-
-augroup lsp
-    " It's a feature but it fucking annoys me so go away
-    " autocmd! CursorHold * silent! call Timed('Hover')
-    " autocmd! CursorHoldI * silent! call Timed('Hover')
-    autocmd! CursorMoved * silent! call Timed('Moved')
-    autocmd! CursorMovedI * silent! call Timed('Moved')
-augroup END
-
-sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=LspDiagnosticsSignError
-sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=LspDiagnosticsSignWarning
-sign define LspDiagnosticsSignInformation text=• texthl=LspDiagnosticsSignInformation linehl= numhl=LspDiagnosticsSignInformation
-sign define LspDiagnosticsSignHint text=• texthl=LspDiagnosticsSignHint linehl= numhl=LspDiagnosticsSignHint
-
+" Lua {{{
 " lua << EOF
-    " require'lspconfig'.vimls.setup{}
-    " require'lspconfig'.pyls_ms.setup{}
-    " require'lspconfig'.tsserver.setup{}
-    " require'lspconfig'.bashls.setup{}
-    " require'lspconfig'.jsonls.setup{}
-    " require'colorizer'.setup()
-" EOF
-
-function! InstallAll()
-    try
-        LspInstall sumneko_lua
-    catch /.*/
-        echom v:exception
-    endtry
-    try
-        LspInstall vimls
-    catch /.*/
-        echom v:exception
-    endtry
-    try
-        LspInstall pyls_ms
-    catch /.*/
-        echom v:exception
-    endtry
-
-    try
-        LspInstall tsserver
-    catch /.*/
-        echom v:exception
-    endtry
-
-    try
-        LspInstall bashls
-    catch /.*/
-        echom v:exception
-    endtry
-
-    try
-        LspInstall jsonls
-    catch /.*/
-        echom v:exception
-    endtry
-endfunc
-
-set omnifunc=v:lua.vim.lsp.omnifunc
-" }}}
-
-" {{{ Treesitter
-" lua <<EOF
-" require'nvim-treesitter.configs'.setup {
-"     ensure_installed = "maintained",
-"         indent = {
-"             enable = false
-"         },
+"     require'nvim-treesitter.configs'.setup {
+"         -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+"         ensure_installed = "maintained",
+"
+"         -- Install languages synchronously (only applied to `ensure_installed`)
+"         sync_install = false,
+"
+"         -- List of parsers to ignore installing
+"         ignore_install = {},
 "
 "         highlight = {
+"             -- `false` will disable the whole extension
 "             enable = true,
-"             disable = {},
-"             ["Keyword"] = "Keyword",
-"         },
 "
+"             -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+"             -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+"             -- the name of the parser)
+"             -- list of language that will be disabled
+"             disable = {},
+"
+"             -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+"             -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+"             -- Using this option may slow down your editor, and you may see some duplicate highlights.
+"             -- Instead of true it can also be a list of languages
+"             additional_vim_regex_highlighting = true,
+"         },
 "         incremental_selection = {
 "             enable = true,
 "             keymaps = {
 "                 init_selection = "gnn",
-"                 node_incremental = "gni",
-"                 scope_incremental = "gns",
-"                 node_decremental = "gnc",
+"                 node_incremental = "grn",
+"                 scope_incremental = "grc",
+"                 node_decremental = "grm",
 "             },
-"         }
+"         },
 "     }
+" require'nvim-treesitter.configs'.setup {
+" }
 " EOF
-" }}}
+" End Lua}}}
 
 " {{{ Preview Folds: TODO Move to plugin
 let g:fold_win_id = -1
