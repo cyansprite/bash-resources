@@ -34,9 +34,13 @@
     relative = log --decorate --graph --abbrev-commit --date=relative
     graph = log --graph --date=short --pretty=format:'%C(white)%h%C(reset) %C(bold magenta)%ad %C(bold yellow)|%C(reset) %C(yellow) %s %C(bold cyan)[%an]%C(reset)%C(blue)%d%C(reset)'
     branches = log --color --graph --oneline --decorate --simplify-by-decoration --all
-
+[color "decorate"]
+    head = cyan bold
+    branch = cyan bold
+    commit = bold
 [color "diff"]
-    meta = magenta bold
+    commit = yellow bold
+    meta = bold
     frag = blue bold
     old = red bold
     new = green bold

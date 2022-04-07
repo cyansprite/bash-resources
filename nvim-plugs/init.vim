@@ -79,11 +79,14 @@ endif
     " Set: Those that use macros
     set cursorline                 " set cursorline, just make sure highlight is none
     set cursorcolumn               " set no cursor column
+    set encoding=utf-8             " Imagine! A useful encoding
     set expandtab                  " Expands tab to spaces
     set hidden                     " So we can navigate without writing
     set hlsearch                   " Default higlight search on
     set linebreak                  " don't cut words on wrap if i DO wrap
     set list                       " list my chars: ╳│¦|┆×•·
+    set nobackup
+    set nowritebackup
     set nowrap                     " I really hate wrap
     set nowrapscan                 " I don't like my searches to continue forever
     set shiftround                 " indent it by multiples of shiftwidth please
@@ -107,7 +110,7 @@ endif
     set backupskip+=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
     set backupskip+=.vault.vim     " secure things
     set cmdheight=2                " Pair up
-    set complete=.,w,b,u,U         " Complete all buffers, window, current
+    " set complete=.,w,b,u,U         " Complete all buffers, window, current
     set completeopt=menuone,noinsert,noselect
     set conceallevel=0             " conceal text we don't want to see
     set concealcursor=nivc         " always conceal
@@ -124,7 +127,7 @@ endif
     set shiftwidth=4               " Use indents of 4 spaces
     set shortmess+=c               " Insert completions are annoying
     set sidescrolloff=10           " 10 columns off?, scroll
-    set signcolumn=no              " put in number column
+    set signcolumn=yes             " put in number column
     set softtabstop=4              " Let backspace delete indent
     set tabstop=4                  " An indentation every four columns
     set textwidth=80               " text width
@@ -144,9 +147,9 @@ endif
     " These are annoying to have on
     set belloff=error,ex,insertmode,showmatch
     " set fill chars to things that make me happy—
-    set fillchars=stlnc:_,stl:\ ,fold:═,diff:┉,vert:¦,eob:
+    set fillchars=stlnc:\ ,stl:\ ,fold:═,diff:┉,vert:│,eob:
     " Changes listchars to more suitable chars
-    set listchars=tab:→\ ,trail:·,extends:<,precedes:>,conceal:¦
+    set listchars=tab:→\ ,trail:,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
     if &modifiable | set number | endif
     set synmaxcol=300
@@ -260,13 +263,14 @@ endif
     inoremap  
     vnoremap  
 
-    " omni complete
-    inoremap <c-space> <c-x><c-o>
-
     " I like playing with colors (Gives me hi-trans-lo ids)
     map <silent><leader>1 :call HiLoBro()<cr>
 
     func! HiLoBro()
+        try
+            CocCommand semanticTokens.inspect
+        catch /.*/
+        endtry
         let hi = synIDattr(synID(line("."),col("."),1),"name")
         let trans = synIDattr(synID(line("."),col("."),0),"name")
         let lo = synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")
@@ -370,7 +374,7 @@ endfunc
 " Status Line Not current, file [+][-][RO]_______>____<____l,c : maxG,%
 function! StatusLineNC()
     setl statusline =%<%#Statuslinenc#%{CurArg()}
-    setl statusline+=\ %#ErrorMsg#%{LSP_Error('[[Error]]')}%#WarningMsg#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}
+    setl statusline+=%#ErrorMsg#%{LSP_Error_COC('error','💀')}%#WarningMsg#%{LSP_Error_COC('warning','⛈')}%#MoreMsg#%{LSP_Error_COC('hint','✨')}%#Question#%{LSP_Error_COC('information','ℹ')}%#NormalMode#\ %{coc#status()}
 
     if &modifiable
         setl statusline+=%1*%m
@@ -687,7 +691,7 @@ augroup init
                   \ norelativenumber
                   \ nospell
                   \ noswapfile
-                  \ signcolumn=no
+                  \ signcolumn=yes
                   \ synmaxcol&
 
             let g:my_vim_header_index = -1
@@ -889,7 +893,6 @@ func! AnimatedNoneBuf(timer)
     call remove(x, 0, 2) " remove the calling of the command
     let paddedX = []
     for item in x
-        echom item
         let cc = matchstr(item, removecolorpat)
         let color = "None"
         if stridx(cc, "^[[31m") != -1

@@ -6,7 +6,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Stuff:
     Plug 'cyansprite/vim-highlightedyank'
-    " Plug 'cyansprite/Sir-Nvim' " TODO Remove probably
     Plug 'Shougo/context_filetype.vim'
 
     " Motion: My clips, visual star, , and comment stuff.
@@ -37,14 +36,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/vim-easy-align'
 
     " LSP and completion:
-    " Plug 'neovim/nvim-lspconfig'
-    " Plug 'nvim-lua/plenary.nvim'
-    " Plug 'jose-elias-alvarez/null-ls.nvim'
-    " Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
-    " Plug 'mfussenegger/nvim-jdtls'
-    " Use release branch (recommend)
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'antoinemadec/coc-fzf'
     Plug 'wellle/tmux-complete.vim'
 
     if has('unix')
@@ -58,27 +50,26 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-fugitive', { 'on' : ['Gdiff', 'Gblame'] } " add more if I ever use
 
     " Interface:
+    Plug 'kyazdani42/nvim-tree.lua'
     Plug 'cyansprite/logicalBuffers'
 
     Plug 'vim-scripts/undofile_warn.vim'
     Plug 'junegunn/fzf.vim'
+    Plug 'antoinemadec/coc-fzf'
 
     Plug 'Lenovsky/nuake'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
     Plug 'cyansprite/vim-grepper', { 'on' : 'Grepper' }
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-    Plug 'mhinz/vim-tree', { 'on': 'Tree' }
 
     Plug 'liuchengxu/vista.vim'
 
     Plug 'norcalli/nvim-colorizer.lua'
 
     Plug 'ryanoasis/vim-devicons'
+    Plug 'kyazdani42/nvim-web-devicons'
 
     Plug 'AndrewRadev/inline_edit.vim'
-
-    " Plug 'justinmk/vim-matchparenalways'
 
     Plug 'liuchengxu/vim-which-key'
 
@@ -90,49 +81,40 @@ call plug#begin('~/.local/share/nvim/plugged')
 call plug#end() " }}}
 
 " {{{ Completion
-    " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
-    " unicode characters in the file autoload/float.vim
-    set encoding=utf-8
+    let g:coc_disable_transparent_cursor=0
 
-    " TextEdit might fail if hidden is not set.
-    set hidden
+    inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ?
+      \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
-    " Some servers have issues with backup files, see #649.
-    set nobackup
-    set nowritebackup
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
 
-    " IMPORTANT: :help Ncm2PopupOpen for more information
-    set completeopt=noselect
+    let g:coc_snippet_next = '<tab>'
 
-    " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
-    " found' messages
-    set shortmess+=c
+    inoremap <silent><expr> <c-space> coc#refresh()
 
     " select
-    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+    inoremap <silent><expr> <c-y> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-    if has("nvim-0.5.0") || has("patch-8.1.1564")
-        " Recently vim can merge signcolumn and number column into one
-        set signcolumn=number
-    else
-        set signcolumn=yes
-    endif
 
     nmap <silent> [g <Plug>(coc-diagnostic-prev)
     nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-    nmap <silent> gd <Plug>(coc-type-definition)
     nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gd <Plug>(coc-type-definition)
     nmap <silent> gr <Plug>(coc-references)
 
     " Use K to show documentation in preview window.
     nnoremap <silent> K :call <SID>show_documentation()<CR>
 
     function! s:show_documentation()
-        if (index(['vim','help'], &filetype) >= 0)
-            execute 'h '.expand('<cword>')
-        elseif (coc#rpc#ready())
+        if (coc#rpc#ready())
             call CocActionAsync('doHover')
         else
             execute '!' . &keywordprg . " " . expand('<cword>')
@@ -171,6 +153,7 @@ call plug#end() " }}}
     omap ac <Plug>(coc-classobj-a)
 
     " Remap <C-f> and <C-b> for scroll float windows/popups.
+    " TODO map to all previews
     if has('nvim-0.4.0') || has('patch-8.2.0750')
         nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
         nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
@@ -188,26 +171,60 @@ call plug#end() " }}}
     command! -nargs=0 Format :call CocActionAsync('format')
 
     " Add `:Fold` command to fold current buffer.
-    command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+    command! -nargs=? Rename :call CocAction('rename')
+
+    " Add `:Fold` command to fold current buffer.
+    command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
     " Add `:Imports` command for organize imports of the current buffer.
-    command! -nargs=0 Imports   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+    command! -nargs=0 Imports :call CocActionAsync('runCommand', 'editor.action.organizeImport')
 
-    " Mappings for CoCList
+    command! -nargs=0 Outline :call CocActionAsync('showOutline', 1)
+
+
     " allow to scroll in the preview
     set mouse=a
 
-    " mappings
+    " Mappings for CocFzfList
     nnoremap <silent> <space><space> :<C-u>CocFzfList<CR>
     nnoremap <silent> <space>g       :<C-u>CocFzfList diagnostics<CR>
     nnoremap <silent> <space>b       :<C-u>CocFzfList diagnostics --current-buf<CR>
-    nnoremap <silent> <space>c       :<C-u>CocFzfList commands<CR>
+    nnoremap <silent> <space>a       :<C-u>CocFzfList commands<CR>
     nnoremap <silent> <space>e       :<C-u>CocFzfList extensions<CR>
     nnoremap <silent> <space>l       :<C-u>CocFzfList location<CR>
     nnoremap <silent> <space>o       :<C-u>CocFzfList outline<CR>
     nnoremap <silent> <space>s       :<C-u>CocFzfList symbols<CR>
     nnoremap <silent> <space>p       :<C-u>CocFzfListResume<CR>
 
+    fu! NormTag()
+        try
+            if &filetype == "vim"
+                exec "help ". expand("<cword>")
+            else
+                norm! 
+            endif
+        catch /.*/
+            echo v:exception
+        endtry
+    endfu
+
+    func! Tag()
+        if g:coc_enabled
+            try
+                let [bufnum, lnum, col, off, curswant] = getcurpos()
+                norm gi
+                let [bufnum1, lnum1, col1, off1, curswant1] = getcurpos()
+                if bufnum1 == bufnum && lnum == lnum1 && col == col1 && off == off
+                    call NormTag()
+                endif
+            catch /.*/
+                echo v:exception
+            endtry
+        else
+            call NormTag()
+        endif
+    endfunc
+    nnoremap <silent> <c-]> <cmd>call Tag()<CR>
 " }}}
 
 " Various Mappings With No Options: {{{
@@ -226,15 +243,14 @@ call plug#end() " }}}
 
 " Options: {{{
 let g:gitgutter_override_sign_column_highlight = 0
-let g:gitgutter_signs=0
-let g:gitgutter_sign_added                   = ''
-let g:gitgutter_sign_modified                = ''
-let g:gitgutter_sign_removed                 = ''
-let g:gitgutter_sign_removed_first_line      = ''
-let g:gitgutter_sign_modified_removed        = ''
-let g:gitgutter_sign_allow_clobber           = ''
-let g:gitgutter_sign_removed_above_and_below = ''
-let g:gitgutter_sign_priority                = ''
+let g:gitgutter_sign_added                   = ''
+let g:gitgutter_sign_modified                = ''
+let g:gitgutter_sign_removed                 = ''
+let g:gitgutter_sign_removed_first_line      = ''
+let g:gitgutter_sign_modified_removed        = ''
+let g:gitgutter_sign_allow_clobber           = ''
+let g:gitgutter_sign_removed_above_and_below = ''
+let g:gitgutter_sign_priority                = ''
 let g:gitgutter_highlight_linenrs = 1
 let g:highlightactive = 1
 let g:autoHighCurrent = 0
@@ -279,45 +295,25 @@ let g:extract_maxCount = 15
 "}}}
 
 " Lua {{{
+" TODO only if it exists
 lua << EOF
-    require'nvim-treesitter.configs'.setup {
-        -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-        ensure_installed = "maintained",
-
-        -- Install languages synchronously (only applied to `ensure_installed`)
-        sync_install = false,
-
-        -- List of parsers to ignore installing
-        ignore_install = {},
-
-        highlight = {
-            -- `false` will disable the whole extension
-            enable = true,
-
-            -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-            -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-            -- the name of the parser)
-            -- list of language that will be disabled
-            disable = {},
-
-            -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-            -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-            -- Using this option may slow down your editor, and you may see some duplicate highlights.
-            -- Instead of true it can also be a list of languages
-            additional_vim_regex_highlighting = false,
-        },
-        incremental_selection = {
-            enable = true,
-            keymaps = {
-                init_selection = "gnn",
-                node_incremental = "grn",
-                scope_incremental = "grc",
-                node_decremental = "grm",
+function setup()
+    require("nvim-tree").setup {
+        disable_netrw = true,
+        hijack_netrw = true,
+        view = {
+            number = true,
+            relativenumber = true,
             },
+        filters = {
+            custom = { ".git" },
         },
     }
-require'nvim-treesitter.configs'.setup {
-}
+end
+local status, err = pcall(setup)
+if not status then
+    print ("setup raised an error")
+end
 EOF
 " End Lua}}}
 
