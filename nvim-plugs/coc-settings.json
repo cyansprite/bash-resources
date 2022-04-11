@@ -1,0 +1,107 @@
+{
+    // global
+    "codeLens.enable": true,
+    "codeLens.position": "eol",
+    "coc.preferences.extensionUpdateCheck": "daily",
+    "coc.preferences.jumpCommand": "drop",
+    "coc.preferences.snippetHighlight": true,
+    "coc.source.file.enable": true,
+    "coc.source.word.filetypes": [
+        "MD"
+    ],
+    "coc.source.dictionary.filetypes": [
+        "MD"
+    ],
+    "coc.source.file.ignoreHidden": false,
+    "colors.filetypes": [
+        "*"
+    ],
+    "diagnostic.errorSign": "💀",
+    "diagnostic.warningSign": "⛈",
+    "diagnostic.infoSign": "ℹ",
+    "diagnostic.hintSign": "✨",
+    "diagnostic.virtualText": true,
+    "diagnostic.floatConfig": {
+        "border": true,
+        "borderhighlight": "Bold",
+        "highlight": "Normal"
+    },
+    "hover.floatConfig": {
+        "border": true,
+        "borderhighlight": "Bold",
+        "highlight": "Normal"
+    },
+    // TODO hi groups
+    "semanticTokens.filetypes": [
+        "*"
+    ],
+    "signature.floatConfig": {
+        "border": true,
+        "borderhighlight": "Bold",
+        "highlight": "Normal"
+    },
+    "suggest.autoTrigger": "trigger",
+    "suggest.floatConfig": {
+        "border": true,
+        "borderhighlight": "Bold",
+        "highlight": "Normal"
+    },
+    "suggest.completionItemKindLabels": {
+        "keyword": "\uf1de",
+        "variable": "\ue79b",
+        "value": "\uf89f",
+        "operator": "\u03a8",
+        "constructor": "\uf0ad",
+        "function": "\u0192",
+        "reference": "\ufa46",
+        "constant": "\uf8fe",
+        "method": "\uf09a",
+        "struct": "\ufb44",
+        "class": "\uf0e8",
+        "interface": "\uf417",
+        "text": "\ue612",
+        "enum": "\uf435",
+        "enumMember": "\uf02b",
+        "module": "\uf40d",
+        "color": "\ue22b",
+        "property": "\ue624",
+        "field": "\uf9be",
+        "unit": "\uf475",
+        "event": "\ufacd",
+        "file": "\uf723",
+        "folder": "\uf114",
+        "snippet": "\ue60b",
+        "typeParameter": "\uf728",
+        "default": "\uf29c"
+    },
+    "tree.closedIcon": "",
+    "tree.openedIcon": "",
+    "workspace.ignoredFiletypes": [
+        "gitcommit",
+        "sh",
+        "bash",
+        "log",
+        "logs",
+        "json"
+    ],
+    // java
+    "java.enabled": true,
+    "java.jdt.ls.vmargs": "-javaagent:/home/brcoffman/java/lombok.jar",
+    // typescript
+    "typescript.referencesCodeLens.enable": true,
+    "javascript.referencesCodeLens.enable": true,
+    "languageserver": {
+        "bash": {
+            "command": "bash-language-server",
+            "args": [
+                "start"
+            ],
+            "filetypes": [
+                "sh"
+            ],
+            "ignoredRootPaths": [
+                "~"
+            ]
+        }
+    }
+}

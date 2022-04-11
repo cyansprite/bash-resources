@@ -45,6 +45,8 @@ fi
 cd "$SOURCE/nvim-plugs"
 ln -fv init.vim ~/.config/nvim/
 ln -fv plug.vim ~/.config/nvim/
+ln -fv plug.vim ~/.config/nvim/
+ln -fv coc-settings.json ~/.config/nvim/coc-settings.json
 
 echo ""
 
