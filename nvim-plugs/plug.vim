@@ -59,7 +59,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     Plug 'Lenovsky/nuake'
 
-    Plug 'cyansprite/vim-grepper', { 'on' : 'Grepper' }
+    Plug 'mhinz/vim-grepper', { 'on' : 'Grepper' }
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
     Plug 'liuchengxu/vista.vim'
@@ -72,6 +72,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'AndrewRadev/inline_edit.vim'
 
     Plug 'liuchengxu/vim-which-key'
+
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
     " Optional
     Plug 'rcarriga/nvim-notify'

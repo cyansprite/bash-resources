@@ -145,7 +145,7 @@ endif
 
     " Set: Those that are complex, or just look stupid
     " These are annoying to have on
-    set belloff=error,ex,insertmode,showmatch
+    set belloff=all
     " set fill chars to things that make me happy—
     set fillchars=stlnc:\ ,stl:\ ,fold:═,diff:┉,vert:│,eob:
     " Changes listchars to more suitable chars
@@ -712,6 +712,7 @@ augroup init
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
     autocmd FileType json syntax match Comment +\/\/.\+$+
+    autocmd FileType typescript,javascript,css,html set tabstop=2 softtabstop=2
 augroup END
 
 augroup user_persistent_undo
