@@ -23,7 +23,6 @@ let g:loaded_vimballPlugin = 1
 " let g:loaded_netrwFileHandlers = 1
 
 " }}}
-
 " Plug, colo {{{
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
@@ -47,11 +46,9 @@ if hostname() == 'MSI'
     endif
     set bg=light
 elseif hostname() == 'mojojojo2'
-    let g:python3_host_prog='/usr/local/bin/python3.7'
+    let g:python3_host_prog='/usr/bin/python3'
     let g:python_host_prog='/usr/bin/python2'
-    set bg=light
-elseif hostname() == 'captainJojo'
-    set bg=light
+    set bg=dark
 elseif hostname() == 'cinder'
     set bg=dark
 else
@@ -102,6 +99,7 @@ endif
     set splitbelow                 " ...split below... what did you think?
     set splitright                 " Oh this one will be different!...cept not.
     set undofile                   " keep undo history ina file
+    set tildeop                    " ~ behaves like operator
 
     " Set: Those that use =
     let &showbreak = '↳ '          " Change show break thing (rare occasion)
@@ -147,7 +145,7 @@ endif
     " These are annoying to have on
     set belloff=all
     " set fill chars to things that make me happy—
-    set fillchars=stlnc:\ ,stl:\ ,fold:═,diff:┉,vert:│,eob:
+    set fillchars=stlnc:\ ,stl:\ ,fold:═,diff:┉,vert:┼,eob:
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
@@ -287,10 +285,26 @@ endif
 " Status Line , mode [arg]|file [+][-][RO] > Scope < l,c [ posbar ] {{{
 let g:scope_startline = ''
 let g:scope_endline = ''
+
+function! GitStatus(key, sign)
+    let [a,m,r] = GitGutterGetHunkSummary()
+    if a:key == "add"
+        return printf(" %d%s ", a, a:sign)
+    elseif a:key == "mod"
+        return printf(" %d%s ", m, a:sign)
+    elseif a:key == "remove"
+        return printf(" %d%s ", r, a:sign)
+    else
+        echoerr "not a valid git status key"
+    end
+endf
+
 function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%{ModeColor(mode())}%#NormalMode#\ %{Mode(mode())}\ %*
     setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error_COC('error','💀')}%#WarningMsg#%{LSP_Error_COC('warning','⛈')}%#MoreMsg#%{LSP_Error_COC('hint','✨')}%#Question#%{LSP_Error_COC('information','ℹ')}%#NormalMode#\ %{coc#status()}
+    setl statusline+=%#NormalMode#%#diffAdded#%{GitStatus('add','+')}%#diffText#%{GitStatus('mod','~')}%#diffRemoved#%{GitStatus('remove','-')}%#NormalMode#
+
     setl statusline+=\ %{CurArg()}\ %*
 
     " setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error('[[Error]]')}%#WarningMsg#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}%#NormalMode#\ %{CurArg()}\ %*
@@ -750,8 +764,14 @@ endfunc
 " #․.‥—–-«»‹›¢¤ƒ£¥≡+−×÷=≠><≥≤±≈~¬∅∞∫∆∏∑√∂µ%‰∴∕∙▁▂▃▄▅▆▇█▀▔
 " ▏▎▍▌▋▊▉▐▕▖▗▘▙▚▛▜▝▞▟░▒▓━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸
 " ┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋╌╍╎╏═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬╭╮╯╰╱╲╳╴╵╶╷╸╹╺╻╼╽╾╿♥@¶§©®
+" “”
 "" ™°|¦†ℓ‡^̣´˘ˇ¸ˆ¨˙`˝¯˛˚˜
 " Don't delete this...
+
+func! ReplaceStupidQuotes()
+    exec "%s/“\\|”/\"/ge"
+endfunc
+command! -nargs=0 Rsq silent! call ReplaceStupidQuotes()
 
 func! HexToRgbPercent(hex)
     let dex = 0

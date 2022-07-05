@@ -1,5 +1,5 @@
 [user]
-    email = brandoncoffman.cs@gmail.com
+    email = brandon.coffman@lexmark.com
     name = Brandon Coffman
 [log]
     color = true
@@ -10,7 +10,7 @@
 [mergetool]
     prompt = true
 [mergetool "vimdiff"]
-    cmd = nvim -d $LOCAL $REMOTE -c '$wincmd w'
+    cmd = nvim -d $LOCAL $REMOTE -c 'set wrap|$wincmd w|set wrap'
 [color]
     ui = auto
     branch = always
@@ -34,10 +34,12 @@
     relative = log --decorate --graph --abbrev-commit --date=relative
     graph = log --graph --date=short --pretty=format:'%C(white)%h%C(reset) %C(bold magenta)%ad %C(bold yellow)|%C(reset) %C(yellow) %s %C(bold cyan)[%an]%C(reset)%C(blue)%d%C(reset)'
     branches = log --color --graph --oneline --decorate --simplify-by-decoration --all
+
 [color "decorate"]
     head = cyan bold
     branch = cyan bold
     commit = bold
+
 [color "diff"]
     commit = yellow bold
     meta = bold

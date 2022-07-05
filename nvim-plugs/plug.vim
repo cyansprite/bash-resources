@@ -274,6 +274,7 @@ if has('unix')
     imap <c-x><c-j> <plug>(fzf-complete-file-ag)
     imap <c-x><c-l> <plug>(fzf-complete-line)
 endif
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } }
 
 nmap <leader>ff :Files<cr>
 nmap <leader>fl :BLines<cr>
