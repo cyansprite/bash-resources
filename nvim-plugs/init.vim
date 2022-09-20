@@ -50,7 +50,11 @@ elseif hostname() == 'mojojojo2'
     let g:python_host_prog='/usr/bin/python2'
     set bg=dark
 elseif hostname() == 'cinder'
-    set bg=dark
+    if $DARK == 0
+        set bg=light
+    else
+        set bg=dark
+    endif
 else
 endif
 
@@ -726,7 +730,7 @@ augroup init
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
     autocmd FileType json syntax match Comment +\/\/.\+$+
-    autocmd FileType typescript,javascript,css,html set tabstop=2 softtabstop=2
+    autocmd FileType typescript,javascript,css,html set tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 augroup user_persistent_undo
@@ -937,7 +941,6 @@ func! GetHeader()
     let g:my_vim_header_index = g:my_vim_header_index % len(g:my_vim_headers)
     return g:my_vim_headers[g:my_vim_header_index]
 endfunc
-
 
 let g:my_vim_headers = {
             \ 0 : [

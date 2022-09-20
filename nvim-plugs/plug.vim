@@ -20,6 +20,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'AndrewRadev/deleft.vim' " delete surrounding blocks with dh
 
     " Syntax:
+    Plug 'google/vim-jsonnet'
     Plug 'MTDL9/vim-log-highlighting'
     Plug 'cyansprite/vim-csharp'
     Plug 'udalov/kotlin-vim'

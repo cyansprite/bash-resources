@@ -2,12 +2,18 @@
 export TERM=screen-256color
 export H=/mnt/c/Users/brand
 
+export DARK=0
+
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/share/nvim/lsp_servers/jdtls/bin:$PATH"
 export PATH="$HOME/google/opt/google/chrome/google-chrome:$PATH"
 export PATH="$HOME/.dotnet:$PATH"
 export JDTLS_HOME="$HOME/.local/share/nvim/lsp_servers/jdtls"
+
+export PATH="$HOME/bin/godir/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
+export GOROOT=/home/brcoffman/bin/godir/
 
 
 if [ `hostname` == "captainJojo" ]; then
@@ -91,14 +97,19 @@ export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 export FZF_CTRL_T_OPTS="--height=80% --preview-window down:99% --preview 'if [ -d "{}" ]; then tree -C {} | head -200; else bat --color=always {}; fi'"
 
-# export FZF_DEFAULT_OPTS="--color='bg:#f2f2de,bg+:#ffffea,info:#df8243,border:#acaa55,spinner:#df8243' \
-                        # --color='hl:#acaa55,fg:#181826,header:#acaa55,fg+:#121211' \
-                        # --color='pointer:#ff4c96,marker:#ef4cff,prompt:#ef4cff,hl+:#ef4cff' \
-                        # --bind=up:preview-up,down:preview-down"
+if [ $DARK == 1 ]; then
+    export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=fg:#a6a476,bg:#121212,hl:#ff9900 --color=fg+:#79ada5,bg+:#2e2828,hl+:#f2ff00 --color=info:#afaf87,prompt:#ff0059,pointer:#ffffff --color=marker:#ff00dd,spinner:#00eaff,header:#54f000'
+    export BAT_THEME="Monokai Extended"
+else
+    export FZF_DEFAULT_OPTS="--color='bg:#D5D2D9,bg+:#F5F2F9,info:#df8243,border:#acaa55,spinner:#df8243' \
+                            --color='hl:#acaa55,fg:#181826,header:#acaa55,fg+:#121211' \
+                            --color='pointer:#ff4c96,marker:#ef4cff,prompt:#ef4cff,hl+:#ef4cff' \
+                            --bind=up:preview-up,down:preview-down"
 
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=fg:#a6a476,bg:#121212,hl:#ff9900 --color=fg+:#79ada5,bg+:#2e2828,hl+:#f2ff00 --color=info:#afaf87,prompt:#ff0059,pointer:#ffffff --color=marker:#ff00dd,spinner:#00eaff,header:#54f000'
 
-export BAT_THEME="Monokai Extended"
+    export BAT_THEME="Monokai Extended Light"
+fi
+
 
 echo "-----------------"
 echo "Going to init ssh"

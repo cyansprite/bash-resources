@@ -23,3 +23,4 @@ alias az=~/bin/az
 alias python3=python3.9
 alias c="bat --plain"
 alias gits="git status --porcelain | cut --fields=3 --delimiter=' '"
+alias bazel=bazelisk

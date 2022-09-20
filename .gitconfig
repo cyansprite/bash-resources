@@ -18,7 +18,7 @@
     status = always
 [alias]
     s = status
-    l = whatchanged --date=format:'%Y-%m-%d %H:%M' --graph --decorate
+    l = log --name-status --date=format:'%Y-%m-%d %H:%M' --graph --decorate
     d = diff
 [core]
     excludesfile = ~/.gitignore
