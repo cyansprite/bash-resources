@@ -31,6 +31,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tbastos/vim-lua'
     Plug 'PProvost/vim-ps1'
     Plug 'mfukar/robotframework-vim'
+    Plug 'fladson/vim-kitty'
 
     " Format:
     Plug 'foosoft/vim-argwrap'

@@ -104,6 +104,15 @@ else
     echo ""
 fi
 
+if [ ! -d ~/.config/kitty/themes ] ; then
+    mkdir -p ~/.config/kitty/themes
+fi
+
+cd "$SOURCE/kitty"
+ln -fv kitty.conf ~/.config/kitty/
+ln -fv themes/magic-dark.conf ~/.config/kitty/themes
+ln -fv themes/magic-light.conf ~/.config/kitty/themes
+
 echo "========================================================================="
 echo "Fin installing."
 echo "========================================================================="

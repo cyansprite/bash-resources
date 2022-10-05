@@ -10,7 +10,7 @@
 [mergetool]
     prompt = true
 [mergetool "vimdiff"]
-    cmd = nvim -d $LOCAL $REMOTE -c 'set wrap|$wincmd w|set wrap'
+    cmd = nvim -d $LOCAL $REMOTE -c '$wincmd w'
 [color]
     ui = auto
     branch = always
@@ -30,19 +30,30 @@
     amend = commit --amend
     precommit = diff --cached --diff-algorithm=minimal -w
     unmerged = diff --name-only --diff-filter=U
-    stashes = stash list --pretty=format:'%C(bold magenta)%gd%C(bold yellow): %C(cyan)%s'
+    stashes = stash list --pretty=format:'%C(bold 13)%gd%C(bold 11): %C(14)%s'
     relative = log --decorate --graph --abbrev-commit --date=relative
-    graph = log --graph --date=short --pretty=format:'%C(white)%h%C(reset) %C(bold magenta)%ad %C(bold yellow)|%C(reset) %C(yellow) %s %C(bold cyan)[%an]%C(reset)%C(blue)%d%C(reset)'
+    graph = log --graph --date=short --pretty=format:'%C(white)%h%C(reset) %C(bold 13)%ad %C(bold 11)|%C(reset) %C(11) %s %C(bold 14)[%an]%C(reset)%C(12)%d%C(reset)'
     branches = log --color --graph --oneline --decorate --simplify-by-decoration --all
-
-[color "decorate"]
-    head = cyan bold
-    branch = cyan bold
-    commit = bold
-
 [color "diff"]
-    commit = yellow bold
-    meta = bold
-    frag = blue bold
-    old = red bold
-    new = green bold
+    commit = 11 bold
+    meta = 9 bold
+    frag = 12 bold
+    old = 9 bold
+    new = 10 bold
+    whitespace = 1 bold reverse
+    context = 7
+[color "decorate"]
+    head = 14 bold
+    branch = 12 bold
+    remoteBranch = 9 bold
+    tag = 11 bold
+    stash = 13 bold
+    HEAD = 10 bold
+[color "status"]
+    header = 7
+    added = 10 bold
+    changed = 12 bold
+    untracked = 9 bold
+    branch = 11 bold
+    nobranch = 9 bold reverse
+    unmerged = 13 bold

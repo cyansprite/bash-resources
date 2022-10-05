@@ -23,6 +23,7 @@ let g:loaded_vimballPlugin = 1
 " let g:loaded_netrwFileHandlers = 1
 
 " }}}
+
 " Plug, colo {{{
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
@@ -103,7 +104,6 @@ endif
     set splitbelow                 " ...split below... what did you think?
     set splitright                 " Oh this one will be different!...cept not.
     set undofile                   " keep undo history ina file
-    set tildeop                    " ~ behaves like operator
 
     " Set: Those that use =
     let &showbreak = '↳ '          " Change show break thing (rare occasion)
@@ -149,7 +149,9 @@ endif
     " These are annoying to have on
     set belloff=all
     " set fill chars to things that make me happy—
-    set fillchars=stlnc:\ ,stl:\ ,fold:═,diff:┉,vert:┼,eob:
+    " looks like there is a bug if you don't include stlnc when you have more
+    " than one status line it'll fuck up your current one
+    set fillchars=stlnc:_,stl:\ ,fold:═,diff:┉,vert:│,eob:
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
@@ -304,6 +306,7 @@ function! GitStatus(key, sign)
 endf
 
 function! StatusLine()
+
     " Left Filename/CurArg
     setl statusline=%{ModeColor(mode())}%#NormalMode#\ %{Mode(mode())}\ %*
     setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error_COC('error','💀')}%#WarningMsg#%{LSP_Error_COC('warning','⛈')}%#MoreMsg#%{LSP_Error_COC('hint','✨')}%#Question#%{LSP_Error_COC('information','ℹ')}%#NormalMode#\ %{coc#status()}
@@ -576,9 +579,10 @@ function! LeaveWin()
 endfunc
 
 function! EnterWin()
-    let ignore = &winhl " This is a way to detect floating windows...
-
-    if ignore != ''
+    let ignore = &winhl " This was a way to detect floating windows...
+    " now, I always have numbers on my editable windows, so this should tell me
+    " if it's a popup
+    if wincol() == 1 || ignore == ''
         return
     endif
 

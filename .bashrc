@@ -50,9 +50,9 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 if [ -n $SSH_CLIENT ]; then
-    PS1='\[\e[1;31m\][\D{%T}] \[\e[1;32m\]\$: \[\e[1;33m\]\w \[\e[1;32m\]\>\[\e[m\] '
+    PS1='\[\e[1;91m\][\D{%T}] \[\e[1;92m\]\$: \[\e[1;93m\]\w \[\e[1;92m\]\>\[\e[m\] '
 else
-    PS1='\[\e[1;35m\][\D{%T}] \[\e[1;32m\]\$: \[\e[1;33m\]\w \[\e[1;32m\]\>\[\e[m\] '
+    PS1='\[\e[1;94m\][\D{%T}] \[\e[1;92m\]\$: \[\e[1;93m\]\w \[\e[1;92m\]\>\[\e[m\] '
 fi
 
 # Set title
@@ -90,7 +90,6 @@ export VISUAL=nvim
 # export PROMPT_DIRTRIM=2
 
 # I love fzf...
-[ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 export FZF_DEFAULT_COMMAND='ag -l'
 
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
@@ -150,4 +149,8 @@ if [ -x /usr/bin/remind ]; then
     remind ~/.reminders
 fi
 
-nvm use default
+if hash nvm 2>/dev/null; then
+    nvm use default
+fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
