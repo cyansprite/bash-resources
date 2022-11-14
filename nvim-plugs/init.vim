@@ -268,13 +268,16 @@ endif
     vnoremap  
 
     " I like playing with colors (Gives me hi-trans-lo ids)
-    map <silent><leader>1 :call HiLoBro()<cr>
+    map <silent><leader>1 :call HiLoBro(1)<cr>
+    map <silent><leader>2 :call HiLoBro(0)<cr>
 
-    func! HiLoBro()
-        try
-            CocCommand semanticTokens.inspect
-        catch /.*/
-        endtry
+    func! HiLoBro(coc)
+        if a:coc
+            try
+                CocCommand semanticTokens.inspect
+            catch /.*/
+            endtry
+        endif
         let hi = synIDattr(synID(line("."),col("."),1),"name")
         let trans = synIDattr(synID(line("."),col("."),0),"name")
         let lo = synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")
@@ -310,7 +313,7 @@ function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%{ModeColor(mode())}%#NormalMode#\ %{Mode(mode())}\ %*
     setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error_COC('error','💀')}%#WarningMsg#%{LSP_Error_COC('warning','⛈')}%#MoreMsg#%{LSP_Error_COC('hint','✨')}%#Question#%{LSP_Error_COC('information','ℹ')}%#NormalMode#\ %{coc#status()}
-    setl statusline+=%#NormalMode#%#diffAdded#%{GitStatus('add','+')}%#diffText#%{GitStatus('mod','~')}%#diffRemoved#%{GitStatus('remove','-')}%#NormalMode#
+    setl statusline+=\ %#NormalMode#%#diffAdded#%{GitStatus('add','+')}%#diffText#%{GitStatus('mod','~')}%#diffRemoved#%{GitStatus('remove','-')}%#NormalMode#
 
     setl statusline+=\ %{CurArg()}\ %*
 
@@ -575,14 +578,11 @@ endfunc  "}}}
 
 " Enter/LeaveWin {{{
 function! LeaveWin()
-
+  call coc#float#close_all()
 endfunc
 
 function! EnterWin()
-    let ignore = &winhl " This was a way to detect floating windows...
-    " now, I always have numbers on my editable windows, so this should tell me
-    " if it's a popup
-    if wincol() == 1 || ignore == ''
+    if wincol() == 1
         return
     endif
 
@@ -609,7 +609,7 @@ function! EnterWin()
 
         setl cursorline
         setl cursorcolumn
-        setl colorcolumn=80
+        setl colorcolumn=80,140
 
         let &eventignore=myei
     catch /.*/
@@ -633,6 +633,7 @@ func! ShouldILoadView()
     return &modifiable && OnlyMe(bufnr('%'), winnr()) && scrollbind == 0 && &filetype != 'COMMIT_MSG'
 endfun
 func! LeaveBufWin()
+    call coc#float#close_all()
     if ShouldILoadView() && filereadable(expand("%"))
         setlocal foldmethod=marker
         mkview!

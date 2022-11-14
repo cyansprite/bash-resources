@@ -20,6 +20,7 @@
     s = status
     l = log --name-status --date=format:'%Y-%m-%d %H:%M' --graph --decorate
     d = diff
+    c = commit --verbose
 [core]
     excludesfile = ~/.gitignore
     editor = nvim
@@ -36,24 +37,24 @@
     branches = log --color --graph --oneline --decorate --simplify-by-decoration --all
 [color "diff"]
     commit = 11 bold
-    meta = 9 bold
+    meta = 13 bold
     frag = 12 bold
     old = 9 bold
     new = 10 bold
     whitespace = 1 bold reverse
-    context = 7
+    context = 5
 [color "decorate"]
     head = 14 bold
-    branch = 12 bold
+    branch = 13 bold
     remoteBranch = 9 bold
     tag = 11 bold
     stash = 13 bold
     HEAD = 10 bold
 [color "status"]
-    header = 7
+    header = 7 bold
     added = 10 bold
     changed = 12 bold
     untracked = 9 bold
-    branch = 11 bold
+    branch = 13 bold
     nobranch = 9 bold reverse
-    unmerged = 13 bold
+    unmerged = 11 bold

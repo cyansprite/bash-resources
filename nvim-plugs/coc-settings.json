@@ -9,6 +9,7 @@
     "coc.source.word.filetypes": [
         "MD"
     ],
+    "notification.focusable": false,
     "coc.source.dictionary.filetypes": [
         "MD"
     ],
@@ -32,15 +33,14 @@
         "highlight": "Normal"
     },
     // TODO hi groups
-    "semanticTokens.filetypes": [
-        "*"
-    ],
+    "semanticTokens.enable": true,
+    "semanticTokens.combinedModifiers": ["property"],
     "signature.floatConfig": {
         "border": true,
         "borderhighlight": "Bold",
         "highlight": "Normal"
     },
-    "suggest.autoTrigger": "trigger",
+    "suggest.autoTrigger": "always",
     "suggest.floatConfig": {
         "border": true,
         "borderhighlight": "Bold",

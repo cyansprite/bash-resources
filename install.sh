@@ -108,10 +108,15 @@ if [ ! -d ~/.config/kitty/themes ] ; then
     mkdir -p ~/.config/kitty/themes
 fi
 
+if [ ! -d ~/.config/kitty/sessions ] ; then
+    mkdir -p ~/.config/kitty/sessions
+fi
+
 cd "$SOURCE/kitty"
 ln -fv kitty.conf ~/.config/kitty/
 ln -fv themes/magic-dark.conf ~/.config/kitty/themes
 ln -fv themes/magic-light.conf ~/.config/kitty/themes
+ln -fv sessions/main.conf ~/.config/kitty/sessions
 
 echo "========================================================================="
 echo "Fin installing."

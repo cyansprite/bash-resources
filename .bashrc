@@ -2,7 +2,7 @@
 export TERM=screen-256color
 export H=/mnt/c/Users/brand
 
-export DARK=0
+export DARK=1
 
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -50,7 +50,8 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 if [ -n $SSH_CLIENT ]; then
-    PS1='\[\e[1;91m\][\D{%T}] \[\e[1;92m\]\$: \[\e[1;93m\]\w \[\e[1;92m\]\>\[\e[m\] '
+    # PS1='\[\e[1;9$(expr `date +%s` % 6 + 1)m\][\D{%T}] \[\e[1;3$(expr \( `date +%s` + 1 \) % 6 + 1)m\]\$: \[\e[1;93m\]\w \[\e[1;3$(expr \( `date +%s` + 1 \) % 6 + 1)m\]\>\[\e[m\] '
+    PS1='\[\e[1;91m\][\D{%T}] \[\e[1;36m\]\$: \[\e[1;93m\]\w \[\e[1;36m\]\>\[\e[m\] '
 else
     PS1='\[\e[1;94m\][\D{%T}] \[\e[1;92m\]\$: \[\e[1;93m\]\w \[\e[1;92m\]\>\[\e[m\] '
 fi
@@ -152,5 +153,21 @@ fi
 if hash nvm 2>/dev/null; then
     nvm use default
 fi
+
+# enter blinking mode - red
+export LESS_TERMCAP_mb=$'\e[00;31m'
+# enter double-bright mode - bright cyan
+export LESS_TERMCAP_md=$'\e[01;95m'
+# enter standout mode - bright yellow
+export LESS_TERMCAP_so=$'\e[01;93m'
+# enter underline mode - underscore, bright cyan
+export LESS_TERMCAP_us=$'\e[04;96m'
+
+# turn off all appearance modes (mb, md, so, us)
+export LESS_TERMCAP_me=$'\e[0m'
+# leave standout mode
+export LESS_TERMCAP_se=$'\e[0m'
+# leave underline mode
+export LESS_TERMCAP_ue=$'\e[0m'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

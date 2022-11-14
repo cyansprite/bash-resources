@@ -32,6 +32,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'PProvost/vim-ps1'
     Plug 'mfukar/robotframework-vim'
     Plug 'fladson/vim-kitty'
+    Plug 'luochen1990/rainbow'
 
     " Format:
     Plug 'foosoft/vim-argwrap'
@@ -52,6 +53,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-fugitive', { 'on' : ['Gdiff', 'Gblame'] } " add more if I ever use
 
     " Interface:
+    Plug 'cympfh/journal.vim'
     Plug 'kyazdani42/nvim-tree.lua'
     Plug 'cyansprite/logicalBuffers'
 
@@ -87,39 +89,39 @@ call plug#end() " }}}
 " {{{ Completion
     let g:coc_disable_transparent_cursor=0
 
-    inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ?
-      \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
     function! s:check_back_space() abort
       let col = col('.') - 1
       return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
+
+    inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ?
+      \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
     let g:coc_snippet_next = '<tab>'
 
     inoremap <silent><expr> <c-space> coc#refresh()
 
     " select
-    inoremap <silent><expr> <c-y> pumvisible() ? coc#_select_confirm()
+    inoremap <silent><expr> <c-y> coc#pum#visible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
     nmap <silent> [g <Plug>(coc-diagnostic-prev)
     nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gd <Plug>(coc-type-definition)
-    nmap <silent> gr <Plug>(coc-references)
+    nmap <silent> <space>i <Plug>(coc-implementation)
+    nmap <silent> <space>d <Plug>(coc-type-definition)
+    nmap <silent> <space>r <Plug>(coc-references)
 
     " Use K to show documentation in preview window.
     nnoremap <silent> K :call <SID>show_documentation()<CR>
 
     function! s:show_documentation()
         if (coc#rpc#ready())
-            call CocActionAsync('doHover')
+            call CocActionAsync('definitionHover')
         else
             execute '!' . &keywordprg . " " . expand('<cword>')
         endif
@@ -140,7 +142,7 @@ call plug#end() " }}}
     " Remap keys for applying codeAction to the current buffer.
     nmap <leader>ac  <Plug>(coc-codeaction)
     " Apply AutoFix to problem on the current line.
-    nmap <leader>qf  <Plug>(coc-fix-current)
+    nmap <space>f  <Plug>(coc-fix-current)
 
     " Run the Code Lens action on the current line.
     nmap <leader>cl  <Plug>(coc-codelens-action)
@@ -169,8 +171,8 @@ call plug#end() " }}}
 
     " Use CTRL-S for selections ranges.
     " Requires 'textDocument/selectionRange' support of language server.
-    nmap <silent> <leader>s <Plug>(coc-range-select)
-    xmap <silent> <leader>s <Plug>(coc-range-select)
+    nmap <silent> gs <Plug>(coc-range-select)
+    xmap <silent> gs <Plug>(coc-range-select)
     " Add `:Format` command to format current buffer.
     command! -nargs=0 Format :call CocActionAsync('format')
 
@@ -243,9 +245,22 @@ call plug#end() " }}}
     tnoremap <F4> <C-\><C-n>:Nuake<CR>
     nmap <space>c <Plug>(caw:prefix)
     xmap <space>c <Plug>(caw:prefix)
+
+    nnoremap <silent><nowait> <space>O  :call <SID>toggle_outline()<CR>
+    function! s:toggle_outline() abort
+      let winid = coc#window#find('cocViewId', 'OUTLINE')
+      if winid == -1
+        call CocActionAsync('showOutline', 1)
+      else
+        call coc#window#close(winid)
+      endif
+    endfunction
+
 " }}}
 
 " Options: {{{
+let g:rainbow_active = 1
+
 let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_sign_added                   = ''
 let g:gitgutter_sign_modified                = ''
@@ -261,7 +276,8 @@ let g:autoHighCurrent = 0
 let g:undotree_WindowLayout = 2
 let g:vista_default_executive = 'nvim_lsp'
 
-nmap <leader>d :GitGutterPreviewHunk<cr>
+nmap <leader>dd :GitGutterPreviewHunk<cr>
+nmap <leader>du :GitGutterUndoHunk<cr>
 " TODO fix preview it's trying to preview files because exedee
 nmap <leader>fv :Vista finder<cr>
 " TODO Needs more work I may make my own
@@ -380,6 +396,18 @@ endfunc
 nnoremap L     <cmd>call PreviewFold('.')<CR>
 " autocmd CursorHold * call PreviewFold('.')
 autocmd CmdlineEnter * call CloseFoldPreview()
+" autocmd VimEnter,Tabnew *
+ "      \ if empty(&buftype) | call CocActionAsync('showOutline', 1) | endif
+autocmd BufEnter * call <SID>check_outline()
+function! s:check_outline() abort
+  if &filetype ==# 'coctree' && winnr('$') == 1
+    if tabpagenr('$') != 1
+      close
+    else
+      quit
+    endif
+  endif
+endfunction
 "}}}
 
 " {{{ Preview File Under Cursor
@@ -431,6 +459,7 @@ endfunc
 nnoremap gf <cmd>call PreviewFile()<CR>
 "}}}
 
+let g:journal_dir = "~/journal"
 let s:meOptions =  [
     \ 'INIT',
     \ 'COLO',
