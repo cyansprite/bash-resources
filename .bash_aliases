@@ -1,4 +1,5 @@
 # Don't you know ls aliases make the world go 'round?
+alias k='kubectl'
 alias ll='ls -lF'
 alias la='ls -A'
 alias l='ls -CF'

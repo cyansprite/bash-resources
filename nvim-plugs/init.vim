@@ -59,12 +59,7 @@ elseif hostname() == 'cinder'
 else
 endif
 
-try
-    " set termguicolors
-    colo restraint
-catch E185
-    colo desert
-endtry
+colo restraint
 
 func! Colors()
     hi cursorcolumn guifg=none guibg=none ctermfg=none ctermbg=none cterm=none
@@ -118,7 +113,7 @@ endif
     set concealcursor=nivc         " always conceal
     set diffopt+=context:3         " diff context lines
     set foldcolumn=0               " foldcolumn... no, just, no
-    set foldmethod=marker          " fold stuff
+    " set foldmethod=marker          " fold stuff
     set foldopen=tag,undo,block,hor,insert,percent,jump,search
     set inccommand=split           " pretty fucking useful
     " set jumpoptions=stack
@@ -150,8 +145,8 @@ endif
     set belloff=all
     " set fill chars to things that make me happy—
     " looks like there is a bug if you don't include stlnc when you have more
-    " than one status line it'll fuck up your current one
-    set fillchars=stlnc:_,stl:\ ,fold:═,diff:┉,vert:│,eob:
+    " than one status line it'll fuck up your current one  ▏, │ ┃, ▒
+    set fillchars=stlnc:_,stl:\ ,fold:═,diff:┉,vert:\|,eob:
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
@@ -253,12 +248,14 @@ endif
     " I don't know why this isn't default
     nnoremap Y y$
 
+
     " Opp of j
     nnoremap g<cr> i<cr><esc>
 
     "[Pre/App]end to the word under the cursor TODO make repeatable?
     map <m-a> ea
     map <m-i> bi
+    map <m-e> <m-a><space><esc><m-i><space><esc>
 
     " merge issues with git
     map g/ /<<<<<<<\\|=======\\|>>>>>>>
@@ -366,19 +363,22 @@ function! LSP_Error(key)
 endfunc
 
 function! ScopePos()
-    return "┃"
+    return ""
+    "return "┃"
 endfunc
 
 function! ScopeStart()
+    return ""
+    " return "> " . nvim_treesitter#statusline(90) . " <"
     " if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
     "     return get(b:, 'vista_nearest_method_or_function', '')
     " else
-    if has_key(g:, 'scope_startline')
-        return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
-                    \ 0, winwidth('.')/3)
-    else
-        return ''
-    endif
+    " if has_key(g:, 'scope_startline')
+    "     return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
+    "                 \ 0, winwidth('.')/3)
+    " else
+    "     return ''
+    " endif
     " endif
 endfunc
 
@@ -681,6 +681,11 @@ func! KillWhitespace() " {{{ -- fuck ws
     exec "%s/\\s\\+$//ge"
 endfu
 command! -nargs=0 Kws silent! call KillWhitespace()
+
+func! BubbleCurls() " {{{ -- {lol} -> { lol }
+    exec '%s/{\(\S.*\)}/{ \1 }/g'
+endfu
+command! -nargs=0 Bc silent! call BubbleCurls()
 " }}}
 
 " Autocommands {{{
@@ -735,7 +740,7 @@ augroup init
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
     autocmd FileType json syntax match Comment +\/\/.\+$+
-    autocmd FileType typescript,javascript,css,html set tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType jsonnet,typescript,javascript,css,html set tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 augroup user_persistent_undo
@@ -781,6 +786,11 @@ func! ReplaceStupidQuotes()
     exec "%s/“\\|”/\"/ge"
 endfunc
 command! -nargs=0 Rsq silent! call ReplaceStupidQuotes()
+
+func! ReplaceStupidSpaces()
+    exec "%s/ /\ /ge"
+endfunc
+command! -nargs=0 Rss silent! call ReplaceStupidSpaces()
 
 func! HexToRgbPercent(hex)
     let dex = 0
@@ -912,6 +922,22 @@ func! AnimatedNoneBuf(timer)
     call append('$', "")
     call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
     nnoremap <buffer><nowait><silent> l :CocConfig<cr>
+
+    let colotitle = "Operator"
+    let startline = line('$') + 1
+    let str = "[jj] Use :DearDiaryToday<cr> for Journal"
+    call append('$', leftpad.catpad. str)
+    call append('$', "")
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
+    nnoremap <buffer><nowait><silent> jj :DearDiaryToday<cr>
+
+    let colotitle = "PreProc"
+    let startline = line('$') + 1
+    let str = "[jy] Use :DearDiaryYesterday<cr> for Journal"
+    call append('$', leftpad.catpad. str)
+    call append('$', "")
+    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
+    nnoremap <buffer><nowait><silent> jy :DearDiaryYesterday<cr>
 
     let x = ''
     redir => x

@@ -9,11 +9,13 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/share/nvim/lsp_servers/jdtls/bin:$PATH"
 export PATH="$HOME/google/opt/google/chrome/google-chrome:$PATH"
 export PATH="$HOME/.dotnet:$PATH"
+export PATH="$HOME/home/brcoffman/bin/VSCode-linux-x64:$PATH"
 export JDTLS_HOME="$HOME/.local/share/nvim/lsp_servers/jdtls"
 
 export PATH="$HOME/bin/godir/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export GOROOT=/home/brcoffman/bin/godir/
+export DOTNET_ROOT=$HOME/.dotnet
 
 
 if [ `hostname` == "captainJojo" ]; then
@@ -51,9 +53,9 @@ shopt -s checkwinsize
 
 if [ -n $SSH_CLIENT ]; then
     # PS1='\[\e[1;9$(expr `date +%s` % 6 + 1)m\][\D{%T}] \[\e[1;3$(expr \( `date +%s` + 1 \) % 6 + 1)m\]\$: \[\e[1;93m\]\w \[\e[1;3$(expr \( `date +%s` + 1 \) % 6 + 1)m\]\>\[\e[m\] '
-    PS1='\[\e[1;91m\][\D{%T}] \[\e[1;36m\]\$: \[\e[1;93m\]\w \[\e[1;36m\]\>\[\e[m\] '
+    PS1='\[\e[1;91m\][\D{%T}] \[\e[1;36m\]?:$(echo $?) \$: \[\e[1;93m\]\w \[\e[1;36m\]\>\[\e[m\] '
 else
-    PS1='\[\e[1;94m\][\D{%T}] \[\e[1;92m\]\$: \[\e[1;93m\]\w \[\e[1;92m\]\>\[\e[m\] '
+    PS1='\[\e[1;94m\][\D{%T}] \[\e[1;92m\]?:$(echo $?) \$: \[\e[1;93m\]\w \[\e[1;92m\]\>\[\e[m\] '
 fi
 
 # Set title
@@ -92,6 +94,7 @@ export VISUAL=nvim
 
 # I love fzf...
 export FZF_DEFAULT_COMMAND='ag -l'
+export FZF_CTRL_T_COMMAND='ag -l'
 
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
@@ -171,3 +174,7 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_ue=$'\e[0m'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+if hash kubectl 2>/dev/null; then
+    source <(kubectl completion bash) # set up autocomplete in bash into the current shell, bash-completion package should be installed first.
+fi
