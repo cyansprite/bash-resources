@@ -95,6 +95,14 @@ else
     ln -s /usr/bin/batcat ~/bin/bat
 fi
 
+if hash ag 2>/dev/null; then
+    echo "========================================================================="
+    echo "ag already installed."
+    echo "========================================================================="
+else
+    yes | sudo apt-get install silversearcher-ag
+fi
+
 if hash nvim 2>/dev/null; then
     echo "========================================================================="
     echo "Neovim already installed."
@@ -102,6 +110,11 @@ if hash nvim 2>/dev/null; then
 else
     dash $SOURCE/neovim.sh
     echo ""
+fi
+
+if [ ! -d ~/.nvm ] ; then
+    mkdir -p ~/.nvm
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 fi
 
 if [ ! -d ~/.config/kitty/themes ] ; then
