@@ -1,0 +1,66 @@
+[/]
+default='89729d86-894b-4d70-89ae-629dd5e7157e'
+list=['174fef33-1a6b-49c9-98c1-06f1e72d45b8', '9b020dc9-5d67-4e2f-8f4c-84a26b5acace', '89729d86-894b-4d70-89ae-629dd5e7157e']
+
+[:174fef33-1a6b-49c9-98c1-06f1e72d45b8]
+background-color='rgb(6,8,0)'
+background-transparency-percent=20
+bold-color='rgb(255,155,0)'
+bold-color-same-as-fg=false
+bold-is-bright=true
+cell-height-scale=1.1000000000000001
+cell-width-scale=1.0
+cursor-background-color='rgb(255,155,0)'
+cursor-colors-set=true
+cursor-foreground-color='rgb(2,3,0)'
+font='Fira Code weight=453 9'
+foreground-color='rgb(136,136,136)'
+palette=['rgb(73,62,62)', 'rgb(193,46,46)', 'rgb(96,170,16)', 'rgb(170,145,9)', 'rgb(47,90,148)', 'rgb(117,76,142)', 'rgb(36,197,160)', 'rgb(184,176,169)', 'rgb(95,89,89)', 'rgb(249,1,90)', 'rgb(0,207,54)', 'rgb(201,106,52)', 'rgb(144,197,227)', 'rgb(214,8,218)', 'rgb(10,191,95)', 'rgb(255,255,247)']
+scrollbar-policy='never'
+use-system-font=false
+use-theme-background=false
+use-theme-colors=false
+use-theme-transparency=false
+use-transparent-background=true
+visible-name='Magic'
+
+[:89729d86-894b-4d70-89ae-629dd5e7157e]
+background-color='rgb(245,243,237)'
+background-transparency-percent=5
+bold-color='rgb(204,0,204)'
+bold-color-same-as-fg=false
+bold-is-bright=true
+cursor-colors-set=false
+cursor-foreground-color='rgb(158,255,0)'
+font='Fira Code weight=453 9'
+foreground-color='rgb(49,79,77)'
+palette=['rgb(73,62,62)', 'rgb(193,46,46)', 'rgb(26,139,26)', 'rgb(145,125,18)', 'rgb(54,178,218)', 'rgb(115,71,142)', 'rgb(25,158,127)', 'rgb(184,176,169)', 'rgb(95,89,89)', 'rgb(205,13,82)', 'rgb(29,136,60)', 'rgb(170,91,45)', 'rgb(102,150,166)', 'rgb(214,8,218)', 'rgb(45,153,96)', 'rgb(182,182,147)']
+scrollbar-policy='never'
+use-system-font=false
+use-theme-colors=false
+use-theme-transparency=false
+use-transparent-background=true
+visible-name='Magic Light'
+
+[:9b020dc9-5d67-4e2f-8f4c-84a26b5acace]
+background-color='rgb(0,0,0)'
+background-transparency-percent=53
+bold-color-same-as-fg=true
+cursor-blink-mode='off'
+foreground-color='rgb(57,56,55)'
+palette=['rgb(0,0,0)', 'rgb(31,27,27)', 'rgb(31,37,31)', 'rgb(45,45,36)', 'rgb(40,39,47)', 'rgb(53,45,53)', 'rgb(34,43,43)', 'rgb(27,25,23)', 'rgb(64,64,64)', 'rgb(35,30,32)', 'rgb(62,72,62)', 'rgb(54,54,46)', 'rgb(51,47,55)', 'rgb(48,40,48)', 'rgb(46,52,52)', 'rgb(23,22,22)']
+scrollbar-policy='never'
+use-theme-colors=false
+use-theme-transparency=false
+use-transparent-background=true
+visible-name='bw'
+
+[:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color='rgb(241,236,234)'
+background-transparency-percent=16
+font='PT Mono 12'
+foreground-color='rgb(46,52,54)'
+use-system-font=true
+use-theme-colors=false
+use-theme-transparency=false
+use-transparent-background=true
