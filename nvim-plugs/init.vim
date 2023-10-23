@@ -194,6 +194,8 @@ endif
     inoremap <A-l> <C-\><C-N><C-w>l
     inoremap <A-c> <C-\><C-N>
 
+    " ZZ/ZQ now I add a ZA
+    nnoremap ZA :qa!<cr>
     nnoremap <A-h> <C-w>h
     nnoremap <A-j> <C-w>j
     nnoremap <A-k> <C-w>k
@@ -741,6 +743,7 @@ augroup init
     autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
     autocmd FileType json syntax match Comment +\/\/.\+$+
     autocmd FileType jsonnet,typescript,javascript,css,html set tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType logs :AnsiEsc
 augroup END
 
 augroup user_persistent_undo
@@ -925,27 +928,18 @@ func! AnimatedNoneBuf(timer)
 
     let colotitle = "Operator"
     let startline = line('$') + 1
-    let str = "[jj] Use :DearDiaryToday<cr> for Journal"
+    let str = "[t] Use :Terminal<cr> for Terminal (Spell check activated for this version)"
     call append('$', leftpad.catpad. str)
     call append('$', "")
     call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
-    nnoremap <buffer><nowait><silent> jj :DearDiaryToday<cr>
-
-    let colotitle = "PreProc"
-    let startline = line('$') + 1
-    let str = "[jy] Use :DearDiaryYesterday<cr> for Journal"
-    call append('$', leftpad.catpad. str)
-    call append('$', "")
-    call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
-    nnoremap <buffer><nowait><silent> jy :DearDiaryYesterday<cr>
+    nnoremap <buffer><nowait><silent> t :set spell \| terminal<cr>
 
     let x = ''
     redir => x
-        silent! !git status
+        silent! !git status a:br
     redir END
     let removecolorpat = '\^\[\[[0-9;]*m'
     let x = split(x, "\n")
-
     call remove(x, 0, 2) " remove the calling of the command
     let paddedX = []
     for item in x
@@ -960,7 +954,6 @@ func! AnimatedNoneBuf(timer)
         call nvim_buf_add_highlight(bnr, g:my_header_ns, color, line('$')-1, len(leftpad.catpad) + 1, -1)
     endfor
 
-
     call append('$', repeat([''], winheight('') - line('$')))
 
     " call append('$', repeat([''], winheight('') - len))
@@ -971,6 +964,34 @@ func! GetHeader()
     let g:my_vim_header_index += 1
     let g:my_vim_header_index = g:my_vim_header_index % len(g:my_vim_headers)
     return g:my_vim_headers[g:my_vim_header_index]
+endfunc
+
+func! GetStatFiles(br)
+    let x = ''
+    redir => x
+        silent! exec "!git diff --no-color" . a:br . " --stat | cut --fields=2 --delimiter=' '"
+    redir END
+    let x = split(x, "\n")
+    call remove(x, 0, 1) " remove the calling of the command
+    if !empty(x)
+        call remove(x, -1) " remove the bottom
+    endif
+    return x
+endfunc
+
+command! -complete=customlist,GitBranchComplete -nargs=1 OpenStatFiles call GetStatFiles('<args>')
+
+func! GitBranchComplete(A,L,P)
+    let x = ''
+    redir => x
+        silent! !git branch -r --no-color
+    redir END
+    let x = substitute(x, '\s*', '', 'g')
+    let x = split(x, "\n")
+    call remove(x, 0, 1) " remove the calling of the command
+    call insert(x, 'HEAD^', 0)
+    call insert(x, 'HEAD', 0)
+    return x
 endfunc
 
 let g:my_vim_headers = {

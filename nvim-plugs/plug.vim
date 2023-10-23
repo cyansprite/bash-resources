@@ -17,6 +17,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'thinca/vim-visualstar'
 
     Plug 'tyru/caw.vim' " Comments
+    Plug 'tpope/vim-surround' " Surrounding things
+    Plug 'powerman/vim-plugin-AnsiEsc'
+    Plug 'vimwiki/vimwiki'
 
     Plug 'AndrewRadev/dsf.vim' " delete surrounding function with dsf
     Plug 'AndrewRadev/deleft.vim' " delete surrounding blocks with dh
@@ -56,6 +59,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Interface:
     Plug 'cyansprite/nvim-deardiary'
+    Plug 'gelguy/wilder.nvim'
     Plug 'kyazdani42/nvim-tree.lua'
     Plug 'cyansprite/logicalBuffers'
 
@@ -91,6 +95,37 @@ call plug#begin('~/.local/share/nvim/plugged')
 call plug#end() " }}}
 
 " {{{ Completion
+    imap <silent><script><expr> <c-k> copilot#Accept("\<CR>")
+    let g:copilot_no_tab_map = v:true
+
+    call wilder#setup({'modes': [':', '/', '?']})
+
+    call wilder#set_option('pipeline', [
+        \   wilder#branch(
+        \     wilder#cmdline_pipeline({
+        \       'fuzzy': 1,
+        \       'set_pcre2_pattern': 1,
+        \     }),
+        \     wilder#python_search_pipeline({
+        \       'pattern': 'fuzzy',
+        \     }),
+        \   ),
+        \ ])
+
+    let s:highlighters = [
+            \ wilder#pcre2_highlighter(),
+            \ wilder#basic_highlighter(),
+            \ ]
+
+    call wilder#set_option('renderer', wilder#renderer_mux({
+        \ ':': wilder#popupmenu_renderer({
+        \   'highlighter': s:highlighters,
+        \ }),
+        \ '/': wilder#wildmenu_renderer({
+        \   'highlighter': s:highlighters,
+        \ }),
+        \ }))
+
     let g:coc_disable_transparent_cursor=0
 
     function! s:check_back_space() abort
@@ -147,6 +182,8 @@ call plug#end() " }}}
     nmap <leader>ac  <Plug>(coc-codeaction)
     " Apply AutoFix to problem on the current line.
     nmap <space>f  <Plug>(coc-fix-current)
+    " Apply AutoFix to problem on the current line.
+    command! -nargs=0 OR :call CocAction('organizeImport')
 
     " Run the Code Lens action on the current line.
     nmap <leader>cl  <Plug>(coc-codelens-action)
@@ -202,7 +239,7 @@ call plug#end() " }}}
     nnoremap <silent> <space>a       :<C-u>CocFzfList commands<CR>
     nnoremap <silent> <space>e       :<C-u>CocFzfList extensions<CR>
     nnoremap <silent> <space>l       :<C-u>CocFzfList location<CR>
-    nnoremap <silent> <space>o       :<C-u>CocFzfList outline<CR>
+    nnoremap <silent> <space>O       :<C-u>CocFzfList outline<CR>
     nnoremap <silent> <space>s       :<C-u>CocFzfList symbols<CR>
     nnoremap <silent> <space>p       :<C-u>CocFzfListResume<CR>
 
@@ -228,6 +265,7 @@ call plug#end() " }}}
                     call NormTag()
                 endif
             catch /.*/
+                call NormTag()
                 echo v:exception
             endtry
         else
@@ -279,6 +317,14 @@ let g:highlightactive = 1
 let g:autoHighCurrent = 0
 let g:undotree_WindowLayout = 2
 let g:vista_default_executive = 'nvim_lsp'
+
+func! SetGitGutterBranch(br)
+    exec 'GitGutterLineHighlightsEnable'
+    exec 'GitGutterLineNrHighlightsEnable'
+    let g:gitgutter_diff_base=a:br
+    exec 'e'
+endfunc
+command! -complete=customlist,GitBranchComplete -nargs=1 SetDiff call SetGitGutterBranch('<args>')
 
 nmap <leader>dd :GitGutterPreviewHunk<cr>
 nmap <leader>du :GitGutterUndoHunk<cr>
@@ -554,3 +600,7 @@ endfunc
 command! -nargs=0 ME call s:fzfMe()
 nnoremap <silent> <leader>m :ME<CR>
 
+autocmd VimEnter * Copilot enable
+
+nnoremap <silent> <space>p :Copilot panel<cr>
+nnoremap <silent> <space>o :Copilot open<cr>

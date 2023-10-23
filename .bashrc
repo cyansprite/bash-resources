@@ -2,7 +2,7 @@
 export TERM=screen-256color
 export H=/mnt/c/Users/brand
 
-export DARK=1
+export DARK=0
 
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -11,12 +11,15 @@ export PATH="$HOME/google/opt/google/chrome/google-chrome:$PATH"
 export PATH="$HOME/.dotnet:$PATH"
 export PATH="$HOME/home/brcoffman/bin/VSCode-linux-x64:$PATH"
 export JDTLS_HOME="$HOME/.local/share/nvim/lsp_servers/jdtls"
+export PATH="$PATH:/home/brcoffman/.dotnet/tools"
 
 export PATH="$HOME/bin/godir/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export GOROOT=/home/brcoffman/bin/godir/
 export DOTNET_ROOT=$HOME/.dotnet
 
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 if [ `hostname` == "captainJojo" ]; then
     export PATH="/usr/local/Cellar/python3/3.7.6_1/bin:$PATH"
@@ -154,7 +157,7 @@ if [ -x /usr/bin/remind ]; then
 fi
 
 if hash nvm 2>/dev/null; then
-    nvm use default
+    nvm use node
 fi
 
 # enter blinking mode - red
@@ -178,3 +181,18 @@ export LESS_TERMCAP_ue=$'\e[0m'
 if hash kubectl 2>/dev/null; then
     source <(kubectl completion bash) # set up autocomplete in bash into the current shell, bash-completion package should be installed first.
 fi
+
+# pnpm
+export PNPM_HOME="/home/brcoffman/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# avoid bloat but have the log in case something happens I care about
+rm /home/brcoffman/.local/state/nvim/log
+
+
+# Load Angular CLI autocompletion.
+# source <(ng completion script)

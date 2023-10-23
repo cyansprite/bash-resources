@@ -13,10 +13,13 @@
   "coc.source.dictionary.filetypes": [
     "MD"
   ],
+  "copilot.enable": true,
+  "copilot.kindLabel": "",
   "coc.source.file.ignoreHidden": false,
   "colors.filetypes": [
     "*"
   ],
+  "pullDiagnostic.workspace": true,
   "diagnostic.errorSign": "💀",
   "diagnostic.warningSign": "⛈",
   "diagnostic.infoSign": "ℹ",
