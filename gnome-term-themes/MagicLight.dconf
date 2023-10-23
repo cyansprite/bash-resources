@@ -1,16 +1,16 @@
 [/]
-background-color='rgb(217,215,213)'
-background-transparency-percent=8
+background-color='rgb(245,243,237)'
+background-transparency-percent=5
 bold-color='rgb(204,0,204)'
 bold-color-same-as-fg=false
 bold-is-bright=true
 cursor-colors-set=false
 cursor-foreground-color='rgb(158,255,0)'
-font='Hasklug Nerd Font Mono 11'
-foreground-color='rgb(83,70,86)'
-palette=['rgb(73,62,62)', 'rgb(193,46,46)', 'rgb(26,139,26)', 'rgb(145,125,18)', 'rgb(79,155,182)', 'rgb(115,71,142)', 'rgb(25,158,127)', 'rgb(184,176,169)', 'rgb(95,89,89)', 'rgb(205,13,82)', 'rgb(29,136,60)', 'rgb(170,91,45)', 'rgb(47,90,148)', 'rgb(214,8,218)', 'rgb(45,153,96)', 'rgb(255,255,247)']
+font='Fira Code weight=453 9'
+foreground-color='rgb(49,79,77)'
+palette=['rgb(73,62,62)', 'rgb(193,46,46)', 'rgb(26,139,26)', 'rgb(145,125,18)', 'rgb(54,178,218)', 'rgb(115,71,142)', 'rgb(25,158,127)', 'rgb(184,176,169)', 'rgb(95,89,89)', 'rgb(205,13,82)', 'rgb(29,136,60)', 'rgb(170,91,45)', 'rgb(102,150,166)', 'rgb(214,8,218)', 'rgb(45,153,96)', 'rgb(182,182,147)']
 scrollbar-policy='never'
-use-system-font=true
+use-system-font=false
 use-theme-colors=false
 use-theme-transparency=false
 use-transparent-background=true
