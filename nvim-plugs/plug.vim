@@ -4,6 +4,15 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'cyansprite/nvim-gml'
     Plug 'cyansprite/nvim-unmatched'
 
+    " Win bar thing
+    Plug 'nvim-tree/nvim-web-devicons'
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'kyazdani42/nvim-web-devicons'
+
+    " Flutter
+    Plug 'dart-lang/dart-vim-plugin'
+    Plug 'thosakwe/vim-flutter'
+
     " Stuff:
     Plug 'cyansprite/vim-highlightedyank'
     Plug 'Shougo/context_filetype.vim'
@@ -25,7 +34,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'AndrewRadev/deleft.vim' " delete surrounding blocks with dh
 
     " Syntax:
-    Plug 'google/vim-jsonnet'
+    " Plug 'google/vim-jsonnet'
     Plug 'MTDL9/vim-log-highlighting'
     Plug 'cyansprite/vim-csharp'
     Plug 'udalov/kotlin-vim'
@@ -45,7 +54,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " LSP and completion:
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'wellle/tmux-complete.vim'
 
     if has('unix')
         Plug '~/.fzf'
@@ -54,10 +62,12 @@ call plug#begin('~/.local/share/nvim/plugged')
     endif
 
     " Git:
+    Plug 'akinsho/git-conflict.nvim'
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive', { 'on' : ['Gdiff', 'Gblame'] } " add more if I ever use
 
     " Interface:
+    Plug 'rcarriga/nvim-notify'
     Plug 'cyansprite/nvim-deardiary'
     Plug 'gelguy/wilder.nvim'
     Plug 'kyazdani42/nvim-tree.lua'
@@ -67,21 +77,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/fzf.vim'
     Plug 'antoinemadec/coc-fzf'
 
-    Plug 'Lenovsky/nuake'
-
     Plug 'mhinz/vim-grepper', { 'on' : 'Grepper' }
     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-    Plug 'liuchengxu/vista.vim'
+    Plug 'nvim-treesitter/nvim-treesitter-context'
 
     Plug 'norcalli/nvim-colorizer.lua'
-
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'kyazdani42/nvim-web-devicons'
-
-    Plug 'AndrewRadev/inline_edit.vim'
 
     Plug 'liuchengxu/vim-which-key'
 
@@ -95,7 +97,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 call plug#end() " }}}
 
 " {{{ Completion
-    imap <silent><script><expr> <c-k> copilot#Accept("\<CR>")
+    "# imap <silent><script><expr> <c-k> copilot#Accept("\<CR>")
     let g:copilot_no_tab_map = v:true
 
     call wilder#setup({'modes': [':', '/', '?']})
@@ -135,12 +137,12 @@ call plug#end() " }}}
 
     inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ?
-      \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ coc#pum#visible() && coc#expandableOrJumpable() ?
+      \ coc#pum#visible() && "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 
-    let g:coc_snippet_next = '<tab>'
+    " let g:coc_snippet_next = '<tab>'
 
     inoremap <silent><expr> <c-space> coc#refresh()
 
@@ -170,16 +172,16 @@ call plug#end() " }}}
     autocmd CursorHold * silent call CocActionAsync('highlight')
 
     " Symbol renaming.
-    nmap <leader>nn <Plug>(coc-rename)
+    nmap <F2> <Plug>(coc-rename)
     xmap <leader>F  <Plug>(coc-format-selected)
 
     " Applying codeAction to the selected region.
     " Example: `<leader>aap` for current paragraph
-    xmap <leader>a  <Plug>(coc-codeaction-selected)
-    nmap <leader>a  <Plug>(coc-codeaction-selected)
+    xmap <space>aa  <Plug>(coc-codeaction-selected)
+    nmap <space>aa  <Plug>(coc-codeaction-selected)
 
     " Remap keys for applying codeAction to the current buffer.
-    nmap <leader>ac  <Plug>(coc-codeaction)
+    nmap <space>ac  <Plug>(coc-codeaction)
     " Apply AutoFix to problem on the current line.
     nmap <space>f  <Plug>(coc-fix-current)
     " Apply AutoFix to problem on the current line.
@@ -236,12 +238,13 @@ call plug#end() " }}}
     nnoremap <silent> <space><space> :<C-u>CocFzfList<CR>
     nnoremap <silent> <space>g       :<C-u>CocFzfList diagnostics<CR>
     nnoremap <silent> <space>b       :<C-u>CocFzfList diagnostics --current-buf<CR>
-    nnoremap <silent> <space>a       :<C-u>CocFzfList commands<CR>
+    nnoremap <silent> <space>c       :<C-u>CocFzfList commands<CR>
     nnoremap <silent> <space>e       :<C-u>CocFzfList extensions<CR>
     nnoremap <silent> <space>l       :<C-u>CocFzfList location<CR>
     nnoremap <silent> <space>O       :<C-u>CocFzfList outline<CR>
     nnoremap <silent> <space>s       :<C-u>CocFzfList symbols<CR>
     nnoremap <silent> <space>p       :<C-u>CocFzfListResume<CR>
+    nmap <silent> <space>F :CocList --input=flutter commands<CR>
 
     fu! NormTag()
         try
@@ -304,19 +307,19 @@ call plug#end() " }}}
 let g:rainbow_active = 1
 
 let g:gitgutter_override_sign_column_highlight = 0
-let g:gitgutter_sign_added                   = ''
-let g:gitgutter_sign_modified                = ''
-let g:gitgutter_sign_removed                 = ''
-let g:gitgutter_sign_removed_first_line      = ''
-let g:gitgutter_sign_modified_removed        = ''
-let g:gitgutter_sign_allow_clobber           = ''
-let g:gitgutter_sign_removed_above_and_below = ''
-let g:gitgutter_sign_priority                = ''
+" TODO
+let g:gitgutter_sign_added                   = ''
+let g:gitgutter_sign_modified                = ''
+let g:gitgutter_sign_removed                 = ''
+let g:gitgutter_sign_removed_first_line      = ''
+let g:gitgutter_sign_modified_removed        = ''
+let g:gitgutter_sign_allow_clobber           = ''
+let g:gitgutter_sign_removed_above_and_below = ''
+let g:gitgutter_sign_priority                = ''
 let g:gitgutter_highlight_linenrs = 1
 let g:highlightactive = 1
 let g:autoHighCurrent = 0
 let g:undotree_WindowLayout = 2
-let g:vista_default_executive = 'nvim_lsp'
 
 func! SetGitGutterBranch(br)
     exec 'GitGutterLineHighlightsEnable'
@@ -328,10 +331,6 @@ command! -complete=customlist,GitBranchComplete -nargs=1 SetDiff call SetGitGutt
 
 nmap <leader>dd :GitGutterPreviewHunk<cr>
 nmap <leader>du :GitGutterUndoHunk<cr>
-" TODO fix preview it's trying to preview files because exedee
-nmap <leader>fv :Vista finder<cr>
-" TODO Needs more work I may make my own
-nmap <leader>i :InlineEdit context_filetype#get()['filetype']<cr>
 " }}}
 
 " FZF {{{
@@ -385,6 +384,30 @@ local status, err = pcall(setup)
 if not status then
     print ("setup raised an error")
 end
+-- TODO make a lua file
+require('git-conflict').setup()
+
+function _G.symbol_line()
+  local bufnr = vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0)
+  local ok, line = pcall(vim.api.nvim_buf_get_var, bufnr, 'coc_symbol_line')
+  return ok and '%#CocSymbolLine# ' .. line or ''
+end
+
+vim.api.nvim_create_autocmd(
+    { 'CursorHold', 'WinEnter', 'BufWinEnter' },
+    {
+    group = vim.api.nvim_create_augroup("coc_symbol_line", {}),
+    callback = function()
+      if vim.b.coc_symbol_line and vim.bo.buftype == '' then
+        if vim.opt_local.winbar:get() == '' then
+          vim.opt_local.winbar = '%!v:lua.symbol_line()'
+        end
+      else
+        vim.opt_local.winbar = ''
+      end
+    end
+    }
+)
 EOF
 " End Lua}}}
 
@@ -518,57 +541,62 @@ require("deardiary.config").journals = {
 }
 
 require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all" (the four listed parsers should always be installed)
-  ensure_installed = { "c_sharp" },
-
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
-
-  -- List of parsers to ignore installing (for "all")
-  ignore_install = { "javascript" },
-
-  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
   highlight = {
-    -- `false` will disable the whole extension
-    enable = false,
-
-    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-    -- the name of the parser)
-    -- list of language that will be disabled
+    enable = true,
     disable = { "gitcommit", "diff" },
-
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
     -- Using this option may slow down your editor, and you may see some duplicate highlights.
     -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = true,
+    additional_vim_regex_highlighting = false,
   },
+}
 
+
+-- No, it's, so, slow
+-- require'nvim-treesitter.configs'.setup {
+--   indent = {
+--     enable = true
+--   }
+-- }
+
+require'nvim-treesitter.configs'.setup {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "gnn", -- set to `false` to disable one of the mappings
+      init_selection = "<space>i",
       node_incremental = "grn",
       scope_incremental = "grc",
       node_decremental = "grm",
     },
   },
+}
 
-  indent = {
-    enable = true
-  },
-
+require'treesitter-context'.setup{
+  enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+  max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+  min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+  line_numbers = true,
+  multiline_threshold = 20, -- Maximum number of lines to show for a single context
+  trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+  mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+  -- Separator between context and content. Should be a single character string, like '-'.
+  -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+  separator = nil,
+  zindex = 20, -- The Z-index of the context window
+  on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
 }
 EOF
+hi TreesitterContextBottom gui=inverse
 
-set nofoldenable
+func! s:setFold()
+    let file = expand("<afile>")
+    echom "file" .. file
+    set foldmethod=expr
+    set foldexpr=nvim_treesitter#foldexpr()
+    set nofoldenable                     " Disable folding at startup.
+endfunc
+autocmd BufEnter, BufWinEnter, WinEnter, VimEnter * call s:setFold()
 
 let s:meOptions =  [
     \ 'INIT',
@@ -600,7 +628,99 @@ endfunc
 command! -nargs=0 ME call s:fzfMe()
 nnoremap <silent> <leader>m :ME<CR>
 
-autocmd VimEnter * Copilot enable
+"# autocmd VimEnter * Copilot enable
+"# nnoremap <silent> <space>p :Copilot panel<cr>
+"# nnoremap <silent> <space>o :Copilot open<cr>
+"
+" https://github.com/neoclide/coc.nvim/wiki/Nvim-notifications-integration
+lua << EOF
 
-nnoremap <silent> <space>p :Copilot panel<cr>
-nnoremap <silent> <space>o :Copilot open<cr>
+local coc_status_record = {}
+
+function coc_status_notify(msg, level)
+  local notify_opts = { title = "LSP Status", timeout = 500, hide_from_history = true, on_close = reset_coc_status_record }
+  -- if coc_status_record is not {} then add it to notify_opts to key called "replace"
+  if coc_status_record ~= {} then
+    notify_opts["replace"] = coc_status_record.id
+  end
+  coc_status_record = vim.notify(msg, level, notify_opts)
+end
+
+function reset_coc_status_record(window)
+  coc_status_record = {}
+end
+
+local coc_diag_record = {}
+
+function coc_diag_notify(msg, level)
+  local notify_opts = { title = "LSP Diagnostics", timeout = 500, on_close = reset_coc_diag_record }
+  -- if coc_diag_record is not {} then add it to notify_opts to key called "replace"
+  if coc_diag_record ~= {} then
+    notify_opts["replace"] = coc_diag_record.id
+  end
+  coc_diag_record = vim.notify(msg, level, notify_opts)
+end
+
+function reset_coc_diag_record(window)
+  coc_diag_record = {}
+end
+
+require("notify").setup({
+  background_colour = "#00000000",
+})
+
+vim.notify = require("notify")
+function coc_notify(msg, level)
+  local notify_opts = { title = "LSP Message", timeout = 500 }
+  vim.notify(msg, level, notify_opts)
+end
+EOF
+
+function! s:DiagnosticNotify() abort
+  let l:info = get(b:, 'coc_diagnostic_info', {})
+  if empty(l:info) | return '' | endif
+  let l:msgs = []
+  let l:level = 'info'
+   if get(l:info, 'warning', 0)
+    let l:level = 'warn'
+  endif
+  if get(l:info, 'error', 0)
+    let l:level = 'error'
+  endif
+
+  if get(l:info, 'error', 0)
+    call add(l:msgs, ' Errors: ' . l:info['error'])
+  endif
+  if get(l:info, 'warning', 0)
+    call add(l:msgs, ' Warnings: ' . l:info['warning'])
+  endif
+  if get(l:info, 'information', 0)
+    call add(l:msgs, 'ℹ Infos: ' . l:info['information'])
+  endif
+  if get(l:info, 'hint', 0)
+    call add(l:msgs, '✨ Hints: ' . l:info['hint'])
+  endif
+  let l:msg = join(l:msgs, "\n")
+  if empty(l:msg) | let l:msg = ' All OK' | endif
+  call v:lua.coc_diag_notify(l:msg, l:level)
+endfunction
+
+function! s:StatusNotify() abort
+  let l:status = get(g:, 'coc_status', '')
+  let l:level = 'info'
+  if empty(l:status) | return '' | endif
+  call v:lua.coc_status_notify(l:status, l:level)
+endfunction
+
+function! s:InitCoc() abort
+  runtime! autoload/coc/ui.vim
+  execute "lua vim.notify('Initialized coc.nvim for LSP support', 'info', { title = 'LSP Status' })"
+endfunction
+
+" notifications
+autocmd User CocNvimInit call s:InitCoc()
+autocmd User CocDiagnosticChange call s:DiagnosticNotify()
+autocmd User CocStatusChange call s:StatusNotify()
+
+" Osoi
+let g:dart_format_on_save = 0

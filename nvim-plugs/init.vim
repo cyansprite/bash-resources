@@ -41,23 +41,29 @@ else
     command! -nargs=0 PS :e ~/Documents/bash-resources/profile.ps1
 endif
 
-if hostname() == 'MSI'
-    if has('win32')
-        let g:python3_host_prog='C:\Users\Brand\AppData\Local\Programs\Python\Python39\python.exe'
-    endif
+if $DARK == 0
     set bg=light
-elseif hostname() == 'mojojojo2'
-    let g:python3_host_prog='/usr/bin/python3'
-    let g:python_host_prog='/usr/bin/python2'
-    set bg=dark
-elseif hostname() == 'cinder'
-    if $DARK == 0
-        set bg=light
-    else
-        set bg=dark
-    endif
 else
+    set bg=dark
 endif
+
+"" if hostname() == 'MSI'
+""     if has('win32')
+""         let g:python3_host_prog='C:\Users\Brand\AppData\Local\Programs\Python\Python39\python.exe'
+""     endif
+""     set bg=light
+"" elseif hostname() == 'mojojojo2'
+""     let g:python3_host_prog='/usr/bin/python3'
+""     let g:python_host_prog='/usr/bin/python2'
+""     set bg=dark
+"" elseif hostname() == 'cinder'
+""     if $DARK == 0
+""         set bg=light
+""     else
+""         set bg=dark
+""     endif
+"" else
+"" endif
 
 colo restraint
 
@@ -76,7 +82,7 @@ endif
     " Set: Those that use macros
     set cursorline                 " set cursorline, just make sure highlight is none
     set cursorcolumn               " set no cursor column
-    set encoding=utf-8             " Imagine! A useful encoding
+    set encoding=UTF-8
     set expandtab                  " Expands tab to spaces
     set hidden                     " So we can navigate without writing
     set hlsearch                   " Default higlight search on
@@ -146,9 +152,9 @@ endif
     " set fill chars to things that make me happy—
     " looks like there is a bug if you don't include stlnc when you have more
     " than one status line it'll fuck up your current one  ▏, │ ┃, ▒
-    set fillchars=stlnc:_,stl:\ ,fold:═,diff:┉,vert:\|,eob:
+    set fillchars=stlnc:\ ,stl:\ ,fold:═,diff:┉,vert:\|,eob:
     " Changes listchars to more suitable chars
-    set listchars=tab:→\ ,trail:,extends:<,precedes:>,conceal:¦
+    set listchars=tab:→\ ,trail:,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
     if &modifiable | set number | endif
     set synmaxcol=300
@@ -308,7 +314,6 @@ function! GitStatus(key, sign)
 endf
 
 function! StatusLine()
-
     " Left Filename/CurArg
     setl statusline=%{ModeColor(mode())}%#NormalMode#\ %{Mode(mode())}\ %*
     setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error_COC('error','💀')}%#WarningMsg#%{LSP_Error_COC('warning','⛈')}%#MoreMsg#%{LSP_Error_COC('hint','✨')}%#Question#%{LSP_Error_COC('information','ℹ')}%#NormalMode#\ %{coc#status()}
@@ -497,25 +502,25 @@ endfun
 func! Mode(mode)
     if !has_key(s:, "statusmodes")
         let s:statusmodes = {
-                    \ "n"  : " xxxxxx ",
-                    \ "no" : " OPERATOR ",
-                    \ "i"  : " INSERT ",
-                    \ "v"  : " VISUAL ",
-                    \ "V"  : " VISUAL LINE ",
-                    \ "" : " VISUAL BLOCK ",
-                    \ "R"  : " REPLACE ",
-                    \ "Rv" : " V REPLACE ",
-                    \ "t"  : " TERMINAL ",
-                    \ "s"  : " SELECT ",
-                    \ "S"  : " SELECT LINE ",
-                    \ "" : " SELECT BLOCK",
-                    \ "c"  : " COMMAND ",
-                    \ "cv" : " VEX ",
-                    \ "ce" : " EX ",
-                    \ "r"  : " PROMPT ",
-                    \ "rm" : " MORE ",
-                    \ "r?" : " CONFIRM ",
-                    \ "!"  : " SHELL ",
+                    \ "n"  : "░░░░░░",
+                    \ "no" : "OPERATOR",
+                    \ "i"  : "INSERT",
+                    \ "v"  : "VISUAL",
+                    \ "V"  : "VISUAL LINE",
+                    \ "" : "VISUAL BLOCK",
+                    \ "R"  : "REPLACE",
+                    \ "Rv" : "V REPLACE",
+                    \ "t"  : "TERMINAL",
+                    \ "s"  : "SELECT",
+                    \ "S"  : "SELECT LINE",
+                    \ "" : "SELECT BLOCK",
+                    \ "c"  : "COMMAND",
+                    \ "cv" : "VEX",
+                    \ "ce" : "EX",
+                    \ "r"  : "PROMPT",
+                    \ "rm" : "MORE",
+                    \ "r?" : "CONFIRM",
+                    \ "!"  : "SHELL",
        \}
     endif
 
@@ -580,43 +585,12 @@ endfunc  "}}}
 
 " Enter/LeaveWin {{{
 function! LeaveWin()
-  call coc#float#close_all()
+    call coc#float#close_all()
+    " for floating windows closing, kind of like setTimeout for fixing anuglar issues exedee
+    call timer_start(1, function('s:EnterBufWin'), { 'repeat': 2 })
 endfunc
 
 function! EnterWin()
-    if wincol() == 1
-        return
-    endif
-
-    call StatusLine()
-    let myei=&ei
-    try
-        set eventignore=WinEnter,WinLeave
-        let curWinIndex = winnr()
-        let windowCount = winnr('$')
-
-        exec printf("set scroll=%d",float2nr(winheight(winnr()) * 0.4))
-
-        for i in range(1,winnr('$'))
-            if ( i != curWinIndex )
-                wincmd w
-                setl nocursorline
-                setl nocursorcolumn
-                setl colorcolumn=0
-                call StatusLineNC()
-            endif
-        endfor
-
-        wincmd w
-
-        setl cursorline
-        setl cursorcolumn
-        setl colorcolumn=80,140
-
-        let &eventignore=myei
-    catch /.*/
-        let &eventignore=myei
-    endtry
 endfunction
 " }}}
 
@@ -640,9 +614,14 @@ func! LeaveBufWin()
         setlocal foldmethod=marker
         mkview!
     endif
+    call StatusLineNC()
 endfun
 
+func! s:EnterBufWin(t)
+    call EnterBufWin()
+endfunc
 func! EnterBufWin()
+    call StatusLine()
     try
         if ShouldILoadView()
             loadview
@@ -742,7 +721,7 @@ augroup init
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
     autocmd FileType json syntax match Comment +\/\/.\+$+
-    autocmd FileType jsonnet,typescript,javascript,css,html set tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType jsonnet,typescript,javascript,css,html,dart set tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType logs :AnsiEsc
 augroup END
 

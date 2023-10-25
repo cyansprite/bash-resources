@@ -2,7 +2,7 @@
 export TERM=screen-256color
 export H=/mnt/c/Users/brand
 
-export DARK=0
+export DARK=1
 
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -90,6 +90,10 @@ if ! shopt -oq posix; then
     elif [ -f /etc/bash_completion ]; then
         . /etc/bash_completion
     fi
+fi
+
+if [ -f ./.flutter_completions/flutter.bash_completions ]; then
+    . ./.flutter_completions/flutter.bash_completions
 fi
 
 export VISUAL=nvim
