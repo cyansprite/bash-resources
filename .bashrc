@@ -106,18 +106,12 @@ export FZF_CTRL_T_COMMAND='ag -l'
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 export FZF_CTRL_T_OPTS="--height=80% --preview-window down:99% --preview 'if [ -d "{}" ]; then tree -C {} | head -200; else bat --color=always {}; fi'"
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=fg:-1,bg:-1,hl:#0aab93 --color=fg+:#ffffff,bg+:#262626,hl+:#5cffc6 --color=info:#afaf87,prompt:#d7005f,pointer:#ab1556 --color=marker:#6fc215,spinner:#bda624,header:#2b7070'
 
 if [ $DARK == 1 ]; then
-    export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=fg:#a6a476,bg:#121212,hl:#ff9900 --color=fg+:#79ada5,bg+:#2e2828,hl+:#f2ff00 --color=info:#afaf87,prompt:#ff0059,pointer:#ffffff --color=marker:#ff00dd,spinner:#00eaff,header:#54f000'
-    export BAT_THEME="Monokai Extended"
+    export BAT_THEME="ansi dark"
 else
-    export FZF_DEFAULT_OPTS="--color='bg:#D5D2D9,bg+:#F5F2F9,info:#df8243,border:#acaa55,spinner:#df8243' \
-                            --color='hl:#acaa55,fg:#181826,header:#acaa55,fg+:#121211' \
-                            --color='pointer:#ff4c96,marker:#ef4cff,prompt:#ef4cff,hl+:#ef4cff' \
-                            --bind=up:preview-up,down:preview-down"
-
-
-    export BAT_THEME="Monokai Extended Light"
+    export BAT_THEME="ansi light"
 fi
 
 

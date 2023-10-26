@@ -560,17 +560,17 @@ require'nvim-treesitter.configs'.setup {
 --   }
 -- }
 
-require'nvim-treesitter.configs'.setup {
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "<space>i",
-      node_incremental = "grn",
-      scope_incremental = "grc",
-      node_decremental = "grm",
-    },
-  },
-}
+-- require'nvim-treesitter.configs'.setup {
+--   incremental_selection = {
+--     enable = true,
+--     keymaps = {
+--       init_selection = "<space>i",
+--       node_incremental = "grn",
+--       scope_incremental = "grc",
+--       node_decremental = "grm",
+--     },
+--   },
+-- }
 
 require'treesitter-context'.setup{
   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -586,8 +586,10 @@ require'treesitter-context'.setup{
   zindex = 20, -- The Z-index of the context window
   on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
 }
+vim.keymap.set("n", "[x", function()
+  require("treesitter-context").go_to_context()
+end, { silent = true })
 EOF
-hi TreesitterContextBottom gui=inverse
 
 func! s:setFold()
     let file = expand("<afile>")
