@@ -8,7 +8,7 @@ echo "========================================================================="
 if [ ! -d ~/.local/share/fonts ] ; then
     mkdir ~/.local/share/fonts
 fi
-    cp * ~/.local/share/fonts
+cp * ~/.local/share/fonts
 echo ""
 
 # resources time
@@ -39,13 +39,14 @@ echo "Linking nvim"
 echo "========================================================================="
 
 if [ ! -d ~/.config/nvim ] ; then
-    mkdir -p ~/.config/nvim
+    mkdir ~/.config/nvim/after/autoload/coc
 fi
 
 cd "$SOURCE/nvim-plugs"
 ln -fv init.vim ~/.config/nvim/
 ln -fv plug.vim ~/.config/nvim/
 ln -fv coc-settings.json ~/.config/nvim/coc-settings.json
+ln -fv ui.vim ~/.config/nvim/after/autoload/coc/ui.vim
 
 echo ""
 
@@ -69,12 +70,12 @@ if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ] ; then
         echo ""
     fi
     curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    echo ""
-else
-    echo "========================================================================="
-    echo "Plug already installed."
-    echo "========================================================================="
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+            echo ""
+        else
+            echo "========================================================================="
+            echo "Plug already installed."
+            echo "========================================================================="
 fi
 
 # for fzf preview
