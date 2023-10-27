@@ -39,7 +39,9 @@ echo "Linking nvim"
 echo "========================================================================="
 
 if [ ! -d ~/.config/nvim ] ; then
+    # this implies ~/.config/nvim
     mkdir ~/.config/nvim/after/autoload/coc
+    mkdir ~/.config/nvim/lua
 fi
 
 cd "$SOURCE/nvim-plugs"
@@ -47,6 +49,7 @@ ln -fv init.vim ~/.config/nvim/
 ln -fv plug.vim ~/.config/nvim/
 ln -fv coc-settings.json ~/.config/nvim/coc-settings.json
 ln -fv ui.vim ~/.config/nvim/after/autoload/coc/ui.vim
+ln -fv plug.lua ~/.config/nvim/lua/plug.lua
 
 echo ""
 
