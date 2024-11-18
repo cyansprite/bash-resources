@@ -6,6 +6,7 @@ export DARK=1
 
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/snap/bin/:$PATH"
 export PATH="$HOME/.local/share/nvim/lsp_servers/jdtls/bin:$PATH"
 export PATH="$HOME/google/opt/google/chrome/google-chrome:$PATH"
 export PATH="$HOME/.dotnet:$PATH"

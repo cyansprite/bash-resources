@@ -45,11 +45,11 @@ if [ ! -d ~/.config/nvim ] ; then
 fi
 
 cd "$SOURCE/nvim-plugs"
-ln -fv init.vim ~/.config/nvim/
-ln -fv plug.vim ~/.config/nvim/
-ln -fv coc-settings.json ~/.config/nvim/coc-settings.json
-ln -fv ui.vim ~/.config/nvim/after/autoload/coc/ui.vim
-ln -fv plug.lua ~/.config/nvim/lua/plug.lua
+ln -fv ./nvim-plugs/init.vim ~/.config/nvim/
+ln -fv ./nvim-plugs/plug.vim ~/.config/nvim/
+ln -fv ./nvim-plugs/coc-settings.json ~/.config/nvim/coc-settings.json
+ln -fv ./nvim-plugs/ui.vim ~/.config/nvim/after/autoload/coc/ui.vim
+ln -fv ./nvim-plugs/plug.lua ~/.config/nvim/lua/plug.lua
 
 echo ""
 
