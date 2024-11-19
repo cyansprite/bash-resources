@@ -1,5 +1,5 @@
 # Don't you know ls aliases make the world go 'round?
-alias k='kubectl'
+alias k='kubectl -n lcs-configuration --context dev-us-azure'
 alias ll='ls -lF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -18,9 +18,12 @@ alias v:='cd /mnt/v/'
 alias c:='cd /mnt/c/'
 alias weather='curl wttr.in/~lexington'
 alias mux='tmux new-session -As MagicSpell'
+alias Mux='~/bin/tmux-session.sh MagicSpell'
+alias qux='tmux new-session -As QuickSpell'
 alias fux='tmux new-session -As FocusSpell'
 alias az=~/bin/az
-alias python3=python3.9
+alias python3=python3.10
+alias python=python3.10
 alias c="bat --plain"
 alias gits="git status --porcelain | cut --fields=3 --delimiter=' '"
 alias bazel=bazelisk

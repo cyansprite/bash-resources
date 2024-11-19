@@ -1,6 +1,9 @@
 // vim: ts=2 sts=2 sw=2
 {
   // global
+  "diagnostic.enable": true,
+  "diagnostic.autoRefresh": false,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": true,
   "codeLens.enable": true,
   "codeLens.position": "eol",
   "coc.preferences.extensionUpdateCheck": "daily",
@@ -114,6 +117,11 @@
   "java.jdt.ls.vmargs": "-javaagent:/home/brcoffman/java/lombok.jar -Djava.import.bazel.enabled=true",
   // typescript
   "javascript.referencesCodeLens.enable": true,
+  "coc.preferences.formatOnSave": false,
+  "typescript.format.enable": false,
+  "json.format.enable": false,
+  "javascript.format.enable": false,
+  "codeLens.subseparator": " | ",
   "languageserver": {
     "bash": {
       "command": "bash-language-server",

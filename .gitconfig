@@ -43,7 +43,7 @@
     old = 9 bold
     new = 10 bold
     whitespace = 1 bold reverse
-    context = 5
+    context = 248
 [color "decorate"]
     head = 14 bold
     branch = 13 bold

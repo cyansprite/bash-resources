@@ -10,6 +10,9 @@ if [ ! -d ~/.local/share/fonts ] ; then
 fi
 cp * ~/.local/share/fonts
 echo ""
+if [ ! -d ~/cache ] ; then
+    mkdir ~/cache
+fi
 
 # resources time
 echo "========================================================================="
@@ -40,8 +43,8 @@ echo "========================================================================="
 
 if [ ! -d ~/.config/nvim ] ; then
     # this implies ~/.config/nvim
-    mkdir ~/.config/nvim/after/autoload/coc
-    mkdir ~/.config/nvim/lua
+    mkdir -p ~/.config/nvim/lua
+    mkdir -p ~/.config/nvim/after/autoload/coc
 fi
 
 cd "$SOURCE/nvim-plugs"
@@ -58,6 +61,8 @@ echo "Installing fzf"
 echo "========================================================================="
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 yes | ~/.fzf/install
+wget https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh
+mv fzf-git.sh ~/.fzf/bin/
 echo ""
 
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ] ; then

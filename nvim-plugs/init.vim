@@ -244,6 +244,8 @@ endif
     cmap <m-v>\ <c-r>=substitute(escape('', '\\'), "\\s", "", "g")<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
     " more linux linux command line
     cmap <c-a> <Home>
+    nmap <silent><m-n> :bn<cr>
+    nmap <silent><m-N> :bp<cr>
     cmap <m-b> <c-left>
     cmap <m-f> <c-right>
     cmap <c-k> <up>
@@ -252,6 +254,11 @@ endif
     " c-list ( Quickfix ) why no qn qp ? probably has something to do with quit.
     nnoremap <m-c> :cn<cr>
     nnoremap <m-C> :cp<cr>
+    nnoremap <m-f> :cnfile<cr>
+    nnoremap <m-F> :cpfile<cr>
+
+    nnoremap <F6> :%s/<c-r><c-w>/
+    nnoremap <c-F6> :bufdo %s/<c-r><c-w>/
 
     " I don't know why this isn't default
     nnoremap Y y$
@@ -316,12 +323,11 @@ endf
 function! StatusLine()
     " Left Filename/CurArg
     setl statusline=%{ModeColor(mode())}%#NormalMode#\ %{Mode(mode())}\ %*
-    setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error_COC('error','💀')}%#WarningMsg#%{LSP_Error_COC('warning','⛈')}%#MoreMsg#%{LSP_Error_COC('hint','✨')}%#Question#%{LSP_Error_COC('information','ℹ')}%#NormalMode#\ %{coc#status()}
     setl statusline+=\ %#NormalMode#%#diffAdded#%{GitStatus('add','+')}%#diffText#%{GitStatus('mod','~')}%#diffRemoved#%{GitStatus('remove','-')}%#NormalMode#
 
     setl statusline+=\ %{CurArg()}\ %*
 
-    " setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error('[[Error]]')}%#WarningMsg#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}%#NormalMode#\ %{CurArg()}\ %*
+    setl statusline+=%#NormalMode#\ %#ErrorMsgLite#%{LSP_Error('[[Error]]')}%#WarningMsgLite#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}%#NormalMode#\ %{CurArg()}\ %*
 
     if &modifiable
         setl statusline+=%#diffAdded#%m
@@ -343,25 +349,31 @@ function! StatusLine()
     call ModeColor('n')
 endfunction
 
-function! LSP_Error_COC(key, sign) abort
-    let info = get(b:, 'coc_diagnostic_info', {})
-    if empty(info) | return '' | endif
-    let msgs = []
-    if get(info, a:key, 0)
-        call add(msgs, a:sign . ' ' . info[a:key])
-    endif
-    return join(msgs, ' ')
-endfunction
-
-function! LSP_Error(key)
+function! LSP_Error(param)
     let x = ''
+    let l:symbol = ''
+    let l:key = ''
+    if a:param == '[[Error]]'
+        let l:key = 'vim.diagnostic.severity.ERROR'
+        let l:symbol = '💀'
+    elseif a:param == '[[Warning]]'
+        let l:key = 'vim.diagnostic.severity.WARNING'
+        let l:symbol = '⛈'
+    elseif a:param == '[[Hint]]'
+        let l:key = 'vim.diagnostic.severity.HINT'
+        let l:symbol = '✨'
+    elseif a:param == '[[Information]]'
+        let l:key = 'vim.diagnostic.severity.INFORMATION'
+        let l:symbol = 'ℹ'
+    endif
 
-    if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-        let errorCount = luaeval("vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), ".a:key.")")
-        if errorCount > 0
+    if luaeval('not vim.tbl_isempty(vim.lsp.get_clients())')
+        let errorCount = luaeval("vim.diagnostic.count(vim.fn.bufnr('%'), { severity = ".l:key."})")
+        if len(errorCount) > 0
             let x.=" "
-            let x.=strcharpart(a:key, 2, 1).":"
-            let x.=string(errorCount)
+            let x.=l:symbol
+            let x.=" "
+            let x.=string(errorCount[0])
             let x.=" "
         endif
     endif
@@ -405,7 +417,7 @@ endfunc
 " Status Line Not current, file [+][-][RO]_______>____<____l,c : maxG,%
 function! StatusLineNC()
     setl statusline =%<%#Statuslinenc#%{CurArg()}
-    setl statusline+=%#ErrorMsg#%{LSP_Error_COC('error','💀')}%#WarningMsg#%{LSP_Error_COC('warning','⛈')}%#MoreMsg#%{LSP_Error_COC('hint','✨')}%#Question#%{LSP_Error_COC('information','ℹ')}%#NormalMode#\ %{coc#status()}
+    " setl statusline+=%#ErrorMsg#%{LSP_Error_COC('error','💀')}%#WarningMsg#%{LSP_Error_COC('warning','⛈')}%#MoreMsg#%{LSP_Error_COC('hint','✨')}%#Question#%{LSP_Error_COC('information','ℹ')}%#NormalMode#\ %{coc#status()}
 
     if &modifiable
         setl statusline+=%1*%m
@@ -585,12 +597,13 @@ endfunc  "}}}
 
 " Enter/LeaveWin {{{
 function! LeaveWin()
-    call coc#float#close_all()
+    " call coc#float#close_all()
     " for floating windows closing, kind of like setTimeout for fixing anuglar issues exedee
     call timer_start(1, function('s:EnterBufWin'), { 'repeat': 2 })
 endfunc
 
 function! EnterWin()
+    set conceallevel=0             " conceal text we don't want to see
 endfunction
 " }}}
 
@@ -609,7 +622,7 @@ func! ShouldILoadView()
     return &modifiable && OnlyMe(bufnr('%'), winnr()) && scrollbind == 0 && &filetype != 'COMMIT_MSG'
 endfun
 func! LeaveBufWin()
-    call coc#float#close_all()
+    " call coc#float#close_all()
     if ShouldILoadView() && filereadable(expand("%"))
         setlocal foldmethod=marker
         mkview!
@@ -621,6 +634,7 @@ func! s:EnterBufWin(t)
     call EnterBufWin()
 endfunc
 func! EnterBufWin()
+    set conceallevel=0             " conceal text we don't want to see
     call StatusLine()
     try
         if ShouldILoadView()
@@ -721,7 +735,7 @@ augroup init
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
     autocmd FileType json syntax match Comment +\/\/.\+$+
-    autocmd FileType jsonnet,typescript,javascript,css,html,dart set tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType jsonnet,typescript,javascript,css,html,dart,bash,sh set tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType logs :AnsiEsc
 augroup END
 

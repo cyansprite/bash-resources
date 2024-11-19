@@ -5,6 +5,8 @@ export H=/mnt/c/Users/brand
 export DARK=1
 
 export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.luarocks/bin:$PATH"
+export PATH="$HOME/tools/kotlin-language-server/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/snap/bin/:$PATH"
 export PATH="$HOME/.local/share/nvim/lsp_servers/jdtls/bin:$PATH"
@@ -78,6 +80,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # I like aliases :)
+shopt -s expand_aliases
 if [ -f $HOME/.bash_aliases ]; then
     source $HOME/.bash_aliases
 fi
@@ -101,18 +104,18 @@ export VISUAL=nvim
 # export PROMPT_DIRTRIM=2
 
 # I love fzf...
-export FZF_DEFAULT_COMMAND='ag -l'
-export FZF_CTRL_T_COMMAND='ag -l'
-
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export FZF_CTRL_T_OPTS="--height=80% --preview-window down:99% --preview 'if [ -d "{}" ]; then tree -C {} | head -200; else bat --color=always {}; fi'"
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=fg:-1,bg:-1,hl:#0aab93 --color=fg+:#ffffff,bg+:#262626,hl+:#5cffc6 --color=info:#afaf87,prompt:#d7005f,pointer:#ab1556 --color=marker:#6fc215,spinner:#bda624,header:#2b7070'
+export FZF_DEFAULT_COMMAND='ag -l | sort -u -r'
+export FZF_CTRL_T_COMMAND='ag -l | sort -u -r'
+export FZF_ALT_C_COMMAND="ag --null -g ./ | xargs -0 dirname | sort -u -r"
+export FZF_CTRL_T_OPTS='--preview-window "right:57%" --preview "if [ -d {} ]; then tree -C {} | head -200; else bat --color=always {}; fi" --color=fg:-1,bg:-1,hl:#0aab93 --color=fg+:#ffffff,bg+:#262626,hl+:#5cffc6 --color=info:#afaf87,prompt:#d7005f,pointer:#ab1556 --color=marker:#6fc215,spinner:#bda624,header:#2b7070 --bind alt-u:preview-half-page-up,alt-d:preview-half-page-down,ctrl-y:preview-up,ctrl-e:preview-down'
+export FZF_CTRL_R_OPTS="$FZF_CTRL_R_OPTS --bind 'ctrl-s:execute: cacheAdd.sh {}'   --header 'CTRL-s (save to cache)'"
+export FZF_ALT_C_OPTS='--preview-window "right:57%" --preview "if [ -d {} ]; then tree -C {} | head -201; else bat --color=always {}; fi" --color=fg:-1,bg:-1,hl:#0aab93 --color=fg+:#ffffff,bg+:#262626,hl+:#5cffc6 --color=info:#afaf87,prompt:#d7005f,pointer:#ab1556 --color=marker:#6fc215,spinner:#bda624,header:#2b7070 --bind alt-u:preview-half-page-up,alt-d:preview-half-page-down,ctrl-y:preview-up,ctrl-e:preview-down'
+export FZF_DEFAULT_OPTS='--color=fg:-1,bg:-1,hl:#0aab93 --color=fg+:#ffffff,bg+:#262626,hl+:#5cffc6 --color=info:#afaf87,prompt:#d7005f,pointer:#ab1556 --color=marker:#6fc215,spinner:#bda624,header:#2b7070 --bind alt-u:preview-half-page-up,alt-d:preview-half-page-down,ctrl-y:preview-up,ctrl-e:preview-down'
 
 if [ $DARK == 1 ]; then
-    export BAT_THEME="ansi dark"
+    export BAT_THEME="Solarized (dark)"
 else
-    export BAT_THEME="ansi light"
+    export BAT_THEME="Solarized (light)"
 fi
 
 
@@ -159,6 +162,10 @@ if hash nvm 2>/dev/null; then
     nvm use node
 fi
 
+if hash sdk 2>/dev/null; then
+    sdk use java 17.0.3-zulu
+fi
+
 # enter blinking mode - red
 export LESS_TERMCAP_mb=$'\e[00;31m'
 # enter double-bright mode - bright cyan
@@ -176,6 +183,8 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_ue=$'\e[0m'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+source ~/.fzf/bin/fzf-git.sh
 
 if hash kubectl 2>/dev/null; then
     source <(kubectl completion bash) # set up autocomplete in bash into the current shell, bash-completion package should be installed first.
@@ -195,3 +204,63 @@ rm /home/brcoffman/.local/state/nvim/log
 
 # Load Angular CLI autocompletion.
 # source <(ng completion script)
+
+pods() {
+  command='kubectl get pods --all-namespaces' fzf \
+    --info=inline --layout=reverse --header-lines=1 \
+    --prompt "$(kubectl config current-context | sed 's/-context$//')> " \
+    --header $'╱ Enter (show logs in bash instead of preview) ╱ CTRL-O (TBD (same as enter)) ╱ CTRL-R (reload) ╱\n\n' \
+    --bind 'start:reload:tmux display-message "loading";$command;tmux display-message "done";' \
+    --bind 'ctrl-r:reload:tmux display-message "loading";$command;tmux display-message "done";' \
+    --bind 'ctrl-/:change-preview-window(80%,border-bottom|hidden|)' \
+    --bind 'ctrl-o:execute:klogs --namespace {1} --pod {2} --since 10000h' \
+    --bind 'enter:execute:klogs --namespace {1} --pod {2} --since 10000h' \
+    --preview-window up:follow \
+    --preview 'klogs --namespace {1} --pod {2} --since 10000h' "$@"
+}
+# --bind 'enter:execute:hash={2} && echo "kubectl debug --namespace {1} {2} --image=onelexcloudregistry.azurecr.io/iss-base-images/iss-base:debian-slim --target \"${hash%-*}\" -- bash"' \
+
+# if directory doesn't exist
+if [ ! -d "$HOME/cache" ]; then
+  mkdir -p "$HOME/cache"
+fi
+
+# if file does not exist
+if [ ! -f "$HOME/cache/commands.sh" ]; then
+  touch "$HOME/cache/commands.sh"
+fi
+
+cacheFi="$HOME/cache/commands.sh"
+function cacheRemove() {
+  fi="$cacheFi"
+  grep -v "$@" "$fi" > "$fi.tmp"
+  mv "$fi.tmp" "$fi"
+}
+
+function cacheAdd() {
+  echo "$@" | sed 's/^\w\+\s\+//g' >> ~/cache/commands.sh
+  sort -u -o ~/cache/commands.sh.tmp < ~/cache/commands.sh
+  mv ~/cache/commands.sh.tmp ~/cache/commands.sh
+}
+
+function cacheShow() {
+  # eval, remove cacheShow last entry from /home/brcoffman/.bash_history && add
+  # {} to /home/brcoffman/.bash_history
+  command='cat /home/brcoffman/cache/commands.sh' \
+    fzf --height 20% \
+    --header $'╱ CTRL-x (Delete entry from command cache) ╱ CTRL-R (reload) ╱\n\n' \
+    --bind 'start:reload:$command' \
+    --bind 'ctrl-r:reload:$command' \
+    --bind 'ctrl-x:execute:source /home/brcoffman/.bashrc && cacheRemove.sh {}' \
+    --bind 'enter:become(echo {}; eval {})'
+}
+
+gco() {
+  gits | fzf --multi --preview 'git diff --color=always {}' --preview-window=down:70% --bind 'enter:become:git checkout {}'
+}
+
+# TODO figure out why this doesn't work in FZF land
+export -f cacheAdd
+export -f cacheRemove
+export -f cacheShow
+export KUBE_EDITOR=nvim
