@@ -7,6 +7,7 @@
 " let g:loaded_tar = 1
 " let g:loaded_tarPlugin = 1
 let g:zipPlugin_ext= '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docx,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptx,*.pptm,*.ppam,*.sldx,*.thmx,*.xlam,*.xlsx,*.xlsm,*.xlsb,*.xltx,*.xltm,*.xlam,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx,*.epub'
+" packadd cfilter almost but not quite
 
 let g:loaded_getscript = 1
 let g:loaded_getscriptPlugin = 1
@@ -46,6 +47,7 @@ if $DARK == 0
 else
     set bg=dark
 endif
+let s:sneaky = v:false
 
 "" if hostname() == 'MSI'
 ""     if has('win32')
@@ -107,6 +109,7 @@ endif
     set undofile                   " keep undo history ina file
 
     " Set: Those that use =
+    set laststatus=3               " Only show one status line
     let &showbreak = '↳ '          " Change show break thing (rare occasion)
     set cinkeys-=0#                " don't force # indentation, ever write python?
     set backspace=indent,eol,start " Intuitive backspacing in insert mode
@@ -152,9 +155,9 @@ endif
     " set fill chars to things that make me happy—
     " looks like there is a bug if you don't include stlnc when you have more
     " than one status line it'll fuck up your current one  ▏, │ ┃, ▒
-    set fillchars=stlnc:\ ,stl:\ ,fold:═,diff:┉,vert:\|,eob:
+    set fillchars=stlnc:\ ,stl:\ ,fold:═,diff:┉,vert:\|,eob:x
     " Changes listchars to more suitable chars
-    set listchars=tab:→\ ,trail:,extends:<,precedes:>,conceal:¦
+    set listchars=tab:→\ ,trail:┉,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
     if &modifiable | set number | endif
     set synmaxcol=300
@@ -286,7 +289,7 @@ endif
     func! HiLoBro(coc)
         if a:coc
             try
-                CocCommand semanticTokens.inspect
+                Inspect
             catch /.*/
             endtry
         endif
@@ -327,7 +330,7 @@ function! StatusLine()
 
     setl statusline+=\ %{CurArg()}\ %*
 
-    setl statusline+=%#NormalMode#\ %#ErrorMsgLite#%{LSP_Error('[[Error]]')}%#WarningMsgLite#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}%#NormalMode#\ %{CurArg()}\ %*
+    setl statusline+=%#NormalMode#\ %#ErrorMsg#%{LSP_Error('[[Error]]')}%#WarningMsg#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}%#NormalMode#\ %*
 
     if &modifiable
         setl statusline+=%#diffAdded#%m
@@ -335,8 +338,7 @@ function! StatusLine()
         setl statusline+=%#diffRemoved#%m
     endif
 
-    setl statusline+=%#NormalMode1#\ %<%{ScopeStart()}\ %#NormalMode1#%{ScopePos()}
-    setl statusline+=%#NormalMode1#\ %{ScopeEnd()}\ %*
+    setl statusline+=%{%v:lua.require'nvim-navic'.get_location()%}
 
     setl statusline+=%#diffRemoved#%r%#NormalMode1#%=
 
@@ -346,7 +348,6 @@ function! StatusLine()
                           \%{PositionBar()}
                           \%{PositionBarRight()}%)┫\ %*
 
-    call ModeColor('n')
 endfunction
 
 function! LSP_Error(param)
@@ -358,7 +359,7 @@ function! LSP_Error(param)
         let l:symbol = '💀'
     elseif a:param == '[[Warning]]'
         let l:key = 'vim.diagnostic.severity.WARNING'
-        let l:symbol = '⛈'
+        let l:symbol = ' ⛈ '
     elseif a:param == '[[Hint]]'
         let l:key = 'vim.diagnostic.severity.HINT'
         let l:symbol = '✨'
@@ -375,50 +376,19 @@ function! LSP_Error(param)
             let x.=" "
             let x.=string(errorCount[0])
             let x.=" "
+            if errorCount[0] == v:null
+                let x=""
+            endif
         endif
     endif
 
     return x
 endfunc
 
-function! ScopePos()
-    return ""
-    "return "┃"
-endfunc
-
-function! ScopeStart()
-    return ""
-    " return "> " . nvim_treesitter#statusline(90) . " <"
-    " if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-    "     return get(b:, 'vista_nearest_method_or_function', '')
-    " else
-    " if has_key(g:, 'scope_startline')
-    "     return strpart(substitute(g:scope_startline, '^\s\+\|\s\+$', "", "g"),
-    "                 \ 0, winwidth('.')/3)
-    " else
-    "     return ''
-    " endif
-    " endif
-endfunc
-
-function! ScopeEnd()
-    " if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-        " return ''
-    " else
-    if has_key(g:, 'scope_endline')
-        return strpart(substitute(g:scope_endline, '^\s\+\|\s\+$', '', "g"),
-                    \ 0, winwidth('.')/4) . ' '
-    else
-        return ''
-    endif
-    " endif
-endfunc
-
 " Status Line Not current, file [+][-][RO]_______>____<____l,c : maxG,%
 function! StatusLineNC()
     setl statusline =%<%#Statuslinenc#%{CurArg()}
-    " setl statusline+=%#ErrorMsg#%{LSP_Error_COC('error','💀')}%#WarningMsg#%{LSP_Error_COC('warning','⛈')}%#MoreMsg#%{LSP_Error_COC('hint','✨')}%#Question#%{LSP_Error_COC('information','ℹ')}%#NormalMode#\ %{coc#status()}
-
+    setl statusline+=%#NormalMode#\ %#ErrorMsgLite#%{LSP_Error('[[Error]]')}%#WarningMsgLite#%{LSP_Error('[[Warning]]')}%#MoreMsg#%{LSP_Error('[[Hint]]')}%#NormalMode#\ %*
     if &modifiable
         setl statusline+=%1*%m
     else
@@ -478,6 +448,7 @@ if !hlexists("OtherMode")
 endif
 
 function! ModeColor(mode)
+    " special cases
     if !has_key(s:, "statusmodecolors")
         let s:statusmodecolors = {
                     \ "n"  : "NormalMode",
@@ -503,10 +474,10 @@ function! ModeColor(mode)
     endif
 
     let sl = &statusline
-
-    let sl = substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)2#', '%#'.s:statusmodecolors[a:mode].'2#', 'g')
-    let sl = substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)1#', '%#'.s:statusmodecolors[a:mode].'1#', 'g')
-    let &statusline = substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)#', '%#'.s:statusmodecolors[a:mode].'#', 'g')
+    let color = s:sneaky ? 'Sneak' : s:statusmodecolors[a:mode]
+    let sl = substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)2#', '%#'.color.'2#', 'g')
+    let sl = substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)1#', '%#'.color.'1#', 'g')
+    let &statusline = substitute(sl, '%#\(NormalMode\|InsertMode\|VisualMode\|ReplaceMode\|TerminalMode\|CommandMode\|SelectMode\)#', '%#'.color.'#', 'g')
 
     return ''
 endfun
@@ -735,7 +706,7 @@ augroup init
     autocmd FileType c,cpp,java,cs set commentstring=//\ %s
     autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
     autocmd FileType json syntax match Comment +\/\/.\+$+
-    autocmd FileType jsonnet,typescript,javascript,css,html,dart,bash,sh set tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType lua,jsonnet,typescript,javascript,css,html,dart,bash,sh set tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType logs :AnsiEsc
 augroup END
 
@@ -913,11 +884,11 @@ func! AnimatedNoneBuf(timer)
 
     let colotitle = "Special"
     let startline = line('$') + 1
-    let str = "[l] Use :CocConfig<cr> for CocConfig"
+    let str = "[l] Use :LUA<cr> for LUA config in plug.lua"
     call append('$', leftpad.catpad. str)
     call append('$', "")
     call nvim_buf_add_highlight(bnr, g:my_header_ns, colotitle, startline - 1, 0, -1)
-    nnoremap <buffer><nowait><silent> l :CocConfig<cr>
+    nnoremap <buffer><nowait><silent> l :LUA<cr>
 
     let colotitle = "Operator"
     let startline = line('$') + 1
@@ -996,3 +967,23 @@ let g:my_vim_headers = {
             \" / // // //  `-._,_)' // / ``--...____..-' /// / //"
             \],
             \}
+
+autocmd BufWritePost * call StatusLine()
+autocmd LspProgress * redrawstatus
+
+function! New()
+    :silent! new<cr>
+    let winid = win_getid()
+    :silent! wincmd p
+    :silent! q
+    :silent! wincmd p
+endfunc
+
+command! -nargs=0 New silent! call New()
+
+map gs <silent> :let s:sneaky = v:true | set nocursorline
+map gS <silent> :let s:sneaky = v:true | set nocursorline
+map gs <Plug>Sneak_s
+map gS <Plug>Sneak_S
+autocmd! User SneakEnter let s:sneaky = v:true | set nocursorline
+autocmd! User SneakLeave let s:sneaky = v:false | set cursorline | call StatusLine()

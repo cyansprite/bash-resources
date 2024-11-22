@@ -2,15 +2,15 @@ echo "========================================================================="
 echo "Cloning Neovim"
 echo "========================================================================="
 echo ""
-yes | apt-get install cmake
-yes | apt-get install libtool
-yes | apt-get install libtool-bin
-yes | apt-get install m4
-yes | apt-get install automake
-yes | apt-get install gettext
+yes | lxk-apt install cmake
+yes | lxk-apt install libtool
+yes | lxk-apt install libtool-bin
+yes | lxk-apt install m4
+yes | lxk-apt install automake
+yes | lxk-apt install gettext
 rm -rf ~/neovim
 mkdir ~/neovim
-git clone https://github.com/neovim/neovim.git
+git clone https://github.com/neovim/neovim.git --depth 1
 cd neovim
 make CMAKE_INSTALL_PREFIX=~/neovim
 make install
@@ -25,10 +25,10 @@ echo "========================================================================="
 echo "Installing neovim, pythons, xsel, tmux"
 echo "========================================================================="
 echo ""
-yes | apt-get install python3-dev python3-pip
-yes | apt-get install xsel
-yes | apt-get install tmux
-yes | apt-get install libncurses5-dev
+yes | lxk-apt install python3-dev python3-pip
+yes | lxk-apt install xsel
+yes | lxk-apt install tmux
+yes | lxk-apt install libncurses5-dev
 
 echo "========================================================================="
 echo "Installing pip modules for neovim"

@@ -113,9 +113,9 @@ export FZF_ALT_C_OPTS='--preview-window "right:57%" --preview "if [ -d {} ]; the
 export FZF_DEFAULT_OPTS='--color=fg:-1,bg:-1,hl:#0aab93 --color=fg+:#ffffff,bg+:#262626,hl+:#5cffc6 --color=info:#afaf87,prompt:#d7005f,pointer:#ab1556 --color=marker:#6fc215,spinner:#bda624,header:#2b7070 --bind alt-u:preview-half-page-up,alt-d:preview-half-page-down,ctrl-y:preview-up,ctrl-e:preview-down'
 
 if [ $DARK == 1 ]; then
-    export BAT_THEME="Solarized (dark)"
+    export BAT_THEME="ansi"
 else
-    export BAT_THEME="Solarized (light)"
+    export BAT_THEME="ansi"
 fi
 
 
@@ -264,3 +264,9 @@ export -f cacheAdd
 export -f cacheRemove
 export -f cacheShow
 export KUBE_EDITOR=nvim
+
+# trying this out.. it's.. interesting
+source ~/.fzf/bash-completion
+bind -x '"": fzf_bash_completion'
+export FZF_COMPLETION_AUTO_COMMON_PREFIX=false
+export FZF_COMPLETION_AUTO_COMMON_PREFIX_PART=false

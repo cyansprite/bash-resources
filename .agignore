@@ -1,0 +1,13 @@
+bin
+bazel-bin
+bazel-document-submission-service
+bazel-out
+bazel-testlogs
+bazel-yggdrasil
+bazel-*
+*.min.*
+*mjs*
+*js.map*
+node_modules
+*i18n*
+*.svg

@@ -26,6 +26,7 @@ ln -fv .dircolors ~/.dircolors
 ln -fv .inputrc ~/.inputrc
 ln -fv .gitconfig ~/.gitconfig
 ln -fv .tmux.conf ~/.tmux.conf
+ln -fv .agignore ~/.agignore
 if [ ! -d ~/.tmux/plugins/tpm ] ; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
@@ -59,10 +60,15 @@ echo ""
 echo "========================================================================="
 echo "Installing fzf"
 echo "========================================================================="
+rm -rf ~/.fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 yes | ~/.fzf/install
 wget https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh
 mv fzf-git.sh ~/.fzf/bin/
+# bind to c-[ for completions, I want my normal tab but for things like git
+# checkout & whatnot it can be very useful
+wget 'https://raw.githubusercontent.com/lincheney/fzf-tab-completion/refs/heads/master/bash/fzf-bash-completion.sh'
+mv fzf-bash-completion.sh ~/.fzf/bash-completion
 echo ""
 
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ] ; then
