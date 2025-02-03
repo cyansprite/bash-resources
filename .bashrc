@@ -4,6 +4,7 @@ export H=/mnt/c/Users/brand
 
 export DARK=1
 
+export PATH="$HOME/usr/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.luarocks/bin:$PATH"
 export PATH="$HOME/tools/kotlin-language-server/bin:$PATH"
@@ -107,10 +108,19 @@ export VISUAL=nvim
 export FZF_DEFAULT_COMMAND='ag -l | sort -u -r'
 export FZF_CTRL_T_COMMAND='ag -l | sort -u -r'
 export FZF_ALT_C_COMMAND="ag --null -g ./ | xargs -0 dirname | sort -u -r"
-export FZF_CTRL_T_OPTS='--preview-window "right:57%" --preview "if [ -d {} ]; then tree -C {} | head -200; else bat --color=always {}; fi" --color=fg:-1,bg:-1,hl:#0aab93 --color=fg+:#ffffff,bg+:#262626,hl+:#5cffc6 --color=info:#afaf87,prompt:#d7005f,pointer:#ab1556 --color=marker:#6fc215,spinner:#bda624,header:#2b7070 --bind alt-u:preview-half-page-up,alt-d:preview-half-page-down,ctrl-y:preview-up,ctrl-e:preview-down'
-export FZF_CTRL_R_OPTS="$FZF_CTRL_R_OPTS --bind 'ctrl-s:execute: cacheAdd.sh {}'   --header 'CTRL-s (save to cache)'"
-export FZF_ALT_C_OPTS='--preview-window "right:57%" --preview "if [ -d {} ]; then tree -C {} | head -201; else bat --color=always {}; fi" --color=fg:-1,bg:-1,hl:#0aab93 --color=fg+:#ffffff,bg+:#262626,hl+:#5cffc6 --color=info:#afaf87,prompt:#d7005f,pointer:#ab1556 --color=marker:#6fc215,spinner:#bda624,header:#2b7070 --bind alt-u:preview-half-page-up,alt-d:preview-half-page-down,ctrl-y:preview-up,ctrl-e:preview-down'
-export FZF_DEFAULT_OPTS='--color=fg:-1,bg:-1,hl:#0aab93 --color=fg+:#ffffff,bg+:#262626,hl+:#5cffc6 --color=info:#afaf87,prompt:#d7005f,pointer:#ab1556 --color=marker:#6fc215,spinner:#bda624,header:#2b7070 --bind alt-u:preview-half-page-up,alt-d:preview-half-page-down,ctrl-y:preview-up,ctrl-e:preview-down'
+export FZF_CTRL_T_OPTS='--height=75% --preview-window "right:57%" --preview "if [ -d {} ]; then tree -C {} | head -200; else bat --color=always {}; fi" --bind alt-u:preview-half-page-up,alt-d:preview-half-page-down,ctrl-y:preview-up,ctrl-e:preview-down'
+# export FZF_ALT_C_OPTS='--walker-skip .git,node_modules,target --height=50% --preview-window "right:57%" --preview "if [ -d {} ]; then tree -C {} | head -201; else bat --color=always {}; fi" --bind alt-u:preview-half-page-up,alt-d:preview-half-page-down,ctrl-y:preview-up,ctrl-e:preview-down'
+export FZF_ALT_C_OPTS='--walker-skip .git,node_modules,target --height=50% --preview-window "right:57%" --preview "if [ -d {} ]; then tree -C {} | head -201; else ls {}; fi" --bind alt-u:preview-half-page-up,alt-d:preview-half-page-down,ctrl-y:preview-up,ctrl-e:preview-down'
+
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --color=fg:-1,fg+:#d0d0d0,bg:-1,bg+:#262626
+  --color=hl:#5fb0a8,hl+:#00ffcc,info:#afaf87,marker:#87ff00
+  --color=prompt:#ff0073,spinner:#ffd15e,pointer:#ffdc5e,header:#87afaf
+  --color=gutter:#292929,border:#393939,separator:#666666,scrollbar:#7b7b7b
+  --color=label:#aeaeae,query:#d9d9d9
+  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
+  --marker=">" --pointer="◆" --separator="─" --scrollbar="│"'
+# export FZF_CTRL_R_OPTS="$FZF_CTRL_R_OPTS --bind 'ctrl-s:execute: cacheAdd.sh {}'   --header 'CTRL-s (save to cache)'"
 
 if [ $DARK == 1 ]; then
     export BAT_THEME="ansi"
@@ -270,3 +280,18 @@ source ~/.fzf/bash-completion
 bind -x '"": fzf_bash_completion'
 export FZF_COMPLETION_AUTO_COMMON_PREFIX=false
 export FZF_COMPLETION_AUTO_COMMON_PREFIX_PART=false
+ulimit -n 2048
+
+# if argocd is installed setup completion
+if hash argocd 2>/dev/null; then
+  # check if file exists
+  if [ ! -f .completions/argocd_completions ]; then
+    # check if dir exists
+    if [ ! -d .completions ]; then
+      mkdir .completions
+    fi
+    argocd completion bash > .completions/argocd_completions
+  fi
+
+  source $HOME/.completions/argocd_completions
+fi

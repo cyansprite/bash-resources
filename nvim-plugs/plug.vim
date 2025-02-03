@@ -58,7 +58,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'udalov/kotlin-vim'
     Plug 'hrsh7th/cmp-nvim-lsp'
     Plug 'hrsh7th/cmp-buffer'
-    Plug 'hrsh7th/cmp-git'
+    " Plug 'hrsh7th/cmp-git'
     Plug 'hrsh7th/cmp-path'
     Plug 'hrsh7th/cmp-cmdline'
     Plug 'hrsh7th/nvim-cmp'
@@ -123,7 +123,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Color:
     Plug 'cyansprite/Restraint.vim'
     Plug 'github/copilot.vim'
-    Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
+    Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'main' }
 
 call plug#end() " }}}
 
@@ -211,7 +211,7 @@ endfunc
 command! -complete=customlist,GitBranchComplete -nargs=1 SetDiff call SetGitGutterBranch('<args>')
 
 nmap <leader>dd :GitGutterPreviewHunk<cr>
-nmap <leader>du :GitGutterUndoHunk<cr>
+nmap <leader>do :GitGutterUndoHunk<cr>
 " }}}
 
 " FZF {{{

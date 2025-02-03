@@ -9,5 +9,4 @@ bazel-*
 *mjs*
 *js.map*
 node_modules
-*i18n*
 *.svg

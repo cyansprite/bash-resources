@@ -18,7 +18,7 @@ local status, _ = pcall(_G.setup)
 if not status then
     print ("setup raised an error")
 end
-require('git-conflict').setup()
+--require('git-conflict').setup()
 vim.filetype.add {
   pattern = {
     ['.*.bazelrc'] = 'bazelrc',
@@ -37,7 +37,9 @@ local mason_lspconfig = {
   'vimls',
   'yamlls',
   'kotlin_language_server',
-  'angularls'
+  'angularls',
+  'yamlls',
+  'cssls',
 }
 
 require("mason").setup()
@@ -49,7 +51,6 @@ require('lint').linters_by_ft = {
   typescript = {'eslint'},
   json = {'jsonlint'},
   lua = {'luacheck'},
-  markdown = {'markdownlint'},
   python = {'flake8'},
   sh = {'shellcheck'},
   yaml = {'yamllint'},
@@ -64,13 +65,13 @@ require('lint').linters_by_ft = {
   graphqls = {'graphql'},
 }
 
-vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "CursorHold" }, {
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
   callback = function()
     require("lint").try_lint()
 
-    for _, client in ipairs(vim.lsp.get_clients()) do
-      require("workspace-diagnostics").populate_workspace_diagnostics(client, 0)
-    end
+--     for _, client in ipairs(vim.lsp.get_clients()) do
+--       require("workspace-diagnostics").populate_workspace_diagnostics(client, 0)
+--     end
   end,
 })
 

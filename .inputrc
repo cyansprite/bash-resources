@@ -9,4 +9,3 @@
 "\ek": history-search-backward
 "\ej": history-search-forward
 "\ep": 'pods\015'
-"\C-]": 'set +o history;cacheShow;history -d $(history | wc -l);history -s $histAdd;set -o history\015'

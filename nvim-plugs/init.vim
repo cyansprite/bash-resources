@@ -155,7 +155,7 @@ endif
     " set fill chars to things that make me happy—
     " looks like there is a bug if you don't include stlnc when you have more
     " than one status line it'll fuck up your current one  ▏, │ ┃, ▒
-    set fillchars=stlnc:\ ,stl:\ ,fold:═,diff:┉,vert:\|,eob:x
+    set fillchars=stlnc:\ ,stl:\ ,fold:═,diff:┉,vert:\|,eob:x,horiz:-
     " Changes listchars to more suitable chars
     set listchars=tab:→\ ,trail:┉,extends:<,precedes:>,conceal:¦
     " If it's modifable, turn on numbers
@@ -311,16 +311,20 @@ let g:scope_startline = ''
 let g:scope_endline = ''
 
 function! GitStatus(key, sign)
-    let [a,m,r] = GitGutterGetHunkSummary()
-    if a:key == "add"
-        return printf(" %d%s ", a, a:sign)
-    elseif a:key == "mod"
-        return printf(" %d%s ", m, a:sign)
-    elseif a:key == "remove"
-        return printf(" %d%s ", r, a:sign)
-    else
-        echoerr "not a valid git status key"
-    end
+    try
+        let [a,m,r] = GitGutterGetHunkSummary()
+        if a:key == "add"
+
+            return printf(" %d%s ", a, a:sign)
+        elseif a:key == "mod"
+            return printf(" %d%s ", m, a:sign)
+        elseif a:key == "remove"
+            return printf(" %d%s ", r, a:sign)
+        else
+            echoerr "not a valid git status key"
+        end
+    catch
+    endtry
 endf
 
 function! StatusLine()
