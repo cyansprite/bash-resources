@@ -1,5 +1,4 @@
 # Don't you know ls aliases make the world go 'round?
-alias k='kubectl -n lcs-configuration --context dev-us-azure'
 alias ll='ls -lF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -28,3 +27,4 @@ alias c="bat --plain"
 alias gits="git status --porcelain | cut --fields=3 --delimiter=' '"
 alias bazel=bazelisk
 alias less="less -R"
+alias vim=nvim

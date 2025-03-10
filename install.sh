@@ -145,6 +145,8 @@ ln -fv themes/magic-dark.conf ~/.config/kitty/themes
 ln -fv themes/magic-light.conf ~/.config/kitty/themes
 ln -fv sessions/main.conf ~/.config/kitty/sessions
 
+git clone https://github.com/sampson-chen/sack.git ~/sack && cd ~/sack && chmod +x install_sack.sh && ./install_sack.sh && cd -
+
 echo "========================================================================="
 echo "Fin installing."
 echo "========================================================================="

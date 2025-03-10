@@ -60,9 +60,9 @@ shopt -s checkwinsize
 
 if [ -n $SSH_CLIENT ]; then
     # PS1='\[\e[1;9$(expr `date +%s` % 6 + 1)m\][\D{%T}] \[\e[1;3$(expr \( `date +%s` + 1 \) % 6 + 1)m\]\$: \[\e[1;93m\]\w \[\e[1;3$(expr \( `date +%s` + 1 \) % 6 + 1)m\]\>\[\e[m\] '
-    PS1='\[\e[1;91m\][\D{%T}] \[\e[1;36m\]?:$(echo $?) \$: \[\e[1;93m\]\w \[\e[1;36m\]\>\[\e[m\] '
+    PS1='\[\e[1;91m\][\D{%T}] \[\e[1;36m\]?:$(echo $?) \$: \[\e[1;93m\]\w \[\e[1;36m\]\[\e[1;92m\]$([ \j -gt 0 ] && echo [\j])\$\n\[\e[1;32m\]\>\[\e[m\] '
 else
-    PS1='\[\e[1;94m\][\D{%T}] \[\e[1;92m\]?:$(echo $?) \$: \[\e[1;93m\]\w \[\e[1;92m\]\>\[\e[m\] '
+    PS1='\[\e[1;94m\][\D{%T}] \[\e[1;92m\]?:$(echo $?) \$: \[\e[1;93m\]\w \[\e[1;92m\]\[\e[1;92m\]$([ \j -gt 0 ] && echo [\j])\$\n\[\e[1;32m\]\>\[\e[m\] '
 fi
 
 # Set title
@@ -162,19 +162,23 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH=$PATH:/home/brcoffman/bin
 
-source '/home/brcoffman/lib/azure-cli/az.completion'
+# source '/home/brcoffman/lib/azure-cli/az.completion'
 
 if [ -x /usr/bin/remind ]; then
-    remind ~/.reminders
+    remind ~/.reminders&
+fi
+
+if hash task 2>/dev/null; then
+  task list
 fi
 
 if hash nvm 2>/dev/null; then
     nvm use node
 fi
 
-if hash sdk 2>/dev/null; then
-    sdk use java 17.0.3-zulu
-fi
+# if hash sdk 2>/dev/null; then
+    # sdk use java 17.0.3-zulu&
+# fi
 
 # enter blinking mode - red
 export LESS_TERMCAP_mb=$'\e[00;31m'
@@ -191,6 +195,8 @@ export LESS_TERMCAP_me=$'\e[0m'
 export LESS_TERMCAP_se=$'\e[0m'
 # leave underline mode
 export LESS_TERMCAP_ue=$'\e[0m'
+
+export LESS="FRiN"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
@@ -285,13 +291,27 @@ ulimit -n 2048
 # if argocd is installed setup completion
 if hash argocd 2>/dev/null; then
   # check if file exists
-  if [ ! -f .completions/argocd_completions ]; then
+  if [ ! -f ~/.completions/argocd_completions ]; then
     # check if dir exists
-    if [ ! -d .completions ]; then
-      mkdir .completions
+    if [ ! -d ~/.completions ]; then
+      mkdir ~/.completions
     fi
-    argocd completion bash > .completions/argocd_completions
+    argocd completion bash > ~/.completions/argocd_completions
   fi
 
   source $HOME/.completions/argocd_completions
 fi
+
+# Default I think.. but you know
+# export XDG_CONFIG_HOME="$HOME/.config"
+# for work only
+export ASCIINEMA_API_URL=http://nope
+
+PATH="/home/brcoffman/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/brcoffman/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/brcoffman/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/brcoffman/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/brcoffman/perl5"; export PERL_MM_OPT;
+
+alias k=kubectl
+complete -o default -F __start_kubectl k

@@ -347,7 +347,7 @@ function! StatusLine()
     setl statusline+=%#diffRemoved#%r%#NormalMode1#%=
 
     " Right linenr,column    PositionBar()
-    setl statusline+=%.(%#NormalMode2#\ %l,%c%)
+    setl statusline+=%.(%#NormalMode2#\ %l/%L,%c%)
     setl statusline+=%.(%#NormalMode2#%{StatusLineFileType()}\ ┣%{PositionBarLeft()}
                           \%{PositionBar()}
                           \%{PositionBarRight()}%)┫\ %*
@@ -712,6 +712,8 @@ augroup init
     autocmd FileType json syntax match Comment +\/\/.\+$+
     autocmd FileType lua,jsonnet,typescript,javascript,css,html,dart,bash,sh set tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType logs :AnsiEsc
+    autocmd FileType markdown set conceallevel=0
+    autocmd FileType groovy set cc=120
 augroup END
 
 augroup user_persistent_undo
