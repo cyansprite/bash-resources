@@ -58,11 +58,21 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+function job_list {
+  jobs -l | awk '{print $4}' | tr '\n' ','
+}
+
+function k_context {
+  if hash kubectl 2>/dev/null; then
+    kubectl config current-context
+  fi
+}
+
 if [ -n $SSH_CLIENT ]; then
-    # PS1='\[\e[1;9$(expr `date +%s` % 6 + 1)m\][\D{%T}] \[\e[1;3$(expr \( `date +%s` + 1 \) % 6 + 1)m\]\$: \[\e[1;93m\]\w \[\e[1;3$(expr \( `date +%s` + 1 \) % 6 + 1)m\]\>\[\e[m\] '
-    PS1='\[\e[1;91m\][\D{%T}] \[\e[1;36m\]?:$(echo $?) \$: \[\e[1;93m\]\w \[\e[1;36m\]\[\e[1;92m\]$([ \j -gt 0 ] && echo [\j])\$\n\[\e[1;32m\]\>\[\e[m\] '
+    # \[\e[1;36m\]
+    PS1='\[\e[1;91m\][\D{%T}] \[\e[1;36m\]?:$(echo $?) \$: \[\e[1;93m\]\w \[\e[1;95m\][$(k_context)]\[\e[1;92m\]$([ \j -gt 0 ] && echo [\j] [$(job_list)])\n\[\e[1;32m\]\$\>\[\e[m\] '
 else
-    PS1='\[\e[1;94m\][\D{%T}] \[\e[1;92m\]?:$(echo $?) \$: \[\e[1;93m\]\w \[\e[1;92m\]\[\e[1;92m\]$([ \j -gt 0 ] && echo [\j])\$\n\[\e[1;32m\]\>\[\e[m\] '
+    PS1='\[\e[1;94m\][\D{%T}] \[\e[1;92m\]?:$(echo $?) \$: \[\e[1;93m\]\w \[\e[1;92m\]\[\e[1;92m\]$([ \j -gt 0 ] && echo [\j] [$(job_list)])\n\[\e[1;32m\]\$\>\[\e[m\] '
 fi
 
 # Set title
@@ -204,6 +214,8 @@ source ~/.fzf/bin/fzf-git.sh
 
 if hash kubectl 2>/dev/null; then
     source <(kubectl completion bash) # set up autocomplete in bash into the current shell, bash-completion package should be installed first.
+    alias k=kubectl
+    complete -o default -F __start_kubectl k
 fi
 
 # pnpm
@@ -305,7 +317,7 @@ fi
 # Default I think.. but you know
 # export XDG_CONFIG_HOME="$HOME/.config"
 # for work only
-export ASCIINEMA_API_URL=http://nope
+export ASCIINEMA_API_URL=http://localhost
 
 PATH="/home/brcoffman/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/brcoffman/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
@@ -313,5 +325,7 @@ PERL_LOCAL_LIB_ROOT="/home/brcoffman/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_L
 PERL_MB_OPT="--install_base \"/home/brcoffman/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/brcoffman/perl5"; export PERL_MM_OPT;
 
-alias k=kubectl
-complete -o default -F __start_kubectl k
+# if hash gh 2>/dev/null; then
+#   eval "$(gh copilot alias -- bash)"
+#   eval "$(gh completion -s bash)"
+# fi

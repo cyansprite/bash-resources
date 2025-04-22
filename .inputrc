@@ -8,4 +8,5 @@
 "\e[F": end-of-line
 "\ek": history-search-backward
 "\ej": history-search-forward
-"\ep": 'pods\015'
+"\en": menu-complete
+"\ep": menu-complete-backward
